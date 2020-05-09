@@ -1,0 +1,38 @@
+<resources>
+    <string name="app_name">Wizard camera</string>
+
+    <string name="capture_menu_text">Capture</string>
+
+    <string name="filterOriginal">Original</string>
+    <string name="filterEdgeDectection">EdgeDectection</string>
+    <string name="filterPixelize">Pixelize</string>
+    <string name="filterEMInterference">EMInterference</string>
+    <string name="filterTrianglesMosaic">TrianglesMosaic</string>
+    <string name="filterLegofied">Legofied</string>
+    <string name="filterTileMosaic">TileMosaic</string>
+    <string name="filterBlueorange">Blueorange</string>
+    <string name="filterChromaticAberration">ChromaticAberration</string>
+    <string name="filterBasicDeform">BasicDeform</string>
+    <string name="filterContrast">Contrast</string>
+    <string name="filterNoiseWarp">NoiseWarp</string>
+    <string name="filterRefraction">Refraction</string>
+    <string name="filterMapping">Mapping</string>
+    <string name="filterCrosshatch">Crosshatch</string>
+    <string name="filterLichtensteinEsque">LichtensteinEsque</string>
+    <string name="filterAsciiArt">AsciiArt</string>
+    <string name="filterMoney">MoneyFilter</string>
+    <string name="filterCracked">Cracked</string>
+    <string name="filterPolygonization">Polygonization</string>
+    <string name="filterBlackAndWhite">BlackAndWhite</string>
+    <string name="filterGray">Gray</string>
+    <string name="filterNegative">Negative</string>
+    <string name="filterNostalgia">Nostalgia</string>
+    <string name="filterCasting">Casting</string>
+    <string name="filterRelief">Relief</string>
+    <string name="filterSwirl">Swirl</string>
+    <string name="filterHexagonMosaic">HexagonMosaic</string>
+    <string name="filterMirror">Mirror</string>
+    <string name="filterTriple">Triple</string>
+    <string name="filterCartoon">Cartoon</string>
+    <string name="filterWaterReflection">WaterReflection</string>
+</resources>
