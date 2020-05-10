@@ -3,8 +3,8 @@ package com.shevelev.wizard_camera
 import android.Manifest
 import android.annotation.SuppressLint
 import android.graphics.Bitmap
+import android.media.MediaScannerConnection
 import android.os.Bundle
-import android.os.Environment
 import android.view.*
 import android.widget.FrameLayout
 import android.widget.Toast
@@ -81,7 +81,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
         filterId = item.itemId
 
         if (filterId == R.id.capture) {
-            captureWithPermissionCheck()
+            capture()
             return true
         }
 
@@ -142,46 +142,44 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
         container.postDelayed({ exitProcess(0) }, 3500)
     }
 
-    @NeedsPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-    internal fun capture() {
+    private fun capture() {
         val imageFile = genSaveFileName(title.toString() + "_")
         Timber.d("imageFile: ${imageFile.absolutePath}")
-        if (imageFile.exists()) {
-            imageFile.delete()
-        }
 
         // create bitmap screen capture
         val bitmap = textureView.bitmap
 
         try {
             FileOutputStream(imageFile).use { outputStream ->
-                bitmap.compress(Bitmap.CompressFormat.PNG, 90, outputStream)
+                bitmap.compress(Bitmap.CompressFormat.WEBP, 75, outputStream)
                 outputStream.flush()
-                Toast.makeText(this, R.string.photoSaved, Toast.LENGTH_SHORT).show()
             }
+
+            MediaScannerConnection.scanFile(this, arrayOf<String>(imageFile.absolutePath), arrayOf<String>("image/webp"), null)
+
+            Toast.makeText(this, R.string.photoSaved, Toast.LENGTH_SHORT).show()
         } catch (ex: FileNotFoundException) {
             Timber.e(ex)
-            ex.printStackTrace()
             Toast.makeText(this, R.string.commonGeneralError, Toast.LENGTH_LONG).show()
         } catch (ex: IOException) {
             Timber.e(ex)
-            ex.printStackTrace()
             Toast.makeText(this, R.string.commonGeneralError, Toast.LENGTH_LONG).show()
         }
     }
 
-    @OnPermissionDenied(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-    internal fun onWritePermissionsDenied() {
-        Toast.makeText(this, R.string.needWritePermission, Toast.LENGTH_LONG).show()
-    }
-
-    @Suppress("DEPRECATION")
     private fun genSaveFileName(prefix: String): File {
         val date = Date()
         val dateFormat = SimpleDateFormat("yyyyMMdd_hhmmss", Locale.US)
         val timeString = dateFormat.format(date)
-        val externalPath = getExternalFilesDir(null)
-        return File(externalPath, "$prefix$timeString.png")
+
+        val externalPath = externalMediaDirs[0]
+
+        val dir = File(externalPath, getString(R.string.app_name))
+        if(!dir.exists()) {
+            dir.mkdir()
+        }
+
+        return File(dir, "$prefix$timeString.webp")
     }
 
     private fun circleLoop(size: Int, currentPos: Int, step: Int): Int =
