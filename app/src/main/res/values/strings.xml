@@ -35,4 +35,9 @@
     <string name="filterTriple">Triple</string>
     <string name="filterCartoon">Cartoon</string>
     <string name="filterWaterReflection">WaterReflection</string>
+
+    <string name="needCameraPermissionExit">You need to grant Camera permission  to use this application</string>
+    <string name="needWritePermission">It\'s impossible to make a photo without permission to write</string>
+    <string name="photoSaved">A photo has been saved</string>
+    <string name="commonGeneralError">Unfortunately, an error was encountered during the operation.</string>
 </resources>

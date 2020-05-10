@@ -2,7 +2,6 @@ package com.shevelev.wizard_camera
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.os.Environment
@@ -10,20 +9,22 @@ import android.view.*
 import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import com.shevelev.wizard_camera.gl.CameraRenderer
+import permissions.dispatcher.NeedsPermission
+import permissions.dispatcher.OnPermissionDenied
+import permissions.dispatcher.RuntimePermissions
 import timber.log.Timber
-import java.io.*
+import java.io.File
+import java.io.FileNotFoundException
+import java.io.FileOutputStream
+import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.abs
+import kotlin.system.exitProcess
 
+@RuntimePermissions
 class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
-    private companion object {
-        const val REQUEST_CAMERA_PERMISSION = 101
-    }
-
     private lateinit var container: FrameLayout
     private lateinit var renderer: CameraRenderer
     private lateinit var textureView: TextureView
@@ -61,31 +62,14 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
 
         setTitle(titles[currentFilterId])
 
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-
-            // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
-                Toast.makeText(this, "Camera access is required.", Toast.LENGTH_SHORT).show()
-            } else {
-                ActivityCompat.requestPermissions(this, Array<String>(1) {Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION)
-            }
-
-        } else {
-            setupCameraPreviewView()
-        }
+        setupCameraPreviewViewWithPermissionCheck()
 
         gestureDetector = GestureDetector(this, this)
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        when(requestCode) {
-            REQUEST_CAMERA_PERMISSION -> {
-                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    setupCameraPreviewView()
-                }
-            }
-        }
+        onRequestPermissionsResult(requestCode, grantResults)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -97,12 +81,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
         filterId = item.itemId
 
         if (filterId == R.id.capture) {
-            val captureResult = if(capture()) {
-                "The capture has been saved to your sdcard root path."
-            } else {
-                "Save failed!"    
-            }
-            Toast.makeText(this, captureResult, Toast.LENGTH_SHORT).show()
+            captureWithPermissionCheck()
             return true
         }
 
@@ -140,7 +119,8 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    private fun setupCameraPreviewView() {
+    @NeedsPermission(Manifest.permission.CAMERA)
+    internal fun setupCameraPreviewView() {
         renderer = CameraRenderer(this)
         textureView = TextureView(this)
         container.addView(textureView)
@@ -156,9 +136,16 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
         }
     }
 
-    private fun capture(): Boolean {
-        val path = genSaveFileName(title.toString() + "_")
-        val imageFile = File(path)
+    @OnPermissionDenied(Manifest.permission.CAMERA)
+    internal fun onCameraPermissionsDenied() {
+        Toast.makeText(this, R.string.needCameraPermissionExit, Toast.LENGTH_LONG).show()
+        container.postDelayed({ exitProcess(0) }, 3500)
+    }
+
+    @NeedsPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    internal fun capture() {
+        val imageFile = genSaveFileName(title.toString() + "_")
+        Timber.d("imageFile: ${imageFile.absolutePath}")
         if (imageFile.exists()) {
             imageFile.delete()
         }
@@ -170,25 +157,31 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
             FileOutputStream(imageFile).use { outputStream ->
                 bitmap.compress(Bitmap.CompressFormat.PNG, 90, outputStream)
                 outputStream.flush()
+                Toast.makeText(this, R.string.photoSaved, Toast.LENGTH_SHORT).show()
             }
         } catch (ex: FileNotFoundException) {
             Timber.e(ex)
-            return false
+            ex.printStackTrace()
+            Toast.makeText(this, R.string.commonGeneralError, Toast.LENGTH_LONG).show()
         } catch (ex: IOException) {
             Timber.e(ex)
-            return false
+            ex.printStackTrace()
+            Toast.makeText(this, R.string.commonGeneralError, Toast.LENGTH_LONG).show()
         }
+    }
 
-        return true
+    @OnPermissionDenied(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    internal fun onWritePermissionsDenied() {
+        Toast.makeText(this, R.string.needWritePermission, Toast.LENGTH_LONG).show()
     }
 
     @Suppress("DEPRECATION")
-    private fun genSaveFileName(prefix: String): String {
+    private fun genSaveFileName(prefix: String): File {
         val date = Date()
         val dateFormat = SimpleDateFormat("yyyyMMdd_hhmmss", Locale.US)
         val timeString = dateFormat.format(date)
-        val externalPath = Environment.getExternalStorageDirectory().toString()
-        return "$externalPath/$prefix$timeString.png"
+        val externalPath = getExternalFilesDir(null)
+        return File(externalPath, "$prefix$timeString.png")
     }
 
     private fun circleLoop(size: Int, currentPos: Int, step: Int): Int =
