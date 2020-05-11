@@ -1,4 +1,4 @@
-package com.shevelev.wizard_camera.gl.utils
+package com.shevelev.wizard_camera.camera.utils
 
 import android.content.Context
 import android.graphics.BitmapFactory

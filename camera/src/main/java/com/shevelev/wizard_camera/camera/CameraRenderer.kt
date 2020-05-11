@@ -1,6 +1,6 @@
 @file:Suppress("DEPRECATION")
 
-package com.shevelev.wizard_camera.gl
+package com.shevelev.wizard_camera.camera
 
 import android.content.Context
 import android.graphics.SurfaceTexture
@@ -8,10 +8,9 @@ import android.hardware.Camera
 import android.opengl.GLES11Ext
 import android.opengl.GLES20
 import android.view.TextureView
-import androidx.annotation.IdRes
-import com.shevelev.wizard_camera.R
-import com.shevelev.wizard_camera.gl.filter.CameraFilter
-import com.shevelev.wizard_camera.gl.utils.TextureUtils
+import com.shevelev.wizard_camera.camera.filter.CameraFilter
+import com.shevelev.wizard_camera.camera.filter.FilterCode
+import com.shevelev.wizard_camera.camera.utils.TextureUtils
 import timber.log.Timber
 import java.io.IOException
 import javax.microedition.khronos.egl.*
@@ -39,7 +38,7 @@ class CameraRenderer(private val context: Context) : Runnable, TextureView.Surfa
     private var cameraTextureId: Int = 0
 
     private lateinit var selectedFilter: CameraFilter
-    private var selectedFilterId = R.id.filterOriginal
+    private var selectedFilterId = FilterCode.ORIGINAL
 
     private lateinit var filtersFactory: FiltersFactory
 
@@ -146,9 +145,9 @@ class CameraRenderer(private val context: Context) : Runnable, TextureView.Surfa
         GLES20.glDeleteTextures(1, intArrayOf(cameraTextureId), 0)
     }
 
-    fun setSelectedFilter(@IdRes id: Int) {
-        selectedFilterId = id
-        selectedFilter = filtersFactory.getFilter(id)
+    fun setSelectedFilter(code: FilterCode) {
+        selectedFilterId = code
+        selectedFilter = filtersFactory.getFilter(code)
         selectedFilter.onAttach()
     }
 

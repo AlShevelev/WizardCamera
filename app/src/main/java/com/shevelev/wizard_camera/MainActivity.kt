@@ -8,8 +8,9 @@ import android.os.Bundle
 import android.view.*
 import android.widget.FrameLayout
 import android.widget.Toast
+import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
-import com.shevelev.wizard_camera.gl.CameraRenderer
+import com.shevelev.wizard_camera.camera.filter.FilterCode
 import permissions.dispatcher.NeedsPermission
 import permissions.dispatcher.OnPermissionDenied
 import permissions.dispatcher.RuntimePermissions
@@ -26,7 +27,7 @@ import kotlin.system.exitProcess
 @RuntimePermissions
 class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
     private lateinit var container: FrameLayout
-    private lateinit var renderer: CameraRenderer
+    private lateinit var renderer: com.shevelev.wizard_camera.camera.CameraRenderer
     private lateinit var textureView: TextureView
 
     private var filterId = R.id.filterOriginal
@@ -87,7 +88,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
 
         title = item.title
 
-        renderer.setSelectedFilter(filterId)
+        renderer.setSelectedFilter(getFilterCode(filterId))
 
         currentFilterId = filterResIds.indexOf(filterId)
         return true
@@ -108,7 +109,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
         currentFilterId = circleLoop(titles.size, currentFilterId, step)
         setTitle(titles[currentFilterId])
         
-        renderer.setSelectedFilter(filterResIds[currentFilterId])
+        renderer.setSelectedFilter(getFilterCode(filterResIds[currentFilterId]))
         return true
     }
 
@@ -121,7 +122,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
     @SuppressLint("ClickableViewAccessibility")
     @NeedsPermission(Manifest.permission.CAMERA)
     internal fun setupCameraPreviewView() {
-        renderer = CameraRenderer(this)
+        renderer = com.shevelev.wizard_camera.camera.CameraRenderer(this)
         textureView = TextureView(this)
         container.addView(textureView)
         textureView.surfaceTextureListener = renderer
@@ -199,5 +200,42 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
                     currentPos + step
                 }
             }
+        }
+
+    private fun getFilterCode(@IdRes id: Int): FilterCode =
+        when(id) {
+            R.id.filterOriginal -> FilterCode.ORIGINAL
+            R.id.filterEdgeDectection -> FilterCode.EDGE_DETECTION
+            R.id.filterPixelize -> FilterCode.PIXELIZE
+            R.id.filterEMInterference -> FilterCode.EM_INTERFERENCE
+            R.id.filterTrianglesMosaic -> FilterCode.TRIANGLES_MOSAIC
+            R.id.filterLegofied -> FilterCode.LEGOFIED
+            R.id.filterTileMosaic -> FilterCode.TILE_MOSAIC
+            R.id.filterBlueorange -> FilterCode.BLUE_ORANGE
+            R.id.filterChromaticAberration -> FilterCode.CHROMATIC_ABERRATION
+            R.id.filterBasicDeform -> FilterCode.BASIC_DEFORM
+            R.id.filterContrast -> FilterCode.CONTRAST
+            R.id.filterNoiseWarp -> FilterCode.NOISE_WARP
+            R.id.filterRefraction -> FilterCode.REFRACTION
+            R.id.filterMapping -> FilterCode.MAPPING
+            R.id.filterCrosshatch -> FilterCode.CROSSHATCH
+            R.id.filterLichtensteinEsque -> FilterCode.LICHTENSTEIN_ESQUE
+            R.id.filterAsciiArt -> FilterCode.ASCII_ART
+            R.id.filterMoney -> FilterCode.MONEY
+            R.id.filterCracked -> FilterCode.CRACKED
+            R.id.filterPolygonization -> FilterCode.POLYGONIZATION
+            R.id.filterBlackAndWhite -> FilterCode.BLACK_AND_WHITE
+            R.id.filterGray -> FilterCode.GRAY
+            R.id.filterNegative -> FilterCode.NEGATIVE
+            R.id.filterNostalgia -> FilterCode.NOSTALGIA
+            R.id.filterCasting -> FilterCode.CASTING
+            R.id.filterRelief -> FilterCode.RELIEF
+            R.id.filterSwirl -> FilterCode.SWIRL
+            R.id.filterHexagonMosaic -> FilterCode.HEXAGON_MOSAIC
+            R.id.filterMirror -> FilterCode.MIRROR
+            R.id.filterTriple -> FilterCode.TRIPLE
+            R.id.filterCartoon -> FilterCode.CARTOON
+            R.id.filterWaterReflection -> FilterCode.WATER_REFLECTION
+            else -> throw UnsupportedOperationException("This is not supported: $id")
         }
 }
