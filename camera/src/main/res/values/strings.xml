@@ -1,0 +1,3 @@
+<resources>
+    <string name="cameraError">An error was encountered during open a camera.</string>
+</resources>

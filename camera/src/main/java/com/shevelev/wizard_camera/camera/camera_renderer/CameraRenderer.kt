@@ -6,7 +6,9 @@ import android.opengl.GLES11Ext
 import android.opengl.GLES20
 import android.os.Handler
 import android.view.TextureView
+import android.widget.Toast
 import com.shevelev.wizard_camera.camera.FiltersFactory
+import com.shevelev.wizard_camera.camera.R
 import com.shevelev.wizard_camera.camera.filter.CameraFilter
 import com.shevelev.wizard_camera.camera.filter.FilterCode
 import com.shevelev.wizard_camera.camera.utils.TextureUtils
@@ -55,6 +57,7 @@ class CameraRenderer(private val context: Context) : Runnable, TextureView.Surfa
     }
 
     override fun onSurfaceTextureDestroyed(surface: SurfaceTexture?): Boolean {
+        Timber.tag("CAMERA_RENDERER").d("onSurfaceTextureDestroyed")
         camera.close()
 
         renderThread
@@ -86,8 +89,9 @@ class CameraRenderer(private val context: Context) : Runnable, TextureView.Surfa
         // Open camera
         camera.openCamera { isSuccess ->
             if(isSuccess) {
-                // Start rendering
-                renderThread!!.start()
+                renderThread!!.start()          // Start rendering
+            } else {
+                Toast.makeText(context, R.string.cameraError, Toast.LENGTH_LONG).show()
             }
         }
     }
@@ -107,6 +111,7 @@ class CameraRenderer(private val context: Context) : Runnable, TextureView.Surfa
             camera.startPreview(cameraSurfaceTexture, glWidth.absoluteValue, glHeight.absoluteValue, mainThreadHandler)
         } catch (ex: IOException) {
             Timber.e(ex)
+            Toast.makeText(context, R.string.cameraError, Toast.LENGTH_LONG).show()
             false
         }
 

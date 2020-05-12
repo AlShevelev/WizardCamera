@@ -28,8 +28,8 @@ import kotlin.system.exitProcess
 @RuntimePermissions
 class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
     private lateinit var container: FrameLayout
-    private lateinit var renderer: CameraRenderer
-    private lateinit var textureView: TextureView
+    private var renderer: CameraRenderer? = null
+    private var textureView: TextureView? = null
 
     private var filterId = R.id.filterOriginal
     private var currentFilterId = 0
@@ -64,9 +64,17 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
 
         setTitle(titles[currentFilterId])
 
-        setupCameraPreviewViewWithPermissionCheck()
-
         gestureDetector = GestureDetector(this, this)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setupCameraPreviewViewWithPermissionCheck()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        releaseCameraPreviewView()
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
@@ -89,7 +97,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
 
         title = item.title
 
-        renderer.setSelectedFilter(getFilterCode(filterId))
+        renderer!!.setSelectedFilter(getFilterCode(filterId))
 
         currentFilterId = filterResIds.indexOf(filterId)
         return true
@@ -110,7 +118,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
         currentFilterId = circleLoop(titles.size, currentFilterId, step)
         setTitle(titles[currentFilterId])
         
-        renderer.setSelectedFilter(getFilterCode(filterResIds[currentFilterId]))
+        renderer!!.setSelectedFilter(getFilterCode(filterResIds[currentFilterId]))
         return true
     }
 
@@ -126,16 +134,27 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
         renderer = CameraRenderer(this)
         textureView = TextureView(this)
         container.addView(textureView)
-        textureView.surfaceTextureListener = renderer
+        textureView!!.surfaceTextureListener = renderer
 
-        textureView.setOnTouchListener { _, event ->
+        textureView!!.setOnTouchListener { _, event ->
             gestureDetector.onTouchEvent(event)
             true
         }
 
-        textureView.addOnLayoutChangeListener { v, _, _, _, _, _, _, _, _ ->
-            renderer.onSurfaceTextureSizeChanged(null, v.width, v.height)
+        textureView!!.addOnLayoutChangeListener { v, _, _, _, _, _, _, _, _ ->
+            renderer!!.onSurfaceTextureSizeChanged(null, v.width, v.height)
         }
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private fun releaseCameraPreviewView() {
+        container.removeView(textureView)
+        renderer = null
+
+        textureView!!.setOnTouchListener(null)
+        textureView!!.addOnLayoutChangeListener(null)
+
+        textureView = null
     }
 
     @OnPermissionDenied(Manifest.permission.CAMERA)
@@ -149,7 +168,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
         Timber.d("imageFile: ${imageFile.absolutePath}")
 
         // create bitmap screen capture
-        val bitmap = textureView.bitmap
+        val bitmap = textureView!!.bitmap
 
         try {
             FileOutputStream(imageFile).use { outputStream ->
