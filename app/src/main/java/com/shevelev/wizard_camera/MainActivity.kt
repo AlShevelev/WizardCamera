@@ -10,6 +10,7 @@ import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
+import com.shevelev.wizard_camera.camera.camera_renderer.CameraRenderer
 import com.shevelev.wizard_camera.camera.filter.FilterCode
 import permissions.dispatcher.NeedsPermission
 import permissions.dispatcher.OnPermissionDenied
@@ -27,7 +28,7 @@ import kotlin.system.exitProcess
 @RuntimePermissions
 class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
     private lateinit var container: FrameLayout
-    private lateinit var renderer: com.shevelev.wizard_camera.camera.CameraRenderer
+    private lateinit var renderer: CameraRenderer
     private lateinit var textureView: TextureView
 
     private var filterId = R.id.filterOriginal
@@ -122,7 +123,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
     @SuppressLint("ClickableViewAccessibility")
     @NeedsPermission(Manifest.permission.CAMERA)
     internal fun setupCameraPreviewView() {
-        renderer = com.shevelev.wizard_camera.camera.CameraRenderer(this)
+        renderer = CameraRenderer(this)
         textureView = TextureView(this)
         container.addView(textureView)
         textureView.surfaceTextureListener = renderer

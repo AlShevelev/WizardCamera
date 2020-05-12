@@ -1,20 +1,19 @@
-@file:Suppress("DEPRECATION")
-
-package com.shevelev.wizard_camera.camera
+package com.shevelev.wizard_camera.camera.camera_renderer
 
 import android.content.Context
 import android.graphics.SurfaceTexture
-import android.hardware.Camera
 import android.opengl.GLES11Ext
 import android.opengl.GLES20
+import android.os.Handler
 import android.view.TextureView
+import com.shevelev.wizard_camera.camera.FiltersFactory
 import com.shevelev.wizard_camera.camera.filter.CameraFilter
 import com.shevelev.wizard_camera.camera.filter.FilterCode
 import com.shevelev.wizard_camera.camera.utils.TextureUtils
 import timber.log.Timber
 import java.io.IOException
 import javax.microedition.khronos.egl.*
-
+import kotlin.math.absoluteValue
 
 class CameraRenderer(private val context: Context) : Runnable, TextureView.SurfaceTextureListener {
     private companion object {
@@ -33,7 +32,8 @@ class CameraRenderer(private val context: Context) : Runnable, TextureView.Surfa
     private lateinit var eglContext: EGLContext
     private lateinit var egl10: EGL10
 
-    private var camera: Camera? = null
+    private var camera = CameraManager(context)
+
     private lateinit var cameraSurfaceTexture: SurfaceTexture
     private var cameraTextureId: Int = 0
 
@@ -41,6 +41,8 @@ class CameraRenderer(private val context: Context) : Runnable, TextureView.Surfa
     private var selectedFilterId = FilterCode.ORIGINAL
 
     private lateinit var filtersFactory: FiltersFactory
+
+    private val mainThreadHandler = Handler()
 
     override fun onSurfaceTextureSizeChanged(surface: SurfaceTexture?, width: Int, height: Int) {
         Timber.tag("CAMERA_RENDERER").d("onSurfaceTextureSizeChanged: $width $height")
@@ -53,11 +55,7 @@ class CameraRenderer(private val context: Context) : Runnable, TextureView.Surfa
     }
 
     override fun onSurfaceTextureDestroyed(surface: SurfaceTexture?): Boolean {
-        camera
-            ?.let {
-                it.stopPreview()
-                it.release()
-            }
+        camera.close()
 
         renderThread
             ?.let {
@@ -86,11 +84,12 @@ class CameraRenderer(private val context: Context) : Runnable, TextureView.Surfa
         glHeight = -height
 
         // Open camera
-        val backCameraId = getBackCameraId() ?: throw Exception("Back camera is not found")
-        camera = Camera.open(backCameraId)
-
-        // Start rendering
-        renderThread!!.start()
+        camera.openCamera { isSuccess ->
+            if(isSuccess) {
+                // Start rendering
+                renderThread!!.start()
+            }
+        }
     }
 
     override fun run() {
@@ -104,40 +103,42 @@ class CameraRenderer(private val context: Context) : Runnable, TextureView.Surfa
         cameraSurfaceTexture = SurfaceTexture(cameraTextureId)
 
         // Start camera preview
-        try {
-            camera!!.setPreviewTexture(cameraSurfaceTexture)
-            camera!!.startPreview()
+        val isSuccess = try {
+            camera.startPreview(cameraSurfaceTexture, glWidth.absoluteValue, glHeight.absoluteValue, mainThreadHandler)
         } catch (ex: IOException) {
             Timber.e(ex)
+            false
         }
 
-        // Render loop
-        while (!Thread.currentThread().isInterrupted) {
-            try {
-                if (glWidth < 0 && glHeight < 0) {
-                    glWidth = -glWidth
-                    glHeight = -glHeight
-                    GLES20.glViewport(0, 0, glWidth, glHeight)
-                }
+        if(isSuccess) {
+            // Render loop
+            while (!Thread.currentThread().isInterrupted) {
+                try {
+                    if (glWidth < 0 && glHeight < 0) {
+                        glWidth = -glWidth
+                        glHeight = -glHeight
+                        GLES20.glViewport(0, 0, glWidth, glHeight)
+                    }
 
                     GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT)
 
-                // Update the camera preview texture by the very last frame
-                synchronized (this) {
-                    cameraSurfaceTexture.updateTexImage()
+                    // Update the camera preview texture by the very last frame
+                    synchronized(this) {
+                        cameraSurfaceTexture.updateTexImage()
+                    }
+
+                    // Draw camera preview
+                    selectedFilter.draw(cameraTextureId, glWidth, glHeight)
+
+                    // Flush
+                    GLES20.glFlush()
+                    egl10.eglSwapBuffers(eglDisplay, eglSurface)
+
+                    Thread.sleep(DRAW_INTERVAL)
+
+                } catch (ex: InterruptedException) {
+                    Thread.currentThread().interrupt()
                 }
-
-                // Draw camera preview
-                selectedFilter.draw(cameraTextureId, glWidth, glHeight)
-
-                // Flush
-                GLES20.glFlush()
-                egl10.eglSwapBuffers(eglDisplay, eglSurface)
-
-                Thread.sleep(DRAW_INTERVAL)
-
-            } catch (ex: InterruptedException) {
-                Thread.currentThread().interrupt()
             }
         }
 
@@ -149,19 +150,6 @@ class CameraRenderer(private val context: Context) : Runnable, TextureView.Surfa
         selectedFilterId = code
         selectedFilter = filtersFactory.getFilter(code)
         selectedFilter.onAttach()
-    }
-
-    private fun getBackCameraId(): Int? {
-        val cameraInfo = Camera.CameraInfo()
-        val numberOfCameras = Camera.getNumberOfCameras()
-
-        for (i in 0 until numberOfCameras) {
-            Camera.getCameraInfo(i, cameraInfo)
-            if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_BACK) {
-                return  i
-            }
-        }
-        return null
     }
 
     private fun initGL(texture: SurfaceTexture) {
