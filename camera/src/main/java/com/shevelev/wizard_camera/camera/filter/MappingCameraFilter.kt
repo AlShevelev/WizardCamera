@@ -1,7 +1,7 @@
 package com.shevelev.wizard_camera.camera.filter
 
 import android.content.Context
-import android.opengl.GLES20
+import android.opengl.GLES31
 import com.shevelev.wizard_camera.camera.R
 import com.shevelev.wizard_camera.camera.utils.TextureUtils
 
@@ -11,6 +11,6 @@ class MappingCameraFilter(context: Context) : CameraFilter(context, R.raw.mappin
 
     public override fun onDraw(cameraTexId: Int, canvasWidth: Int, canvasHeight: Int) {
         setupShaderInputs(filterProgram, intArrayOf(canvasWidth, canvasHeight), intArrayOf(cameraTexId, texture2Id))
-        GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, 4)
+        GLES31.glDrawArrays(GLES31.GL_TRIANGLE_STRIP, 0, 4)
     }
 }

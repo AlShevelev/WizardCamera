@@ -3,7 +3,7 @@ package com.shevelev.wizard_camera.camera.camera_renderer
 import android.content.Context
 import android.graphics.SurfaceTexture
 import android.opengl.GLES11Ext
-import android.opengl.GLES20
+import android.opengl.GLES31
 import android.os.Handler
 import android.view.TextureView
 import android.widget.Toast
@@ -122,10 +122,10 @@ class CameraRenderer(private val context: Context) : Runnable, TextureView.Surfa
                     if (glWidth < 0 && glHeight < 0) {
                         glWidth = -glWidth
                         glHeight = -glHeight
-                        GLES20.glViewport(0, 0, glWidth, glHeight)
+                        GLES31.glViewport(0, 0, glWidth, glHeight)
                     }
 
-                    GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT)
+                    GLES31.glClear(GLES31.GL_COLOR_BUFFER_BIT)
 
                     // Update the camera preview texture by the very last frame
                     synchronized(this) {
@@ -136,7 +136,7 @@ class CameraRenderer(private val context: Context) : Runnable, TextureView.Surfa
                     selectedFilter.draw(cameraTextureId, glWidth, glHeight)
 
                     // Flush
-                    GLES20.glFlush()
+                    GLES31.glFlush()
                     egl10.eglSwapBuffers(eglDisplay, eglSurface)
 
                     Thread.sleep(DRAW_INTERVAL)
@@ -148,7 +148,7 @@ class CameraRenderer(private val context: Context) : Runnable, TextureView.Surfa
         }
 
         cameraSurfaceTexture.release()
-        GLES20.glDeleteTextures(1, intArrayOf(cameraTextureId), 0)
+        GLES31.glDeleteTextures(1, intArrayOf(cameraTextureId), 0)
     }
 
     fun setSelectedFilter(code: FilterCode) {
