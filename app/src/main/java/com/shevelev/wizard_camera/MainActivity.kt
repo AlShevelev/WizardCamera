@@ -5,13 +5,16 @@ import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.media.MediaScannerConnection
 import android.os.Bundle
-import android.view.*
-import android.widget.FrameLayout
+import android.view.GestureDetector
+import android.view.MotionEvent
+import android.view.TextureView
+import android.view.View
 import android.widget.Toast
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
 import com.shevelev.wizard_camera.camera.camera_renderer.CameraRenderer
 import com.shevelev.wizard_camera.camera.filter.FilterCode
+import kotlinx.android.synthetic.main.activity_main.*
 import permissions.dispatcher.NeedsPermission
 import permissions.dispatcher.OnPermissionDenied
 import permissions.dispatcher.RuntimePermissions
@@ -27,7 +30,6 @@ import kotlin.system.exitProcess
 
 @RuntimePermissions
 class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
-    private lateinit var container: FrameLayout
     private var renderer: CameraRenderer? = null
     private var textureView: TextureView? = null
 
@@ -59,12 +61,13 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        container = FrameLayout(this)
-        setContentView(container)
+        setContentView(R.layout.activity_main)
 
         setTitle(titles[currentFilterId])
 
         gestureDetector = GestureDetector(this, this)
+
+        shootButton.setOnClickListener { capture() }
     }
 
     override fun onResume() {
@@ -143,7 +146,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
     internal fun setupCameraPreviewView() {
         renderer = CameraRenderer(this)
         textureView = TextureView(this)
-        container.addView(textureView)
+        root.addView(textureView)
         textureView!!.surfaceTextureListener = renderer
 
         textureView!!.setOnTouchListener { _, event ->
@@ -154,7 +157,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
 
     @SuppressLint("ClickableViewAccessibility")
     private fun releaseCameraPreviewView() {
-        container.removeView(textureView)
+        root.removeView(textureView)
         renderer = null
 
         textureView!!.setOnTouchListener(null)
@@ -166,7 +169,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
     @OnPermissionDenied(Manifest.permission.CAMERA)
     internal fun onCameraPermissionsDenied() {
         Toast.makeText(this, R.string.needCameraPermissionExit, Toast.LENGTH_LONG).show()
-        container.postDelayed({ exitProcess(0) }, 3500)
+        root.postDelayed({ exitProcess(0) }, 3500)
     }
 
     private fun capture() {
