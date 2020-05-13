@@ -82,26 +82,26 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
         onRequestPermissionsResult(requestCode, grantResults)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.filter, menu)
-        return true
-    }
+//    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+//        menuInflater.inflate(R.menu.filter, menu)
+//        return true
+//    }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        filterId = item.itemId
-
-        if (filterId == R.id.capture) {
-            capture()
-            return true
-        }
-
-        title = item.title
-
-        renderer!!.setSelectedFilter(getFilterCode(filterId))
-
-        currentFilterId = filterResIds.indexOf(filterId)
-        return true
-    }
+//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//        filterId = item.itemId
+//
+//        if (filterId == R.id.capture) {
+//            capture()
+//            return true
+//        }
+//
+//        title = item.title
+//
+//        renderer!!.setSelectedFilter(getFilterCode(filterId))
+//
+//        currentFilterId = filterResIds.indexOf(filterId)
+//        return true
+//    }
 
     override fun onShowPress(e: MotionEvent?) {
         // do nothing
@@ -112,8 +112,11 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
     override fun onDown(e: MotionEvent?) = false
 
     override fun onFling(e1: MotionEvent?, e2: MotionEvent?, velocityX: Float, velocityY: Float): Boolean {
-        val velocity = if(abs(velocityX) > abs(velocityY)) velocityX else velocityY
-        val step = if(velocity > 0) -1 else 1
+        if(abs(velocityX) < abs(velocityY)) {
+            return true
+        }
+
+        val step = if(velocityX > 0) -1 else 1
         
         currentFilterId = circleLoop(titles.size, currentFilterId, step)
         setTitle(titles[currentFilterId])
@@ -128,6 +131,13 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
         // do nothing
     }
 
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        super.onWindowFocusChanged(hasFocus)
+        if (hasFocus) {
+            hideSystemUI()
+        }
+    }
+
     @SuppressLint("ClickableViewAccessibility")
     @NeedsPermission(Manifest.permission.CAMERA)
     internal fun setupCameraPreviewView() {
@@ -139,10 +149,6 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
         textureView!!.setOnTouchListener { _, event ->
             gestureDetector.onTouchEvent(event)
             true
-        }
-
-        textureView!!.addOnLayoutChangeListener { v, _, _, _, _, _, _, _, _ ->
-            renderer!!.onSurfaceTextureSizeChanged(null, v.width, v.height)
         }
     }
 
@@ -258,4 +264,14 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
             R.id.filterWaterReflection -> FilterCode.WATER_REFLECTION
             else -> throw UnsupportedOperationException("This is not supported: $id")
         }
+
+    private fun hideSystemUI() {
+        window.decorView.systemUiVisibility =
+            (View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+            or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+            or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+            or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+            or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+            or View.SYSTEM_UI_FLAG_FULLSCREEN)
+    }
 }

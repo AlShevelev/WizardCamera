@@ -22,6 +22,8 @@ class CameraRenderer(private val context: Context) : Runnable, TextureView.Surfa
         const val EGL_OPENGL_ES2_BIT = 4
         const val EGL_CONTEXT_CLIENT_VERSION = 0x3098
         const val DRAW_INTERVAL: Long = 1000 / 30
+
+        private var isFirstTimeStart = true
     }
 
     private var renderThread: Thread? = null
@@ -46,53 +48,28 @@ class CameraRenderer(private val context: Context) : Runnable, TextureView.Surfa
 
     private val mainThreadHandler = Handler()
 
-    override fun onSurfaceTextureSizeChanged(surface: SurfaceTexture?, width: Int, height: Int) {
+    override fun onSurfaceTextureSizeChanged(surface: SurfaceTexture, width: Int, height: Int) {
         Timber.tag("CAMERA_RENDERER").d("onSurfaceTextureSizeChanged: $width $height")
 
-        glWidth = -width
-        glHeight = -height
+        if(isFirstTimeStart) {
+            startRendering(surface, width, height)
+            isFirstTimeStart = false
+        }
     }
 
-    override fun onSurfaceTextureUpdated(surface: SurfaceTexture?) {
-    }
+    override fun onSurfaceTextureUpdated(surface: SurfaceTexture?) {}
 
     override fun onSurfaceTextureDestroyed(surface: SurfaceTexture?): Boolean {
         Timber.tag("CAMERA_RENDERER").d("onSurfaceTextureDestroyed")
-        camera.close()
-
-        renderThread
-            ?.let {
-                if(it.isAlive) {
-                    it.interrupt()
-                }
-            }
-        CameraFilter.release()
-
+        stopRendering()
         return true
     }
 
     override fun onSurfaceTextureAvailable(surface: SurfaceTexture, width: Int, height: Int) {
         Timber.tag("CAMERA_RENDERER").d("onSurfaceTextureAvailable: $width $height")
-        renderThread
-            ?.let {
-                if(it.isAlive) {
-                    it.interrupt()
-                }
-            }
 
-        renderThread = Thread(this)
-
-        surfaceTexture = surface
-        glWidth = -width
-        glHeight = -height
-
-        // Open camera
-        camera.openCamera { isSuccess ->
-            if(isSuccess) {
-                renderThread!!.start()          // Start rendering
-            } else {
-                Toast.makeText(context, R.string.cameraError, Toast.LENGTH_LONG).show()
-            }
+        if(!isFirstTimeStart) {
+            startRendering(surface, width, height)
         }
     }
 
@@ -155,6 +132,46 @@ class CameraRenderer(private val context: Context) : Runnable, TextureView.Surfa
         selectedFilterId = code
         selectedFilter = filtersFactory.getFilter(code)
         selectedFilter.onAttach()
+    }
+
+    private fun startRendering(surface: SurfaceTexture, width: Int, height: Int) {
+        Timber.tag("CAMERA_RENDERER").d("Rendering started")
+
+        renderThread
+            ?.let {
+                if(it.isAlive) {
+                    it.interrupt()
+                }
+            }
+
+        renderThread = Thread(this)
+
+        surfaceTexture = surface
+        glWidth = -width
+        glHeight = -height
+
+        // Open camera
+        camera.openCamera { isSuccess ->
+            if(isSuccess) {
+                renderThread!!.start()          // Start rendering
+            } else {
+                Toast.makeText(context, R.string.cameraError, Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
+    private fun stopRendering() {
+        Timber.tag("CAMERA_RENDERER").d("Rendering stopped")
+
+        camera.close()
+
+        renderThread
+            ?.let {
+                if(it.isAlive) {
+                    it.interrupt()
+                }
+            }
+        CameraFilter.release()
     }
 
     private fun initGL(texture: SurfaceTexture) {

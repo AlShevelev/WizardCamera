@@ -70,7 +70,7 @@ class CameraManager(context: Context) {
      */
     fun startPreview(surfaceTexture: SurfaceTexture, width: Int, height: Int, callbackHandler: Handler): Boolean {
         val builder = cameraDevice!!.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW)
-        surfaceTexture.setDefaultBufferSize(width, height)
+        surfaceTexture.setDefaultBufferSize(height, width)
         val surface = Surface(surfaceTexture)
         builder.addTarget(surface)
 
@@ -79,7 +79,6 @@ class CameraManager(context: Context) {
 
         var isSuccess = false
         val lock = Object()
-
 
         cameraDevice!!.createCaptureSession(listOf(surface), object: CameraCaptureSession.StateCallback() {
             override fun onConfigureFailed(session: CameraCaptureSession) {
@@ -112,8 +111,17 @@ class CameraManager(context: Context) {
         val cameraIds = cameraService.cameraIdList
 
         cameraIds.forEach { cameraId ->
+//            Timber.tag(DEBUG_TAG).d("Camera id is: $cameraId")
             val cameraCharacteristics = cameraService.getCameraCharacteristics(cameraId)
+
+//            val configurationMap = cameraCharacteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP)
+//            val sizes = configurationMap!!.getOutputSizes(ImageFormat.JPEG)
+//            sizes.forEach {
+//                Timber.tag(DEBUG_TAG).d("A size is: $it [${it.width.toFloat()/it.height}]")
+//            }
+
             if(cameraCharacteristics[CameraCharacteristics.LENS_FACING] == CameraCharacteristics.LENS_FACING_BACK) {
+//                Timber.tag(DEBUG_TAG).d("Camera $cameraId is selected")
                 return cameraId
             }
         }
