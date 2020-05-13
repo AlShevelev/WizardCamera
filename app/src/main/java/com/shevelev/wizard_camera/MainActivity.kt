@@ -82,27 +82,6 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
         onRequestPermissionsResult(requestCode, grantResults)
     }
 
-//    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-//        menuInflater.inflate(R.menu.filter, menu)
-//        return true
-//    }
-
-//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//        filterId = item.itemId
-//
-//        if (filterId == R.id.capture) {
-//            capture()
-//            return true
-//        }
-//
-//        title = item.title
-//
-//        renderer!!.setSelectedFilter(getFilterCode(filterId))
-//
-//        currentFilterId = filterResIds.indexOf(filterId)
-//        return true
-//    }
-
     override fun onShowPress(e: MotionEvent?) {
         // do nothing
     }
@@ -143,7 +122,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
     internal fun setupCameraPreviewView() {
         renderer = CameraRenderer(this)
         textureView = TextureView(this)
-        root.addView(textureView)
+        root.addView(textureView, 0)
         textureView!!.surfaceTextureListener = renderer
 
         textureView!!.setOnTouchListener { _, event ->
