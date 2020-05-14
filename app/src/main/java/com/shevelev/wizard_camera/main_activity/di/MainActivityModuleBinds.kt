@@ -6,6 +6,8 @@ import com.shevelev.wizard_camera.main_activity.model.MainActivityModel
 import com.shevelev.wizard_camera.main_activity.model.MainActivityModelImpl
 import com.shevelev.wizard_camera.main_activity.model.filters_repository.FiltersRepository
 import com.shevelev.wizard_camera.main_activity.model.filters_repository.FiltersRepositoryImpl
+import com.shevelev.wizard_camera.main_activity.model.image_capture.ImageCapture
+import com.shevelev.wizard_camera.main_activity.model.image_capture.ImageCaptureImpl
 import com.shevelev.wizard_camera.main_activity.view_model.MainActivityViewModel
 import com.shevelev.wizard_camera.shared.mvvm.view_model.ActivityViewModelFactory
 import com.shevelev.wizard_camera.shared.mvvm.view_model.ActivityViewModelFactoryImpl
@@ -31,4 +33,7 @@ abstract class MainActivityModuleBinds {
 
     @Binds
     abstract fun provideFiltersRepository(repository: FiltersRepositoryImpl): FiltersRepository
+
+    @Binds
+    abstract fun provideImageCapture(capture: ImageCaptureImpl): ImageCapture
 }

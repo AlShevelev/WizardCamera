@@ -3,8 +3,6 @@ package com.shevelev.wizard_camera.main_activity.view
 import android.Manifest
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
-import android.graphics.Bitmap
-import android.media.MediaScannerConnection
 import android.os.Bundle
 import android.view.TextureView
 import android.widget.Toast
@@ -15,7 +13,6 @@ import com.shevelev.wizard_camera.application.App
 import com.shevelev.wizard_camera.camera.camera_renderer.CameraRenderer
 import com.shevelev.wizard_camera.databinding.ActivityMainBinding
 import com.shevelev.wizard_camera.main_activity.di.MainActivityComponent
-import com.shevelev.wizard_camera.main_activity.dto.CaptureImageCommand
 import com.shevelev.wizard_camera.main_activity.dto.ReleaseCameraCommand
 import com.shevelev.wizard_camera.main_activity.dto.SetupCameraCommand
 import com.shevelev.wizard_camera.main_activity.view.gestures.Gesture
@@ -29,13 +26,6 @@ import kotlinx.android.synthetic.main.activity_main.*
 import permissions.dispatcher.NeedsPermission
 import permissions.dispatcher.OnPermissionDenied
 import permissions.dispatcher.RuntimePermissions
-import timber.log.Timber
-import java.io.File
-import java.io.FileNotFoundException
-import java.io.FileOutputStream
-import java.io.IOException
-import java.text.SimpleDateFormat
-import java.util.*
 import kotlin.system.exitProcess
 
 @RuntimePermissions
@@ -64,7 +54,7 @@ class MainActivity : ActivityBaseMVVM<ActivityMainBinding, MainActivityViewModel
 
         gestureDetector = GesturesDetector(this).apply { setOnGestureListener { processGesture(it) } }
 
-        shootButton.setOnClickListener { capture() }
+        shootButton.setOnClickListener { textureView?.let { viewModel.onShootClick(it) } }
 
         viewModel.selectedFilter.observe(this, Observer { renderer?.setSelectedFilter(it) })
         viewModel.selectedFilterTitle.observe(this, Observer { updateTitle(it) })
@@ -94,7 +84,6 @@ class MainActivity : ActivityBaseMVVM<ActivityMainBinding, MainActivityViewModel
 
     override fun processViewCommand(command: ViewCommand) {
         when(command) {
-            is CaptureImageCommand -> capture()
             is SetupCameraCommand -> setupCameraWithPermissionCheck()
             is ReleaseCameraCommand -> releaseCamera()
         }
@@ -131,46 +120,6 @@ class MainActivity : ActivityBaseMVVM<ActivityMainBinding, MainActivityViewModel
     internal fun onCameraPermissionsDenied() {
         Toast.makeText(this, R.string.needCameraPermissionExit, Toast.LENGTH_LONG).show()
         root.postDelayed({ exitProcess(0) }, 3500)
-    }
-
-    private fun capture() {
-        val imageFile = genSaveFileName(title.toString() + "_")
-        Timber.d("imageFile: ${imageFile.absolutePath}")
-
-        // create bitmap screen capture
-        val bitmap = textureView!!.bitmap
-
-        try {
-            FileOutputStream(imageFile).use { outputStream ->
-                bitmap.compress(Bitmap.CompressFormat.WEBP, 75, outputStream)
-                outputStream.flush()
-            }
-
-            MediaScannerConnection.scanFile(this, arrayOf<String>(imageFile.absolutePath), arrayOf<String>("image/webp"), null)
-
-            Toast.makeText(this, R.string.photoSaved, Toast.LENGTH_SHORT).show()
-        } catch (ex: FileNotFoundException) {
-            Timber.e(ex)
-            Toast.makeText(this, R.string.commonGeneralError, Toast.LENGTH_LONG).show()
-        } catch (ex: IOException) {
-            Timber.e(ex)
-            Toast.makeText(this, R.string.commonGeneralError, Toast.LENGTH_LONG).show()
-        }
-    }
-
-    private fun genSaveFileName(prefix: String): File {
-        val date = Date()
-        val dateFormat = SimpleDateFormat("yyyyMMdd_hhmmss", Locale.US)
-        val timeString = dateFormat.format(date)
-
-        val externalPath = externalMediaDirs[0]
-
-        val dir = File(externalPath, getString(R.string.appName))
-        if(!dir.exists()) {
-            dir.mkdir()
-        }
-
-        return File(dir, "$prefix$timeString.webp")
     }
 
     private fun processGesture(gesture: Gesture) = viewModel.processGesture(gesture)
