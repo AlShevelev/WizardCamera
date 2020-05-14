@@ -1,7 +1,7 @@
 <resources>
-    <string name="app_name">Wizard camera</string>
+    <string name="appName">Wizard camera</string>
 
-    <string name="capture_menu_text">Capture</string>
+    <string name="captureMenuText">Capture</string>
 
     <string name="filterOriginal">Original</string>
     <string name="filterEdgeDectection">EdgeDectection</string>

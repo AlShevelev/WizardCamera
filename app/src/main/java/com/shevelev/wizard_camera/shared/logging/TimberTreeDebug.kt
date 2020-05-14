@@ -1,4 +1,4 @@
-package com.shevelev.wizard_camera.logging
+package com.shevelev.wizard_camera.shared.logging
 
 import android.util.Log
 import timber.log.Timber

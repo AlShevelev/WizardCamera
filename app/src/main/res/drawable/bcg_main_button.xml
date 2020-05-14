@@ -2,14 +2,14 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_pressed="true">
         <shape android:shape="oval">
-            <solid android:color="@color/main_buttons_background_pressed" />
-            <stroke android:color="@color/main_buttons_foreground" android:width="@dimen/stroke_width_normal" />
+            <solid android:color="@color/mainButtonsBackgroundPressed" />
+            <stroke android:color="@color/mainButtonsForeground" android:width="@dimen/strokeWidthNormal" />
         </shape>
     </item>
     <item>
         <shape android:shape="oval">
-            <solid android:color="@color/main_buttons_background" />
-            <stroke android:color="@color/main_buttons_foreground" android:width="@dimen/stroke_width_normal" />
+            <solid android:color="@color/mainButtonsBackground" />
+            <stroke android:color="@color/mainButtonsForeground" android:width="@dimen/strokeWidthNormal" />
         </shape>
     </item>
 </selector>

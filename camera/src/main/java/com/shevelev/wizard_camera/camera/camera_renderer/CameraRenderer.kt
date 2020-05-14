@@ -42,11 +42,14 @@ class CameraRenderer(private val context: Context) : Runnable, TextureView.Surfa
     private var cameraTextureId: Int = 0
 
     private lateinit var selectedFilter: CameraFilter
-    private var selectedFilterId = FilterCode.ORIGINAL
+    private lateinit var selectedFilterCode: FilterCode
 
     private lateinit var filtersFactory: FiltersFactory
 
     private val mainThreadHandler = Handler()
+
+    @get:Synchronized @set:Synchronized
+    private var isRenderingSetUp = false
 
     override fun onSurfaceTextureSizeChanged(surface: SurfaceTexture, width: Int, height: Int) {
         Timber.tag("CAMERA_RENDERER").d("onSurfaceTextureSizeChanged: $width $height")
@@ -75,9 +78,10 @@ class CameraRenderer(private val context: Context) : Runnable, TextureView.Surfa
 
     override fun run() {
         initGL(surfaceTexture)
+        isRenderingSetUp = true
 
         filtersFactory = FiltersFactory(context)
-        setSelectedFilter(selectedFilterId)
+        setSelectedFilter(selectedFilterCode)
 
         // Create texture for camera preview
         cameraTextureId = TextureUtils.createTexture(GLES11Ext.GL_TEXTURE_EXTERNAL_OES)
@@ -129,20 +133,18 @@ class CameraRenderer(private val context: Context) : Runnable, TextureView.Surfa
     }
 
     fun setSelectedFilter(code: FilterCode) {
-        selectedFilterId = code
-        selectedFilter = filtersFactory.getFilter(code)
-        selectedFilter.onAttach()
+        selectedFilterCode = code
+
+        if(isRenderingSetUp) {
+            selectedFilter = filtersFactory.getFilter(code)
+            selectedFilter.onAttach()
+        }
     }
 
     private fun startRendering(surface: SurfaceTexture, width: Int, height: Int) {
         Timber.tag("CAMERA_RENDERER").d("Rendering started")
 
-        renderThread
-            ?.let {
-                if(it.isAlive) {
-                    it.interrupt()
-                }
-            }
+        renderThread?.takeIf { it.isAlive }?.interrupt()
 
         renderThread = Thread(this)
 
@@ -165,13 +167,9 @@ class CameraRenderer(private val context: Context) : Runnable, TextureView.Surfa
 
         camera.close()
 
-        renderThread
-            ?.let {
-                if(it.isAlive) {
-                    it.interrupt()
-                }
-            }
+        renderThread?.takeIf { it.isAlive }?.interrupt()
         CameraFilter.release()
+        isRenderingSetUp = false
     }
 
     private fun initGL(texture: SurfaceTexture) {

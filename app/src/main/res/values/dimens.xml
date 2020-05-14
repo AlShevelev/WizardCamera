@@ -1,13 +1,13 @@
 <resources>
-    <dimen name="text_size_normal">20sp</dimen>
+    <dimen name="textSizeNormal">20sp</dimen>
 
-    <dimen name="tool_button_size_normal">40dp</dimen>
-    <dimen name="tool_button_size_large">50dp</dimen>
+    <dimen name="toolButtonSizeNormal">40dp</dimen>
+    <dimen name="toolButtonSizeLarge">50dp</dimen>
 
-    <dimen name="margin_normal">16dp</dimen>
+    <dimen name="marginNormal">16dp</dimen>
 
-    <dimen name="stroke_width_normal">2dp</dimen>
+    <dimen name="strokeWidthNormal">2dp</dimen>
 
-    <dimen name="main_button_size">@dimen/tool_button_size_normal</dimen>
-    <dimen name="main_buttons_margin">25dp</dimen>
+    <dimen name="mainButtonSize">@dimen/toolButtonSizeNormal</dimen>
+    <dimen name="mainButtonsMargin">25dp</dimen>
 </resources>
