@@ -17,7 +17,11 @@ import java.io.IOException
 import javax.microedition.khronos.egl.*
 import kotlin.math.absoluteValue
 
-class CameraRenderer(private val context: Context) : Runnable, TextureView.SurfaceTextureListener {
+class CameraRenderer(
+    private val context: Context,
+    private val turnFlashOn: Boolean,
+    private var cameraSetUpCallback: (() -> Unit)?
+) : Runnable, TextureView.SurfaceTextureListener {
     private companion object {
         const val EGL_OPENGL_ES2_BIT = 4
         const val EGL_CONTEXT_CLIENT_VERSION = 0x3098
@@ -89,12 +93,14 @@ class CameraRenderer(private val context: Context) : Runnable, TextureView.Surfa
 
         // Start camera preview
         val isSuccess = try {
-            camera.startPreview(cameraSurfaceTexture, glWidth.absoluteValue, glHeight.absoluteValue, mainThreadHandler)
+            camera.startPreview(cameraSurfaceTexture, glWidth.absoluteValue, glHeight.absoluteValue, turnFlashOn, mainThreadHandler)
         } catch (ex: IOException) {
             Timber.e(ex)
             Toast.makeText(context, R.string.cameraError, Toast.LENGTH_LONG).show()
             false
         }
+
+        mainThreadHandler.post { cameraSetUpCallback?.invoke() }
 
         if(isSuccess) {
             // Render loop
@@ -170,6 +176,7 @@ class CameraRenderer(private val context: Context) : Runnable, TextureView.Surfa
         renderThread?.takeIf { it.isAlive }?.interrupt()
         CameraFilter.release()
         isRenderingSetUp = false
+        cameraSetUpCallback = null
     }
 
     private fun initGL(texture: SurfaceTexture) {

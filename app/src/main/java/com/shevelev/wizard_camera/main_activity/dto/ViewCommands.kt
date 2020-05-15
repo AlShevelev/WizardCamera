@@ -4,5 +4,6 @@ import com.shevelev.wizard_camera.shared.mvvm.view_commands.ViewCommand
 
 class SetupCameraCommand: ViewCommand
 class ReleaseCameraCommand: ViewCommand
+class ReloadCameraCommand: ViewCommand
 
 class ShowCapturingSuccessCommand: ViewCommand

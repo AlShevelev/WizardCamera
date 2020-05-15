@@ -68,7 +68,7 @@ class CameraManager(context: Context) {
     /**
      * @return true in case of success
      */
-    fun startPreview(surfaceTexture: SurfaceTexture, width: Int, height: Int, callbackHandler: Handler): Boolean {
+    fun startPreview(surfaceTexture: SurfaceTexture, width: Int, height: Int, turnFlashOn: Boolean, callbackHandler: Handler): Boolean {
         val builder = cameraDevice!!.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW)
         surfaceTexture.setDefaultBufferSize(height, width)
         val surface = Surface(surfaceTexture)
@@ -76,6 +76,10 @@ class CameraManager(context: Context) {
 
         builder.set(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_AUTO)
         builder.set(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_START)
+
+        if(turnFlashOn) {
+            builder.set(CaptureRequest.FLASH_MODE, CaptureRequest.FLASH_MODE_TORCH)
+        }
 
         var isSuccess = false
         val lock = Object()
@@ -111,17 +115,8 @@ class CameraManager(context: Context) {
         val cameraIds = cameraService.cameraIdList
 
         cameraIds.forEach { cameraId ->
-//            Timber.tag(DEBUG_TAG).d("Camera id is: $cameraId")
             val cameraCharacteristics = cameraService.getCameraCharacteristics(cameraId)
-
-//            val configurationMap = cameraCharacteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP)
-//            val sizes = configurationMap!!.getOutputSizes(ImageFormat.JPEG)
-//            sizes.forEach {
-//                Timber.tag(DEBUG_TAG).d("A size is: $it [${it.width.toFloat()/it.height}]")
-//            }
-
             if(cameraCharacteristics[CameraCharacteristics.LENS_FACING] == CameraCharacteristics.LENS_FACING_BACK) {
-//                Timber.tag(DEBUG_TAG).d("Camera $cameraId is selected")
                 return cameraId
             }
         }

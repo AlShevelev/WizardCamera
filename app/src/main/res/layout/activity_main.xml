@@ -118,7 +118,10 @@
 
                 android:layout_marginEnd="@dimen/mainButtonsMargin"
 
+                app:is_selected="@{viewModel.isFlashButtonState}"
+
                 android:background="@drawable/bcg_main_button"
+                android:tint="@color/color_main_button"
                 android:src="@drawable/ic_flash"
                 tools:ignore="ContentDescription" />
 

@@ -14,6 +14,7 @@ import com.shevelev.wizard_camera.camera.camera_renderer.CameraRenderer
 import com.shevelev.wizard_camera.databinding.ActivityMainBinding
 import com.shevelev.wizard_camera.main_activity.di.MainActivityComponent
 import com.shevelev.wizard_camera.main_activity.dto.ReleaseCameraCommand
+import com.shevelev.wizard_camera.main_activity.dto.ReloadCameraCommand
 import com.shevelev.wizard_camera.main_activity.dto.SetupCameraCommand
 import com.shevelev.wizard_camera.main_activity.dto.ShowCapturingSuccessCommand
 import com.shevelev.wizard_camera.main_activity.view.gestures.Gesture
@@ -60,9 +61,7 @@ class MainActivity : ActivityBaseMVVM<ActivityMainBinding, MainActivityViewModel
         viewModel.selectedFilter.observe(this, Observer { renderer?.setSelectedFilter(it) })
         viewModel.selectedFilterTitle.observe(this, Observer { updateTitle(it) })
 
-        flashButton.setOnClickListener {
-            flashButton.isSelected = !flashButton.isSelected
-        }
+        flashButton.setOnClickListener { viewModel.onFlashClick() }
     }
 
     override fun onResume() {
@@ -91,14 +90,16 @@ class MainActivity : ActivityBaseMVVM<ActivityMainBinding, MainActivityViewModel
         when(command) {
             is SetupCameraCommand -> setupCameraWithPermissionCheck()
             is ReleaseCameraCommand -> releaseCamera()
+            is ReloadCameraCommand -> reloadCamera()
             is ShowCapturingSuccessCommand -> showCaptureSuccess()
         }
     }
 
+    @Suppress("MoveLambdaOutsideParentheses")
     @SuppressLint("ClickableViewAccessibility")
     @NeedsPermission(Manifest.permission.CAMERA)
     internal fun setupCamera() {
-        renderer = CameraRenderer(this).also {
+        renderer = CameraRenderer(this, viewModel.isFlashActive, { viewModel.onCameraIsSetUp() }).also {
             textureView = TextureView(this)
             root.addView(textureView, 0)
             textureView!!.surfaceTextureListener = it
@@ -120,6 +121,11 @@ class MainActivity : ActivityBaseMVVM<ActivityMainBinding, MainActivityViewModel
         textureView!!.addOnLayoutChangeListener(null)
 
         textureView = null
+    }
+
+    private fun reloadCamera() {
+        releaseCamera()
+        setupCameraWithPermissionCheck()
     }
 
     @OnPermissionDenied(Manifest.permission.CAMERA)

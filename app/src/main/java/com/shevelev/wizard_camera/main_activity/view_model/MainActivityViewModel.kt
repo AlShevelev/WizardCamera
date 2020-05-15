@@ -5,9 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.camera.filter.FilterCode
-import com.shevelev.wizard_camera.main_activity.dto.ReleaseCameraCommand
-import com.shevelev.wizard_camera.main_activity.dto.SetupCameraCommand
-import com.shevelev.wizard_camera.main_activity.dto.ShowCapturingSuccessCommand
+import com.shevelev.wizard_camera.main_activity.dto.*
 import com.shevelev.wizard_camera.main_activity.model.MainActivityModel
 import com.shevelev.wizard_camera.main_activity.view.gestures.Gesture
 import com.shevelev.wizard_camera.shared.coroutines.DispatchersProvider
@@ -28,6 +26,12 @@ constructor(
 
     private val _selectedFilterTitle = MutableLiveData(model.filters.selectedFilterTitle)
     val selectedFilterTitle: LiveData<Int> = _selectedFilterTitle
+
+    private val _isFlashButtonState = MutableLiveData(ButtonState.DISABLED)
+    val isFlashButtonState: LiveData<ButtonState> = _isFlashButtonState
+
+    var isFlashActive: Boolean = false
+        private set
 
     fun processGesture(gesture: Gesture) {
         when(gesture) {
@@ -56,10 +60,21 @@ constructor(
     }
 
     fun onActive() {
+        _isFlashButtonState.value = ButtonState.DISABLED
         _command.value = SetupCameraCommand()
     }
 
     fun onInactive() {
         _command.value = ReleaseCameraCommand()
+    }
+
+    fun onFlashClick() {
+        _isFlashButtonState.value = ButtonState.DISABLED
+        isFlashActive = !isFlashActive
+        _command.value = ReloadCameraCommand()
+    }
+
+    fun onCameraIsSetUp() {
+        _isFlashButtonState.value = if(isFlashActive)  ButtonState.SELECTED else ButtonState.ACTIVE
     }
 }
