@@ -3,12 +3,15 @@ package com.shevelev.wizard_camera.main_activity.view_model
 import android.view.TextureView
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.camera.filter.FilterCode
 import com.shevelev.wizard_camera.main_activity.dto.ReleaseCameraCommand
 import com.shevelev.wizard_camera.main_activity.dto.SetupCameraCommand
+import com.shevelev.wizard_camera.main_activity.dto.ShowCapturingSuccessCommand
 import com.shevelev.wizard_camera.main_activity.model.MainActivityModel
 import com.shevelev.wizard_camera.main_activity.view.gestures.Gesture
 import com.shevelev.wizard_camera.shared.coroutines.DispatchersProvider
+import com.shevelev.wizard_camera.shared.mvvm.view_commands.ShowMessageResCommand
 import com.shevelev.wizard_camera.shared.mvvm.view_model.ViewModelBase
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -38,14 +41,16 @@ constructor(
     fun onShootClick(textureView: TextureView) {
         launch {
             if(model.capture.inProgress) {
-                // Show error
+                _command.value = ShowMessageResCommand(R.string.capturingInProgressError)
                 return@launch
             }
 
             val isSuccess = model.capture.capture(textureView, model.filters.selectedFilter)
 
-            if(!isSuccess) {
-                // show error
+            _command.value = if(isSuccess) {
+                ShowCapturingSuccessCommand()
+            } else {
+                ShowMessageResCommand(R.string.generalError)
             }
         }
     }

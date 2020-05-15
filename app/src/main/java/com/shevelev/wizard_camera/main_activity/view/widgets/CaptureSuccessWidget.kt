@@ -1,0 +1,51 @@
+package com.shevelev.wizard_camera.main_activity.view.widgets
+
+import android.animation.AnimatorSet
+import android.content.Context
+import android.util.AttributeSet
+import android.view.View
+import androidx.appcompat.widget.AppCompatImageView
+import com.shevelev.wizard_camera.R
+import com.shevelev.wizard_camera.shared.animation.AnimationUtils
+import kotlin.random.Random
+
+class CaptureSuccessWidget
+@JvmOverloads
+constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = android.R.attr.textViewStyle
+) : AppCompatImageView(context, attrs, defStyleAttr)  {
+
+    private var animSet: AnimatorSet? = null
+
+    private val imageIds = listOf(
+        R.drawable.img_smile_1, R.drawable.img_smile_2, R.drawable.img_smile_3,
+        R.drawable.img_smile_4, R.drawable.img_smile_5, R.drawable.img_smile_6)
+
+    fun show() {
+        animSet?.cancel()
+
+        alpha = 0f
+        visibility = View.VISIBLE
+
+        setImageResource(imageIds[Random.nextInt(0, imageIds.size)])
+
+        val showAnimation = AnimationUtils.getFloatAnimator(
+            duration = 250,
+            updateListener = { alpha = it }
+        )
+        val hideAnimation = AnimationUtils.getFloatAnimator(
+            forward = false,
+            duration = 250,
+            updateListener = { alpha = it },
+            completeListener = { visibility = View.INVISIBLE }
+        ).apply { startDelay = 250 }
+
+        animSet = AnimatorSet()
+            .apply {
+                playSequentially(showAnimation, hideAnimation)
+                start()
+            }
+    }
+}

@@ -6,6 +6,12 @@
             <stroke android:color="@color/mainButtonsForeground" android:width="@dimen/strokeWidthNormal" />
         </shape>
     </item>
+    <item android:state_selected="true">
+        <shape android:shape="oval">
+            <solid android:color="@color/mainButtonsBackgroundPressed" />
+            <stroke android:color="@color/mainButtonsForeground" android:width="@dimen/strokeWidthNormal" />
+        </shape>
+    </item>
     <item>
         <shape android:shape="oval">
             <solid android:color="@color/mainButtonsBackground" />

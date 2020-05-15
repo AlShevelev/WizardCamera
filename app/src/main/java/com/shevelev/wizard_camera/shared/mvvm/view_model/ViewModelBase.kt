@@ -57,6 +57,6 @@ constructor(
 
     private fun handleError(error: Throwable){
         Timber.e(error)
-        _command.value = ShowMessageResCommand(R.string.commonGeneralError)
+        _command.value = ShowMessageResCommand(R.string.generalError)
     }
 }

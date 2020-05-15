@@ -15,6 +15,7 @@ import com.shevelev.wizard_camera.databinding.ActivityMainBinding
 import com.shevelev.wizard_camera.main_activity.di.MainActivityComponent
 import com.shevelev.wizard_camera.main_activity.dto.ReleaseCameraCommand
 import com.shevelev.wizard_camera.main_activity.dto.SetupCameraCommand
+import com.shevelev.wizard_camera.main_activity.dto.ShowCapturingSuccessCommand
 import com.shevelev.wizard_camera.main_activity.view.gestures.Gesture
 import com.shevelev.wizard_camera.main_activity.view.gestures.GesturesDetector
 import com.shevelev.wizard_camera.main_activity.view_model.MainActivityViewModel
@@ -58,6 +59,10 @@ class MainActivity : ActivityBaseMVVM<ActivityMainBinding, MainActivityViewModel
 
         viewModel.selectedFilter.observe(this, Observer { renderer?.setSelectedFilter(it) })
         viewModel.selectedFilterTitle.observe(this, Observer { updateTitle(it) })
+
+        flashButton.setOnClickListener {
+            flashButton.isSelected = !flashButton.isSelected
+        }
     }
 
     override fun onResume() {
@@ -86,6 +91,7 @@ class MainActivity : ActivityBaseMVVM<ActivityMainBinding, MainActivityViewModel
         when(command) {
             is SetupCameraCommand -> setupCameraWithPermissionCheck()
             is ReleaseCameraCommand -> releaseCamera()
+            is ShowCapturingSuccessCommand -> showCaptureSuccess()
         }
     }
 
@@ -139,4 +145,6 @@ class MainActivity : ActivityBaseMVVM<ActivityMainBinding, MainActivityViewModel
             start()
         }
     }
+
+    private fun showCaptureSuccess() = captureSuccess.show()
 }
