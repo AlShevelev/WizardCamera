@@ -73,7 +73,7 @@
             android:layout_marginBottom="52dp">
 
             <ImageButton
-                android:id="@+id/flipCameraButton"
+                android:id="@+id/turnFiltersButton"
                 android:layout_width="@dimen/mainButtonSize"
                 android:layout_height="@dimen/mainButtonSize"
 
@@ -81,7 +81,10 @@
 
                 android:layout_marginEnd="@dimen/mainButtonsMargin"
 
+                app:button_state="@{viewModel.turnFiltersButtonState}"
+
                 android:background="@drawable/bcg_main_button"
+                android:tint="@color/color_main_button"
                 android:src="@drawable/ic_turn_filtes"
                 tools:ignore="ContentDescription" />
 
@@ -118,7 +121,7 @@
 
                 android:layout_marginEnd="@dimen/mainButtonsMargin"
 
-                app:is_selected="@{viewModel.isFlashButtonState}"
+                app:button_state="@{viewModel.isFlashButtonState}"
 
                 android:background="@drawable/bcg_main_button"
                 android:tint="@color/color_main_button"

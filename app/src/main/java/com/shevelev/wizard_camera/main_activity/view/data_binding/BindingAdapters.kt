@@ -5,7 +5,7 @@ import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LiveData
 import com.shevelev.wizard_camera.main_activity.dto.ButtonState
 
-@BindingAdapter("is_selected")
+@BindingAdapter("button_state")
 fun setImageViewIsSelected(view: ImageView, valueToBind: LiveData<ButtonState>?) =
     valueToBind?.value?.let {
         when(it) {

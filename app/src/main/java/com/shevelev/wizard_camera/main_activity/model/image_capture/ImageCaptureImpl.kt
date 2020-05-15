@@ -24,12 +24,11 @@ constructor(
     private val dispatchersProvider: DispatchersProvider
 ) : ImageCapture {
 
-    private var _inProgress: Boolean = false
-    override val inProgress: Boolean
-        get() = _inProgress
+    override var inProgress: Boolean = false
+        private set
 
     override suspend fun capture(textureView: TextureView, activeFilter: FilterCode): Boolean {
-        _inProgress = true
+        inProgress = true
         try {
             val fileForSaving = withContext(dispatchersProvider.ioDispatcher) {
                 createFileForSaving(activeFilter)
@@ -51,7 +50,7 @@ constructor(
             Timber.e(ex)
             return false
         } finally {
-            _inProgress = false
+            inProgress = false
         }
     }
 

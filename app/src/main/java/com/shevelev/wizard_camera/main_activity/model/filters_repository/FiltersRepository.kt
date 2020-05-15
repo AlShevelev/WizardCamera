@@ -7,7 +7,11 @@ interface FiltersRepository {
 
     val selectedFilterTitle: Int
 
-    fun selectNext()
+    val isFilterTurnedOn: Boolean
 
-    fun selectPrior()
+    fun selectNextFilter()
+
+    fun selectPriorFilter()
+
+    fun switchMode()
 }

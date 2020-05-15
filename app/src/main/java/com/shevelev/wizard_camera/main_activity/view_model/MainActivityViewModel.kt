@@ -30,13 +30,16 @@ constructor(
     private val _isFlashButtonState = MutableLiveData(ButtonState.DISABLED)
     val isFlashButtonState: LiveData<ButtonState> = _isFlashButtonState
 
+    private val _turnFiltersButtonState = MutableLiveData(ButtonState.DISABLED)
+    val turnFiltersButtonState: LiveData<ButtonState> = _turnFiltersButtonState
+
     var isFlashActive: Boolean = false
         private set
 
     fun processGesture(gesture: Gesture) {
         when(gesture) {
-            is Gesture.FlingRight -> model.filters.selectNext()
-            is Gesture.FlingLeft -> model.filters.selectPrior()
+            is Gesture.FlingRight -> model.filters.selectNextFilter()
+            is Gesture.FlingLeft -> model.filters.selectPriorFilter()
         }
         _selectedFilter.value = model.filters.selectedFilter
         _selectedFilterTitle.value = model.filters.selectedFilterTitle
@@ -61,6 +64,7 @@ constructor(
 
     fun onActive() {
         _isFlashButtonState.value = ButtonState.DISABLED
+        _turnFiltersButtonState.value = ButtonState.DISABLED
         _command.value = SetupCameraCommand()
     }
 
@@ -76,5 +80,13 @@ constructor(
 
     fun onCameraIsSetUp() {
         _isFlashButtonState.value = if(isFlashActive)  ButtonState.SELECTED else ButtonState.ACTIVE
+        _turnFiltersButtonState.value = if(model.filters.isFilterTurnedOn)  ButtonState.SELECTED else ButtonState.ACTIVE
+    }
+
+    fun onTurnFiltersClick() {
+        model.filters.switchMode()
+        _selectedFilter.value = model.filters.selectedFilter
+        _selectedFilterTitle.value = model.filters.selectedFilterTitle
+        _turnFiltersButtonState.value = if(model.filters.isFilterTurnedOn)  ButtonState.SELECTED else ButtonState.ACTIVE
     }
 }

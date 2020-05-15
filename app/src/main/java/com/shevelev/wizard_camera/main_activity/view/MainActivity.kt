@@ -62,6 +62,7 @@ class MainActivity : ActivityBaseMVVM<ActivityMainBinding, MainActivityViewModel
         viewModel.selectedFilterTitle.observe(this, Observer { updateTitle(it) })
 
         flashButton.setOnClickListener { viewModel.onFlashClick() }
+        turnFiltersButton.setOnClickListener { viewModel.onTurnFiltersClick() }
     }
 
     override fun onResume() {
