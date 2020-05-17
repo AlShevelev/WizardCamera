@@ -13,10 +13,7 @@ import com.shevelev.wizard_camera.application.App
 import com.shevelev.wizard_camera.camera.camera_renderer.CameraRenderer
 import com.shevelev.wizard_camera.databinding.ActivityMainBinding
 import com.shevelev.wizard_camera.main_activity.di.MainActivityComponent
-import com.shevelev.wizard_camera.main_activity.dto.ReleaseCameraCommand
-import com.shevelev.wizard_camera.main_activity.dto.ReloadCameraCommand
-import com.shevelev.wizard_camera.main_activity.dto.SetupCameraCommand
-import com.shevelev.wizard_camera.main_activity.dto.ShowCapturingSuccessCommand
+import com.shevelev.wizard_camera.main_activity.dto.*
 import com.shevelev.wizard_camera.main_activity.view.gestures.Gesture
 import com.shevelev.wizard_camera.main_activity.view.gestures.GesturesDetector
 import com.shevelev.wizard_camera.main_activity.view_model.MainActivityViewModel
@@ -92,7 +89,7 @@ class MainActivity : ActivityBaseMVVM<ActivityMainBinding, MainActivityViewModel
             is SetupCameraCommand -> setupCameraWithPermissionCheck()
             is ReleaseCameraCommand -> releaseCamera()
             is ReloadCameraCommand -> reloadCamera()
-            is ShowCapturingSuccessCommand -> showCaptureSuccess()
+            is ShowCapturingSuccessCommand -> showCaptureSuccess(command.screenOrientation)
         }
     }
 
@@ -153,5 +150,5 @@ class MainActivity : ActivityBaseMVVM<ActivityMainBinding, MainActivityViewModel
         }
     }
 
-    private fun showCaptureSuccess() = captureSuccess.show()
+    private fun showCaptureSuccess(screenOrientation: ScreenOrientation) = captureSuccess.show(screenOrientation)
 }

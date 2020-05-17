@@ -8,6 +8,8 @@ import com.shevelev.wizard_camera.main_activity.model.filters_repository.Filters
 import com.shevelev.wizard_camera.main_activity.model.filters_repository.FiltersRepositoryImpl
 import com.shevelev.wizard_camera.main_activity.model.image_capture.ImageCapture
 import com.shevelev.wizard_camera.main_activity.model.image_capture.ImageCaptureImpl
+import com.shevelev.wizard_camera.main_activity.model.orientation.OrientationManager
+import com.shevelev.wizard_camera.main_activity.model.orientation.OrientationManagerImpl
 import com.shevelev.wizard_camera.main_activity.view_model.MainActivityViewModel
 import com.shevelev.wizard_camera.shared.mvvm.view_model.ActivityViewModelFactory
 import com.shevelev.wizard_camera.shared.mvvm.view_model.ActivityViewModelFactoryImpl
@@ -36,4 +38,7 @@ abstract class MainActivityModuleBinds {
 
     @Binds
     abstract fun provideImageCapture(capture: ImageCaptureImpl): ImageCapture
+
+    @Binds
+    abstract fun provideOrientationManager(manager: OrientationManagerImpl): OrientationManager
 }

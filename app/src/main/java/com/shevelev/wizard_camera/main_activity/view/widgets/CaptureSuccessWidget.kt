@@ -6,6 +6,7 @@ import android.util.AttributeSet
 import android.view.View
 import androidx.appcompat.widget.AppCompatImageView
 import com.shevelev.wizard_camera.R
+import com.shevelev.wizard_camera.main_activity.dto.ScreenOrientation
 import com.shevelev.wizard_camera.shared.animation.AnimationUtils
 import kotlin.random.Random
 
@@ -23,7 +24,9 @@ constructor(
         R.drawable.img_smile_1, R.drawable.img_smile_2, R.drawable.img_smile_3,
         R.drawable.img_smile_4, R.drawable.img_smile_5, R.drawable.img_smile_6)
 
-    fun show() {
+    fun show(screenOrientation: ScreenOrientation) {
+        rotation = convertScreenOrientationToDegrees(screenOrientation)
+
         animSet?.cancel()
 
         alpha = 0f
@@ -48,4 +51,12 @@ constructor(
                 start()
             }
     }
+
+    private fun convertScreenOrientationToDegrees(orientation: ScreenOrientation): Float =
+        when (orientation) {
+            ScreenOrientation.PORTRAIT -> 0f
+            ScreenOrientation.LANDSCAPE -> 90f
+            ScreenOrientation.REVERSED_LANDSCAPE -> 270f
+            ScreenOrientation.REVERSED_PORTRAIT -> 180f
+        }
 }

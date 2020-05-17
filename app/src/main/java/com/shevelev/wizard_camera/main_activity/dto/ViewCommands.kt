@@ -6,4 +6,4 @@ class SetupCameraCommand: ViewCommand
 class ReleaseCameraCommand: ViewCommand
 class ReloadCameraCommand: ViewCommand
 
-class ShowCapturingSuccessCommand: ViewCommand
+data class ShowCapturingSuccessCommand(val screenOrientation: ScreenOrientation): ViewCommand

@@ -52,10 +52,11 @@ constructor(
                 return@launch
             }
 
-            val isSuccess = model.capture.capture(textureView, model.filters.selectedFilter)
+            val screenOrientation = model.orientation.screenOrientation
+            val isSuccess = model.capture.capture(textureView, model.filters.selectedFilter, screenOrientation)
 
             _command.value = if(isSuccess) {
-                ShowCapturingSuccessCommand()
+                ShowCapturingSuccessCommand(screenOrientation)
             } else {
                 ShowMessageResCommand(R.string.generalError)
             }
@@ -65,10 +66,15 @@ constructor(
     fun onActive() {
         _isFlashButtonState.value = ButtonState.DISABLED
         _turnFiltersButtonState.value = ButtonState.DISABLED
+
+        model.orientation.start()
+
         _command.value = SetupCameraCommand()
     }
 
     fun onInactive() {
+        model.orientation.stop()
+
         _command.value = ReleaseCameraCommand()
     }
 
