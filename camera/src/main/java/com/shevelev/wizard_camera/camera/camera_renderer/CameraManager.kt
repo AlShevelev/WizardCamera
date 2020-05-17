@@ -20,6 +20,7 @@ class CameraManager(context: Context) {
 
     private var cameraDevice: CameraDevice? = null
     private var cameraSession: CameraCaptureSession? = null
+    private var requestBuilder: CaptureRequest.Builder? = null
 
     /**
      * [openCameraResult] The argument it true in case of success
@@ -69,16 +70,18 @@ class CameraManager(context: Context) {
      * @return true in case of success
      */
     fun startPreview(surfaceTexture: SurfaceTexture, width: Int, height: Int, turnFlashOn: Boolean, callbackHandler: Handler): Boolean {
-        val builder = cameraDevice!!.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW)
-        surfaceTexture.setDefaultBufferSize(height, width)
         val surface = Surface(surfaceTexture)
-        builder.addTarget(surface)
 
-        builder.set(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_AUTO)
-        builder.set(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_START)
+        requestBuilder = cameraDevice!!.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW).also { builder ->
+            surfaceTexture.setDefaultBufferSize(height, width)
+            builder.addTarget(surface)
 
-        if(turnFlashOn) {
-            builder.set(CaptureRequest.FLASH_MODE, CaptureRequest.FLASH_MODE_TORCH)
+            builder.set(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_AUTO)
+            builder.set(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_START)
+
+            if(turnFlashOn) {
+                builder.set(CaptureRequest.FLASH_MODE, CaptureRequest.FLASH_MODE_TORCH)
+            }
         }
 
         var isSuccess = false
@@ -96,7 +99,7 @@ class CameraManager(context: Context) {
             override fun onConfigured(session: CameraCaptureSession) {
                 isSuccess = true
                 cameraSession = session
-                session.setRepeatingRequest(builder.build(), null, null)
+                session.setRepeatingRequest(requestBuilder!!.build(), null, null)
                 synchronized(lock) {
                     lock.notify()
                 }
@@ -109,6 +112,12 @@ class CameraManager(context: Context) {
         }
 
         return isSuccess
+    }
+
+    fun updateFlashState(turnFlashOn: Boolean) {
+        cameraSession!!.stopRepeating()
+        requestBuilder!!.set(CaptureRequest.FLASH_MODE, if(turnFlashOn) CaptureRequest.FLASH_MODE_TORCH else null)
+        cameraSession!!.setRepeatingRequest(requestBuilder!!.build(), null, null)
     }
 
     private fun getBackCameraId(): String? {

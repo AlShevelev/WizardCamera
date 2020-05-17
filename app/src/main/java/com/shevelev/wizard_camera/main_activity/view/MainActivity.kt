@@ -88,7 +88,7 @@ class MainActivity : ActivityBaseMVVM<ActivityMainBinding, MainActivityViewModel
         when(command) {
             is SetupCameraCommand -> setupCameraWithPermissionCheck()
             is ReleaseCameraCommand -> releaseCamera()
-            is ReloadCameraCommand -> reloadCamera()
+            is SetFlashStateCommand -> setFlashState(command.turnFlashOn)
             is ShowCapturingSuccessCommand -> showCaptureSuccess(command.screenOrientation)
         }
     }
@@ -121,9 +121,8 @@ class MainActivity : ActivityBaseMVVM<ActivityMainBinding, MainActivityViewModel
         textureView = null
     }
 
-    private fun reloadCamera() {
-        releaseCamera()
-        setupCameraWithPermissionCheck()
+    private fun setFlashState(turnFlashOn: Boolean) {
+        renderer!!.updateFlashState(turnFlashOn)
     }
 
     @OnPermissionDenied(Manifest.permission.CAMERA)

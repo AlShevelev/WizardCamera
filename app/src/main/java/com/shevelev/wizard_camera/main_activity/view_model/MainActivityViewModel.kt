@@ -79,9 +79,9 @@ constructor(
     }
 
     fun onFlashClick() {
-        _isFlashButtonState.value = ButtonState.DISABLED
         isFlashActive = !isFlashActive
-        _command.value = ReloadCameraCommand()
+        _isFlashButtonState.value = if(isFlashActive)  ButtonState.SELECTED else ButtonState.ACTIVE
+        _command.value = SetFlashStateCommand(isFlashActive)
     }
 
     fun onCameraIsSetUp() {

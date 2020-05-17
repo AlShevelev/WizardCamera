@@ -147,6 +147,10 @@ class CameraRenderer(
         }
     }
 
+    fun updateFlashState(turnFlashOn: Boolean) {
+        camera.updateFlashState(turnFlashOn)
+    }
+
     private fun startRendering(surface: SurfaceTexture, width: Int, height: Int) {
         Timber.tag("CAMERA_RENDERER").d("Rendering started")
 
