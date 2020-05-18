@@ -52,6 +52,23 @@
             />
 
         <ImageButton
+            android:id="@+id/autoFocusButton"
+            android:layout_width="@dimen/mainButtonSize"
+            android:layout_height="@dimen/mainButtonSize"
+
+            android:layout_gravity="start|top"
+
+            android:layout_marginStart="@dimen/marginNormal"
+            android:layout_marginTop="@dimen/marginNormal"
+
+            android:visibility="@{viewModel.autoFocusButtonVisibility}"
+            tools:visibility="visible"
+
+            android:background="@drawable/bcg_main_button"
+            android:src="@drawable/ic_auto_focus"
+            tools:ignore="ContentDescription" />
+
+        <ImageButton
                 android:id="@+id/settingsButton"
                 android:layout_width="@dimen/mainButtonSize"
                 android:layout_height="@dimen/mainButtonSize"

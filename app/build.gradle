@@ -4,13 +4,13 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion "28.0.3"
+    compileSdkVersion target_sdk_version
+    buildToolsVersion "$build_tools_version"
 
     defaultConfig {
         applicationId "com.shevelev.wizard_camera"
-        minSdkVersion 21
-        targetSdkVersion 29
+        minSdkVersion min_sdk_version
+        targetSdkVersion target_sdk_version
         versionCode app_version_code
         versionName "$app_version_name"
     }
@@ -27,6 +27,7 @@ android {
 
 dependencies {
     implementation project(":camera")
+    implementation project(":utils")
 
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "androidx.appcompat:appcompat:$appcompat_version"

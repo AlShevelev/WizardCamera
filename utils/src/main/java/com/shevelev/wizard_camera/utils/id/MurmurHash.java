@@ -1,4 +1,4 @@
-package com.shevelev.wizard_camera.shared.id;
+package com.shevelev.wizard_camera.utils.id;
 
 /** Murmur hash 2.0.
  *

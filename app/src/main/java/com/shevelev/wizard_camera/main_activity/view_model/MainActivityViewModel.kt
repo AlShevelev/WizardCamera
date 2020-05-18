@@ -1,6 +1,9 @@
 package com.shevelev.wizard_camera.main_activity.view_model
 
+import android.graphics.PointF
+import android.util.SizeF
 import android.view.TextureView
+import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.shevelev.wizard_camera.R
@@ -33,16 +36,21 @@ constructor(
     private val _turnFiltersButtonState = MutableLiveData(ButtonState.DISABLED)
     val turnFiltersButtonState: LiveData<ButtonState> = _turnFiltersButtonState
 
+    private val _autoFocusButtonVisibility = MutableLiveData(View.INVISIBLE)
+    val autoFocusButtonVisibility: LiveData<Int> = _autoFocusButtonVisibility
+
     var isFlashActive: Boolean = false
+        private set
+
+    var isAutoFocus: Boolean = true
         private set
 
     fun processGesture(gesture: Gesture) {
         when(gesture) {
-            is Gesture.FlingRight -> model.filters.selectNextFilter()
-            is Gesture.FlingLeft -> model.filters.selectPriorFilter()
+            is Gesture.FlingRight -> selectNextFilter()
+            is Gesture.FlingLeft -> selectPriorFilter()
+            is Gesture.Tap -> selectManualFocus(gesture.touchPoint, gesture.touchAreaSize)
         }
-        _selectedFilter.value = model.filters.selectedFilter
-        _selectedFilterTitle.value = model.filters.selectedFilterTitle
     }
 
     fun onShootClick(textureView: TextureView) {
@@ -75,6 +83,8 @@ constructor(
     fun onInactive() {
         model.orientation.stop()
 
+        isAutoFocus = true
+        _autoFocusButtonVisibility.value = View.INVISIBLE
         _command.value = ReleaseCameraCommand()
     }
 
@@ -94,5 +104,29 @@ constructor(
         _selectedFilter.value = model.filters.selectedFilter
         _selectedFilterTitle.value = model.filters.selectedFilterTitle
         _turnFiltersButtonState.value = if(model.filters.isFilterTurnedOn)  ButtonState.SELECTED else ButtonState.ACTIVE
+    }
+
+    fun onAutoFocusClick() {
+        isAutoFocus = true
+        _autoFocusButtonVisibility.value = View.INVISIBLE
+        _command.value = AutoFocusCommand()
+    }
+
+    private fun selectNextFilter() {
+        model.filters.selectNextFilter()
+        _selectedFilter.value = model.filters.selectedFilter
+        _selectedFilterTitle.value = model.filters.selectedFilterTitle
+    }
+
+    private fun selectPriorFilter() {
+        model.filters.selectPriorFilter()
+        _selectedFilter.value = model.filters.selectedFilter
+        _selectedFilterTitle.value = model.filters.selectedFilterTitle
+    }
+
+    private fun selectManualFocus(touchPoint: PointF, touchAreaSize: SizeF) {
+        _command.value = FocusOnTouchCommand(touchPoint, touchAreaSize)
+        isAutoFocus = false
+        _autoFocusButtonVisibility.value = View.VISIBLE
     }
 }

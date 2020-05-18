@@ -4,7 +4,7 @@ import android.app.Application
 import android.content.Context
 import com.shevelev.wizard_camera.application.di.scopes.ApplicationScope
 import com.shevelev.wizard_camera.shared.coroutines.DispatchersProvider
-import com.shevelev.wizard_camera.shared.logging.TimberTreeDebug
+import com.shevelev.wizard_camera.utils.logging.TimberTreeDebug
 import dagger.Module
 import dagger.Provides
 import kotlinx.coroutines.CoroutineDispatcher

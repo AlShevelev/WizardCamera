@@ -3,7 +3,9 @@ package com.shevelev.wizard_camera.main_activity.view
 import android.Manifest
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
+import android.graphics.PointF
 import android.os.Bundle
+import android.util.SizeF
 import android.view.TextureView
 import android.widget.Toast
 import androidx.annotation.StringRes
@@ -60,6 +62,7 @@ class MainActivity : ActivityBaseMVVM<ActivityMainBinding, MainActivityViewModel
 
         flashButton.setOnClickListener { viewModel.onFlashClick() }
         turnFiltersButton.setOnClickListener { viewModel.onTurnFiltersClick() }
+        autoFocusButton.setOnClickListener { viewModel.onAutoFocusClick() }
     }
 
     override fun onResume() {
@@ -88,8 +91,10 @@ class MainActivity : ActivityBaseMVVM<ActivityMainBinding, MainActivityViewModel
         when(command) {
             is SetupCameraCommand -> setupCameraWithPermissionCheck()
             is ReleaseCameraCommand -> releaseCamera()
-            is SetFlashStateCommand -> setFlashState(command.turnFlashOn)
-            is ShowCapturingSuccessCommand -> showCaptureSuccess(command.screenOrientation)
+            is SetFlashStateCommand -> renderer!!.updateFlashState(command.turnFlashOn)
+            is ShowCapturingSuccessCommand -> captureSuccess.show(command.screenOrientation)
+            is FocusOnTouchCommand -> renderer!!.focusOnTouch(command.touchPoint, command.touchAreaSize)
+            is AutoFocusCommand -> renderer!!.setAutoFocus()
         }
     }
 
@@ -97,13 +102,13 @@ class MainActivity : ActivityBaseMVVM<ActivityMainBinding, MainActivityViewModel
     @SuppressLint("ClickableViewAccessibility")
     @NeedsPermission(Manifest.permission.CAMERA)
     internal fun setupCamera() {
-        renderer = CameraRenderer(this, viewModel.isFlashActive, { viewModel.onCameraIsSetUp() }).also {
+        renderer = CameraRenderer(this, viewModel.isFlashActive, viewModel.isAutoFocus, { viewModel.onCameraIsSetUp() }).also {
             textureView = TextureView(this)
             root.addView(textureView, 0)
             textureView!!.surfaceTextureListener = it
 
-            textureView!!.setOnTouchListener { _, event ->
-                gestureDetector.onTouchEvent(event)
+            textureView!!.setOnTouchListener { view, event ->
+                gestureDetector.onTouchEvent(view, event)
                 true
             }
             it.setSelectedFilter(viewModel.selectedFilter.value!!)
@@ -119,10 +124,6 @@ class MainActivity : ActivityBaseMVVM<ActivityMainBinding, MainActivityViewModel
         textureView!!.addOnLayoutChangeListener(null)
 
         textureView = null
-    }
-
-    private fun setFlashState(turnFlashOn: Boolean) {
-        renderer!!.updateFlashState(turnFlashOn)
     }
 
     @OnPermissionDenied(Manifest.permission.CAMERA)
@@ -148,6 +149,4 @@ class MainActivity : ActivityBaseMVVM<ActivityMainBinding, MainActivityViewModel
             start()
         }
     }
-
-    private fun showCaptureSuccess(screenOrientation: ScreenOrientation) = captureSuccess.show(screenOrientation)
 }

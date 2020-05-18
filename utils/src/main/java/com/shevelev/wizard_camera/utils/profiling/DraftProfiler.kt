@@ -1,4 +1,4 @@
-package com.shevelev.wizard_camera.shared.profiling
+package com.shevelev.wizard_camera.utils.profiling
 
 import timber.log.Timber
 

@@ -1,14 +1,19 @@
 package com.shevelev.wizard_camera.camera.camera_renderer
 
 import android.content.Context
+import android.graphics.PointF
 import android.graphics.SurfaceTexture
 import android.opengl.GLES11Ext
 import android.opengl.GLES31
 import android.os.Handler
+import android.util.Size
+import android.util.SizeF
 import android.view.TextureView
 import android.widget.Toast
 import com.shevelev.wizard_camera.camera.FiltersFactory
 import com.shevelev.wizard_camera.camera.R
+import com.shevelev.wizard_camera.camera.camera_renderer.manager.CameraManager
+import com.shevelev.wizard_camera.camera.camera_renderer.manager.CameraSettings
 import com.shevelev.wizard_camera.camera.filter.CameraFilter
 import com.shevelev.wizard_camera.camera.filter.FilterCode
 import com.shevelev.wizard_camera.camera.utils.TextureUtils
@@ -20,6 +25,7 @@ import kotlin.math.absoluteValue
 class CameraRenderer(
     private val context: Context,
     private val turnFlashOn: Boolean,
+    private val isAutoFocus: Boolean,
     private var cameraSetUpCallback: (() -> Unit)?
 ) : Runnable, TextureView.SurfaceTextureListener {
     private companion object {
@@ -93,7 +99,11 @@ class CameraRenderer(
 
         // Start camera preview
         val isSuccess = try {
-            camera.startPreview(cameraSurfaceTexture, glWidth.absoluteValue, glHeight.absoluteValue, turnFlashOn, mainThreadHandler)
+            camera.startPreview(
+                cameraSurfaceTexture,
+                Size(glWidth.absoluteValue, glHeight.absoluteValue),
+                CameraSettings(turnFlashOn, isAutoFocus),
+                mainThreadHandler)
         } catch (ex: IOException) {
             Timber.e(ex)
             Toast.makeText(context, R.string.cameraError, Toast.LENGTH_LONG).show()
@@ -147,9 +157,11 @@ class CameraRenderer(
         }
     }
 
-    fun updateFlashState(turnFlashOn: Boolean) {
-        camera.updateFlashState(turnFlashOn)
-    }
+    fun updateFlashState(turnFlashOn: Boolean) = camera.updateFlashState(turnFlashOn)
+
+    fun focusOnTouch(touchPoint: PointF, touchAreaSize: SizeF) = camera.setManualFocus(touchPoint, touchAreaSize)
+
+    fun setAutoFocus() = camera.setAutoFocus()
 
     private fun startRendering(surface: SurfaceTexture, width: Int, height: Int) {
         Timber.tag("CAMERA_RENDERER").d("Rendering started")

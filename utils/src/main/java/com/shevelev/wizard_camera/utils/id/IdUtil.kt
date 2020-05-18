@@ -1,9 +1,8 @@
 package io.golos.utils.id
 
-import com.shevelev.wizard_camera.shared.id.MurmurHash
+import com.shevelev.wizard_camera.utils.id.MurmurHash
 import java.nio.ByteBuffer
 import java.util.*
-import kotlin.math.absoluteValue
 
 object IdUtil {
 
