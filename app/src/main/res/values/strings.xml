@@ -4,40 +4,43 @@
     <string name="captureMenuText">Capture</string>
 
     <string name="filterOriginal">Original</string>
-    <string name="filterEdgeDectection">EdgeDectection</string>
+    <string name="filterEdgeDectection">Edges dectection</string>
     <string name="filterPixelize">Pixelize</string>
-    <string name="filterEMInterference">EMInterference</string>
-    <string name="filterTrianglesMosaic">TrianglesMosaic</string>
+    <string name="filterEMInterference">EM Interference</string>
+    <string name="filterTrianglesMosaic">Triangles mosaic</string>
     <string name="filterLegofied">Legofied</string>
-    <string name="filterTileMosaic">TileMosaic</string>
-    <string name="filterBlueorange">Blueorange</string>
-    <string name="filterChromaticAberration">ChromaticAberration</string>
-    <string name="filterBasicDeform">BasicDeform</string>
+    <string name="filterTileMosaic">Tile mosaic</string>
+    <string name="filterBlueorange">Blue and Orange</string>
+    <string name="filterChromaticAberration">Chromatic aberration</string>
+    <string name="filterBasicDeform">Basic deform</string>
     <string name="filterContrast">Contrast</string>
-    <string name="filterNoiseWarp">NoiseWarp</string>
+    <string name="filterNoiseWarp">Noise warp</string>
     <string name="filterRefraction">Refraction</string>
     <string name="filterMapping">Mapping</string>
     <string name="filterCrosshatch">Crosshatch</string>
-    <string name="filterLichtensteinEsque">LichtensteinEsque</string>
-    <string name="filterAsciiArt">AsciiArt</string>
-    <string name="filterMoney">MoneyFilter</string>
+    <string name="filterLichtensteinEsque">Lichtenstein esque</string>
+    <string name="filterAsciiArt">Ascii art</string>
+    <string name="filterMoney">Money filter</string>
     <string name="filterCracked">Cracked</string>
     <string name="filterPolygonization">Polygonization</string>
-    <string name="filterBlackAndWhite">BlackAndWhite</string>
+    <string name="filterBlackAndWhite">Black and White</string>
     <string name="filterGray">Gray</string>
     <string name="filterNegative">Negative</string>
     <string name="filterNostalgia">Nostalgia</string>
     <string name="filterCasting">Casting</string>
     <string name="filterRelief">Relief</string>
     <string name="filterSwirl">Swirl</string>
-    <string name="filterHexagonMosaic">HexagonMosaic</string>
+    <string name="filterHexagonMosaic">Hexagon mosaic</string>
     <string name="filterMirror">Mirror</string>
     <string name="filterTriple">Triple</string>
     <string name="filterCartoon">Cartoon</string>
-    <string name="filterWaterReflection">WaterReflection</string>
+    <string name="filterWaterReflection">Water reflection</string>
 
     <string name="needCameraPermissionExit">You need to grant Camera permission  to use this application</string>
     <string name="photoSaved">A photo has been saved</string>
+
+    <string name="focusAuto">Focus mode: Auto</string>
+    <string name="focusManual">Focus mode: Manual</string>
 
     <string name="generalError">Unfortunately, an error was encountered during the operation.</string>
     <string name="capturingInProgressError">Capturing in progress, wait, please.</string>

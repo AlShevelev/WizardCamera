@@ -1,14 +1,10 @@
 package com.shevelev.wizard_camera.main_activity.view
 
 import android.Manifest
-import android.animation.ValueAnimator
 import android.annotation.SuppressLint
-import android.graphics.PointF
 import android.os.Bundle
-import android.util.SizeF
 import android.view.TextureView
 import android.widget.Toast
-import androidx.annotation.StringRes
 import androidx.lifecycle.Observer
 import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.application.App
@@ -19,7 +15,6 @@ import com.shevelev.wizard_camera.main_activity.dto.*
 import com.shevelev.wizard_camera.main_activity.view.gestures.Gesture
 import com.shevelev.wizard_camera.main_activity.view.gestures.GesturesDetector
 import com.shevelev.wizard_camera.main_activity.view_model.MainActivityViewModel
-import com.shevelev.wizard_camera.shared.animation.AnimationUtils
 import com.shevelev.wizard_camera.shared.mvvm.view.ActivityBaseMVVM
 import com.shevelev.wizard_camera.shared.mvvm.view_commands.ViewCommand
 import com.shevelev.wizard_camera.shared.ui_utils.hideSystemUI
@@ -35,8 +30,6 @@ class MainActivity : ActivityBaseMVVM<ActivityMainBinding, MainActivityViewModel
     private var textureView: TextureView? = null
 
     private lateinit var gestureDetector: GesturesDetector
-
-    private var titleAnimator: ValueAnimator? = null
 
     override fun provideViewModelType(): Class<MainActivityViewModel> = MainActivityViewModel::class.java
 
@@ -55,11 +48,9 @@ class MainActivity : ActivityBaseMVVM<ActivityMainBinding, MainActivityViewModel
 
         gestureDetector = GesturesDetector(this).apply { setOnGestureListener { processGesture(it) } }
 
-        shootButton.setOnClickListener { textureView?.let { viewModel.onShootClick(it) } }
-
         viewModel.selectedFilter.observe(this, Observer { renderer?.setSelectedFilter(it) })
-        viewModel.selectedFilterTitle.observe(this, Observer { updateTitle(it) })
 
+        shootButton.setOnClickListener { textureView?.let { viewModel.onShootClick(it) } }
         flashButton.setOnClickListener { viewModel.onFlashClick() }
         turnFiltersButton.setOnClickListener { viewModel.onTurnFiltersClick() }
         autoFocusButton.setOnClickListener { viewModel.onAutoFocusClick() }
@@ -133,20 +124,4 @@ class MainActivity : ActivityBaseMVVM<ActivityMainBinding, MainActivityViewModel
     }
 
     private fun processGesture(gesture: Gesture) = viewModel.processGesture(gesture)
-
-    private fun updateTitle(@StringRes titleResId: Int) {
-        titleAnimator?.cancel()
-
-        filterTitle.setText(titleResId)
-        filterTitle.alpha = 1f
-
-        titleAnimator = AnimationUtils.getFloatAnimator(
-            duration = 500,
-            forward = false,
-            updateListener = { alpha -> filterTitle.alpha = alpha }
-        ).apply {
-            startDelay = 2000L
-            start()
-        }
-    }
 }

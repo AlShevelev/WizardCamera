@@ -27,8 +27,8 @@ constructor(
     private val _selectedFilter = MutableLiveData(model.filters.selectedFilter)
     val selectedFilter: LiveData<FilterCode> = _selectedFilter
 
-    private val _selectedFilterTitle = MutableLiveData(model.filters.selectedFilterTitle)
-    val selectedFilterTitle: LiveData<Int> = _selectedFilterTitle
+    private val _screenTitle = MutableLiveData(model.filters.selectedFilterTitle)
+    val screenTitle: LiveData<Int> = _screenTitle
 
     private val _isFlashButtonState = MutableLiveData(ButtonState.DISABLED)
     val isFlashButtonState: LiveData<ButtonState> = _isFlashButtonState
@@ -102,30 +102,36 @@ constructor(
     fun onTurnFiltersClick() {
         model.filters.switchMode()
         _selectedFilter.value = model.filters.selectedFilter
-        _selectedFilterTitle.value = model.filters.selectedFilterTitle
+        _screenTitle.value = model.filters.selectedFilterTitle
         _turnFiltersButtonState.value = if(model.filters.isFilterTurnedOn)  ButtonState.SELECTED else ButtonState.ACTIVE
     }
 
     fun onAutoFocusClick() {
         isAutoFocus = true
         _autoFocusButtonVisibility.value = View.INVISIBLE
+        _screenTitle.value = R.string.focusAuto
         _command.value = AutoFocusCommand()
     }
 
     private fun selectNextFilter() {
         model.filters.selectNextFilter()
         _selectedFilter.value = model.filters.selectedFilter
-        _selectedFilterTitle.value = model.filters.selectedFilterTitle
+        _screenTitle.value = model.filters.selectedFilterTitle
     }
 
     private fun selectPriorFilter() {
         model.filters.selectPriorFilter()
         _selectedFilter.value = model.filters.selectedFilter
-        _selectedFilterTitle.value = model.filters.selectedFilterTitle
+        _screenTitle.value = model.filters.selectedFilterTitle
     }
 
     private fun selectManualFocus(touchPoint: PointF, touchAreaSize: SizeF) {
         _command.value = FocusOnTouchCommand(touchPoint, touchAreaSize)
+
+        if(isAutoFocus) {
+            _screenTitle.value = R.string.focusManual
+        }
+
         isAutoFocus = false
         _autoFocusButtonVisibility.value = View.VISIBLE
     }

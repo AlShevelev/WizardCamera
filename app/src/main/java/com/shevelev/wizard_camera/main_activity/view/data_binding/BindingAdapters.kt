@@ -4,6 +4,7 @@ import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LiveData
 import com.shevelev.wizard_camera.main_activity.dto.ButtonState
+import com.shevelev.wizard_camera.main_activity.view.widgets.TitleWidget
 
 @BindingAdapter("button_state")
 fun setImageViewIsSelected(view: ImageView, valueToBind: LiveData<ButtonState>?) =
@@ -22,4 +23,10 @@ fun setImageViewIsSelected(view: ImageView, valueToBind: LiveData<ButtonState>?)
                 view.isEnabled = true
             }
         }
+    }
+
+@BindingAdapter("title_text")
+fun setTitleText(view: TitleWidget, valueToBind: LiveData<Int>?) =
+    valueToBind?.value?.let {
+        view.show(it)
     }
