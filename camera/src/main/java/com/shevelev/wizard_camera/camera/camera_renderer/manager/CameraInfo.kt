@@ -5,5 +5,6 @@ import android.graphics.Rect
 data class CameraInfo(
     val id: String,
     val isMeteringAreaAFSupported: Boolean,
-    val sensorArraySize: Rect
+    val sensorArraySize: Rect,
+    val maxZoom: Float
 )

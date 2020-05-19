@@ -26,7 +26,7 @@ fun setImageViewIsSelected(view: ImageView, valueToBind: LiveData<ButtonState>?)
     }
 
 @BindingAdapter("title_text")
-fun setTitleText(view: TitleWidget, valueToBind: LiveData<Int>?) =
+fun setTitleText(view: TitleWidget, valueToBind: LiveData<String>?) =
     valueToBind?.value?.let {
         view.show(it)
     }

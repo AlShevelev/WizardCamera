@@ -13,3 +13,5 @@ data class ShowCapturingSuccessCommand(val screenOrientation: ScreenOrientation)
 
 data class FocusOnTouchCommand(val touchPoint: PointF, val touchAreaSize: SizeF): ViewCommand
 class AutoFocusCommand : ViewCommand
+
+data class ZoomCommand(val touchDistance: Float): ViewCommand

@@ -3,7 +3,6 @@ package com.shevelev.wizard_camera.main_activity.view.widgets
 import android.animation.ValueAnimator
 import android.content.Context
 import android.util.AttributeSet
-import androidx.annotation.StringRes
 import androidx.appcompat.widget.AppCompatTextView
 import com.shevelev.wizard_camera.shared.animation.AnimationUtils
 
@@ -17,10 +16,10 @@ constructor(
 
     private var animator: ValueAnimator? = null
 
-    fun show(@StringRes titleResId: Int) {
+    fun show(titleText: String) {
         animator?.cancel()
 
-        setText(titleResId)
+        text = titleText
         alpha = 1f
 
         animator = AnimationUtils.getFloatAnimator(

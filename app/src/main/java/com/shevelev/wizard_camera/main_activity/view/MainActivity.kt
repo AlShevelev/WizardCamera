@@ -86,6 +86,7 @@ class MainActivity : ActivityBaseMVVM<ActivityMainBinding, MainActivityViewModel
             is ShowCapturingSuccessCommand -> captureSuccess.show(command.screenOrientation)
             is FocusOnTouchCommand -> renderer!!.focusOnTouch(command.touchPoint, command.touchAreaSize)
             is AutoFocusCommand -> renderer!!.setAutoFocus()
+            is ZoomCommand -> renderer!!.zoom(command.touchDistance).let { viewModel.onZoomUpdated(it) }
         }
     }
 

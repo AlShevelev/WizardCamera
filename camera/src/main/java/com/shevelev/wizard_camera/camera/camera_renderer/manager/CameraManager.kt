@@ -9,10 +9,13 @@ import android.hardware.camera2.*
 import android.hardware.camera2.CameraManager
 import android.hardware.camera2.params.MeteringRectangle
 import android.os.Handler
+import android.util.Range
 import android.util.Size
 import android.util.SizeF
 import android.view.Surface
+import com.shevelev.wizard_camera.utils.useful_ext.fitInRange
 import com.shevelev.wizard_camera.utils.useful_ext.ifNotNull
+import com.shevelev.wizard_camera.utils.useful_ext.reduceToRange
 import timber.log.Timber
 
 class CameraManager(context: Context) {
@@ -32,6 +35,11 @@ class CameraManager(context: Context) {
     private var cameraInfo: CameraInfo? = null
 
     private var manualFocusEngaged = false
+
+    private var priorZoomTouchDistance = 0f
+    private val zoomSensitivity = 0.65f
+    private val  minZoom = 1f
+    private var zoomLevel = minZoom
 
     /**
      * [openCameraResult] The argument it true in case of success
@@ -74,6 +82,14 @@ class CameraManager(context: Context) {
     fun close() {
         cameraSession?.close()
         cameraDevice?.close()
+
+        cameraSession = null
+        cameraDevice = null
+        requestBuilder = null
+        cameraInfo = null
+
+        priorZoomTouchDistance = 0f
+        zoomLevel = minZoom
     }
 
     /**
@@ -229,15 +245,45 @@ class CameraManager(context: Context) {
         manualFocusEngaged = true
     }
 
+    fun zoom(touchDistance: Float): Float {
+        val maxZoom = cameraInfo!!.maxZoom * 10
+        val sensorArraySize = cameraInfo!!.sensorArraySize
+
+        if(touchDistance > 0f) {
+            when{
+                touchDistance > priorZoomTouchDistance && maxZoom > zoomLevel -> zoomLevel+=zoomSensitivity
+                touchDistance < priorZoomTouchDistance && zoomLevel > 1 -> zoomLevel-=zoomSensitivity
+            }
+
+            zoomLevel = zoomLevel.fitInRange(Range(minZoom, maxZoom))
+
+            val minW = (sensorArraySize.width() / maxZoom).toInt()
+            val minH = (sensorArraySize.height() / maxZoom).toInt()
+            val difW = sensorArraySize.width() - minW
+            val difH = sensorArraySize.height() - minH
+            val cropW = (difW / 100 * zoomLevel).toInt()
+            val cropH = (difH / 100 * zoomLevel).toInt()
+            val zoom = Rect(cropW, cropH, sensorArraySize.width() - cropW, sensorArraySize.height() - cropH)
+            requestBuilder!!.set(CaptureRequest.SCALER_CROP_REGION, zoom)
+        }
+        priorZoomTouchDistance = touchDistance
+
+        cameraSession!!.setRepeatingRequest(requestBuilder!!.build(), null, null)
+
+        return zoomLevel.reduceToRange(Range(minZoom, maxZoom), Range(minZoom, maxZoom / 10))
+    }
+
     private fun getBackCameraInfo(): CameraInfo? {
         val cameraIds = cameraService.cameraIdList
 
         cameraIds.forEach { cameraId ->
             val cameraCharacteristics = cameraService.getCameraCharacteristics(cameraId)
             if(cameraCharacteristics[CameraCharacteristics.LENS_FACING] == CameraCharacteristics.LENS_FACING_BACK) {
-                val isMeteringAreaAFSupported = (cameraCharacteristics[CameraCharacteristics.CONTROL_MAX_REGIONS_AF] as Int) >= 1
-                val sensorArraySize = cameraCharacteristics[CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE] as Rect
-                return CameraInfo(cameraId, isMeteringAreaAFSupported, sensorArraySize)
+                return CameraInfo(
+                    id = cameraId,
+                    isMeteringAreaAFSupported = (cameraCharacteristics[CameraCharacteristics.CONTROL_MAX_REGIONS_AF] as Int) >= 1,
+                    sensorArraySize = cameraCharacteristics[CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE] as Rect,
+                    maxZoom = cameraCharacteristics[CameraCharacteristics.SCALER_AVAILABLE_MAX_DIGITAL_ZOOM] as Float)
             }
         }
 

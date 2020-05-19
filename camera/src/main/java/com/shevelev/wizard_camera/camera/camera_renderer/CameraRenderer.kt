@@ -163,6 +163,8 @@ class CameraRenderer(
 
     fun setAutoFocus() = camera.setAutoFocus()
 
+    fun zoom(touchDistance: Float): Float = camera.zoom(touchDistance)
+
     private fun startRendering(surface: SurfaceTexture, width: Int, height: Int) {
         Timber.tag("CAMERA_RENDERER").d("Rendering started")
 

@@ -5,20 +5,27 @@ import android.graphics.PointF
 import android.util.SizeF
 import android.view.GestureDetector
 import android.view.MotionEvent
+import android.view.ScaleGestureDetector
 import android.view.View
 import kotlin.math.abs
 
-class GesturesDetector(context: Context) : GestureDetector.OnGestureListener {
+class GesturesDetector(context: Context) : GestureDetector.OnGestureListener, ScaleGestureDetector.SimpleOnScaleGestureListener() {
     private val gestureDetector = GestureDetector(context, this)
+    private val scaleDetector = ScaleGestureDetector(context, this)
 
     private var onGestureListener: ((Gesture) -> Unit)? = null
 
     private lateinit var viewSize: SizeF
 
+    override fun onScale(detector: ScaleGestureDetector): Boolean {
+        onGestureListener?.invoke(Pinch(detector.currentSpan))
+        return true
+    }
+
     override fun onShowPress(e: MotionEvent?) { /*do nothing*/ }
 
     override fun onSingleTapUp(e: MotionEvent): Boolean {
-        onGestureListener?.invoke(Gesture.Tap(PointF(e.x, e.y), viewSize))
+        onGestureListener?.invoke(Tap(PointF(e.x, e.y), viewSize))
         return true
     }
 
@@ -29,7 +36,7 @@ class GesturesDetector(context: Context) : GestureDetector.OnGestureListener {
             return true
         }
 
-        onGestureListener?.invoke(if(velocityX > 0) Gesture.FlingLeft else Gesture.FlingRight )
+        onGestureListener?.invoke(if(velocityX > 0) FlingLeft else FlingRight )
         return true
     }
 
@@ -44,5 +51,6 @@ class GesturesDetector(context: Context) : GestureDetector.OnGestureListener {
     fun onTouchEvent(view: View, ev: MotionEvent) {
         viewSize = SizeF(view.width.toFloat(), view.height.toFloat())
         gestureDetector.onTouchEvent(ev)
+        scaleDetector.onTouchEvent(ev)
     }
 }

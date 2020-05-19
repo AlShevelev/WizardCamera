@@ -42,6 +42,8 @@
     <string name="focusAuto">Focus mode: Auto</string>
     <string name="focusManual">Focus mode: Manual</string>
 
+    <string name="zoomFactor">Zoom: </string>/
+
     <string name="generalError">Unfortunately, an error was encountered during the operation.</string>
     <string name="capturingInProgressError">Capturing in progress, wait, please.</string>
 </resources>
