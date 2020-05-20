@@ -16,7 +16,7 @@ import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.utils.useful_ext.fitInRange
 import com.shevelev.wizard_camera.utils.useful_ext.reduceToRange
 
-class ExpositionBar
+class ExposureBar
 @JvmOverloads
 constructor(
     context: Context,
@@ -61,21 +61,21 @@ constructor(
     private var oldOutputValue = Float.MIN_VALUE
 
     init {
-        val typedArray = context.obtainStyledAttributes(attrs, R.styleable.ExpositionBar)
+        val typedArray = context.obtainStyledAttributes(attrs, R.styleable.ExposureBar)
 
-        icon =  typedArray.getDrawable(R.styleable.ExpositionBar_button_icon) as VectorDrawable
-        val iconSize = typedArray.getDimensionPixelSize(R.styleable.ExpositionBar_button_icon_size, 0)
+        icon =  typedArray.getDrawable(R.styleable.ExposureBar_button_icon) as VectorDrawable
+        val iconSize = typedArray.getDimensionPixelSize(R.styleable.ExposureBar_button_icon_size, 0)
         icon.setBounds(0, 0, iconSize, iconSize)
 
-        strokeWidth = typedArray.getDimensionPixelSize(R.styleable.ExpositionBar_stroke_width, 0).toFloat()
+        strokeWidth = typedArray.getDimensionPixelSize(R.styleable.ExposureBar_stroke_width, 0).toFloat()
         drawingPaint.strokeWidth = strokeWidth
 
-        strokeColor = typedArray.getColor(R.styleable.ExpositionBar_stroke_color, Color.WHITE)
-        buttonFillColor = typedArray.getColor(R.styleable.ExpositionBar_button_color, Color.BLACK)
-        buttonFillColorPressed = typedArray.getColor(R.styleable.ExpositionBar_button_color_pressed, Color.BLUE)
+        strokeColor = typedArray.getColor(R.styleable.ExposureBar_stroke_color, Color.WHITE)
+        buttonFillColor = typedArray.getColor(R.styleable.ExposureBar_button_color, Color.BLACK)
+        buttonFillColorPressed = typedArray.getColor(R.styleable.ExposureBar_button_color_pressed, Color.BLUE)
 
-        val minValue = typedArray.getFloat(R.styleable.ExpositionBar_min_value, 0f)
-        val maxValue = typedArray.getFloat(R.styleable.ExpositionBar_max_value, 0f)
+        val minValue = typedArray.getFloat(R.styleable.ExposureBar_min_value, 0f)
+        val maxValue = typedArray.getFloat(R.styleable.ExposureBar_max_value, 0f)
         valuesRange = Range(minValue, maxValue)
 
         typedArray.recycle()
@@ -88,7 +88,6 @@ constructor(
         drawingRect.bottom = height.toFloat()
 
         buttonCenterY = drawingRect.centerY()
-
         recalculateDrawingValues()
     }
 
@@ -149,6 +148,12 @@ constructor(
 
     fun setOnValueChangeListener(listener: ((Float) -> Unit)?) {
         onValueChangeListener = listener
+    }
+
+    fun reset() {
+        buttonCenterY = drawingRect.centerY()
+        recalculateDrawingValues()
+        invalidate()
     }
     
     private fun recalculateDrawingValues() {

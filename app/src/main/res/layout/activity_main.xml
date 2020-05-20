@@ -82,10 +82,10 @@
                 android:src="@drawable/ic_settings"
                 tools:ignore="ContentDescription" />
 
-        <com.shevelev.wizard_camera.main_activity.view.widgets.ExpositionBar
+        <com.shevelev.wizard_camera.main_activity.view.widgets.ExposureBar
             android:id="@+id/expositionBar"
             android:layout_width="@dimen/mainButtonSize"
-            android:layout_height="300dp"
+            android:layout_height="350dp"
             android:layout_gravity="end|center_vertical"
 
             android:layout_marginEnd="@dimen/marginNormal"
@@ -97,8 +97,8 @@
             app:stroke_color = "@color/mainButtonsForeground"
             app:button_color = "@color/mainButtonsBackground"
             app:button_color_pressed = "@color/mainButtonsBackgroundPressed"
-            app:min_value="-100"
-            app:max_value="100"
+            app:min_value="-1"
+            app:max_value="1"
         />
 
         <LinearLayout

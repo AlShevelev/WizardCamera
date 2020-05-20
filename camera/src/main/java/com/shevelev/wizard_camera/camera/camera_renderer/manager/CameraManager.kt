@@ -10,6 +10,7 @@ import android.hardware.camera2.CameraManager
 import android.hardware.camera2.params.MeteringRectangle
 import android.os.Handler
 import android.util.Range
+import android.util.Rational
 import android.util.Size
 import android.util.SizeF
 import android.view.Surface
@@ -40,6 +41,8 @@ class CameraManager(context: Context) {
     private val zoomSensitivity = 0.65f
     private val  minZoom = 1f
     private var zoomLevel = minZoom
+
+    private var priorCompensationExposureValue = Int.MIN_VALUE
 
     /**
      * [openCameraResult] The argument it true in case of success
@@ -90,6 +93,7 @@ class CameraManager(context: Context) {
 
         priorZoomTouchDistance = 0f
         zoomLevel = minZoom
+        priorCompensationExposureValue = Int.MIN_VALUE
     }
 
     /**
@@ -273,6 +277,29 @@ class CameraManager(context: Context) {
         return zoomLevel.reduceToRange(Range(minZoom, maxZoom), Range(minZoom, maxZoom / 10))
     }
 
+    fun updateExposure(exposureValue: Float) {
+        if(exposureValue == 0f) {
+            return
+        }
+
+        val narrowingFactor = 0.25f     // To decrease exposure range and  make it more sensitive
+
+        ifNotNull(cameraInfo, requestBuilder, cameraSession) { cameraInfo, requestBuilder, cameraSession ->
+            val floatExposureStep = cameraInfo.exposureStep.denominator.toFloat() / cameraInfo.exposureStep.numerator
+            val floatExposureRange = Range(
+                cameraInfo.exposureRange.lower * narrowingFactor * floatExposureStep,
+                cameraInfo.exposureRange.upper * narrowingFactor * floatExposureStep)
+
+            val compensationValue = exposureValue.reduceToRange(Range(-1f, 1f), floatExposureRange).toInt()
+
+            if(compensationValue != priorCompensationExposureValue) {
+                priorCompensationExposureValue = compensationValue
+                requestBuilder.set(CaptureRequest.CONTROL_AE_EXPOSURE_COMPENSATION, compensationValue)
+                cameraSession.setRepeatingRequest(requestBuilder.build(), null, null)
+            }
+        }
+    }
+
     private fun getBackCameraInfo(): CameraInfo? {
         val cameraIds = cameraService.cameraIdList
 
@@ -283,7 +310,10 @@ class CameraManager(context: Context) {
                     id = cameraId,
                     isMeteringAreaAFSupported = (cameraCharacteristics[CameraCharacteristics.CONTROL_MAX_REGIONS_AF] as Int) >= 1,
                     sensorArraySize = cameraCharacteristics[CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE] as Rect,
-                    maxZoom = cameraCharacteristics[CameraCharacteristics.SCALER_AVAILABLE_MAX_DIGITAL_ZOOM] as Float)
+                    maxZoom = cameraCharacteristics[CameraCharacteristics.SCALER_AVAILABLE_MAX_DIGITAL_ZOOM] as Float,
+                    exposureRange = cameraCharacteristics[CameraCharacteristics.CONTROL_AE_COMPENSATION_RANGE] as Range<Int>,
+                    exposureStep = cameraCharacteristics[CameraCharacteristics.CONTROL_AE_COMPENSATION_STEP] as Rational
+                )
             }
         }
 

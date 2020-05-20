@@ -15,3 +15,6 @@ data class FocusOnTouchCommand(val touchPoint: PointF, val touchAreaSize: SizeF)
 class AutoFocusCommand : ViewCommand
 
 data class ZoomCommand(val touchDistance: Float): ViewCommand
+
+class ResetExposureCommand: ViewCommand
+data class SetExposureCommand(val exposureValue: Float): ViewCommand

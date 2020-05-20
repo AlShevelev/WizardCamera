@@ -89,6 +89,7 @@ constructor(
 
         isAutoFocus = true
         _autoFocusButtonVisibility.value = View.INVISIBLE
+        _command.value = ResetExposureCommand()
         _command.value = ReleaseCameraCommand()
     }
 
@@ -119,6 +120,10 @@ constructor(
 
     fun onZoomUpdated(zoomValue: Float) {
         _screenTitle.value = "${appContext.getString(R.string.zoomFactor)} ${zoomValue.format("#.00")}"
+    }
+
+    fun onExposeValueUpdated(exposeValue: Float) {
+        _command.value = SetExposureCommand(-exposeValue)
     }
 
     private fun selectNextFilter() {

@@ -165,6 +165,8 @@ class CameraRenderer(
 
     fun zoom(touchDistance: Float): Float = camera.zoom(touchDistance)
 
+    fun updateExposure(exposureValue: Float) = camera.updateExposure(exposureValue)
+
     private fun startRendering(surface: SurfaceTexture, width: Int, height: Int) {
         Timber.tag("CAMERA_RENDERER").d("Rendering started")
 

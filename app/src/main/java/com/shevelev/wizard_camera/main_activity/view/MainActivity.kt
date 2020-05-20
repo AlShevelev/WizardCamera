@@ -55,7 +55,7 @@ class MainActivity : ActivityBaseMVVM<ActivityMainBinding, MainActivityViewModel
         flashButton.setOnClickListener { viewModel.onFlashClick() }
         turnFiltersButton.setOnClickListener { viewModel.onTurnFiltersClick() }
         autoFocusButton.setOnClickListener { viewModel.onAutoFocusClick() }
-        expositionBar.setOnValueChangeListener { Timber.tag("EXPOSITION").d("value: $it") }
+        expositionBar.setOnValueChangeListener { viewModel.onExposeValueUpdated(it) }
     }
 
     override fun onResume() {
@@ -89,6 +89,8 @@ class MainActivity : ActivityBaseMVVM<ActivityMainBinding, MainActivityViewModel
             is FocusOnTouchCommand -> renderer!!.focusOnTouch(command.touchPoint, command.touchAreaSize)
             is AutoFocusCommand -> renderer!!.setAutoFocus()
             is ZoomCommand -> renderer!!.zoom(command.touchDistance).let { viewModel.onZoomUpdated(it) }
+            is ResetExposureCommand -> expositionBar.reset()
+            is SetExposureCommand -> renderer!!.updateExposure(command.exposureValue)
         }
     }
 
