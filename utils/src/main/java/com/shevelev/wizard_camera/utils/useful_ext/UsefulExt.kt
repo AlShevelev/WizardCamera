@@ -5,3 +5,5 @@ inline fun <A, B>ifNotNull(a: A?, b: B?, action: (A, B) -> Unit) {
         action(a, b)
     }
 }
+
+fun <T>T.at(vararg args: T): Boolean = args.contains(this)

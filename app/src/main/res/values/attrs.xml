@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ExpositionBar">
+        <attr name="button_icon" format="reference" />
+        <attr name="button_icon_size" format="dimension" />
+
+        <attr name="stroke_width" format="dimension" />
+
+        <attr name="stroke_color" format="color" />
+        <attr name="button_color" format="color" />
+        <attr name="button_color_pressed" format="color" />
+
+        <attr name="min_value" format="float" />
+        <attr name="max_value" format="float" />
+    </declare-styleable>
+</resources>

@@ -1,6 +1,7 @@
 <resources>
     <dimen name="textSizeNormal">18sp</dimen>
 
+    <dimen name="toolButtonIconSize">18dp</dimen>
     <dimen name="toolButtonSizeNormal">50dp</dimen>
     <dimen name="toolButtonSizeLarge">60dp</dimen>
 

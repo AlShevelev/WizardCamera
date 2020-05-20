@@ -22,6 +22,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import permissions.dispatcher.NeedsPermission
 import permissions.dispatcher.OnPermissionDenied
 import permissions.dispatcher.RuntimePermissions
+import timber.log.Timber
 import kotlin.system.exitProcess
 
 @RuntimePermissions
@@ -54,6 +55,7 @@ class MainActivity : ActivityBaseMVVM<ActivityMainBinding, MainActivityViewModel
         flashButton.setOnClickListener { viewModel.onFlashClick() }
         turnFiltersButton.setOnClickListener { viewModel.onTurnFiltersClick() }
         autoFocusButton.setOnClickListener { viewModel.onAutoFocusClick() }
+        expositionBar.setOnValueChangeListener { Timber.tag("EXPOSITION").d("value: $it") }
     }
 
     override fun onResume() {
