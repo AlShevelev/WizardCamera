@@ -5,7 +5,7 @@ import com.shevelev.wizard_camera.application.di.AppComponent
 import com.shevelev.wizard_camera.application.di.AppModule
 import com.shevelev.wizard_camera.application.di.DaggerAppComponent
 import com.shevelev.wizard_camera.main_activity.di.MainActivityComponent
-import io.golos.utils.id.IdUtil
+import com.shevelev.wizard_camera.utils.id.IdUtil
 import kotlin.reflect.KClass
 
 /** Storage for Dagger components on application level  */

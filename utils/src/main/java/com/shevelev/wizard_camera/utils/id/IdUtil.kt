@@ -1,13 +1,15 @@
-package io.golos.utils.id
+package com.shevelev.wizard_camera.utils.id
 
-import com.shevelev.wizard_camera.utils.id.MurmurHash
 import java.nio.ByteBuffer
 import java.util.*
 
 object IdUtil {
 
     /** */
-    fun generateStringId(): String = UUID.randomUUID().toString()
+    fun generateStringId(): String {
+        val toString = UUID.randomUUID().toString()
+        return toString
+    }
 
     /** */
     fun generateLongId(): Long {

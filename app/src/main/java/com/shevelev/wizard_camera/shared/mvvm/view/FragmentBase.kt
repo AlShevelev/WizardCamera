@@ -3,7 +3,7 @@ package com.shevelev.wizard_camera.shared.mvvm.view
 import android.os.Bundle
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
-import io.golos.utils.id.IdUtil
+import com.shevelev.wizard_camera.utils.id.IdUtil
 
 abstract class FragmentBase: Fragment() {
     companion object {

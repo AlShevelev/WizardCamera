@@ -16,6 +16,7 @@ buildscript {
         core_ktx_version = "1.2.0"
         appcompat_version = "1.1.0"
         lifecycle_version = "2.2.0"
+        room_version = "2.2.5"
 
         gradle_version = "3.6.3"
 
@@ -25,6 +26,7 @@ buildscript {
         timber_version = "4.7.1"
         permissionsdispatcher_version = "4.6.0"
         dagger_version = "2.19"
+        three_ten_abp_version = "1.2.4"
     }
 
     dependencies {

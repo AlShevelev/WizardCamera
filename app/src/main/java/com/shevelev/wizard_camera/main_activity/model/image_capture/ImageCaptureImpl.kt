@@ -9,7 +9,7 @@ import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.camera.filter.FilterCode
 import com.shevelev.wizard_camera.main_activity.dto.ScreenOrientation
 import com.shevelev.wizard_camera.shared.coroutines.DispatchersProvider
-import io.golos.utils.id.IdUtil
+import com.shevelev.wizard_camera.utils.id.IdUtil
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.io.*

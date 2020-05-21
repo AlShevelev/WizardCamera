@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion target_sdk_version
@@ -11,6 +12,9 @@ android {
         targetSdkVersion target_sdk_version
         versionCode app_version_code
         versionName "$app_version_name"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles 'consumer-rules.pro'
     }
 
     buildTypes {
@@ -23,8 +27,6 @@ android {
 }
 
 dependencies {
-    implementation project(":common_entities")
-
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "androidx.appcompat:appcompat:$appcompat_version"
@@ -33,4 +35,7 @@ dependencies {
     implementation "com.jakewharton.timber:timber:$timber_version"
 
     implementation "com.jakewharton.threetenabp:threetenabp:$three_ten_abp_version"
+
+    implementation "androidx.room:room-runtime:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
 }

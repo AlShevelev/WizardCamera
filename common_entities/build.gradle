@@ -11,6 +11,9 @@ android {
         targetSdkVersion target_sdk_version
         versionCode app_version_code
         versionName "$app_version_name"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles 'consumer-rules.pro'
     }
 
     buildTypes {
@@ -23,9 +26,6 @@ android {
 }
 
 dependencies {
-    implementation project(":common_entities")
-
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "androidx.appcompat:appcompat:$appcompat_version"
     implementation "androidx.core:core-ktx:$core_ktx_version"

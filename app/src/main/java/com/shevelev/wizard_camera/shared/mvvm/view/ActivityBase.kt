@@ -3,7 +3,7 @@ package com.shevelev.wizard_camera.shared.mvvm.view
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import io.golos.utils.id.IdUtil
+import com.shevelev.wizard_camera.utils.id.IdUtil
 
 abstract class ActivityBase : AppCompatActivity() {
     companion object {

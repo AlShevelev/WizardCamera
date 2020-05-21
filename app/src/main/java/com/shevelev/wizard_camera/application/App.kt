@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Application
 import com.shevelev.wizard_camera.application.di.AppComponent
 import com.shevelev.wizard_camera.application.di_storage.DependencyInjectionStorage
-import io.golos.utils.id.IdUtil
+import com.shevelev.wizard_camera.utils.id.IdUtil
 import timber.log.Timber
 import javax.inject.Inject
 

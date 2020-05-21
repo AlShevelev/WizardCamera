@@ -1,3 +1,5 @@
 include ':app'
 include ':camera'
 include ':utils'
+include ':storage'
+include ':common_entities'
