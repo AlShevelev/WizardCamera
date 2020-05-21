@@ -121,12 +121,14 @@ class CameraManager(context: Context) {
         var isSuccess = false
         val lock = Object()
 
+        var captureCompleted = false
         cameraDevice!!.createCaptureSession(listOf(surface), object: CameraCaptureSession.StateCallback() {
             override fun onConfigured(session: CameraCaptureSession) {
                 isSuccess = true
                 cameraSession = session
                 session.setRepeatingRequest(requestBuilder!!.build(), null, null)
                 synchronized(lock) {
+                    captureCompleted = true
                     lock.notify()
                 }
             }
@@ -135,13 +137,16 @@ class CameraManager(context: Context) {
                 isSuccess = false
                 session.close()
                 synchronized(lock) {
+                    captureCompleted = true
                     lock.notify()
                 }
             }
         }, callbackHandler)
 
         synchronized(lock) {
-            lock.wait()
+            if(!captureCompleted) {
+                lock.wait()
+            }
         }
 
         return isSuccess
