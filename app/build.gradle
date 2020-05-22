@@ -28,6 +28,8 @@ android {
 dependencies {
     implementation project(":camera")
     implementation project(":utils")
+    implementation project(":common_entities")
+    implementation project(":storage")
 
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "androidx.appcompat:appcompat:$appcompat_version"
@@ -44,6 +46,8 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlin_coroutines_version"
 
     implementation "com.jakewharton.timber:timber:$timber_version"
+
+    implementation "com.jakewharton.threetenabp:threetenabp:$three_ten_abp_version"
 
     implementation "org.permissionsdispatcher:permissionsdispatcher:$permissionsdispatcher_version"
     kapt "org.permissionsdispatcher:permissionsdispatcher-processor:$permissionsdispatcher_version"

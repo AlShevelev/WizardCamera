@@ -2,7 +2,7 @@ package com.shevelev.wizard_camera.camera
 
 import android.content.Context
 import com.shevelev.wizard_camera.camera.filter.CameraFilter
-import com.shevelev.wizard_camera.camera.filter.FilterCode
+import com.shevelev.wizard_camera.common_entities.enums.FilterCode
 import com.shevelev.wizard_camera.camera.filter.MappingCameraFilter
 import com.shevelev.wizard_camera.camera.filter.RefractionCameraFilter
 

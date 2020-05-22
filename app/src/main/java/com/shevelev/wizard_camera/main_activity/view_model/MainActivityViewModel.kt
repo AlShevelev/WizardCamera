@@ -8,7 +8,7 @@ import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.shevelev.wizard_camera.R
-import com.shevelev.wizard_camera.camera.filter.FilterCode
+import com.shevelev.wizard_camera.common_entities.enums.FilterCode
 import com.shevelev.wizard_camera.main_activity.dto.*
 import com.shevelev.wizard_camera.main_activity.model.MainActivityModel
 import com.shevelev.wizard_camera.main_activity.view.gestures.*

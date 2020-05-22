@@ -1,6 +1,6 @@
 package com.shevelev.wizard_camera.main_activity.model.filters_repository
 
-import com.shevelev.wizard_camera.camera.filter.FilterCode
+import com.shevelev.wizard_camera.common_entities.enums.FilterCode
 
 interface FiltersRepository {
     val selectedFilter: FilterCode

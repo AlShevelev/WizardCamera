@@ -15,7 +15,7 @@ import com.shevelev.wizard_camera.camera.R
 import com.shevelev.wizard_camera.camera.camera_renderer.manager.CameraManager
 import com.shevelev.wizard_camera.camera.camera_renderer.manager.CameraSettings
 import com.shevelev.wizard_camera.camera.filter.CameraFilter
-import com.shevelev.wizard_camera.camera.filter.FilterCode
+import com.shevelev.wizard_camera.common_entities.enums.FilterCode
 import com.shevelev.wizard_camera.camera.utils.TextureUtils
 import timber.log.Timber
 import java.io.IOException

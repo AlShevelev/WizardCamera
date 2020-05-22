@@ -6,11 +6,15 @@ import android.graphics.Matrix
 import android.media.MediaScannerConnection
 import android.view.TextureView
 import com.shevelev.wizard_camera.R
-import com.shevelev.wizard_camera.camera.filter.FilterCode
+import com.shevelev.wizard_camera.common_entities.entities.PhotoShot
+import com.shevelev.wizard_camera.common_entities.enums.FilterCode
 import com.shevelev.wizard_camera.main_activity.dto.ScreenOrientation
 import com.shevelev.wizard_camera.shared.coroutines.DispatchersProvider
+import com.shevelev.wizard_camera.storage.core.DbCoreRun
+import com.shevelev.wizard_camera.storage.mapping.map
 import com.shevelev.wizard_camera.utils.id.IdUtil
 import kotlinx.coroutines.withContext
+import org.threeten.bp.ZonedDateTime
 import timber.log.Timber
 import java.io.*
 import java.lang.Exception
@@ -22,7 +26,8 @@ class ImageCaptureImpl
 @Inject
 constructor(
     private val appContext: Context,
-    private val dispatchersProvider: DispatchersProvider
+    private val dispatchersProvider: DispatchersProvider,
+    private val db: DbCoreRun
 ) : ImageCapture {
 
     override var inProgress: Boolean = false
@@ -43,6 +48,8 @@ constructor(
                         compressBitmap(bitmap, outputStream)
                         outputStream.flush()
                     }
+
+                    saveToDb(outputFile.name, activeFilter)
                 }
             }
 
@@ -94,4 +101,9 @@ constructor(
             bitmap
         }
     }
+
+    private fun saveToDb(fileName: String, filter: FilterCode) =
+        db.run {
+            it.photoShot.insert(PhotoShot(IdUtil.generateLongId(), fileName, ZonedDateTime.now(), filter).map())
+        }
 }

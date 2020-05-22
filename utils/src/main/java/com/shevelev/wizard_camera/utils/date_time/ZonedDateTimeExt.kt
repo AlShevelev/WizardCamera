@@ -1,6 +1,6 @@
 package com.shevelev.wizard_camera.utils.date_time
 
-import com.shevelev.wizard_camera.common_entities.dto.ZonedDateTimeSplit
+import com.shevelev.wizard_camera.common_entities.date_time.ZonedDateTimeSplit
 import org.threeten.bp.Instant
 import org.threeten.bp.ZoneId
 import org.threeten.bp.ZonedDateTime

@@ -2,6 +2,7 @@ package com.shevelev.wizard_camera.application
 
 import android.annotation.SuppressLint
 import android.app.Application
+import com.jakewharton.threetenabp.AndroidThreeTen
 import com.shevelev.wizard_camera.application.di.AppComponent
 import com.shevelev.wizard_camera.application.di_storage.DependencyInjectionStorage
 import com.shevelev.wizard_camera.utils.id.IdUtil
@@ -20,6 +21,8 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
+
+        AndroidThreeTen.init(this)
 
         injections = DependencyInjectionStorage(this)
         injections.get<AppComponent>(IdUtil.generateStringId()).inject(this)

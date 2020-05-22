@@ -1,4 +1,4 @@
-package com.shevelev.wizard_camera.camera.filter
+package com.shevelev.wizard_camera.common_entities.enums
 
 enum class FilterCode {
     ORIGINAL,
