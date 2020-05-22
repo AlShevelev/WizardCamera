@@ -2,6 +2,7 @@ package com.shevelev.wizard_camera.main_activity.view
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.view.TextureView
 import android.widget.Toast
@@ -10,6 +11,7 @@ import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.application.App
 import com.shevelev.wizard_camera.camera.camera_renderer.CameraRenderer
 import com.shevelev.wizard_camera.databinding.ActivityMainBinding
+import com.shevelev.wizard_camera.gallery_activity.view.GalleryActivity
 import com.shevelev.wizard_camera.main_activity.di.MainActivityComponent
 import com.shevelev.wizard_camera.main_activity.dto.*
 import com.shevelev.wizard_camera.main_activity.view.gestures.Gesture
@@ -22,7 +24,6 @@ import kotlinx.android.synthetic.main.activity_main.*
 import permissions.dispatcher.NeedsPermission
 import permissions.dispatcher.OnPermissionDenied
 import permissions.dispatcher.RuntimePermissions
-import timber.log.Timber
 import kotlin.system.exitProcess
 
 @RuntimePermissions
@@ -56,6 +57,7 @@ class MainActivity : ActivityBaseMVVM<ActivityMainBinding, MainActivityViewModel
         turnFiltersButton.setOnClickListener { viewModel.onTurnFiltersClick() }
         autoFocusButton.setOnClickListener { viewModel.onAutoFocusClick() }
         expositionBar.setOnValueChangeListener { viewModel.onExposeValueUpdated(it) }
+        galleryButton.setOnClickListener { viewModel.onGalleyClick() }
     }
 
     override fun onResume() {
@@ -91,6 +93,7 @@ class MainActivity : ActivityBaseMVVM<ActivityMainBinding, MainActivityViewModel
             is ZoomCommand -> renderer!!.zoom(command.touchDistance).let { viewModel.onZoomUpdated(it) }
             is ResetExposureCommand -> expositionBar.reset()
             is SetExposureCommand -> renderer!!.updateExposure(command.exposureValue)
+            is NavigateToGalleryCommand -> navigateToGallery()
         }
     }
 
@@ -129,4 +132,9 @@ class MainActivity : ActivityBaseMVVM<ActivityMainBinding, MainActivityViewModel
     }
 
     private fun processGesture(gesture: Gesture) = viewModel.processGesture(gesture)
+
+    private fun navigateToGallery() {
+        val galleryIntent = Intent(this, GalleryActivity::class.java)
+        startActivity(galleryIntent)
+    }
 }

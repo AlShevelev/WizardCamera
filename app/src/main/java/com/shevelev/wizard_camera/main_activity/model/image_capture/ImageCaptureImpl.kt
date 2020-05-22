@@ -10,7 +10,7 @@ import com.shevelev.wizard_camera.common_entities.entities.PhotoShot
 import com.shevelev.wizard_camera.common_entities.enums.FilterCode
 import com.shevelev.wizard_camera.main_activity.dto.ScreenOrientation
 import com.shevelev.wizard_camera.shared.coroutines.DispatchersProvider
-import com.shevelev.wizard_camera.storage.core.DbCoreRun
+import com.shevelev.wizard_camera.storage.core.DbCore
 import com.shevelev.wizard_camera.storage.mapping.map
 import com.shevelev.wizard_camera.utils.id.IdUtil
 import kotlinx.coroutines.withContext
@@ -27,7 +27,7 @@ class ImageCaptureImpl
 constructor(
     private val appContext: Context,
     private val dispatchersProvider: DispatchersProvider,
-    private val db: DbCoreRun
+    private val db: DbCore
 ) : ImageCapture {
 
     override var inProgress: Boolean = false
@@ -103,7 +103,5 @@ constructor(
     }
 
     private fun saveToDb(fileName: String, filter: FilterCode) =
-        db.run {
-            it.photoShot.insert(PhotoShot(IdUtil.generateLongId(), fileName, ZonedDateTime.now(), filter).map())
-        }
+        db.photoShot.insert(PhotoShot(IdUtil.generateLongId(), fileName, ZonedDateTime.now(), filter).map())
 }

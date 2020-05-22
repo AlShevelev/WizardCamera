@@ -5,7 +5,7 @@ import android.content.Context
 import com.shevelev.wizard_camera.application.di.scopes.ApplicationScope
 import com.shevelev.wizard_camera.shared.coroutines.DispatchersProvider
 import com.shevelev.wizard_camera.storage.builder.DatabaseBuilder
-import com.shevelev.wizard_camera.storage.core.DbCoreRun
+import com.shevelev.wizard_camera.storage.core.DbCore
 import com.shevelev.wizard_camera.utils.logging.TimberTreeDebug
 import dagger.Module
 import dagger.Provides
@@ -36,5 +36,5 @@ class AppModule(
 
     @Provides
     @ApplicationScope
-    internal fun provideRoomDbCore(appContext: Context): DbCoreRun = DatabaseBuilder.build(appContext)
+    internal fun provideRoomDbCore(appContext: Context): DbCore = DatabaseBuilder.build(appContext)
 }

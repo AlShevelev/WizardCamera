@@ -18,3 +18,5 @@ data class ZoomCommand(val touchDistance: Float): ViewCommand
 
 class ResetExposureCommand: ViewCommand
 data class SetExposureCommand(val exposureValue: Float): ViewCommand
+
+class NavigateToGalleryCommand: ViewCommand

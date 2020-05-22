@@ -4,6 +4,7 @@ import android.app.Application
 import com.shevelev.wizard_camera.application.di.AppComponent
 import com.shevelev.wizard_camera.application.di.AppModule
 import com.shevelev.wizard_camera.application.di.DaggerAppComponent
+import com.shevelev.wizard_camera.gallery_activity.di.GalleryActivityComponent
 import com.shevelev.wizard_camera.main_activity.di.MainActivityComponent
 import com.shevelev.wizard_camera.utils.id.IdUtil
 import kotlin.reflect.KClass
@@ -71,6 +72,7 @@ class DependencyInjectionStorage(private val app: Application) {
             AppComponent::class -> DaggerAppComponent.builder().appModule(AppModule(app)).build()
 
             MainActivityComponent::class -> getBase<AppComponent>().mainActivity.build()
+            GalleryActivityComponent::class -> getBase<AppComponent>().galleryActivity.build()
 
             else -> throw UnsupportedOperationException("This component is not supported: ${type.simpleName}")
         } as T

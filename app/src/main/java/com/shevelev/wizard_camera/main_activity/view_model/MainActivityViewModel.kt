@@ -126,6 +126,10 @@ constructor(
         _command.value = SetExposureCommand(-exposeValue)
     }
 
+    fun onGalleyClick() {
+        _command.value = NavigateToGalleryCommand()
+    }
+
     private fun selectNextFilter() {
         model.filters.selectNextFilter()
         _selectedFilter.value = model.filters.selectedFilter
