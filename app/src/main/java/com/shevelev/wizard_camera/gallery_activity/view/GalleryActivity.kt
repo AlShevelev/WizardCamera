@@ -9,6 +9,7 @@ import com.shevelev.wizard_camera.gallery_activity.di.GalleryActivityComponent
 import com.shevelev.wizard_camera.gallery_activity.view.adapter.GalleryAdapter
 import com.shevelev.wizard_camera.gallery_activity.view_model.GalleryActivityViewModel
 import com.shevelev.wizard_camera.shared.mvvm.view.ActivityBaseMVVM
+import com.shevelev.wizard_camera.shared.ui_utils.hideSystemUI
 import kotlinx.android.synthetic.main.activity_gallery.*
 
 class GalleryActivity : ActivityBaseMVVM<ActivityGalleryBinding, GalleryActivityViewModel>() {
@@ -29,5 +30,14 @@ class GalleryActivity : ActivityBaseMVVM<ActivityGalleryBinding, GalleryActivity
 
         galleryPager.adapter = GalleryAdapter(this, viewModel.pageSize, viewModel)
         viewModel.photos.observe(this, Observer { (galleryPager.adapter as GalleryAdapter).updateItems(it) })
+
+        backButton.setOnClickListener { onBackPressed() }
+    }
+
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        super.onWindowFocusChanged(hasFocus)
+        if (hasFocus) {
+            hideSystemUI()
+        }
     }
 }

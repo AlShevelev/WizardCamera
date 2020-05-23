@@ -17,5 +17,16 @@
             android:id="@+id/galleryPager"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+
+        <ImageButton
+            android:id="@+id/backButton"
+            android:layout_width= "@dimen/toolButtonSizeNormal"
+            android:layout_height="@dimen/toolButtonSizeNormal"
+            android:src="@drawable/ic_back"
+            android:background="@null"
+
+            android:layout_gravity="start|top"
+
+            tools:ignore="ContentDescription" />
     </FrameLayout>
 </layout>
