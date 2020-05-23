@@ -17,7 +17,7 @@ buildscript {
         appcompat_version = "1.1.0"
         lifecycle_version = "2.2.0"
         room_version = "2.2.5"
-        paging_version = "2.1.2"
+        view_pager_version = "1.0.0"
 
         gradle_version = "3.6.3"
 
@@ -28,6 +28,7 @@ buildscript {
         permissionsdispatcher_version = "4.6.0"
         dagger_version = "2.19"
         three_ten_abp_version = "1.2.4"
+        glide_version = "4.11.0"
     }
 
     dependencies {

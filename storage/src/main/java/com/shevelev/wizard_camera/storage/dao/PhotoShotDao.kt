@@ -11,5 +11,5 @@ interface PhotoShotDao {
     fun insert(shot: PhotoShotDb)
 
     @Query("select * from photo_shot order by created_sort desc limit :limit offset :offset")
-    fun selectPaged(limit: Int, offset: Int): List<PhotoShotDb>
+    fun readPaged(limit: Int, offset: Int): List<PhotoShotDb>
 }

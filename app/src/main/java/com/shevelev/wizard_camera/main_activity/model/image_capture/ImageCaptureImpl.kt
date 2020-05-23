@@ -5,29 +5,28 @@ import android.graphics.Bitmap
 import android.graphics.Matrix
 import android.media.MediaScannerConnection
 import android.view.TextureView
-import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.common_entities.entities.PhotoShot
 import com.shevelev.wizard_camera.common_entities.enums.FilterCode
 import com.shevelev.wizard_camera.main_activity.dto.ScreenOrientation
 import com.shevelev.wizard_camera.shared.coroutines.DispatchersProvider
+import com.shevelev.wizard_camera.shared.files.FilesHelper
 import com.shevelev.wizard_camera.storage.core.DbCore
 import com.shevelev.wizard_camera.storage.mapping.map
 import com.shevelev.wizard_camera.utils.id.IdUtil
 import kotlinx.coroutines.withContext
 import org.threeten.bp.ZonedDateTime
 import timber.log.Timber
-import java.io.*
-import java.lang.Exception
-import java.util.*
+import java.io.FileOutputStream
+import java.io.OutputStream
 import javax.inject.Inject
-import kotlin.math.absoluteValue
 
 class ImageCaptureImpl
 @Inject
 constructor(
     private val appContext: Context,
     private val dispatchersProvider: DispatchersProvider,
-    private val db: DbCore
+    private val db: DbCore,
+    private val filesHelper: FilesHelper
 ) : ImageCapture {
 
     override var inProgress: Boolean = false
@@ -43,7 +42,7 @@ constructor(
             }
 
             val outputFile = withContext(dispatchersProvider.ioDispatcher) {
-                createFileForSaving(activeFilter).also { outputFile ->
+                filesHelper.createFileForShot(activeFilter).also { outputFile ->
                     FileOutputStream(outputFile).use { outputStream ->
                         compressBitmap(bitmap, outputStream)
                         outputStream.flush()
@@ -62,18 +61,6 @@ constructor(
         } finally {
             inProgress = false
         }
-    }
-
-    private fun createFileForSaving(activeFilter: FilterCode): File {
-        val prefix = activeFilter.toString().toLowerCase(Locale.getDefault())
-        val suffix = IdUtil.generateLongId().absoluteValue
-
-        val dir = File(appContext.externalMediaDirs[0], appContext.getString(R.string.appName))
-        if(!dir.exists()) {
-            dir.mkdir()
-        }
-
-        return File(dir, "$prefix$suffix.jpg")
     }
 
     private fun compressBitmap(bitmap: Bitmap, outputStream: OutputStream) =

@@ -8,5 +8,4 @@ import dagger.Module
     MainActivityComponent::class,
     GalleryActivityComponent::class
 ])
-class AppModuleChilds {
-}
+class AppModuleChilds
