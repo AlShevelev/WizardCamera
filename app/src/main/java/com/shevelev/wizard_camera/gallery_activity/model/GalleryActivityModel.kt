@@ -9,5 +9,7 @@ interface GalleryActivityModel : ModelBase {
 
     val pageSize: Int
 
-    suspend fun loadPage(): Boolean
+    suspend fun loadPage()
+
+    suspend fun delete(position: Int)
 }

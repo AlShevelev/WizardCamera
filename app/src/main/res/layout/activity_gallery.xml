@@ -28,5 +28,29 @@
             android:layout_gravity="start|top"
 
             tools:ignore="ContentDescription" />
+
+        <ImageButton
+            android:id="@+id/shareButton"
+            android:layout_width= "@dimen/toolButtonSizeNormal"
+            android:layout_height="@dimen/toolButtonSizeNormal"
+            android:src="@drawable/ic_share"
+            android:background="@null"
+
+            android:layout_gravity="start|bottom"
+            android:layout_marginBottom="@dimen/bottomButtonsMargin"
+
+            tools:ignore="ContentDescription" />
+
+        <ImageButton
+            android:id="@+id/deleteButton"
+            android:layout_width= "@dimen/toolButtonSizeNormal"
+            android:layout_height="@dimen/toolButtonSizeNormal"
+            android:src="@drawable/ic_delete"
+            android:background="@null"
+
+            android:layout_gravity="end|bottom"
+            android:layout_marginBottom="@dimen/bottomButtonsMargin"
+
+            tools:ignore="ContentDescription" />
     </FrameLayout>
 </layout>

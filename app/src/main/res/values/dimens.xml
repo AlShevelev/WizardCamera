@@ -11,4 +11,6 @@
 
     <dimen name="mainButtonSize">@dimen/toolButtonSizeNormal</dimen>
     <dimen name="mainButtonsMargin">25dp</dimen>
+
+    <dimen name="bottomButtonsMargin">52dp</dimen>
 </resources>

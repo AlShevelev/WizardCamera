@@ -7,4 +7,6 @@ interface FilesHelper {
     fun createFileForShot(activeFilter: FilterCode): File
 
     fun getShotFileByName(fileName: String): File
+
+    fun removeShotFileByName(fileName: String): File
 }

@@ -8,6 +8,7 @@ import com.shevelev.wizard_camera.databinding.ActivityGalleryBinding
 import com.shevelev.wizard_camera.gallery_activity.di.GalleryActivityComponent
 import com.shevelev.wizard_camera.gallery_activity.view.adapter.GalleryAdapter
 import com.shevelev.wizard_camera.gallery_activity.view_model.GalleryActivityViewModel
+import com.shevelev.wizard_camera.shared.dialogs.ConfirmationDialog
 import com.shevelev.wizard_camera.shared.mvvm.view.ActivityBaseMVVM
 import com.shevelev.wizard_camera.shared.ui_utils.hideSystemUI
 import kotlinx.android.synthetic.main.activity_gallery.*
@@ -32,6 +33,14 @@ class GalleryActivity : ActivityBaseMVVM<ActivityGalleryBinding, GalleryActivity
         viewModel.photos.observe(this, Observer { (galleryPager.adapter as GalleryAdapter).updateItems(it) })
 
         backButton.setOnClickListener { onBackPressed() }
+
+        deleteButton.setOnClickListener {
+            ConfirmationDialog.show(supportFragmentManager, R.string.deletePhotoQuestion, R.string.delete, R.string.cancel) {
+                if(it) {
+                    viewModel.deletePage(galleryPager.currentItem)
+                }
+            }
+        }
     }
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {

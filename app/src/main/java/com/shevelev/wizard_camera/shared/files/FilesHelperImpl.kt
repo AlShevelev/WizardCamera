@@ -24,6 +24,8 @@ constructor(
 
     override fun getShotFileByName(fileName: String): File = File(getShotsDirectory(), fileName)
 
+    override fun removeShotFileByName(fileName: String) = getShotFileByName(fileName).apply { delete() }
+
     private fun getShotsDirectory(): File {
         val dir = File(appContext.externalMediaDirs[0], appContext.getString(R.string.appName))
         if(!dir.exists()) {

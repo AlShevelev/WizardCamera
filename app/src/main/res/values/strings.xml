@@ -46,4 +46,8 @@
 
     <string name="generalError">Unfortunately, an error was encountered during the operation.</string>
     <string name="capturingInProgressError">Capturing in progress, wait, please.</string>
+
+    <string name="deletePhotoQuestion">Are you sure you want to delete the photo?</string>
+    <string name="delete">Delete</string>
+    <string name="cancel">Cancel</string>
 </resources>

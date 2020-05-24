@@ -90,5 +90,5 @@ constructor(
     }
 
     private fun saveToDb(fileName: String, filter: FilterCode) =
-        db.photoShot.insert(PhotoShot(IdUtil.generateLongId(), fileName, ZonedDateTime.now(), filter).map())
+        db.photoShot.create(PhotoShot(IdUtil.generateLongId(), fileName, ZonedDateTime.now(), filter).map())
 }

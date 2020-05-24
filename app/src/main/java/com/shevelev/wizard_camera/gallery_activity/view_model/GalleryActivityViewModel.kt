@@ -8,6 +8,7 @@ import com.shevelev.wizard_camera.shared.coroutines.DispatchersProvider
 import com.shevelev.wizard_camera.shared.mvvm.view_commands.ShowMessageResCommand
 import com.shevelev.wizard_camera.shared.mvvm.view_model.ViewModelBase
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 class GalleryActivityViewModel
@@ -28,8 +29,19 @@ constructor(
 
     override fun loadPage() {
         launch {
-            val isSuccess = model.loadPage()
-            if(!isSuccess) {
+            try {
+                model.loadPage()
+            } catch(ex: Exception) {
+                _command.value = ShowMessageResCommand(R.string.generalError)
+            }
+        }
+    }
+
+    fun deletePage(position: Int) {
+        launch {
+            try {
+                model.delete(position)
+            } catch(ex: Exception) {
                 _command.value = ShowMessageResCommand(R.string.generalError)
             }
         }
