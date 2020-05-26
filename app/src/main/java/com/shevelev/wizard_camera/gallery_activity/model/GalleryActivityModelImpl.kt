@@ -1,12 +1,11 @@
 package com.shevelev.wizard_camera.gallery_activity.model
 
-import android.content.Context
-import android.media.MediaScannerConnection
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.shevelev.wizard_camera.common_entities.entities.PhotoShot
 import com.shevelev.wizard_camera.shared.coroutines.DispatchersProvider
 import com.shevelev.wizard_camera.shared.files.FilesHelper
+import com.shevelev.wizard_camera.shared.media_scanner.MediaScanner
 import com.shevelev.wizard_camera.shared.mvvm.model.ModelBaseImpl
 import com.shevelev.wizard_camera.storage.core.DbCore
 import com.shevelev.wizard_camera.storage.mapping.map
@@ -17,10 +16,10 @@ import javax.inject.Inject
 class GalleryActivityModelImpl
 @Inject
 constructor(
-    private val appContext: Context,
     private val dispatchersProvider: DispatchersProvider,
     private val db: DbCore,
-    private val filesHelper: FilesHelper
+    private val filesHelper: FilesHelper,
+    private val mediaScanner: MediaScanner
 ) : ModelBaseImpl(),
     GalleryActivityModel {
 
@@ -77,7 +76,7 @@ constructor(
                 filesHelper.removeShotFileByName(shotItem.fileName)
             }
 
-            MediaScannerConnection.scanFile(appContext, arrayOf<String>(deletedFile.absolutePath), null, null)
+            mediaScanner.processDeletedShot(deletedFile)
 
             photosList.removeAt(position)
             _photos.value = photosList

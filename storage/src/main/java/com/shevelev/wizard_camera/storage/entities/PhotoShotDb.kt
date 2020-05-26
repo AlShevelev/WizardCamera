@@ -23,5 +23,8 @@ data class PhotoShotDb(
     val createdSort: Long,
 
     @ColumnInfo(name = "filter", typeAffinity = ColumnInfo.INTEGER)
-    val filter: FilterCode
+    val filter: FilterCode,
+
+    @ColumnInfo(name = "content_uri")
+    val contentUri: String?
 )

@@ -1,15 +1,15 @@
 package com.shevelev.wizard_camera.main_activity.model.image_capture
 
-import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Matrix
-import android.media.MediaScannerConnection
+import android.net.Uri
 import android.view.TextureView
 import com.shevelev.wizard_camera.common_entities.entities.PhotoShot
 import com.shevelev.wizard_camera.common_entities.enums.FilterCode
 import com.shevelev.wizard_camera.main_activity.dto.ScreenOrientation
 import com.shevelev.wizard_camera.shared.coroutines.DispatchersProvider
 import com.shevelev.wizard_camera.shared.files.FilesHelper
+import com.shevelev.wizard_camera.shared.media_scanner.MediaScanner
 import com.shevelev.wizard_camera.storage.core.DbCore
 import com.shevelev.wizard_camera.storage.mapping.map
 import com.shevelev.wizard_camera.utils.id.IdUtil
@@ -23,10 +23,10 @@ import javax.inject.Inject
 class ImageCaptureImpl
 @Inject
 constructor(
-    private val appContext: Context,
     private val dispatchersProvider: DispatchersProvider,
     private val db: DbCore,
-    private val filesHelper: FilesHelper
+    private val filesHelper: FilesHelper,
+    private val mediaScanner: MediaScanner
 ) : ImageCapture {
 
     override var inProgress: Boolean = false
@@ -47,12 +47,14 @@ constructor(
                         compressBitmap(bitmap, outputStream)
                         outputStream.flush()
                     }
-
-                    saveToDb(outputFile.name, activeFilter)
                 }
             }
 
-            MediaScannerConnection.scanFile(appContext, arrayOf<String>(outputFile.absolutePath), arrayOf("image/jpeg"), null)
+            val contentUri = mediaScanner.processNewShot(outputFile)
+
+            withContext(dispatchersProvider.ioDispatcher) {
+                saveToDb(outputFile.name, activeFilter, contentUri)
+            }
 
             return true
         } catch (ex: Exception) {
@@ -89,6 +91,6 @@ constructor(
         }
     }
 
-    private fun saveToDb(fileName: String, filter: FilterCode) =
-        db.photoShot.create(PhotoShot(IdUtil.generateLongId(), fileName, ZonedDateTime.now(), filter).map())
+    private fun saveToDb(fileName: String, filter: FilterCode, contentUri: Uri?) =
+        db.photoShot.create(PhotoShot(IdUtil.generateLongId(), fileName, ZonedDateTime.now(), filter, contentUri).map())
 }

@@ -1,5 +1,6 @@
 package com.shevelev.wizard_camera.common_entities.entities
 
+import android.net.Uri
 import android.os.Parcelable
 import com.shevelev.wizard_camera.common_entities.enums.FilterCode
 import kotlinx.android.parcel.Parcelize
@@ -13,5 +14,6 @@ data class PhotoShot (
     val id: Long,
     val fileName: String,
     val created: ZonedDateTime,
-    val filter: FilterCode
+    val filter: FilterCode,
+    val contentUri: Uri?
 ) :Parcelable
