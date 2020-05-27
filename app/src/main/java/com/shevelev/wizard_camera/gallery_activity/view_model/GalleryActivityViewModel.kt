@@ -1,6 +1,8 @@
 package com.shevelev.wizard_camera.gallery_activity.view_model
 
+import android.view.View
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.common_entities.entities.PhotoShot
 import com.shevelev.wizard_camera.gallery_activity.dto.ShareShotCommand
@@ -23,6 +25,9 @@ constructor(
     val photos: LiveData<List<PhotoShot>> = model.photos
 
     val pageSize: Int = model.pageSize
+
+    private val _isShareButtonVisible = MutableLiveData(View.INVISIBLE)
+    val isShareButtonVisible: LiveData<Int> = _isShareButtonVisible
 
     init {
         loadPage()
@@ -50,5 +55,9 @@ constructor(
 
     fun shareShot(position: Int) {
         _command.value = ShareShotCommand(model.getShot(position))
+    }
+
+    fun onShotSelected(position: Int) {
+        _isShareButtonVisible.value = model.getShot(position).contentUri?.let { View.VISIBLE } ?: View.INVISIBLE
     }
 }

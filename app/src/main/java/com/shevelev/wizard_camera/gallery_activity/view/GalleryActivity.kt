@@ -3,6 +3,7 @@ package com.shevelev.wizard_camera.gallery_activity.view
 import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.Observer
+import androidx.viewpager2.widget.ViewPager2
 import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.application.App
 import com.shevelev.wizard_camera.common_entities.entities.PhotoShot
@@ -47,6 +48,12 @@ class GalleryActivity : ActivityBaseMVVM<ActivityGalleryBinding, GalleryActivity
         }
 
         shareButton.setOnClickListener { viewModel.shareShot(galleryPager.currentItem) }
+
+        galleryPager.registerOnPageChangeCallback(object: ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                viewModel.onShotSelected(position)
+            }
+        })
     }
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {

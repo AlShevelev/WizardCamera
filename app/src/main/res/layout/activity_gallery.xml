@@ -39,6 +39,9 @@
             android:layout_gravity="start|bottom"
             android:layout_marginBottom="@dimen/bottomButtonsMargin"
 
+            android:visibility="@{viewModel.isShareButtonVisible}"
+            tools:visibility="visible"
+
             tools:ignore="ContentDescription" />
 
         <ImageButton
