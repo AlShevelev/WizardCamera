@@ -11,7 +11,8 @@ import com.shevelev.wizard_camera.shared.coroutines.DispatchersProvider
 import com.shevelev.wizard_camera.shared.mvvm.view_commands.ShowMessageResCommand
 import com.shevelev.wizard_camera.shared.mvvm.view_model.ViewModelBase
 import kotlinx.coroutines.launch
-import timber.log.Timber
+import org.threeten.bp.format.DateTimeFormatter
+import org.threeten.bp.format.FormatStyle
 import javax.inject.Inject
 
 class GalleryActivityViewModel
@@ -28,6 +29,9 @@ constructor(
 
     private val _isShareButtonVisible = MutableLiveData(View.INVISIBLE)
     val isShareButtonVisible: LiveData<Int> = _isShareButtonVisible
+
+    private val _shotDateTime = MutableLiveData("")
+    val shotDateTime: LiveData<String> = _shotDateTime
 
     init {
         loadPage()
@@ -58,6 +62,9 @@ constructor(
     }
 
     fun onShotSelected(position: Int) {
-        _isShareButtonVisible.value = model.getShot(position).contentUri?.let { View.VISIBLE } ?: View.INVISIBLE
+        val shot = model.getShot(position)
+
+        _shotDateTime.value = shot.created.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT))
+        _isShareButtonVisible.value = shot.contentUri?.let { View.VISIBLE } ?: View.INVISIBLE
     }
 }

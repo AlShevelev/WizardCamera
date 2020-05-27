@@ -44,6 +44,22 @@
 
             tools:ignore="ContentDescription" />
 
+        <TextView
+            android:id="@+id/shotDateTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_gravity="top|end"
+
+            android:textSize="@dimen/textSizeNormal"
+            android:textColor="@color/white"
+
+            android:layout_marginTop="@dimen/marginNormal"
+            android:layout_marginEnd="@dimen/marginNormal"
+
+            android:text="@{viewModel.shotDateTime}"
+            tools:text="42.42.42 42:42" />
+
         <ImageButton
             android:id="@+id/deleteButton"
             android:layout_width= "@dimen/toolButtonSizeNormal"
