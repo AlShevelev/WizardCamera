@@ -1,15 +1,19 @@
 package com.shevelev.wizard_camera.gallery_activity.view
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.application.App
+import com.shevelev.wizard_camera.common_entities.entities.PhotoShot
 import com.shevelev.wizard_camera.databinding.ActivityGalleryBinding
 import com.shevelev.wizard_camera.gallery_activity.di.GalleryActivityComponent
+import com.shevelev.wizard_camera.gallery_activity.dto.ShareShotCommand
 import com.shevelev.wizard_camera.gallery_activity.view.adapter.GalleryAdapter
 import com.shevelev.wizard_camera.gallery_activity.view_model.GalleryActivityViewModel
 import com.shevelev.wizard_camera.shared.dialogs.ConfirmationDialog
 import com.shevelev.wizard_camera.shared.mvvm.view.ActivityBaseMVVM
+import com.shevelev.wizard_camera.shared.mvvm.view_commands.ViewCommand
 import com.shevelev.wizard_camera.shared.ui_utils.hideSystemUI
 import kotlinx.android.synthetic.main.activity_gallery.*
 
@@ -37,10 +41,12 @@ class GalleryActivity : ActivityBaseMVVM<ActivityGalleryBinding, GalleryActivity
         deleteButton.setOnClickListener {
             ConfirmationDialog.show(supportFragmentManager, R.string.deletePhotoQuestion, R.string.delete, R.string.cancel) {
                 if(it) {
-                    viewModel.deletePage(galleryPager.currentItem)
+                    viewModel.deleteShot(galleryPager.currentItem)
                 }
             }
         }
+
+        shareButton.setOnClickListener { viewModel.shareShot(galleryPager.currentItem) }
     }
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
@@ -48,5 +54,20 @@ class GalleryActivity : ActivityBaseMVVM<ActivityGalleryBinding, GalleryActivity
         if (hasFocus) {
             hideSystemUI()
         }
+    }
+
+    override fun processViewCommand(command: ViewCommand) {
+        when(command) {
+            is ShareShotCommand -> shareShot(command.shot)
+        }
+    }
+
+    private fun shareShot(shot: PhotoShot) {
+        val shareIntent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_STREAM, shot.contentUri)
+            type = "image/jpeg"
+        }
+        startActivity(Intent.createChooser(shareIntent, resources.getText(R.string.sendTo)))
     }
 }

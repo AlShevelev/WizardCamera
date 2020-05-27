@@ -87,4 +87,6 @@ constructor(
             updateInProgress = false
         }
     }
+
+    override fun getShot(position: Int): PhotoShot = photosList[position]
 }

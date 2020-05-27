@@ -12,4 +12,6 @@ interface GalleryActivityModel : ModelBase {
     suspend fun loadPage()
 
     suspend fun delete(position: Int)
+
+    fun getShot(position: Int): PhotoShot
 }

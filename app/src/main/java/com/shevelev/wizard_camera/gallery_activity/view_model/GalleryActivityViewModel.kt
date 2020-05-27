@@ -3,6 +3,7 @@ package com.shevelev.wizard_camera.gallery_activity.view_model
 import androidx.lifecycle.LiveData
 import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.common_entities.entities.PhotoShot
+import com.shevelev.wizard_camera.gallery_activity.dto.ShareShotCommand
 import com.shevelev.wizard_camera.gallery_activity.model.GalleryActivityModel
 import com.shevelev.wizard_camera.shared.coroutines.DispatchersProvider
 import com.shevelev.wizard_camera.shared.mvvm.view_commands.ShowMessageResCommand
@@ -37,7 +38,7 @@ constructor(
         }
     }
 
-    fun deletePage(position: Int) {
+    fun deleteShot(position: Int) {
         launch {
             try {
                 model.delete(position)
@@ -45,5 +46,9 @@ constructor(
                 _command.value = ShowMessageResCommand(R.string.generalError)
             }
         }
+    }
+
+    fun shareShot(position: Int) {
+        _command.value = ShareShotCommand(model.getShot(position))
     }
 }

@@ -50,4 +50,6 @@
     <string name="deletePhotoQuestion">Are you sure you want to delete the photo?</string>
     <string name="delete">Delete</string>
     <string name="cancel">Cancel</string>
+
+    <string name="sendTo">Send to…</string>
 </resources>
