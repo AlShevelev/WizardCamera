@@ -34,19 +34,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-
             android:layout_marginTop="@dimen/marginNormal"
+
             android:background="@drawable/bcg_main_text"
-            android:ellipsize="end"
+
             android:maxWidth="250dp"
+
             android:paddingStart="15dp"
             android:paddingTop="4dp"
-
             android:paddingEnd="15dp"
             android:paddingBottom="5dp"
-            android:singleLine="true"
-            android:textColor="@color/mainButtonsForeground"
-            android:textSize="@dimen/textSizeNormal"
+
+            style="@style/TextNormal.Light.SingleLine"
 
             app:title_text = "@{viewModel.screenTitle}"
             tools:text="Original" />

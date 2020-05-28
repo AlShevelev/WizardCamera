@@ -1,18 +1,24 @@
 package com.shevelev.wizard_camera.gallery_activity.model
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.shevelev.wizard_camera.common_entities.entities.PhotoShot
+import com.shevelev.wizard_camera.gallery_activity.dto.ShotsLoadingResult
 import com.shevelev.wizard_camera.shared.coroutines.DispatchersProvider
 import com.shevelev.wizard_camera.shared.files.FilesHelper
 import com.shevelev.wizard_camera.shared.media_scanner.MediaScanner
 import com.shevelev.wizard_camera.shared.mvvm.model.ModelBaseImpl
 import com.shevelev.wizard_camera.storage.core.DbCore
 import com.shevelev.wizard_camera.storage.mapping.map
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.channels.BroadcastChannel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
 
+@ExperimentalCoroutinesApi
+@FlowPreview
 class GalleryActivityModelImpl
 @Inject
 constructor(
@@ -33,10 +39,14 @@ constructor(
 
     private var updateInProgress = false
 
-    private val _photos = MutableLiveData<List<PhotoShot>>(photosList)
-    override val photos: LiveData<List<PhotoShot>> = _photos
+    private val loadingResultChannel = BroadcastChannel<ShotsLoadingResult>(1)
+    override val loadingResult: Flow<ShotsLoadingResult> = loadingResultChannel.asFlow()
 
     override val pageSize: Int = PAGE_SIZE
+
+    override suspend fun setUp() {
+        loadingResultChannel.send(ShotsLoadingResult.PreLoading)
+    }
 
     override suspend fun loadPage() {
         if(updateInProgress) {
@@ -52,7 +62,7 @@ constructor(
 
             photosList.addAll(dbData)
             offset += PAGE_SIZE
-            _photos.value = photosList
+            loadingResultChannel.send(ShotsLoadingResult.DataUpdated(photosList))
         } catch (ex: Exception) {
             Timber.e(ex)
             throw ex
@@ -79,7 +89,7 @@ constructor(
             mediaScanner.processDeletedShot(deletedFile)
 
             photosList.removeAt(position)
-            _photos.value = photosList
+            loadingResultChannel.send(ShotsLoadingResult.DataUpdated(photosList))
         } catch (ex: Exception) {
             Timber.e(ex)
             throw ex
@@ -89,4 +99,8 @@ constructor(
     }
 
     override fun getShot(position: Int): PhotoShot = photosList[position]
+
+    override fun clear() {
+        loadingResultChannel.close()
+    }
 }

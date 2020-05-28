@@ -5,6 +5,7 @@
     <dimen name="toolButtonSizeNormal">50dp</dimen>
     <dimen name="toolButtonSizeLarge">60dp</dimen>
 
+    <dimen name="marginSmall">8dp</dimen>
     <dimen name="marginNormal">16dp</dimen>
     <dimen name="marginLarge">24dp</dimen>
 

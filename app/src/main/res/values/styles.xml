@@ -7,4 +7,19 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="Common.Base.TextStyle" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/mainButtonsForeground</item>
+    </style>
+
+    <style name="Common.Base.TextStyle.SingleLine" parent="Common.Base.TextStyle">
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:lines">1</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="TextNormal.Light.SingleLine" parent="Common.Base.TextStyle.SingleLine">
+        <item name="android:textSize">@dimen/textSizeNormal</item>
+    </style>
+
 </resources>

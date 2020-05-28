@@ -52,4 +52,6 @@
     <string name="cancel">Cancel</string>
 
     <string name="sendTo">Send to…</string>
+
+    <string name="emptyGallery">The gallery is empty</string>
 </resources>
