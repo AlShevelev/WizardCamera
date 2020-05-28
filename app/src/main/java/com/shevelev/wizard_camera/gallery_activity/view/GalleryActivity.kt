@@ -37,8 +37,6 @@ class GalleryActivity : ActivityBaseMVVM<ActivityGalleryBinding, GalleryActivity
         galleryPager.adapter = GalleryAdapter(this, viewModel.pageSize, viewModel)
         viewModel.photos.observe(this, Observer { (galleryPager.adapter as GalleryAdapter).updateItems(it) })
 
-        backButton.setOnClickListener { onBackPressed() }
-
         deleteButton.setOnClickListener {
             ConfirmationDialog.show(supportFragmentManager, R.string.deletePhotoQuestion, R.string.delete, R.string.cancel) {
                 if(it) {

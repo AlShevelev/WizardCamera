@@ -26,11 +26,21 @@
             android:background="@null"
 
             android:layout_gravity="end|bottom"
-            android:layout_marginBottom="@dimen/bottomButtonsMargin"
             android:layout_marginEnd="@dimen/galleryButtonsMargin"
 
             android:visibility="@{viewModel.isShareButtonVisible}"
             tools:visibility="visible"
+
+            tools:ignore="ContentDescription" />
+
+        <ImageButton
+            android:id="@+id/deleteButton"
+            android:layout_width= "@dimen/toolButtonSizeNormal"
+            android:layout_height="@dimen/toolButtonSizeNormal"
+            android:src="@drawable/ic_delete"
+            android:background="@null"
+
+            android:layout_gravity="end|bottom"
 
             tools:ignore="ContentDescription" />
 
@@ -44,22 +54,10 @@
             android:textSize="@dimen/textSizeNormal"
             android:textColor="@color/white"
 
-            android:layout_marginTop="@dimen/marginNormal"
+            android:layout_marginTop="@dimen/marginLarge"
             android:layout_marginEnd="@dimen/marginNormal"
 
             android:text="@{viewModel.shotDateTime}"
             tools:text="42.42.42 42:42" />
-
-        <ImageButton
-            android:id="@+id/deleteButton"
-            android:layout_width= "@dimen/toolButtonSizeNormal"
-            android:layout_height="@dimen/toolButtonSizeNormal"
-            android:src="@drawable/ic_delete"
-            android:background="@null"
-
-            android:layout_gravity="end|bottom"
-            android:layout_marginBottom="@dimen/bottomButtonsMargin"
-
-            tools:ignore="ContentDescription" />
     </FrameLayout>
 </layout>

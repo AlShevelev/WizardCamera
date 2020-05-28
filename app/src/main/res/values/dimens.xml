@@ -6,11 +6,13 @@
     <dimen name="toolButtonSizeLarge">60dp</dimen>
 
     <dimen name="marginNormal">16dp</dimen>
+    <dimen name="marginLarge">24dp</dimen>
 
     <dimen name="strokeWidthNormal">2dp</dimen>
 
-    <dimen name="mainButtonSize">@dimen/toolButtonSizeNormal</dimen>
     <dimen name="mainButtonsMargin">25dp</dimen>
 
     <dimen name="bottomButtonsMargin">52dp</dimen>
+
+    <dimen name="galleryButtonsMargin">65dp</dimen>
 </resources>

@@ -53,8 +53,8 @@
 
         <ImageButton
             android:id="@+id/autoFocusButton"
-            android:layout_width="@dimen/mainButtonSize"
-            android:layout_height="@dimen/mainButtonSize"
+            android:layout_width="@dimen/toolButtonSizeNormal"
+            android:layout_height="@dimen/toolButtonSizeNormal"
 
             android:layout_gravity="start|top"
 
@@ -70,8 +70,8 @@
 
         <ImageButton
                 android:id="@+id/settingsButton"
-                android:layout_width="@dimen/mainButtonSize"
-                android:layout_height="@dimen/mainButtonSize"
+                android:layout_width="@dimen/toolButtonSizeNormal"
+                android:layout_height="@dimen/toolButtonSizeNormal"
 
                 android:layout_gravity="end|top"
 
@@ -84,7 +84,7 @@
 
         <com.shevelev.wizard_camera.main_activity.view.widgets.ExposureBar
             android:id="@+id/expositionBar"
-            android:layout_width="@dimen/mainButtonSize"
+            android:layout_width="@dimen/toolButtonSizeNormal"
             android:layout_height="350dp"
             android:layout_gravity="end|center_vertical"
 
@@ -110,8 +110,8 @@
 
             <ImageButton
                 android:id="@+id/turnFiltersButton"
-                android:layout_width="@dimen/mainButtonSize"
-                android:layout_height="@dimen/mainButtonSize"
+                android:layout_width="@dimen/toolButtonSizeNormal"
+                android:layout_height="@dimen/toolButtonSizeNormal"
 
                 android:layout_gravity="center_vertical"
 
@@ -126,8 +126,8 @@
 
             <ImageButton
                 android:id="@+id/filtersButton"
-                android:layout_width="@dimen/mainButtonSize"
-                android:layout_height="@dimen/mainButtonSize"
+                android:layout_width="@dimen/toolButtonSizeNormal"
+                android:layout_height="@dimen/toolButtonSizeNormal"
 
                 android:layout_gravity="center_vertical"
 
@@ -150,8 +150,8 @@
 
             <ImageButton
                 android:id="@+id/flashButton"
-                android:layout_width="@dimen/mainButtonSize"
-                android:layout_height="@dimen/mainButtonSize"
+                android:layout_width="@dimen/toolButtonSizeNormal"
+                android:layout_height="@dimen/toolButtonSizeNormal"
 
                 android:layout_gravity="center_vertical"
 
@@ -166,8 +166,8 @@
 
             <ImageButton
                 android:id="@+id/galleryButton"
-                android:layout_width="@dimen/mainButtonSize"
-                android:layout_height="@dimen/mainButtonSize"
+                android:layout_width="@dimen/toolButtonSizeNormal"
+                android:layout_height="@dimen/toolButtonSizeNormal"
 
                 android:layout_gravity="center_vertical"
 
