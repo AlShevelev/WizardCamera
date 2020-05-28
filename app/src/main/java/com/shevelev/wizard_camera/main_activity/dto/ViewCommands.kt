@@ -2,6 +2,7 @@ package com.shevelev.wizard_camera.main_activity.dto
 
 import android.graphics.PointF
 import android.util.SizeF
+import androidx.annotation.StringRes
 import com.shevelev.wizard_camera.shared.mvvm.view_commands.ViewCommand
 
 class SetupCameraCommand: ViewCommand
@@ -20,3 +21,5 @@ class ResetExposureCommand: ViewCommand
 data class SetExposureCommand(val exposureValue: Float): ViewCommand
 
 class NavigateToGalleryCommand: ViewCommand
+
+data class ExitCommand(@StringRes val messageResId: Int): ViewCommand

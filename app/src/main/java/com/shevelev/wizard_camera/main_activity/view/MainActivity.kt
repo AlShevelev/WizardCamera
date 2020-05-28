@@ -5,7 +5,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.TextureView
-import android.widget.Toast
+import androidx.annotation.StringRes
 import androidx.lifecycle.Observer
 import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.application.App
@@ -17,6 +17,7 @@ import com.shevelev.wizard_camera.main_activity.dto.*
 import com.shevelev.wizard_camera.main_activity.view.gestures.Gesture
 import com.shevelev.wizard_camera.main_activity.view.gestures.GesturesDetector
 import com.shevelev.wizard_camera.main_activity.view_model.MainActivityViewModel
+import com.shevelev.wizard_camera.shared.dialogs.OkDialog
 import com.shevelev.wizard_camera.shared.mvvm.view.ActivityBaseMVVM
 import com.shevelev.wizard_camera.shared.mvvm.view_commands.ViewCommand
 import com.shevelev.wizard_camera.shared.ui_utils.hideSystemUI
@@ -94,6 +95,7 @@ class MainActivity : ActivityBaseMVVM<ActivityMainBinding, MainActivityViewModel
             is ResetExposureCommand -> expositionBar.reset()
             is SetExposureCommand -> renderer!!.updateExposure(command.exposureValue)
             is NavigateToGalleryCommand -> navigateToGallery()
+            is ExitCommand -> exit(command.messageResId)
         }
     }
 
@@ -101,6 +103,10 @@ class MainActivity : ActivityBaseMVVM<ActivityMainBinding, MainActivityViewModel
     @SuppressLint("ClickableViewAccessibility")
     @NeedsPermission(Manifest.permission.CAMERA)
     internal fun setupCamera() {
+        if(!viewModel.isActive) {
+            return
+        }
+
         renderer = CameraRenderer(this, viewModel.isFlashActive, viewModel.isAutoFocus, { viewModel.onCameraIsSetUp() }).also {
             textureView = TextureView(this)
             root.addView(textureView, 0)
@@ -114,21 +120,18 @@ class MainActivity : ActivityBaseMVVM<ActivityMainBinding, MainActivityViewModel
         }
     }
 
+    @OnPermissionDenied(Manifest.permission.CAMERA)
+    internal fun onCameraPermissionsDenied() = viewModel.onPermissionDenied()
+
     @SuppressLint("ClickableViewAccessibility")
     private fun releaseCamera() {
         root.removeView(textureView)
         renderer = null
 
-        textureView!!.setOnTouchListener(null)
-        textureView!!.addOnLayoutChangeListener(null)
+        textureView?.setOnTouchListener(null)
+        textureView?.addOnLayoutChangeListener(null)
 
         textureView = null
-    }
-
-    @OnPermissionDenied(Manifest.permission.CAMERA)
-    internal fun onCameraPermissionsDenied() {
-        Toast.makeText(this, R.string.needCameraPermissionExit, Toast.LENGTH_LONG).show()
-        root.postDelayed({ exitProcess(0) }, 3500)
     }
 
     private fun processGesture(gesture: Gesture) = viewModel.processGesture(gesture)
@@ -136,5 +139,11 @@ class MainActivity : ActivityBaseMVVM<ActivityMainBinding, MainActivityViewModel
     private fun navigateToGallery() {
         val galleryIntent = Intent(this, GalleryActivity::class.java)
         startActivity(galleryIntent)
+    }
+
+    private fun exit(@StringRes messageResId: Int) {
+        OkDialog.show(supportFragmentManager, messageResId) {
+            exitProcess(0)
+        }
     }
 }

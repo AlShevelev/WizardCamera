@@ -1,6 +1,7 @@
 package com.shevelev.wizard_camera.camera.camera_renderer
 
 import android.content.Context
+import android.graphics.Point
 import android.graphics.PointF
 import android.graphics.SurfaceTexture
 import android.opengl.GLES11Ext
@@ -9,14 +10,15 @@ import android.os.Handler
 import android.util.Size
 import android.util.SizeF
 import android.view.TextureView
+import android.view.WindowManager
 import android.widget.Toast
 import com.shevelev.wizard_camera.camera.FiltersFactory
 import com.shevelev.wizard_camera.camera.R
 import com.shevelev.wizard_camera.camera.camera_renderer.manager.CameraManager
 import com.shevelev.wizard_camera.camera.camera_renderer.manager.CameraSettings
 import com.shevelev.wizard_camera.camera.filter.CameraFilter
-import com.shevelev.wizard_camera.common_entities.enums.FilterCode
 import com.shevelev.wizard_camera.camera.utils.TextureUtils
+import com.shevelev.wizard_camera.common_entities.enums.FilterCode
 import timber.log.Timber
 import java.io.IOException
 import javax.microedition.khronos.egl.*
@@ -32,8 +34,6 @@ class CameraRenderer(
         const val EGL_OPENGL_ES2_BIT = 4
         const val EGL_CONTEXT_CLIENT_VERSION = 0x3098
         const val DRAW_INTERVAL: Long = 1000 / 30
-
-        private var isFirstTimeStart = true
     }
 
     private var renderThread: Thread? = null
@@ -61,29 +61,24 @@ class CameraRenderer(
     @get:Synchronized @set:Synchronized
     private var isRenderingSetUp = false
 
-    override fun onSurfaceTextureSizeChanged(surface: SurfaceTexture, width: Int, height: Int) {
-        Timber.tag("CAMERA_RENDERER").d("onSurfaceTextureSizeChanged: $width $height")
+    private var isRenderingStarted = false
 
-        if(isFirstTimeStart) {
-            startRendering(surface, width, height)
-            isFirstTimeStart = false
-        }
+    override fun onSurfaceTextureAvailable(surface: SurfaceTexture, width: Int, height: Int) {
+        Timber.tag("RENDERER_CAMERA").d("onSurfaceTextureAvailable: $width $height")
+        tryToStartRendering(surface, width, height)
+    }
+
+    override fun onSurfaceTextureSizeChanged(surface: SurfaceTexture, width: Int, height: Int) {
+        Timber.tag("RENDERER_CAMERA").d("onSurfaceTextureSizeChanged: $width $height")
+        tryToStartRendering(surface, width, height)
     }
 
     override fun onSurfaceTextureUpdated(surface: SurfaceTexture?) {}
 
     override fun onSurfaceTextureDestroyed(surface: SurfaceTexture?): Boolean {
-        Timber.tag("CAMERA_RENDERER").d("onSurfaceTextureDestroyed")
+        Timber.tag("RENDERER_CAMERA").d("onSurfaceTextureDestroyed")
         stopRendering()
         return true
-    }
-
-    override fun onSurfaceTextureAvailable(surface: SurfaceTexture, width: Int, height: Int) {
-        Timber.tag("CAMERA_RENDERER").d("onSurfaceTextureAvailable: $width $height")
-
-        if(!isFirstTimeStart) {
-            startRendering(surface, width, height)
-        }
     }
 
     override fun run() {
@@ -167,8 +162,23 @@ class CameraRenderer(
 
     fun updateExposure(exposureValue: Float) = camera.updateExposure(exposureValue)
 
+    private fun tryToStartRendering(surface: SurfaceTexture, width: Int, height: Int) {
+        if(isRenderingStarted) {
+            return
+        }
+
+        val displaySize = getDisplaySizeInPixels()
+
+        Timber.tag("RENDERER_CAMERA").d("tryToStartRendering() displaySize is: ${displaySize.width}x${displaySize.height}")
+
+        if(displaySize.width == width && displaySize.height == height) {
+            isRenderingStarted = true
+            startRendering(surface, width, height)
+        }
+    }
+
     private fun startRendering(surface: SurfaceTexture, width: Int, height: Int) {
-        Timber.tag("CAMERA_RENDERER").d("Rendering started")
+        Timber.tag("RENDERER_CAMERA").d("Rendering started")
 
         renderThread?.takeIf { it.isAlive }?.interrupt()
 
@@ -189,7 +199,7 @@ class CameraRenderer(
     }
 
     private fun stopRendering() {
-        Timber.tag("CAMERA_RENDERER").d("Rendering stopped")
+        Timber.tag("RENDERER_CAMERA").d("Rendering stopped")
 
         camera.close()
 
@@ -249,5 +259,15 @@ class CameraRenderer(
         if (!egl10.eglMakeCurrent(eglDisplay, eglSurface, eglSurface, eglContext)) {
             throw RuntimeException("eglMakeCurrent failed: ${android.opengl.GLUtils.getEGLErrorString(egl10.eglGetError())}")
         }
+    }
+
+    private fun getDisplaySizeInPixels(): Size {
+        val windowsService = context.applicationContext.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+        val display = windowsService.defaultDisplay
+
+        val realSize = Point()
+        display.getRealSize(realSize)
+
+        return context.resources.displayMetrics.let { Size(realSize.x, realSize.y) }
     }
 }

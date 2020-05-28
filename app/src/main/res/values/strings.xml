@@ -1,6 +1,8 @@
 <resources>
     <string name="appName">Wizard camera</string>
 
+    <string name="ok">OK</string>
+
     <string name="captureMenuText">Capture</string>
 
     <string name="filterOriginal">Original</string>

@@ -17,6 +17,7 @@ import com.shevelev.wizard_camera.shared.mvvm.view_commands.ShowMessageResComman
 import com.shevelev.wizard_camera.shared.mvvm.view_model.ViewModelBase
 import com.shevelev.wizard_camera.utils.useful_ext.format
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 class MainActivityViewModel
@@ -48,6 +49,11 @@ constructor(
     var isAutoFocus: Boolean = true
         private set
 
+    var isActive: Boolean = false
+        private set
+
+    private var exiting = false
+
     fun processGesture(gesture: Gesture) {
         when(gesture) {
             FlingRight -> selectNextFilter()
@@ -76,6 +82,12 @@ constructor(
     }
 
     fun onActive() {
+        if(exiting) {
+            return
+        }
+
+        isActive = true
+
         _isFlashButtonState.value = ButtonState.DISABLED
         _turnFiltersButtonState.value = ButtonState.DISABLED
 
@@ -85,6 +97,8 @@ constructor(
     }
 
     fun onInactive() {
+        isActive = false
+
         model.orientation.stop()
 
         isAutoFocus = true
@@ -128,6 +142,11 @@ constructor(
 
     fun onGalleyClick() {
         _command.value = NavigateToGalleryCommand()
+    }
+
+    fun onPermissionDenied() {
+        exiting = true
+        _command.value = ExitCommand(R.string.needCameraPermissionExit)
     }
 
     private fun selectNextFilter() {
