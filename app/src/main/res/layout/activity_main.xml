@@ -8,7 +8,7 @@
         <variable name="viewModel" type="com.shevelev.wizard_camera.main_activity.view_model.MainActivityViewModel" />
     </data>
 
-    <FrameLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/root"
 
         android:layout_width="match_parent"
@@ -20,34 +20,40 @@
             android:id="@+id/captureSuccess"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:layout_gravity="center"
-
-            tools:srcCompat="@drawable/img_smile_2"
 
             android:alpha="0"
-            tools:alpha="1"
 
-            tools:ignore="ContentDescription" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:alpha="1"
+            tools:ignore="ContentDescription"
+
+            tools:srcCompat="@drawable/img_smile_2" />
 
         <com.shevelev.wizard_camera.main_activity.view.widgets.TitleWidget
             android:id="@+id/screenTitle"
+            style="@style/TextNormal.Light.SingleLine"
             android:layout_width="wrap_content"
+
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/marginNormal"
 
             android:background="@drawable/bcg_main_text"
 
             android:maxWidth="250dp"
-
             android:paddingStart="15dp"
             android:paddingTop="4dp"
             android:paddingEnd="15dp"
+
             android:paddingBottom="5dp"
 
-            style="@style/TextNormal.Light.SingleLine"
-
-            app:title_text = "@{viewModel.screenTitle}"
+            app:layout_constraintBottom_toBottomOf="@+id/autoFocusButton"
+            app:layout_constraintEnd_toStartOf="@+id/settingsButton"
+            app:layout_constraintStart_toEndOf="@+id/autoFocusButton"
+            app:layout_constraintTop_toTopOf="@+id/autoFocusButton"
+            app:title_text="@{viewModel.screenTitle}"
             tools:text="Original" />
 
         <ImageButton
@@ -55,124 +61,130 @@
             android:layout_width="@dimen/toolButtonSizeNormal"
             android:layout_height="@dimen/toolButtonSizeNormal"
 
-            android:layout_gravity="start|top"
-
             android:layout_marginStart="@dimen/marginNormal"
             android:layout_marginTop="@dimen/marginNormal"
 
-            android:visibility="@{viewModel.autoFocusButtonVisibility}"
-            tools:visibility="visible"
-
             android:background="@drawable/bcg_main_button"
             android:src="@drawable/ic_auto_focus"
-            tools:ignore="ContentDescription" />
+
+            android:visibility="@{viewModel.autoFocusButtonVisibility}"
+            app:layout_constraintStart_toStartOf="parent"
+
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription"
+            tools:visibility="visible" />
 
         <ImageButton
-                android:id="@+id/settingsButton"
-                android:layout_width="@dimen/toolButtonSizeNormal"
-                android:layout_height="@dimen/toolButtonSizeNormal"
+            android:id="@+id/settingsButton"
+            android:layout_width="@dimen/toolButtonSizeNormal"
+            android:layout_height="@dimen/toolButtonSizeNormal"
 
-                android:layout_gravity="end|top"
+            android:layout_marginTop="@dimen/marginNormal"
+            android:layout_marginEnd="@dimen/marginNormal"
 
-                android:layout_marginTop="@dimen/marginNormal"
-                android:layout_marginEnd="@dimen/marginNormal"
+            android:background="@drawable/bcg_main_button"
+            android:src="@drawable/ic_settings"
 
-                android:background="@drawable/bcg_main_button"
-                android:src="@drawable/ic_settings"
-                tools:ignore="ContentDescription" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
 
         <com.shevelev.wizard_camera.main_activity.view.widgets.ExposureBar
             android:id="@+id/expositionBar"
             android:layout_width="@dimen/toolButtonSizeNormal"
             android:layout_height="350dp"
-            android:layout_gravity="end|center_vertical"
 
             android:layout_marginEnd="@dimen/marginNormal"
-            android:layout_marginBottom="26dp"
 
-            app:button_icon = "@drawable/ic_brightness"
-            app:button_icon_size = "@dimen/toolButtonIconSize"
-            app:stroke_width = "@dimen/strokeWidthNormal"
-            app:stroke_color = "@color/mainButtonsForeground"
-            app:button_color = "@color/mainButtonsBackground"
-            app:button_color_pressed = "@color/mainButtonsBackgroundPressed"
-            app:min_value="-1"
+            app:button_color="@color/mainButtonsBackground"
+            app:button_color_pressed="@color/mainButtonsBackgroundPressed"
+            app:button_icon="@drawable/ic_brightness"
+
+            app:button_icon_size="@dimen/toolButtonIconSize"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:max_value="1"
-        />
+            app:min_value="-1"
+            app:stroke_color="@color/mainButtonsForeground"
+            app:stroke_width="@dimen/strokeWidthNormal" />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="bottom|center_horizontal"
-            android:layout_marginBottom="@dimen/bottomButtonsMargin">
+        <ImageButton
+            android:id="@+id/turnFiltersButton"
+            android:layout_width="@dimen/toolButtonSizeNormal"
+            android:layout_height="@dimen/toolButtonSizeNormal"
 
-            <ImageButton
-                android:id="@+id/turnFiltersButton"
-                android:layout_width="@dimen/toolButtonSizeNormal"
-                android:layout_height="@dimen/toolButtonSizeNormal"
+            android:background="@drawable/bcg_main_button"
 
-                android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_turn_filtes"
+            android:tint="@color/color_main_button"
+            app:button_state="@{viewModel.turnFiltersButtonState}"
+            app:layout_constraintBottom_toBottomOf="@+id/shootButton"
+            app:layout_constraintEnd_toStartOf="@+id/filtersButton"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/shootButton"
+            tools:ignore="ContentDescription" />
 
-                android:layout_marginEnd="@dimen/mainButtonsMargin"
+        <ImageButton
+            android:id="@+id/filtersButton"
+            android:layout_width="@dimen/toolButtonSizeNormal"
+            android:layout_height="@dimen/toolButtonSizeNormal"
 
-                app:button_state="@{viewModel.turnFiltersButtonState}"
+            android:background="@drawable/bcg_main_button"
+            android:src="@drawable/ic_filters"
+            app:layout_constraintBottom_toBottomOf="@+id/shootButton"
+            app:layout_constraintEnd_toStartOf="@+id/shootButton"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/turnFiltersButton"
+            app:layout_constraintTop_toTopOf="@+id/shootButton"
+            tools:ignore="ContentDescription" />
 
-                android:background="@drawable/bcg_main_button"
-                android:tint="@color/color_main_button"
-                android:src="@drawable/ic_turn_filtes"
-                tools:ignore="ContentDescription" />
+        <ImageButton
+            android:id="@+id/shootButton"
+            android:layout_width="@dimen/toolButtonSizeLarge"
+            android:layout_height="@dimen/toolButtonSizeLarge"
 
-            <ImageButton
-                android:id="@+id/filtersButton"
-                android:layout_width="@dimen/toolButtonSizeNormal"
-                android:layout_height="@dimen/toolButtonSizeNormal"
+            android:layout_marginBottom="@dimen/bottomButtonsMargin"
 
-                android:layout_gravity="center_vertical"
+            android:background="@drawable/bcg_main_button"
+            android:src="@drawable/ic_camera"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/flashButton"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/filtersButton"
+            tools:ignore="ContentDescription" />
 
-                android:layout_marginEnd="@dimen/mainButtonsMargin"
+        <ImageButton
+            android:id="@+id/flashButton"
+            android:layout_width="@dimen/toolButtonSizeNormal"
+            android:layout_height="@dimen/toolButtonSizeNormal"
 
-                android:background="@drawable/bcg_main_button"
-                android:src="@drawable/ic_filters"
-                tools:ignore="ContentDescription" />
+            android:background="@drawable/bcg_main_button"
 
-            <ImageButton
-                android:id="@+id/shootButton"
-                android:layout_width="@dimen/toolButtonSizeLarge"
-                android:layout_height="@dimen/toolButtonSizeLarge"
+            android:src="@drawable/ic_flash"
+            android:tint="@color/color_main_button"
+            app:button_state="@{viewModel.isFlashButtonState}"
+            app:layout_constraintBottom_toBottomOf="@+id/shootButton"
+            app:layout_constraintEnd_toStartOf="@+id/galleryButton"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/shootButton"
+            app:layout_constraintTop_toTopOf="@+id/shootButton"
+            tools:ignore="ContentDescription" />
 
-                android:layout_marginEnd="@dimen/mainButtonsMargin"
+        <ImageButton
+            android:id="@+id/galleryButton"
+            android:layout_width="@dimen/toolButtonSizeNormal"
+            android:layout_height="@dimen/toolButtonSizeNormal"
 
-                android:background="@drawable/bcg_main_button"
-                android:src="@drawable/ic_camera"
-                tools:ignore="ContentDescription" />
-
-            <ImageButton
-                android:id="@+id/flashButton"
-                android:layout_width="@dimen/toolButtonSizeNormal"
-                android:layout_height="@dimen/toolButtonSizeNormal"
-
-                android:layout_gravity="center_vertical"
-
-                android:layout_marginEnd="@dimen/mainButtonsMargin"
-
-                app:button_state="@{viewModel.isFlashButtonState}"
-
-                android:background="@drawable/bcg_main_button"
-                android:tint="@color/color_main_button"
-                android:src="@drawable/ic_flash"
-                tools:ignore="ContentDescription" />
-
-            <ImageButton
-                android:id="@+id/galleryButton"
-                android:layout_width="@dimen/toolButtonSizeNormal"
-                android:layout_height="@dimen/toolButtonSizeNormal"
-
-                android:layout_gravity="center_vertical"
-
-                android:background="@drawable/bcg_main_button"
-                android:src="@drawable/ic_gallery"
-                tools:ignore="ContentDescription" />
-        </LinearLayout>
-    </FrameLayout>
+            android:background="@drawable/bcg_main_button"
+            android:src="@drawable/ic_gallery"
+            app:layout_constraintBottom_toBottomOf="@+id/shootButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/flashButton"
+            app:layout_constraintTop_toTopOf="@+id/shootButton"
+            tools:ignore="ContentDescription" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
