@@ -6,6 +6,7 @@ import android.widget.ImageView
 import androidx.annotation.DrawableRes
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.request.target.Target
 import java.io.File
 
@@ -17,6 +18,14 @@ fun ImageView.load(file: File, @DrawableRes defaultRes: Int): GlideTarget =
         .load(file)
         .fallback(defaultRes)
         .error(defaultRes)
+        .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+        .into(this)
+
+fun ImageView.loadCircle(@DrawableRes imageRes: Int): GlideTarget =
+    Glide
+        .with(this)
+        .load(imageRes)
+        .transform(CircleCrop())
         .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
         .into(this)
 

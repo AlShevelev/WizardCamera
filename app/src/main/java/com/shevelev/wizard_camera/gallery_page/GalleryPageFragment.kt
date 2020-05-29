@@ -14,7 +14,7 @@ import com.shevelev.wizard_camera.shared.glide.clear
 import com.shevelev.wizard_camera.shared.glide.load
 import com.shevelev.wizard_camera.shared.mvvm.view.FragmentBase
 import com.shevelev.wizard_camera.utils.useful_ext.ifNotNull
-import kotlinx.android.synthetic.main.gallery_page.*
+import kotlinx.android.synthetic.main.fragment_gallery_page.*
 import javax.inject.Inject
 
 class GalleryPageFragment : FragmentBase() {
@@ -35,7 +35,7 @@ class GalleryPageFragment : FragmentBase() {
     override fun releaseInjection(key: String) = App.injections.release<GalleryPageFragmentComponent>(key)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.gallery_page, container, false)
+        return inflater.inflate(R.layout.fragment_gallery_page, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

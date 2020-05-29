@@ -52,7 +52,7 @@
             android:id="@+id/deleteButton"
             android:layout_width="@dimen/toolButtonSizeNormal"
             android:layout_height="@dimen/toolButtonSizeNormal"
-            android:layout_marginBottom="@dimen/bottomButtonsMargin"
+            android:layout_marginBottom="@dimen/navigationBarButtonsMargin"
             android:background="@null"
 
             android:src="@drawable/ic_delete"

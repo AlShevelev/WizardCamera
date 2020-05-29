@@ -92,7 +92,7 @@
         <com.shevelev.wizard_camera.main_activity.view.widgets.ExposureBar
             android:id="@+id/expositionBar"
             android:layout_width="@dimen/toolButtonSizeNormal"
-            android:layout_height="350dp"
+            android:layout_height="300dp"
 
             android:layout_marginEnd="@dimen/marginNormal"
 
@@ -132,7 +132,7 @@
             android:layout_width="@dimen/toolButtonSizeLarge"
             android:layout_height="@dimen/toolButtonSizeLarge"
 
-            android:layout_marginBottom="@dimen/bottomButtonsMargin"
+            android:layout_marginBottom="@dimen/navigationBarButtonsMargin"
 
             android:background="@drawable/bcg_main_button"
             android:src="@drawable/ic_camera"
@@ -158,6 +158,22 @@
             app:layout_constraintStart_toEndOf="@+id/shootButton"
             app:layout_constraintTop_toTopOf="@+id/shootButton"
             tools:ignore="ContentDescription" />
+
+        <com.shevelev.wizard_camera.main_activity.view.widgets.filters_carousel.FiltersRecyclerView
+            android:id="@+id/filtersCarousel"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/mainFilterCarouselHeight"
+
+            android:clipToPadding="false"
+            android:overScrollMode="never"
+
+            android:layout_marginBottom="@dimen/marginLarge"
+
+            app:filters_data="@{viewModel.filtersStartData}"
+
+            app:layout_constraintBottom_toTopOf="@+id/shootButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

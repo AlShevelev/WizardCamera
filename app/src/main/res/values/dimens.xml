@@ -9,11 +9,14 @@
     <dimen name="marginNormal">16dp</dimen>
     <dimen name="marginLarge">24dp</dimen>
 
+    <dimen name="strokeWidthThin">1dp</dimen>
     <dimen name="strokeWidthNormal">2dp</dimen>
 
     <dimen name="mainButtonsMargin">25dp</dimen>
+    <dimen name="mainFilterCarouselButtonSmall">35dp</dimen>
+    <dimen name="mainFilterCarouselHeight">70dp</dimen>
 
-    <dimen name="bottomButtonsMargin">52dp</dimen>
+    <dimen name="navigationBarButtonsMargin">52dp</dimen>
 
     <dimen name="galleryButtonsMargin">65dp</dimen>
 </resources>

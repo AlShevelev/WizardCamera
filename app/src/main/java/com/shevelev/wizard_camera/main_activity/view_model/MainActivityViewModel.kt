@@ -17,7 +17,6 @@ import com.shevelev.wizard_camera.shared.mvvm.view_commands.ShowMessageResComman
 import com.shevelev.wizard_camera.shared.mvvm.view_model.ViewModelBase
 import com.shevelev.wizard_camera.utils.useful_ext.format
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 class MainActivityViewModel
@@ -42,6 +41,9 @@ constructor(
 
     private val _autoFocusButtonVisibility = MutableLiveData(View.INVISIBLE)
     val autoFocusButtonVisibility: LiveData<Int> = _autoFocusButtonVisibility
+
+    private val _filtersStartData = MutableLiveData(FilterListStartData(model.filters.currentFilterIndex, model.filters.items))
+    val filtersStartData: LiveData<FilterListStartData> = _filtersStartData
 
     var isFlashActive: Boolean = false
         private set
