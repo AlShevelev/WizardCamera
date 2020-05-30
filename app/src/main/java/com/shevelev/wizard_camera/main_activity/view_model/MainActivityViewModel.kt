@@ -27,10 +27,10 @@ constructor(
     model: MainActivityModel
 ) : ViewModelBase<MainActivityModel>(dispatchersProvider, model) {
 
-    private val _selectedFilter = MutableLiveData(model.filters.selectedFilter)
+    private val _selectedFilter = MutableLiveData(model.filters.displayFilter)
     val selectedFilter: LiveData<FilterCode> = _selectedFilter
 
-    private val _screenTitle = MutableLiveData(appContext.getString(model.filters.selectedFilterTitle))
+    private val _screenTitle = MutableLiveData(appContext.getString(model.filters.displayFilterTitle))
     val screenTitle: LiveData<String> = _screenTitle
 
     private val _isFlashButtonState = MutableLiveData(ButtonState.DISABLED)
@@ -42,8 +42,11 @@ constructor(
     private val _autoFocusButtonVisibility = MutableLiveData(View.INVISIBLE)
     val autoFocusButtonVisibility: LiveData<Int> = _autoFocusButtonVisibility
 
-    private val _filtersStartData = MutableLiveData(FilterListStartData(model.filters.currentFilterIndex, model.filters.items))
+    private val _filtersStartData = MutableLiveData(model.filters.getStartData())
     val filtersStartData: LiveData<FilterListStartData> = _filtersStartData
+
+    private val _filtersVisibility = MutableLiveData(View.INVISIBLE)
+    val filtersVisibility: LiveData<Int> = _filtersVisibility
 
     var isFlashActive: Boolean = false
         private set
@@ -58,8 +61,6 @@ constructor(
 
     fun processGesture(gesture: Gesture) {
         when(gesture) {
-            FlingRight -> selectNextFilter()
-            FlingLeft -> selectPriorFilter()
             is Tap -> selectManualFocus(gesture.touchPoint, gesture.touchAreaSize)
             is Pinch -> zoom(gesture.touchDistance)
         }
@@ -73,7 +74,7 @@ constructor(
             }
 
             val screenOrientation = model.orientation.screenOrientation
-            val isSuccess = model.capture.capture(textureView, model.filters.selectedFilter, screenOrientation)
+            val isSuccess = model.capture.capture(textureView, model.filters.displayFilter, screenOrientation)
 
             _command.value = if(isSuccess) {
                 ShowCapturingSuccessCommand(screenOrientation)
@@ -92,6 +93,7 @@ constructor(
 
         _isFlashButtonState.value = ButtonState.DISABLED
         _turnFiltersButtonState.value = ButtonState.DISABLED
+        _filtersVisibility.value = View.INVISIBLE
 
         model.orientation.start()
 
@@ -118,13 +120,17 @@ constructor(
     fun onCameraIsSetUp() {
         _isFlashButtonState.value = if(isFlashActive)  ButtonState.SELECTED else ButtonState.ACTIVE
         _turnFiltersButtonState.value = if(model.filters.isFilterTurnedOn)  ButtonState.SELECTED else ButtonState.ACTIVE
+        _filtersVisibility.value = if(_turnFiltersButtonState.value == ButtonState.SELECTED) View.VISIBLE else View.INVISIBLE
     }
 
     fun onTurnFiltersClick() {
         model.filters.switchMode()
-        _selectedFilter.value = model.filters.selectedFilter
-        _screenTitle.value = appContext.getString(model.filters.selectedFilterTitle)
+
+        _selectedFilter.value = model.filters.displayFilter
+        _screenTitle.value = appContext.getString(model.filters.displayFilterTitle)
+
         _turnFiltersButtonState.value = if(model.filters.isFilterTurnedOn)  ButtonState.SELECTED else ButtonState.ACTIVE
+        _filtersVisibility.value = if(_turnFiltersButtonState.value == ButtonState.SELECTED) View.VISIBLE else View.INVISIBLE
     }
 
     fun onAutoFocusClick() {
@@ -151,16 +157,13 @@ constructor(
         _command.value = ExitCommand(R.string.needCameraPermissionExit)
     }
 
-    private fun selectNextFilter() {
-        model.filters.selectNextFilter()
-        _selectedFilter.value = model.filters.selectedFilter
-        _screenTitle.value = appContext.getString(model.filters.selectedFilterTitle)
-    }
+    fun onFilterSelected(filterCode: FilterCode) {
+        model.filters.selectFilter(filterCode)
 
-    private fun selectPriorFilter() {
-        model.filters.selectPriorFilter()
-        _selectedFilter.value = model.filters.selectedFilter
-        _screenTitle.value = appContext.getString(model.filters.selectedFilterTitle)
+        if(model.filters.isFilterTurnedOn) {
+            _selectedFilter.value = model.filters.displayFilter
+            _screenTitle.value = appContext.getString(model.filters.displayFilterTitle)
+        }
     }
 
     private fun selectManualFocus(touchPoint: PointF, touchAreaSize: SizeF) {

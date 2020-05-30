@@ -5,7 +5,7 @@ import androidx.annotation.StringRes
 import com.shevelev.wizard_camera.common_entities.enums.FilterCode
 
 data class FiltersListItem(
-    val id: FilterCode,
+    val code: FilterCode,
     @DrawableRes val icon: Int,
     @StringRes val title: Int
 )

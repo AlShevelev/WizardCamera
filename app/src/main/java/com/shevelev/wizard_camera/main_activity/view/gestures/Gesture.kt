@@ -5,9 +5,6 @@ import android.util.SizeF
 
 sealed class Gesture
 
-object FlingRight : Gesture()
-object FlingLeft : Gesture()
-
 data class Tap(val touchPoint: PointF, val touchAreaSize: SizeF) : Gesture()
 
 data class Pinch(val touchDistance: Float) : Gesture()

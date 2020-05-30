@@ -13,8 +13,10 @@
     <dimen name="strokeWidthNormal">2dp</dimen>
 
     <dimen name="mainButtonsMargin">25dp</dimen>
-    <dimen name="mainFilterCarouselButtonSmall">35dp</dimen>
-    <dimen name="mainFilterCarouselHeight">70dp</dimen>
+    <dimen name="mainFilterCarouselButtonSmall">50dp</dimen>
+    <dimen name="mainFilterCarouselHeight">100dp</dimen>
+    <dimen name="mainFilterCarouselMargin">25dp</dimen>
+
 
     <dimen name="navigationBarButtonsMargin">52dp</dimen>
 

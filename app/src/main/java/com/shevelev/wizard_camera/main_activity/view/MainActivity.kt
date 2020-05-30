@@ -59,6 +59,9 @@ class MainActivity : ActivityBaseMVVM<ActivityMainBinding, MainActivityViewModel
         autoFocusButton.setOnClickListener { viewModel.onAutoFocusClick() }
         expositionBar.setOnValueChangeListener { viewModel.onExposeValueUpdated(it) }
         galleryButton.setOnClickListener { viewModel.onGalleyClick() }
+        filtersCarousel.setOnItemSelectedListener { viewModel.onFilterSelected(it) }
+
+        root.layoutTransition.setDuration(resources.getInteger(android.R.integer.config_shortAnimTime).toLong())
     }
 
     override fun onResume() {

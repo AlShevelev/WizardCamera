@@ -13,7 +13,7 @@ class FiltersItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
     fun bind(item: FiltersListItem, position: Int) {
         iconGlideTarget = itemView.listItemIcon.loadCircle(item.icon)
-        itemView.root.tag = FiltersItemTag(id = item.id, position = position)
+        itemView.root.tag = FiltersItemTag(id = item.code, position = position)
     }
 
     fun recycle() {

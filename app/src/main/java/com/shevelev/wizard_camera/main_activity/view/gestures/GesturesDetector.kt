@@ -7,7 +7,6 @@ import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.ScaleGestureDetector
 import android.view.View
-import kotlin.math.abs
 
 class GesturesDetector(context: Context) : GestureDetector.OnGestureListener, ScaleGestureDetector.SimpleOnScaleGestureListener() {
     private val gestureDetector = GestureDetector(context, this)
@@ -32,11 +31,6 @@ class GesturesDetector(context: Context) : GestureDetector.OnGestureListener, Sc
     override fun onDown(e: MotionEvent?): Boolean = false
 
     override fun onFling(e1: MotionEvent?, e2: MotionEvent?, velocityX: Float, velocityY: Float): Boolean {
-        if(abs(velocityX) < abs(velocityY)) {
-            return true
-        }
-
-        onGestureListener?.invoke(if(velocityX > 0) FlingLeft else FlingRight )
         return true
     }
 

@@ -9,8 +9,8 @@
 
     tools:background="#EA00FF"
 
-    android:layout_marginStart="@dimen/marginNormal"
-    android:layout_marginEnd="@dimen/marginNormal">
+    android:layout_marginStart="@dimen/mainFilterCarouselMargin"
+    android:layout_marginEnd="@dimen/mainFilterCarouselMargin">
 
     <ImageView
         android:id="@+id/listItemIcon"

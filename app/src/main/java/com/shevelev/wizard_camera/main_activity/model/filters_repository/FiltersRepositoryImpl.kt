@@ -2,16 +2,14 @@ package com.shevelev.wizard_camera.main_activity.model.filters_repository
 
 import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.common_entities.enums.FilterCode
+import com.shevelev.wizard_camera.main_activity.dto.FilterListStartData
 import com.shevelev.wizard_camera.main_activity.dto.FiltersListItem
 import javax.inject.Inject
 
 class FiltersRepositoryImpl
 @Inject
 constructor() : FiltersRepository {
-    private val originalFilter = FilterCode.ORIGINAL
-    private val originalFilterTitle = R.string.filterOriginal
-    
-    override val items = listOf(
+    private val items = listOf(
         FiltersListItem(FilterCode.EDGE_DETECTION, R.drawable.img_filter_edge_detection, R.string.filterEdgeDectection),
         FiltersListItem(FilterCode.PIXELIZE, R.drawable.img_filter_pixelize, R.string.filterPixelize),
         FiltersListItem(FilterCode.EM_INTERFERENCE, R.drawable.img_filter_em_interference, R.string.filterEMInterference),
@@ -45,39 +43,28 @@ constructor() : FiltersRepository {
         FiltersListItem(FilterCode.WATER_REFLECTION, R.drawable.img_filter_water_reflection, R.string.filterWaterReflection)
     )
 
-    override var currentFilterIndex = 0
-    private set
+    private var selectedFilter: FilterCode = FilterCode.EDGE_DETECTION
+    private var selectedFilterTitle: Int = items[0].title
 
-    override val selectedFilter: FilterCode
-        get() = if(isFilterTurnedOn) items[currentFilterIndex].id else originalFilter
+    override val displayFilter: FilterCode
+        get() = if(isFilterTurnedOn) selectedFilter else FilterCode.ORIGINAL
 
-    override val selectedFilterTitle: Int
-        get() = if(isFilterTurnedOn) items[currentFilterIndex].title else originalFilterTitle
+    override val displayFilterTitle: Int
+        get() = if(isFilterTurnedOn) selectedFilterTitle else R.string.filterOriginal
 
     override var isFilterTurnedOn: Boolean = false
         private set
 
-    override fun selectNextFilter() {
-        if(!isFilterTurnedOn) {
-            return
-        }
-
-        if(++currentFilterIndex > items.lastIndex) {
-            currentFilterIndex = 0
-        }
-    }
-
-    override fun selectPriorFilter() {
-        if(!isFilterTurnedOn) {
-            return
-        }
-
-        if(--currentFilterIndex < 0) {
-            currentFilterIndex = items.lastIndex
-        }
+    override fun selectFilter(code: FilterCode) {
+        selectedFilter = code
+        selectedFilterTitle = items.single { it.code == code }.title
     }
 
     override fun switchMode() {
         isFilterTurnedOn = !isFilterTurnedOn
+    }
+
+    override fun getStartData(): FilterListStartData {
+        return FilterListStartData(items.indexOfFirst { it.code == selectedFilter }, items)
     }
 }
