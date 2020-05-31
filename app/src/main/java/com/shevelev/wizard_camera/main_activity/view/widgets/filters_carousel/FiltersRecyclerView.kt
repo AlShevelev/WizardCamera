@@ -29,7 +29,11 @@ class FiltersRecyclerView(
     private var onItemSelectedListener: ((FilterCode) -> Unit)? = null
     private var lastPostId: FilterCode? = null
 
+    private var startCode: FilterCode? = null
+
     fun setStartData(data: FilterListStartData) {
+        startCode = data.items[data.startPosition].code
+
         val adapter = FiltersAdapter(R.layout.view_filters_carousel)
         addAdapter(adapter)
         adapter.setItems(data.items)
@@ -159,7 +163,12 @@ class FiltersRecyclerView(
         }
         lastPostId = id
 
-        onItemSelectedListener?.invoke(id)
+        // To filter the very first event
+        if(startCode == id) {
+            startCode = null
+        } else {
+            onItemSelectedListener?.invoke(id)
+        }
     }
 
     private fun scrollToAbsolutePosition(position: Int) {

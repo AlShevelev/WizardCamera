@@ -10,8 +10,7 @@ import com.shevelev.wizard_camera.main_activity.dto.ScreenOrientation
 import com.shevelev.wizard_camera.shared.coroutines.DispatchersProvider
 import com.shevelev.wizard_camera.shared.files.FilesHelper
 import com.shevelev.wizard_camera.shared.media_scanner.MediaScanner
-import com.shevelev.wizard_camera.storage.core.DbCore
-import com.shevelev.wizard_camera.storage.mapping.map
+import com.shevelev.wizard_camera.storage.repositories.PhotoShotRepository
 import com.shevelev.wizard_camera.utils.id.IdUtil
 import kotlinx.coroutines.withContext
 import org.threeten.bp.ZonedDateTime
@@ -24,7 +23,7 @@ class ImageCaptureImpl
 @Inject
 constructor(
     private val dispatchersProvider: DispatchersProvider,
-    private val db: DbCore,
+    private val photoShotRepository: PhotoShotRepository,
     private val filesHelper: FilesHelper,
     private val mediaScanner: MediaScanner
 ) : ImageCapture {
@@ -32,6 +31,7 @@ constructor(
     override var inProgress: Boolean = false
         private set
 
+    @Suppress("BlockingMethodInNonBlockingContext")
     override suspend fun capture(textureView: TextureView, activeFilter: FilterCode, screenOrientation: ScreenOrientation): Boolean {
         inProgress = true
         try {
@@ -92,5 +92,5 @@ constructor(
     }
 
     private fun saveToDb(fileName: String, filter: FilterCode, contentUri: Uri?) =
-        db.photoShot.create(PhotoShot(IdUtil.generateLongId(), fileName, ZonedDateTime.now(), filter, contentUri).map())
+        photoShotRepository.create(PhotoShot(IdUtil.generateLongId(), fileName, ZonedDateTime.now(), filter, contentUri))
 }

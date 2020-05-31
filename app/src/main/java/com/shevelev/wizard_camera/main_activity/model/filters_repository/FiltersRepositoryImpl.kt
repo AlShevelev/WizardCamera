@@ -4,11 +4,17 @@ import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.common_entities.enums.FilterCode
 import com.shevelev.wizard_camera.main_activity.dto.FilterListStartData
 import com.shevelev.wizard_camera.main_activity.dto.FiltersListItem
+import com.shevelev.wizard_camera.shared.coroutines.DispatchersProvider
+import com.shevelev.wizard_camera.storage.repositories.LastUsedFilterRepository
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class FiltersRepositoryImpl
 @Inject
-constructor() : FiltersRepository {
+constructor(
+    private val dispatchersProvider: DispatchersProvider,
+    private val lastUsedFilterRepository: LastUsedFilterRepository
+) : FiltersRepository {
     private val items = listOf(
         FiltersListItem(FilterCode.EDGE_DETECTION, R.drawable.img_filter_edge_detection, R.string.filterEdgeDectection),
         FiltersListItem(FilterCode.PIXELIZE, R.drawable.img_filter_pixelize, R.string.filterPixelize),
@@ -43,7 +49,7 @@ constructor() : FiltersRepository {
         FiltersListItem(FilterCode.WATER_REFLECTION, R.drawable.img_filter_water_reflection, R.string.filterWaterReflection)
     )
 
-    private var selectedFilter: FilterCode = FilterCode.EDGE_DETECTION
+    private var selectedFilter = items[0].code
     private var selectedFilterTitle: Int = items[0].title
 
     override val displayFilter: FilterCode
@@ -55,7 +61,24 @@ constructor() : FiltersRepository {
     override var isFilterTurnedOn: Boolean = false
         private set
 
-    override fun selectFilter(code: FilterCode) {
+    override suspend fun init() {
+        val filter = withContext(dispatchersProvider.ioDispatcher) {
+            lastUsedFilterRepository.read()
+        }
+
+        if(filter != null) {
+            selectedFilter = filter
+            selectedFilterTitle = items.single { it.code == filter }.title
+        } else {
+            selectedFilter = FilterCode.EDGE_DETECTION
+            selectedFilterTitle = items[0].title
+        }
+    }
+
+    override suspend fun selectFilter(code: FilterCode) {
+        withContext(dispatchersProvider.ioDispatcher) {
+            lastUsedFilterRepository.update(code)
+        }
         selectedFilter = code
         selectedFilterTitle = items.single { it.code == code }.title
     }

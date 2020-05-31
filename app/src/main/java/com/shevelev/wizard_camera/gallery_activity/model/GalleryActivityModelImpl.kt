@@ -6,8 +6,7 @@ import com.shevelev.wizard_camera.shared.coroutines.DispatchersProvider
 import com.shevelev.wizard_camera.shared.files.FilesHelper
 import com.shevelev.wizard_camera.shared.media_scanner.MediaScanner
 import com.shevelev.wizard_camera.shared.mvvm.model.ModelBaseImpl
-import com.shevelev.wizard_camera.storage.core.DbCore
-import com.shevelev.wizard_camera.storage.mapping.map
+import com.shevelev.wizard_camera.storage.repositories.PhotoShotRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.BroadcastChannel
@@ -23,7 +22,7 @@ class GalleryActivityModelImpl
 @Inject
 constructor(
     private val dispatchersProvider: DispatchersProvider,
-    private val db: DbCore,
+    private val photoShotRepository: PhotoShotRepository,
     private val filesHelper: FilesHelper,
     private val mediaScanner: MediaScanner
 ) : ModelBaseImpl(),
@@ -57,7 +56,7 @@ constructor(
             updateInProgress = true
 
             val dbData = withContext(dispatchersProvider.ioDispatcher) {
-                db.photoShot.readPaged(PAGE_SIZE, offset).map { it.map() }
+                photoShotRepository.readPaged(PAGE_SIZE, offset)
             }
 
             photosList.addAll(dbData)
@@ -82,7 +81,7 @@ constructor(
             val shotItem = photosList[position]
 
             val deletedFile = withContext(dispatchersProvider.ioDispatcher) {
-                db.photoShot.deleteById(shotItem.id)
+                photoShotRepository.deleteById(shotItem.id)
                 filesHelper.removeShotFileByName(shotItem.fileName)
             }
 

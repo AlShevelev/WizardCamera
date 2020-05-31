@@ -42,7 +42,7 @@ constructor(
     private val _autoFocusButtonVisibility = MutableLiveData(View.INVISIBLE)
     val autoFocusButtonVisibility: LiveData<Int> = _autoFocusButtonVisibility
 
-    private val _filtersStartData = MutableLiveData(model.filters.getStartData())
+    private val _filtersStartData: MutableLiveData<FilterListStartData> = MutableLiveData()
     val filtersStartData: LiveData<FilterListStartData> = _filtersStartData
 
     private val _filtersVisibility = MutableLiveData(View.INVISIBLE)
@@ -58,6 +58,13 @@ constructor(
         private set
 
     private var exiting = false
+
+    init {
+        launch {
+            model.filters.init()
+            _filtersStartData.value = model.filters.getStartData()  
+        }
+    }
 
     fun processGesture(gesture: Gesture) {
         when(gesture) {
@@ -158,11 +165,13 @@ constructor(
     }
 
     fun onFilterSelected(filterCode: FilterCode) {
-        model.filters.selectFilter(filterCode)
+        launch {
+            model.filters.selectFilter(filterCode)
 
-        if(model.filters.isFilterTurnedOn) {
-            _selectedFilter.value = model.filters.displayFilter
-            _screenTitle.value = appContext.getString(model.filters.displayFilterTitle)
+            if(model.filters.isFilterTurnedOn) {
+                _selectedFilter.value = model.filters.displayFilter
+                _screenTitle.value = appContext.getString(model.filters.displayFilterTitle)
+            }
         }
     }
 

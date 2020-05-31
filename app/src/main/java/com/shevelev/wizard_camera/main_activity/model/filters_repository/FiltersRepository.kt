@@ -10,7 +10,9 @@ interface FiltersRepository {
 
     val isFilterTurnedOn: Boolean
 
-    fun selectFilter(code: FilterCode)
+    suspend fun init()
+
+    suspend fun selectFilter(code: FilterCode)
 
     fun switchMode()
 
