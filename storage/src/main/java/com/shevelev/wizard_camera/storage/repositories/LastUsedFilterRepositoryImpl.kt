@@ -13,8 +13,7 @@ constructor(
 ) : LastUsedFilterRepository {
     override fun update(code: FilterCode) =
         db.runConsistent {
-            val tttt = db.lastUsedFilter.read()
-            val dbRecord = tttt.firstOrNull()
+            val dbRecord = db.lastUsedFilter.read().firstOrNull()
             if(dbRecord == null) {
                 db.lastUsedFilter.create(LastUsedFilterDb(IdUtil.generateLongId(), code))
             } else {
