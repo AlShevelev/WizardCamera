@@ -16,5 +16,9 @@ interface FiltersRepository {
 
     fun switchMode()
 
-    fun getStartData(): FilterListStartData
+    suspend fun getStartFiltersData(): FilterListStartData
+
+    suspend fun addToFavorite(code: FilterCode)
+
+    suspend fun removeFromFavorite(code: FilterCode)
 }

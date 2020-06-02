@@ -7,6 +7,8 @@ import android.animation.ValueAnimator
 object AnimationUtils {
     inline fun getFloatAnimator(
         forward: Boolean = true,
+        from: Float = 0f,
+        to: Float = 1f,
         duration: Long = 200,
         delay: Long = 0,
         interpolator: TimeInterpolator? = null,
@@ -15,9 +17,9 @@ object AnimationUtils {
         crossinline completeListener: () -> Unit = {}
     ): ValueAnimator {
         val a = if (forward) {
-            ValueAnimator.ofFloat(0f, 1f)
+            ValueAnimator.ofFloat(from, to)
         } else {
-            ValueAnimator.ofFloat(1f, 0f)
+            ValueAnimator.ofFloat(to, from)
         }
 
         a.duration = duration

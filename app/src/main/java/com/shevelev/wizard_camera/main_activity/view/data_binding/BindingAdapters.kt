@@ -32,9 +32,3 @@ fun setTitleText(view: TitleWidget, valueToBind: LiveData<String>?) =
     valueToBind?.value?.let {
         view.show(it)
     }
-
-@BindingAdapter("filters_data")
-fun setFiltersData(view: FiltersRecyclerView, valueToBind: LiveData<FilterListStartData>?) =
-    valueToBind?.value?.let {
-        view.setStartData(it)
-    }

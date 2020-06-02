@@ -98,18 +98,19 @@
 
             android:layout_marginEnd="@dimen/marginNormal"
 
-            app:button_color="@color/mainButtonsBackground"
-            app:button_color_pressed="@color/mainButtonsBackgroundPressed"
-            app:button_icon="@drawable/ic_brightness"
+            app:exposure_button_color="@color/mainButtonsBackground"
+            app:exposure_button_color_pressed="@color/mainButtonsBackgroundPressed"
+            app:exposure_button_icon="@drawable/ic_brightness"
+            app:exposure_max_value="1"
+            app:exposure_min_value="-1"
+            app:exposure_stroke_color="@color/mainButtonsForeground"
+            app:exposure_stroke_width="@dimen/strokeWidthNormal"
+            app:exposure_button_icon_size="@dimen/toolButtonIconSize"
 
-            app:button_icon_size="@dimen/toolButtonIconSize"
             app:layout_constraintBottom_toTopOf="@+id/filtersCarousel"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/galleryButton"
-            app:max_value="1"
-            app:min_value="-1"
-            app:stroke_color="@color/mainButtonsForeground"
-            app:stroke_width="@dimen/strokeWidthNormal" />
+        />
 
         <ImageButton
             android:id="@+id/turnFiltersButton"
@@ -171,8 +172,6 @@
 
             android:layout_marginBottom="@dimen/marginLarge"
 
-            app:filters_data="@{viewModel.filtersStartData}"
-
             app:layout_constraintBottom_toTopOf="@+id/shootButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -182,6 +181,5 @@
 
             android:visibility="@{viewModel.filtersVisibility}"
             />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

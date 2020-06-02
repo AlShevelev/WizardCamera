@@ -25,7 +25,8 @@ constructor(
     private val appContext: Context,
     dispatchersProvider: DispatchersProvider,
     model: MainActivityModel
-) : ViewModelBase<MainActivityModel>(dispatchersProvider, model) {
+) : ViewModelBase<MainActivityModel>(dispatchersProvider, model),
+    FilterEventsProcessor {
 
     private val _selectedFilter = MutableLiveData(model.filters.displayFilter)
     val selectedFilter: LiveData<FilterCode> = _selectedFilter
@@ -62,7 +63,7 @@ constructor(
     init {
         launch {
             model.filters.init()
-            _filtersStartData.value = model.filters.getStartData()  
+            _filtersStartData.value = model.filters.getStartFiltersData()
         }
     }
 
@@ -171,6 +172,16 @@ constructor(
             if(model.filters.isFilterTurnedOn) {
                 _selectedFilter.value = model.filters.displayFilter
                 _screenTitle.value = appContext.getString(model.filters.displayFilterTitle)
+            }
+        }
+    }
+
+    override fun onFavoriteFilterClick(code: FilterCode, isSelected: Boolean) {
+        launch {
+            if(isSelected) {
+                model.filters.addToFavorite(code)
+            } else {
+                model.filters.removeFromFavorite(code)
             }
         }
     }

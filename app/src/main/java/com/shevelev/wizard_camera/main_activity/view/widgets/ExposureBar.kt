@@ -63,19 +63,19 @@ constructor(
     init {
         val typedArray = context.obtainStyledAttributes(attrs, R.styleable.ExposureBar)
 
-        icon =  typedArray.getDrawable(R.styleable.ExposureBar_button_icon) as VectorDrawable
-        val iconSize = typedArray.getDimensionPixelSize(R.styleable.ExposureBar_button_icon_size, 0)
+        icon =  typedArray.getDrawable(R.styleable.ExposureBar_exposure_button_icon) as VectorDrawable
+        val iconSize = typedArray.getDimensionPixelSize(R.styleable.ExposureBar_exposure_button_icon_size, 0)
         icon.setBounds(0, 0, iconSize, iconSize)
 
-        strokeWidth = typedArray.getDimensionPixelSize(R.styleable.ExposureBar_stroke_width, 0).toFloat()
+        strokeWidth = typedArray.getDimensionPixelSize(R.styleable.ExposureBar_exposure_stroke_width, 0).toFloat()
         drawingPaint.strokeWidth = strokeWidth
 
-        strokeColor = typedArray.getColor(R.styleable.ExposureBar_stroke_color, Color.WHITE)
-        buttonFillColor = typedArray.getColor(R.styleable.ExposureBar_button_color, Color.BLACK)
-        buttonFillColorPressed = typedArray.getColor(R.styleable.ExposureBar_button_color_pressed, Color.BLUE)
+        strokeColor = typedArray.getColor(R.styleable.ExposureBar_exposure_stroke_color, Color.WHITE)
+        buttonFillColor = typedArray.getColor(R.styleable.ExposureBar_exposure_button_color, Color.BLACK)
+        buttonFillColorPressed = typedArray.getColor(R.styleable.ExposureBar_exposure_button_color_pressed, Color.BLUE)
 
-        val minValue = typedArray.getFloat(R.styleable.ExposureBar_min_value, 0f)
-        val maxValue = typedArray.getFloat(R.styleable.ExposureBar_max_value, 0f)
+        val minValue = typedArray.getFloat(R.styleable.ExposureBar_exposure_min_value, 0f)
+        val maxValue = typedArray.getFloat(R.styleable.ExposureBar_exposure_max_value, 0f)
         valuesRange = Range(minValue, maxValue)
 
         typedArray.recycle()

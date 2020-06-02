@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.common_entities.enums.FilterCode
 import com.shevelev.wizard_camera.main_activity.dto.FilterListStartData
+import com.shevelev.wizard_camera.main_activity.view_model.FilterEventsProcessor
 import kotlin.math.pow
 
 class FiltersRecyclerView(
@@ -31,10 +32,10 @@ class FiltersRecyclerView(
 
     private var startCode: FilterCode? = null
 
-    fun setStartData(data: FilterListStartData) {
-        startCode = data.items[data.startPosition].code
+    fun setStartData(data: FilterListStartData, eventsProcessor: FilterEventsProcessor) {
+        startCode = data.items[data.startPosition].staticData.code
 
-        val adapter = FiltersAdapter(R.layout.view_filters_carousel)
+        val adapter = FiltersAdapter(R.layout.view_filters_carousel, eventsProcessor)
         addAdapter(adapter)
         adapter.setItems(data.items)
         setUp(data.startPosition)

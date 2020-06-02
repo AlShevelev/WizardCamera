@@ -4,14 +4,16 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
-import com.shevelev.wizard_camera.main_activity.dto.FiltersListItem
+import com.shevelev.wizard_camera.main_activity.dto.FilterListItem
+import com.shevelev.wizard_camera.main_activity.view_model.FilterEventsProcessor
 
 class FiltersAdapter(
     @LayoutRes
-    private val layoutId: Int
+    private val layoutId: Int,
+    private val eventsProcessor: FilterEventsProcessor
 ) : RecyclerView.Adapter<FiltersItemViewHolder>() {
 
-    private var items: List<FiltersListItem> = listOf()
+    private var items: List<FilterListItem> = listOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FiltersItemViewHolder =
         FiltersItemViewHolder(LayoutInflater.from(parent.context).inflate(layoutId, parent, false))
@@ -19,14 +21,14 @@ class FiltersAdapter(
     override fun onBindViewHolder(holder: FiltersItemViewHolder, position: Int) {
         val index = getItemIndexByPosition(position)
 
-        holder.bind(items[index], position)
+        holder.bind(items[index], position, eventsProcessor)
     }
 
     override fun onViewRecycled(holder: FiltersItemViewHolder) = holder.recycle()
 
     override fun getItemCount() = Int.MAX_VALUE
 
-    fun setItems(newItems: List<FiltersListItem>) {
+    fun setItems(newItems: List<FilterListItem>) {
         items = newItems
         notifyDataSetChanged()
     }
