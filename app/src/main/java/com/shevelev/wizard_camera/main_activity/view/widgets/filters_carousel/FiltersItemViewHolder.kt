@@ -14,8 +14,8 @@ class FiltersItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     private var iconGlideTarget: GlideTarget? = null
 
     fun bind(item: FilterListItem, position: Int, eventsProcessor: FilterEventsProcessor) {
-        iconGlideTarget = itemView.listItemIcon.loadCircle(item.staticData.icon)
-        itemView.root.tag = FiltersItemTag(id = item.staticData.code, position = position)
+        iconGlideTarget = itemView.listItemIcon.loadCircle(item.displayData.icon)
+        itemView.root.tag = FiltersItemTag(id = item.displayData.code, position = position)
 
         when(item.favorite) {
             FilterFavoriteType.FAVORITE -> {
@@ -26,13 +26,13 @@ class FiltersItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
                 itemView.favoriteButton.visibility = View.VISIBLE
                 itemView.favoriteButton.isActive = false
             }
-            FilterFavoriteType.UNKNOWN -> {
+            FilterFavoriteType.HIDDEN -> {
                 itemView.favoriteButton.visibility = View.INVISIBLE
             }
         }
 
         itemView.favoriteButton.setOnPulseButtonClickListener { isActive ->
-            eventsProcessor.onFavoriteFilterClick(item.staticData.code, isActive)
+            eventsProcessor.onFavoriteFilterClick(item.displayData.code, isActive)
         }
     }
 

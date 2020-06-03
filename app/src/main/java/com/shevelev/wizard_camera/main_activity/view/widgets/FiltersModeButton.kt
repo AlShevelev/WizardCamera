@@ -20,8 +20,9 @@ constructor(
 
     private var animSet: AnimatorSet? = null
 
-    var filtersMode = FiltersMode.NO_FILTERS
-    private set
+    private var filtersMode = FiltersMode.NO_FILTERS
+
+    private var onModeChangeListener: ((FiltersMode) -> Unit)? = null
 
     init {
         inflate(context, R.layout.view_filters_mode, this)
@@ -81,6 +82,10 @@ constructor(
         allFiltersSelected.isEnabled = enabled
         favoritesFilters.isEnabled = enabled
         favoritesFiltersSelected.isEnabled = enabled
+    }
+
+    fun setOnModeChangeListener(listener: ((FiltersMode) -> Unit)?) {
+        onModeChangeListener = listener
     }
 
     private fun updateMode(currentMode: FiltersMode) {

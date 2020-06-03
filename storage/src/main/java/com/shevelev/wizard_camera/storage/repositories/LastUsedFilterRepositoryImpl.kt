@@ -1,6 +1,6 @@
 package com.shevelev.wizard_camera.storage.repositories
 
-import com.shevelev.wizard_camera.common_entities.enums.FilterCode
+import com.shevelev.wizard_camera.common_entities.entities.LastUsedFilter
 import com.shevelev.wizard_camera.storage.core.DbCore
 import com.shevelev.wizard_camera.storage.entities.LastUsedFilterDb
 import com.shevelev.wizard_camera.utils.id.IdUtil
@@ -11,15 +11,17 @@ class LastUsedFilterRepositoryImpl
 constructor(
     private val db: DbCore
 ) : LastUsedFilterRepository {
-    override fun update(code: FilterCode) =
+
+    override fun update(filter: LastUsedFilter) =
         db.runConsistent {
-            val dbRecord = db.lastUsedFilter.read().firstOrNull()
+            val dbRecord = db.lastUsedFilter.read().firstOrNull { it.isFavorite == filter.isFavorite }
+
             if(dbRecord == null) {
-                db.lastUsedFilter.create(LastUsedFilterDb(IdUtil.generateLongId(), code))
+                db.lastUsedFilter.create(LastUsedFilterDb(IdUtil.generateLongId(), filter.code, filter.isFavorite ))
             } else {
-                db.lastUsedFilter.update(dbRecord.copy(code = code))
+                db.lastUsedFilter.update(dbRecord.copy(code = filter.code))
             }
         }
 
-    override fun read(): FilterCode? = db.lastUsedFilter.read().firstOrNull()?.code
+    override fun read(): List<LastUsedFilter> = db.lastUsedFilter.read().map { LastUsedFilter(it.code, it.isFavorite) }
 }

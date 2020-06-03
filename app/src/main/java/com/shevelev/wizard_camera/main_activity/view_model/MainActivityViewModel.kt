@@ -43,8 +43,8 @@ constructor(
     private val _autoFocusButtonVisibility = MutableLiveData(View.INVISIBLE)
     val autoFocusButtonVisibility: LiveData<Int> = _autoFocusButtonVisibility
 
-    private val _filtersStartData: MutableLiveData<FilterListStartData> = MutableLiveData()
-    val filtersStartData: LiveData<FilterListStartData> = _filtersStartData
+    private val _filtersListData: MutableLiveData<FiltersListData> = MutableLiveData()
+    val filtersListData: LiveData<FiltersListData> = _filtersListData
 
     private val _filtersVisibility = MutableLiveData(View.INVISIBLE)
     val filtersVisibility: LiveData<Int> = _filtersVisibility
@@ -63,7 +63,7 @@ constructor(
     init {
         launch {
             model.filters.init()
-            _filtersStartData.value = model.filters.getStartFiltersData()
+            _filtersListData.value = model.filters.getFiltersListData()
         }
     }
 

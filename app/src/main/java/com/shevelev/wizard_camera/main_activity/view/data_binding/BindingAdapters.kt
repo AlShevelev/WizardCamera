@@ -4,9 +4,7 @@ import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LiveData
 import com.shevelev.wizard_camera.main_activity.dto.ButtonState
-import com.shevelev.wizard_camera.main_activity.dto.FilterListStartData
 import com.shevelev.wizard_camera.main_activity.view.widgets.TitleWidget
-import com.shevelev.wizard_camera.main_activity.view.widgets.filters_carousel.FiltersRecyclerView
 
 @BindingAdapter("button_state")
 fun setImageViewIsSelected(view: ImageView, valueToBind: LiveData<ButtonState>?) =

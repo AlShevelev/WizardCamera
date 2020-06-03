@@ -12,5 +12,8 @@ data class LastUsedFilterDb(
     val id: Long,
 
     @ColumnInfo(name = "filter", typeAffinity = ColumnInfo.INTEGER)
-    val code: FilterCode
+    val code: FilterCode,
+
+    @ColumnInfo(name = "is_favorite")
+    val isFavorite: Boolean
 )

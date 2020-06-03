@@ -52,7 +52,7 @@ class MainActivity : ActivityBaseMVVM<ActivityMainBinding, MainActivityViewModel
         gestureDetector = GesturesDetector(this).apply { setOnGestureListener { processGesture(it) } }
 
         viewModel.selectedFilter.observe(this, Observer { renderer?.setSelectedFilter(it) })
-        viewModel.filtersStartData.observe(this, Observer { filtersCarousel.setStartData(it, viewModel) })
+        viewModel.filtersListData.observe(this, Observer { filtersCarousel.setStartData(it, viewModel) })
 
         shootButton.setOnClickListener { textureView?.let { viewModel.onShootClick(it) } }
         flashButton.setOnClickListener { viewModel.onFlashClick() }

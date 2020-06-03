@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
 import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.common_entities.enums.FilterCode
-import com.shevelev.wizard_camera.main_activity.dto.FilterListStartData
+import com.shevelev.wizard_camera.main_activity.dto.FiltersListData
 import com.shevelev.wizard_camera.main_activity.view_model.FilterEventsProcessor
 import kotlin.math.pow
 
@@ -32,8 +32,8 @@ class FiltersRecyclerView(
 
     private var startCode: FilterCode? = null
 
-    fun setStartData(data: FilterListStartData, eventsProcessor: FilterEventsProcessor) {
-        startCode = data.items[data.startPosition].staticData.code
+    fun setStartData(data: FiltersListData, eventsProcessor: FilterEventsProcessor) {
+        startCode = data.items[data.startPosition].displayData.code
 
         val adapter = FiltersAdapter(R.layout.view_filters_carousel, eventsProcessor)
         addAdapter(adapter)
