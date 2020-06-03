@@ -6,7 +6,7 @@
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
 
-    tools:background="#EA00FF"
+    tools:background="@color/fuchsia"
 
     android:layout_marginStart="@dimen/mainFilterCarouselMargin"
     android:layout_marginEnd="@dimen/mainFilterCarouselMargin"

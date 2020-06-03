@@ -34,16 +34,17 @@ constructor(
 
         setImageResource(imageIds[Random.nextInt(0, imageIds.size)])
 
+        val duration = 250L
         val showAnimation = AnimationUtils.getFloatAnimator(
-            duration = 250,
+            duration = duration,
             updateListener = { alpha = it }
         )
         val hideAnimation = AnimationUtils.getFloatAnimator(
             forward = false,
-            duration = 250,
+            duration = duration,
             updateListener = { alpha = it },
             completeListener = { visibility = View.INVISIBLE }
-        ).apply { startDelay = 250 }
+        ).apply { startDelay = duration }
 
         animSet = AnimatorSet()
             .apply {

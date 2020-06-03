@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/toolButtonSizeNormal"
+    android:layout_height="@dimen/toolButtonSizeNormal"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:background="@color/fuchsia">
+
+    <ImageView
+        android:id="@+id/favoritesFiltersSelected"
+        style="@style/FilterMode.Button.Selected"
+
+        android:layout_marginTop="@dimen/mainFiltersModeMargin"
+
+        android:src="@drawable/ic_favorite_filters"
+        android:layout_gravity="start|top"
+        tools:ignore="ContentDescription" />
+
+    <ImageView
+        android:id="@+id/allFiltersSelected"
+        style="@style/FilterMode.Button.Selected"
+
+        android:layout_marginTop="@dimen/mainFiltersModeMargin"
+
+        android:src="@drawable/ic_turn_filters"
+        android:layout_gravity="end|top"
+        tools:ignore="ContentDescription" />
+
+    <ImageView
+        android:id="@+id/noFiltersSelected"
+        style="@style/FilterMode.Button.Selected"
+
+        android:layout_marginBottom="@dimen/mainFiltersModeMargin"
+
+        android:src="@drawable/ic_no_filters"
+        android:layout_gravity="center|bottom"
+        tools:ignore="ContentDescription" />
+
+    <ImageView
+        android:id="@+id/favoritesFilters"
+        style="@style/FilterMode.Button"
+
+        android:layout_marginTop="@dimen/mainFiltersModeMargin"
+
+        android:src="@drawable/ic_favorite_filters"
+        android:layout_gravity="start|top"
+        tools:ignore="ContentDescription" />
+
+    <ImageView
+        android:id="@+id/allFilters"
+        style="@style/FilterMode.Button"
+
+        android:layout_marginTop="@dimen/mainFiltersModeMargin"
+
+        android:src="@drawable/ic_turn_filters"
+        android:layout_gravity="end|top"
+        tools:ignore="ContentDescription" />
+
+    <ImageView
+        android:id="@+id/noFilters"
+        style="@style/FilterMode.Button"
+
+        android:layout_marginBottom="@dimen/mainFiltersModeMargin"
+
+        android:src="@drawable/ic_no_filters"
+        android:layout_gravity="center|bottom"
+        tools:ignore="ContentDescription" />
+</FrameLayout>

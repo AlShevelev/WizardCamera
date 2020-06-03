@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="ExposureBar">
+    <declare-styleable name="ExposureBarWidget">
         <attr name="exposure_button_icon" format="reference" />
         <attr name="exposure_button_icon_size" format="dimension" />
 

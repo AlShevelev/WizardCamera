@@ -7,6 +7,7 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <!-- region Text BEGIN -->
     <style name="Common.Base.TextStyle" parent="Widget.AppCompat.TextView">
         <item name="android:textColor">@color/mainButtonsForeground</item>
     </style>
@@ -21,5 +22,18 @@
     <style name="TextNormal.Light.SingleLine" parent="Common.Base.TextStyle.SingleLine">
         <item name="android:textSize">@dimen/textSizeNormal</item>
     </style>
+    <!-- endregion Text END -->
 
+    <!-- region FilterMode BEGIN -->
+    <style name="FilterMode.Button" parent="Widget.AppCompat.TextView">
+        <item name="android:layout_width">24dp</item>
+        <item name="android:layout_height">24dp</item>
+        <item name="android:padding">5dp</item>
+        <item name="android:tint">@color/color_main_button</item>
+    </style>
+
+    <style name="FilterMode.Button.Selected" parent="FilterMode.Button">
+        <item name="android:background">@drawable/bcg_filter_mode_button</item>
+    </style>
+    <!-- endregion FilterMode END -->
 </resources>

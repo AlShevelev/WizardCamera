@@ -16,7 +16,7 @@
     <dimen name="mainFilterCarouselButtonSmall">50dp</dimen>
     <dimen name="mainFilterCarouselHeight">100dp</dimen>
     <dimen name="mainFilterCarouselMargin">25dp</dimen>
-
+    <dimen name="mainFiltersModeMargin">1.5dp</dimen>
 
     <dimen name="navigationBarButtonsMargin">52dp</dimen>
 

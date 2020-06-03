@@ -91,7 +91,7 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="ContentDescription" />
 
-        <com.shevelev.wizard_camera.main_activity.view.widgets.ExposureBar
+        <com.shevelev.wizard_camera.main_activity.view.widgets.ExposureBarWidget
             android:id="@+id/expositionBar"
             android:layout_width="@dimen/toolButtonSizeNormal"
             android:layout_height="300dp"
@@ -101,16 +101,15 @@
             app:exposure_button_color="@color/mainButtonsBackground"
             app:exposure_button_color_pressed="@color/mainButtonsBackgroundPressed"
             app:exposure_button_icon="@drawable/ic_brightness"
+            app:exposure_button_icon_size="@dimen/toolButtonIconSize"
             app:exposure_max_value="1"
             app:exposure_min_value="-1"
             app:exposure_stroke_color="@color/mainButtonsForeground"
             app:exposure_stroke_width="@dimen/strokeWidthNormal"
-            app:exposure_button_icon_size="@dimen/toolButtonIconSize"
 
             app:layout_constraintBottom_toTopOf="@+id/filtersCarousel"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/galleryButton"
-        />
+            app:layout_constraintTop_toBottomOf="@+id/galleryButton" />
 
         <ImageButton
             android:id="@+id/turnFiltersButton"
@@ -119,7 +118,7 @@
 
             android:background="@drawable/bcg_main_button"
 
-            android:src="@drawable/ic_turn_filtes"
+            android:src="@drawable/ic_turn_filters"
             android:tint="@color/color_main_button"
             app:button_state="@{viewModel.turnFiltersButtonState}"
 
@@ -167,19 +166,28 @@
             android:layout_width="0dp"
             android:layout_height="@dimen/mainFilterCarouselHeight"
 
+            android:layout_marginBottom="@dimen/marginLarge"
             android:clipToPadding="false"
+
             android:overScrollMode="never"
 
-            android:layout_marginBottom="@dimen/marginLarge"
-
+            android:visibility="@{viewModel.filtersVisibility}"
             app:layout_constraintBottom_toTopOf="@+id/shootButton"
             app:layout_constraintEnd_toEndOf="parent"
+
             app:layout_constraintStart_toStartOf="parent"
-
             tools:background="#0000ff"
-            tools:visibility="visible"
 
-            android:visibility="@{viewModel.filtersVisibility}"
-            />
+            tools:visibility="visible" />
+
+        <com.shevelev.wizard_camera.main_activity.view.widgets.FiltersModeButton
+            android:layout_width="@dimen/toolButtonSizeNormal"
+            android:layout_height="@dimen/toolButtonSizeNormal"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
