@@ -3,7 +3,9 @@ package com.shevelev.wizard_camera.main_activity.view.widgets.filters_carousel
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.shevelev.wizard_camera.gallery_activity.view.adapter.GalleryDiffAlg
 import com.shevelev.wizard_camera.main_activity.dto.FilterListItem
 import com.shevelev.wizard_camera.main_activity.view_model.FilterEventsProcessor
 
@@ -29,8 +31,11 @@ class FiltersAdapter(
     override fun getItemCount() = Int.MAX_VALUE
 
     fun setItems(newItems: List<FilterListItem>) {
-        items = newItems
-        notifyDataSetChanged()
+        val diffCallback = FiltersDiffAlg(items, newItems)
+        val diffResult = DiffUtil.calculateDiff(diffCallback)
+
+        items = newItems.toList()
+        diffResult.dispatchUpdatesTo(this)
     }
 
     /**

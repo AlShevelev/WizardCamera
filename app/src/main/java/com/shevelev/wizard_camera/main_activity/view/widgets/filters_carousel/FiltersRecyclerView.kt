@@ -32,12 +32,17 @@ class FiltersRecyclerView(
 
     private var startCode: FilterCode? = null
 
+    private lateinit var filtersAdapter: FiltersAdapter
+
     fun setStartData(data: FiltersListData, eventsProcessor: FilterEventsProcessor) {
         startCode = data.items[data.startPosition].displayData.code
 
-        val adapter = FiltersAdapter(R.layout.view_filters_carousel_item, eventsProcessor)
-        addAdapter(adapter)
-        adapter.setItems(data.items)
+        if(!::filtersAdapter.isInitialized) {
+            filtersAdapter = FiltersAdapter(R.layout.view_filters_carousel_item, eventsProcessor)
+            addAdapter(filtersAdapter)
+        }
+
+        filtersAdapter.setItems(data.items)
         setUp(data.startPosition)
     }
 
