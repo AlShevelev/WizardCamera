@@ -17,9 +17,9 @@ interface FiltersRepository {
 
     suspend fun selectFavoriteFilter(code: FilterCode)
 
-    suspend fun getFiltersListData(): FiltersListData
+    suspend fun getAllFiltersListData(): FiltersListData
 
-    suspend fun getFavoriteFiltersListData(): FiltersListData
+    suspend fun getFavoriteFiltersListData(): FiltersListData?
 
     suspend fun addToFavorite(code: FilterCode)
 

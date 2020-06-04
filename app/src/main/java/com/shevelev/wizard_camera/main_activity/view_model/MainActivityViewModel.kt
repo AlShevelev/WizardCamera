@@ -37,14 +37,17 @@ constructor(
     private val _isFlashButtonState = MutableLiveData(ButtonState.DISABLED)
     val isFlashButtonState: LiveData<ButtonState> = _isFlashButtonState
 
-    private val _turnFiltersButtonState = MutableLiveData(ButtonState.DISABLED)
-    val turnFiltersButtonState: LiveData<ButtonState> = _turnFiltersButtonState
+    private val _filterModeButtonState = MutableLiveData(FiltersModeButtonState(FiltersMode.NO_FILTERS, true))
+    val filterModeButtonState: LiveData<FiltersModeButtonState> = _filterModeButtonState
 
     private val _autoFocusButtonVisibility = MutableLiveData(View.INVISIBLE)
     val autoFocusButtonVisibility: LiveData<Int> = _autoFocusButtonVisibility
 
-    private val _filtersListData: MutableLiveData<FiltersListData> = MutableLiveData()
-    val filtersListData: LiveData<FiltersListData> = _filtersListData
+    private val _allFiltersListData: MutableLiveData<FiltersListData> = MutableLiveData()
+    val allFiltersListData: LiveData<FiltersListData> = _allFiltersListData
+
+    private val _favoriteFiltersListData: MutableLiveData<FiltersListData> = MutableLiveData()
+    val favoriteFiltersListData: LiveData<FiltersListData> = _favoriteFiltersListData
 
     private val _allFiltersVisibility = MutableLiveData(View.INVISIBLE)
     val allFiltersVisibility: LiveData<Int> = _allFiltersVisibility
@@ -66,7 +69,8 @@ constructor(
     init {
         launch {
             model.filters.init()
-            _filtersListData.value = model.filters.getFiltersListData()
+            _allFiltersListData.value = model.filters.getAllFiltersListData()
+            model.filters.getFavoriteFiltersListData()?.let { _favoriteFiltersListData.value = it }
         }
     }
 
@@ -103,7 +107,7 @@ constructor(
         isActive = true
 
         _isFlashButtonState.value = ButtonState.DISABLED
-        _turnFiltersButtonState.value = ButtonState.DISABLED
+        _filterModeButtonState.value = _filterModeButtonState.value!!.copy(isDisabled = true)
         _allFiltersVisibility.value = View.INVISIBLE
 
         model.orientation.start()
@@ -130,18 +134,33 @@ constructor(
 
     fun onCameraIsSetUp() {
         _isFlashButtonState.value = if(isFlashActive)  ButtonState.SELECTED else ButtonState.ACTIVE
-        _turnFiltersButtonState.value = if(model.filters.isFilterTurnedOn)  ButtonState.SELECTED else ButtonState.ACTIVE
-        _allFiltersVisibility.value = if(_turnFiltersButtonState.value == ButtonState.SELECTED) View.VISIBLE else View.INVISIBLE
+
+        _filterModeButtonState.value = FiltersModeButtonState(model.filters.filtersMode, false)
+
+        _allFiltersVisibility.value = if(model.filters.filtersMode == FiltersMode.ALL) View.VISIBLE else View.INVISIBLE
+        _favoritesFiltersVisibility.value = if(model.filters.filtersMode == FiltersMode.FAVORITE) View.VISIBLE else View.INVISIBLE
     }
 
-    fun onTurnFiltersClick() {
-        model.filters.switchMode()
+    fun onSwitchFilterModeClick(mode: FiltersMode) {
+        launch {
+            model.filters.filtersMode = mode
 
-        _selectedFilter.value = model.filters.displayFilter
-        _screenTitle.value = appContext.getString(model.filters.displayFilterTitle)
+            _selectedFilter.value = model.filters.displayFilter
+            _screenTitle.value = appContext.getString(model.filters.displayFilterTitle)
 
-        _turnFiltersButtonState.value = if(model.filters.isFilterTurnedOn)  ButtonState.SELECTED else ButtonState.ACTIVE
-        _allFiltersVisibility.value = if(_turnFiltersButtonState.value == ButtonState.SELECTED) View.VISIBLE else View.INVISIBLE
+            _filterModeButtonState.value = FiltersModeButtonState(model.filters.filtersMode, false)
+
+            if(mode == FiltersMode.FAVORITE) {
+                model.filters.getFavoriteFiltersListData()?.let { _favoriteFiltersListData.value = it }
+            }
+
+            _allFiltersVisibility.value = if(model.filters.filtersMode == FiltersMode.ALL) View.VISIBLE else View.INVISIBLE
+            _favoritesFiltersVisibility.value = if(model.filters.filtersMode == FiltersMode.FAVORITE) {
+                View.VISIBLE
+            } else {
+                View.INVISIBLE
+            }
+        }
     }
 
     fun onAutoFocusClick() {
@@ -172,7 +191,18 @@ constructor(
         launch {
             model.filters.selectFilter(filterCode)
 
-            if(model.filters.isFilterTurnedOn) {
+            if(model.filters.filtersMode == FiltersMode.ALL) {
+                _selectedFilter.value = model.filters.displayFilter
+                _screenTitle.value = appContext.getString(model.filters.displayFilterTitle)
+            }
+        }
+    }
+
+    fun onFavoriteFilterSelected(filterCode: FilterCode) {
+        launch {
+            model.filters.selectFavoriteFilter(filterCode)
+
+            if(model.filters.filtersMode == FiltersMode.FAVORITE) {
                 _selectedFilter.value = model.filters.displayFilter
                 _screenTitle.value = appContext.getString(model.filters.displayFilterTitle)
             }

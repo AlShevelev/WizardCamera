@@ -52,15 +52,18 @@ class MainActivity : ActivityBaseMVVM<ActivityMainBinding, MainActivityViewModel
         gestureDetector = GesturesDetector(this).apply { setOnGestureListener { processGesture(it) } }
 
         viewModel.selectedFilter.observe(this, Observer { renderer?.setSelectedFilter(it) })
-        viewModel.filtersListData.observe(this, Observer { allFiltersCarousel.setStartData(it, viewModel) })
+        viewModel.allFiltersListData.observe(this, Observer { allFiltersCarousel.setStartData(it, viewModel) })
+        viewModel.favoriteFiltersListData.observe(this, Observer { favoritesFiltersCarousel.setStartData(it, viewModel) })
 
         shootButton.setOnClickListener { textureView?.let { viewModel.onShootClick(it) } }
         flashButton.setOnClickListener { viewModel.onFlashClick() }
-        turnFiltersButton.setOnClickListener { viewModel.onTurnFiltersClick() }
+        filtersModeButton.setOnModeChangeListener { viewModel.onSwitchFilterModeClick(it) }
         autoFocusButton.setOnClickListener { viewModel.onAutoFocusClick() }
         expositionBar.setOnValueChangeListener { viewModel.onExposeValueUpdated(it) }
         galleryButton.setOnClickListener { viewModel.onGalleyClick() }
+
         allFiltersCarousel.setOnItemSelectedListener { viewModel.onFilterSelected(it) }
+        favoritesFiltersCarousel.setOnItemSelectedListener { viewModel.onFavoriteFilterSelected(it) }
 
         root.layoutTransition.setDuration(resources.getInteger(android.R.integer.config_shortAnimTime).toLong())
     }

@@ -26,6 +26,7 @@
         android:layout_height="wrap_content"
 
         style="@style/TextNormal.Light.SingleLine.CameraTextLabel"
+        android:maxWidth="300dp"
 
         android:layout_gravity="center"
 

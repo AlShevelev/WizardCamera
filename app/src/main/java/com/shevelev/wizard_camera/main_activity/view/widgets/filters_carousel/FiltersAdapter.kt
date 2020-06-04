@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.shevelev.wizard_camera.gallery_activity.view.adapter.GalleryDiffAlg
 import com.shevelev.wizard_camera.main_activity.dto.FilterListItem
 import com.shevelev.wizard_camera.main_activity.view_model.FilterEventsProcessor
+import kotlin.random.Random
 
 class FiltersAdapter(
     @LayoutRes
@@ -31,11 +32,8 @@ class FiltersAdapter(
     override fun getItemCount() = Int.MAX_VALUE
 
     fun setItems(newItems: List<FilterListItem>) {
-        val diffCallback = FiltersDiffAlg(items, newItems)
-        val diffResult = DiffUtil.calculateDiff(diffCallback)
-
-        items = newItems.toList()
-        diffResult.dispatchUpdatesTo(this)
+        items = newItems
+        notifyDataSetChanged()
     }
 
     /**
@@ -46,7 +44,7 @@ class FiltersAdapter(
         val basePosition = Int.MAX_VALUE /2
         val baseIndex = getItemIndexByPosition(basePosition)
 
-        return basePosition - (baseIndex - position)
+        return basePosition - (baseIndex - position) - Random.nextInt(1, 500)*items.size
     }
 
     private fun getItemIndexByPosition(position: Int) = position % items.size

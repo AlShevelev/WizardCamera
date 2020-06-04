@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.FrameLayout
 import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.main_activity.dto.FiltersMode
+import com.shevelev.wizard_camera.main_activity.dto.FiltersModeButtonState
 import com.shevelev.wizard_camera.shared.animation.AnimationUtils
 import kotlinx.android.synthetic.main.view_filters_mode.view.*
 
@@ -31,57 +32,9 @@ constructor(
         setOnClickListener { updateMode(filtersMode) }
     }
 
-    fun updateModeInstant(currentMode: FiltersMode) {
-        noFilters.alpha = 1f
-        noFiltersSelected.alpha = 1f
-        allFilters.alpha = 1f
-        allFiltersSelected.alpha = 1f
-        favoritesFilters.alpha = 1f
-        favoritesFiltersSelected.alpha = 1f
-
-        when(currentMode) {
-            FiltersMode.NO_FILTERS -> {
-                noFilters.visibility = View.INVISIBLE
-                noFiltersSelected.visibility = View.VISIBLE
-
-                allFilters.visibility = View.VISIBLE
-                allFiltersSelected.visibility = View.INVISIBLE
-
-                favoritesFilters.visibility = View.VISIBLE
-                favoritesFiltersSelected.visibility = View.INVISIBLE
-            }
-            FiltersMode.ALL -> {
-                noFilters.visibility = View.VISIBLE
-                noFiltersSelected.visibility = View.INVISIBLE
-
-                allFilters.visibility = View.INVISIBLE
-                allFiltersSelected.visibility = View.VISIBLE
-
-                favoritesFilters.visibility = View.VISIBLE
-                favoritesFiltersSelected.visibility = View.INVISIBLE
-            }
-            FiltersMode.FAVORITE -> {
-                noFilters.visibility = View.VISIBLE
-                noFiltersSelected.visibility = View.INVISIBLE
-
-                allFilters.visibility = View.VISIBLE
-                allFiltersSelected.visibility = View.INVISIBLE
-
-                favoritesFilters.visibility = View.INVISIBLE
-                favoritesFiltersSelected.visibility = View.VISIBLE
-            }
-        }
-    }
-
-    override fun setEnabled(enabled: Boolean) {
-        super.setEnabled(enabled)
-
-        noFilters.isEnabled = enabled
-        noFiltersSelected.isEnabled = enabled
-        allFilters.isEnabled = enabled
-        allFiltersSelected.isEnabled = enabled
-        favoritesFilters.isEnabled = enabled
-        favoritesFiltersSelected.isEnabled = enabled
+    fun updateState(state: FiltersModeButtonState) {
+        updateModeInstant(state.mode)
+        setDisabled(state.isDisabled)
     }
 
     fun setOnModeChangeListener(listener: ((FiltersMode) -> Unit)?) {
@@ -124,7 +77,7 @@ constructor(
             completeListener = {
                 newDisappearingWidget.visibility = View.INVISIBLE
                 filtersMode = newMode
-                // Event!!!
+                onModeChangeListener?.invoke(newMode)
             }
         )
 
@@ -155,4 +108,61 @@ constructor(
             FiltersMode.ALL -> allFilters
             FiltersMode.FAVORITE -> favoritesFilters
         }
+
+    private fun setDisabled(disabled: Boolean) {
+        val enabled = !disabled
+
+        super.setEnabled(enabled)
+
+        noFilters.isEnabled = enabled
+        noFiltersSelected.isEnabled = enabled
+        allFilters.isEnabled = enabled
+        allFiltersSelected.isEnabled = enabled
+        favoritesFilters.isEnabled = enabled
+        favoritesFiltersSelected.isEnabled = enabled
+    }
+
+    private fun updateModeInstant(mode: FiltersMode) {
+        noFilters.alpha = 1f
+        noFiltersSelected.alpha = 1f
+        allFilters.alpha = 1f
+        allFiltersSelected.alpha = 1f
+        favoritesFilters.alpha = 1f
+        favoritesFiltersSelected.alpha = 1f
+
+        when(mode) {
+            FiltersMode.NO_FILTERS -> {
+                noFilters.visibility = View.INVISIBLE
+                noFiltersSelected.visibility = View.VISIBLE
+
+                allFilters.visibility = View.VISIBLE
+                allFiltersSelected.visibility = View.INVISIBLE
+
+                favoritesFilters.visibility = View.VISIBLE
+                favoritesFiltersSelected.visibility = View.INVISIBLE
+            }
+            FiltersMode.ALL -> {
+                noFilters.visibility = View.VISIBLE
+                noFiltersSelected.visibility = View.INVISIBLE
+
+                allFilters.visibility = View.INVISIBLE
+                allFiltersSelected.visibility = View.VISIBLE
+
+                favoritesFilters.visibility = View.VISIBLE
+                favoritesFiltersSelected.visibility = View.INVISIBLE
+            }
+            FiltersMode.FAVORITE -> {
+                noFilters.visibility = View.VISIBLE
+                noFiltersSelected.visibility = View.INVISIBLE
+
+                allFilters.visibility = View.VISIBLE
+                allFiltersSelected.visibility = View.INVISIBLE
+
+                favoritesFilters.visibility = View.INVISIBLE
+                favoritesFiltersSelected.visibility = View.VISIBLE
+            }
+        }
+
+        filtersMode = mode
+    }
 }

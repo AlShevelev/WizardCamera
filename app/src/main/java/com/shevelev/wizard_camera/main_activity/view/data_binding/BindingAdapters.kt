@@ -4,10 +4,12 @@ import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LiveData
 import com.shevelev.wizard_camera.main_activity.dto.ButtonState
+import com.shevelev.wizard_camera.main_activity.dto.FiltersModeButtonState
+import com.shevelev.wizard_camera.main_activity.view.widgets.FiltersModeButton
 import com.shevelev.wizard_camera.main_activity.view.widgets.TitleWidget
 
 @BindingAdapter("button_state")
-fun setImageViewIsSelected(view: ImageView, valueToBind: LiveData<ButtonState>?) =
+fun setButtonState(view: ImageView, valueToBind: LiveData<ButtonState>?) =
     valueToBind?.value?.let {
         when(it) {
             ButtonState.DISABLED -> {
@@ -23,6 +25,12 @@ fun setImageViewIsSelected(view: ImageView, valueToBind: LiveData<ButtonState>?)
                 view.isEnabled = true
             }
         }
+    }
+
+@BindingAdapter("button_state_filters_mode")
+fun setFiltersModeButtonState(view: FiltersModeButton, valueToBind: LiveData<FiltersModeButtonState>?) =
+    valueToBind?.value?.let {
+        view.updateState(it)
     }
 
 @BindingAdapter("title_text")
