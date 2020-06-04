@@ -46,8 +46,11 @@ constructor(
     private val _filtersListData: MutableLiveData<FiltersListData> = MutableLiveData()
     val filtersListData: LiveData<FiltersListData> = _filtersListData
 
-    private val _filtersVisibility = MutableLiveData(View.INVISIBLE)
-    val filtersVisibility: LiveData<Int> = _filtersVisibility
+    private val _allFiltersVisibility = MutableLiveData(View.INVISIBLE)
+    val allFiltersVisibility: LiveData<Int> = _allFiltersVisibility
+
+    private val _favoritesFiltersVisibility = MutableLiveData(View.INVISIBLE)
+    val favoritesFiltersVisibility: LiveData<Int> = _favoritesFiltersVisibility
 
     var isFlashActive: Boolean = false
         private set
@@ -101,7 +104,7 @@ constructor(
 
         _isFlashButtonState.value = ButtonState.DISABLED
         _turnFiltersButtonState.value = ButtonState.DISABLED
-        _filtersVisibility.value = View.INVISIBLE
+        _allFiltersVisibility.value = View.INVISIBLE
 
         model.orientation.start()
 
@@ -128,7 +131,7 @@ constructor(
     fun onCameraIsSetUp() {
         _isFlashButtonState.value = if(isFlashActive)  ButtonState.SELECTED else ButtonState.ACTIVE
         _turnFiltersButtonState.value = if(model.filters.isFilterTurnedOn)  ButtonState.SELECTED else ButtonState.ACTIVE
-        _filtersVisibility.value = if(_turnFiltersButtonState.value == ButtonState.SELECTED) View.VISIBLE else View.INVISIBLE
+        _allFiltersVisibility.value = if(_turnFiltersButtonState.value == ButtonState.SELECTED) View.VISIBLE else View.INVISIBLE
     }
 
     fun onTurnFiltersClick() {
@@ -138,7 +141,7 @@ constructor(
         _screenTitle.value = appContext.getString(model.filters.displayFilterTitle)
 
         _turnFiltersButtonState.value = if(model.filters.isFilterTurnedOn)  ButtonState.SELECTED else ButtonState.ACTIVE
-        _filtersVisibility.value = if(_turnFiltersButtonState.value == ButtonState.SELECTED) View.VISIBLE else View.INVISIBLE
+        _allFiltersVisibility.value = if(_turnFiltersButtonState.value == ButtonState.SELECTED) View.VISIBLE else View.INVISIBLE
     }
 
     fun onAutoFocusClick() {

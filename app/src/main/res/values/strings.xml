@@ -56,4 +56,5 @@
     <string name="sendTo">Send to…</string>
 
     <string name="emptyGallery">The gallery is empty</string>
+    <string name="emptyFiltersList">There are no filters in this list</string>
 </resources>

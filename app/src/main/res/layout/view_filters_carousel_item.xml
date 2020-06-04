@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:id="@+id/root"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+
+    tools:background="@color/fuchsia"
+
+    android:layout_marginStart="@dimen/mainFilterCarouselMargin"
+    android:layout_marginEnd="@dimen/mainFilterCarouselMargin"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/listItemIcon"
+        android:layout_width="@dimen/mainFilterCarouselButtonSmall"
+        android:layout_height="@dimen/mainFilterCarouselButtonSmall"
+
+        android:padding="@dimen/strokeWidthThin"
+
+        android:background="@drawable/bcg_circle_white"
+        tools:ignore="ContentDescription"
+
+        tools:src="@android:drawable/ic_menu_gallery"
+
+        android:layout_gravity="center"
+        />
+
+    <com.shevelev.wizard_camera.main_activity.view.widgets.PulseImageButton
+        android:id="@+id/favoriteButton"
+
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_gravity="center"
+
+        android:layout_marginStart="17dp"
+        android:layout_marginBottom="17dp"
+
+        app:pulse_button_active_icon="@drawable/ic_favorite_selected"
+        app:pulse_button_inactive_icon="@drawable/ic_favorite_unselected"
+    />
+
+</FrameLayout>

@@ -8,7 +8,7 @@ import com.shevelev.wizard_camera.main_activity.view_model.FilterEventsProcessor
 import com.shevelev.wizard_camera.shared.glide.GlideTarget
 import com.shevelev.wizard_camera.shared.glide.clear
 import com.shevelev.wizard_camera.shared.glide.loadCircle
-import kotlinx.android.synthetic.main.view_filters_carousel.view.*
+import kotlinx.android.synthetic.main.view_filters_carousel_item.view.*
 
 class FiltersItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     private var iconGlideTarget: GlideTarget? = null
