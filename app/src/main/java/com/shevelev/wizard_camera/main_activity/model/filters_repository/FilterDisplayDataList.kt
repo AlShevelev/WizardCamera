@@ -6,7 +6,7 @@ import com.shevelev.wizard_camera.main_activity.dto.FilterDisplayData
 
 class FilterDisplayDataList {
     private val items = listOf(
-        FilterDisplayData(FilterCode.EDGE_DETECTION, R.drawable.img_filter_edge_detection, R.string.filterEdgeDectection),
+        FilterDisplayData(FilterCode.EDGE_DETECTION, R.drawable.img_filter_edge_detection, R.string.filterEdgeDetection),
         FilterDisplayData(FilterCode.PIXELIZE, R.drawable.img_filter_pixelize, R.string.filterPixelize),
         FilterDisplayData(FilterCode.EM_INTERFERENCE, R.drawable.img_filter_em_interference, R.string.filterEMInterference),
         FilterDisplayData(FilterCode.TRIANGLES_MOSAIC, R.drawable.img_filter_triangles_mosaic, R.string.filterTrianglesMosaic),

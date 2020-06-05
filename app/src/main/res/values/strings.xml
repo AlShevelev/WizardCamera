@@ -5,8 +5,8 @@
 
     <string name="captureMenuText">Capture</string>
 
-    <string name="filterOriginal">Original</string>
-    <string name="filterEdgeDectection">Edges dectection</string>
+    <string name="filterOriginal">No filters</string>
+    <string name="filterEdgeDetection">Edges detection</string>
     <string name="filterPixelize">Pixelize</string>
     <string name="filterEMInterference">EM Interference</string>
     <string name="filterTrianglesMosaic">Triangles mosaic</string>
