@@ -34,11 +34,14 @@ constructor(
     private val _screenTitle = MutableLiveData(appContext.getString(model.filters.displayFilterTitle))
     val screenTitle: LiveData<String> = _screenTitle
 
-    private val _isFlashButtonState = MutableLiveData(ButtonState.DISABLED)
-    val isFlashButtonState: LiveData<ButtonState> = _isFlashButtonState
+    private val _flashButtonState = MutableLiveData(ButtonState.DISABLED)
+    val flashButtonState: LiveData<ButtonState> = _flashButtonState
 
     private val _filterModeButtonState = MutableLiveData(FiltersModeButtonState(FiltersMode.NO_FILTERS, true))
     val filterModeButtonState: LiveData<FiltersModeButtonState> = _filterModeButtonState
+
+    private val _isShotButtonEnabled = MutableLiveData(false)
+    val isShotButtonEnabled: LiveData<Boolean> = _isShotButtonEnabled
 
     private val _autoFocusButtonVisibility = MutableLiveData(View.INVISIBLE)
     val autoFocusButtonVisibility: LiveData<Int> = _autoFocusButtonVisibility
@@ -106,8 +109,9 @@ constructor(
 
         isActive = true
 
-        _isFlashButtonState.value = ButtonState.DISABLED
+        _flashButtonState.value = ButtonState.DISABLED
         _filterModeButtonState.value = _filterModeButtonState.value!!.copy(isDisabled = true)
+        _isShotButtonEnabled.value = false
         _allFiltersVisibility.value = View.INVISIBLE
 
         model.orientation.start()
@@ -128,17 +132,19 @@ constructor(
 
     fun onFlashClick() {
         isFlashActive = !isFlashActive
-        _isFlashButtonState.value = if(isFlashActive)  ButtonState.SELECTED else ButtonState.ACTIVE
+        _flashButtonState.value = if(isFlashActive)  ButtonState.SELECTED else ButtonState.ACTIVE
         _command.value = SetFlashStateCommand(isFlashActive)
     }
 
     fun onCameraIsSetUp() {
-        _isFlashButtonState.value = if(isFlashActive)  ButtonState.SELECTED else ButtonState.ACTIVE
+        _flashButtonState.value = if(isFlashActive)  ButtonState.SELECTED else ButtonState.ACTIVE
 
         _filterModeButtonState.value = FiltersModeButtonState(model.filters.filtersMode, false)
 
         _allFiltersVisibility.value = if(model.filters.filtersMode == FiltersMode.ALL) View.VISIBLE else View.INVISIBLE
         _favoritesFiltersVisibility.value = if(model.filters.filtersMode == FiltersMode.FAVORITE) View.VISIBLE else View.INVISIBLE
+
+        _isShotButtonEnabled.value = true
     }
 
     fun onSwitchFilterModeClick(mode: FiltersMode) {

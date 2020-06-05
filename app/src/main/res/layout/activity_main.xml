@@ -124,8 +124,12 @@
 
             android:layout_marginBottom="@dimen/navigationBarButtonsMargin"
 
+            app:button_enabled="@{viewModel.isShotButtonEnabled}"
+
             android:background="@drawable/bcg_main_button"
             android:src="@drawable/ic_camera"
+            android:tint="@color/color_main_button"
+
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/flashButton"
             app:layout_constraintHorizontal_bias="0.5"
@@ -141,7 +145,7 @@
 
             android:src="@drawable/ic_flash"
             android:tint="@color/color_main_button"
-            app:button_state="@{viewModel.isFlashButtonState}"
+            app:button_state="@{viewModel.flashButtonState}"
             app:layout_constraintBottom_toBottomOf="@+id/shootButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"

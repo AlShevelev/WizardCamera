@@ -1,5 +1,6 @@
 package com.shevelev.wizard_camera.main_activity.view.data_binding
 
+import android.widget.ImageButton
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LiveData
@@ -9,7 +10,7 @@ import com.shevelev.wizard_camera.main_activity.view.widgets.FiltersModeButton
 import com.shevelev.wizard_camera.main_activity.view.widgets.TitleWidget
 
 @BindingAdapter("button_state")
-fun setButtonState(view: ImageView, valueToBind: LiveData<ButtonState>?) =
+fun setButtonState(view: ImageButton, valueToBind: LiveData<ButtonState>?) =
     valueToBind?.value?.let {
         when(it) {
             ButtonState.DISABLED -> {
@@ -37,4 +38,10 @@ fun setFiltersModeButtonState(view: FiltersModeButton, valueToBind: LiveData<Fil
 fun setTitleText(view: TitleWidget, valueToBind: LiveData<String>?) =
     valueToBind?.value?.let {
         view.show(it)
+    }
+
+@BindingAdapter("button_enabled")
+fun setButtonEnabled(view: ImageButton, valueToBind: LiveData<Boolean>?) =
+    valueToBind?.value?.let {
+        view.isEnabled = it
     }
