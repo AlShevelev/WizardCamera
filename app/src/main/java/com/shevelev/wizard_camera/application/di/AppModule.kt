@@ -7,6 +7,7 @@ import com.shevelev.wizard_camera.shared.coroutines.DispatchersProvider
 import com.shevelev.wizard_camera.storage.builder.DatabaseBuilder
 import com.shevelev.wizard_camera.storage.core.DbCore
 import com.shevelev.wizard_camera.utils.logging.TimberTreeDebug
+import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
 import kotlinx.coroutines.CoroutineDispatcher
@@ -37,4 +38,7 @@ class AppModule(
     @Provides
     @ApplicationScope
     internal fun provideRoomDbCore(appContext: Context): DbCore = DatabaseBuilder.build(appContext)
+
+    @Provides
+    internal fun provideMoshi(): Moshi = Moshi.Builder().build()
 }

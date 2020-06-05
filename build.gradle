@@ -29,6 +29,8 @@ buildscript {
         dagger_version = "2.24"
         three_ten_abp_version = "1.2.4"
         glide_version = "4.11.0"
+
+        moshi_version = "1.9.2"
     }
 
     dependencies {
