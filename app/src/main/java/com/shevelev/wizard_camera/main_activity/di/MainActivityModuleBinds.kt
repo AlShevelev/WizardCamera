@@ -4,8 +4,12 @@ import androidx.lifecycle.ViewModel
 import com.shevelev.wizard_camera.application.di.scopes.ActivityScope
 import com.shevelev.wizard_camera.main_activity.model.MainActivityModel
 import com.shevelev.wizard_camera.main_activity.model.MainActivityModelImpl
-import com.shevelev.wizard_camera.main_activity.model.filters_repository.FiltersRepository
-import com.shevelev.wizard_camera.main_activity.model.filters_repository.FiltersRepositoryImpl
+import com.shevelev.wizard_camera.main_activity.model.filters_facade.FiltersFacade
+import com.shevelev.wizard_camera.main_activity.model.filters_facade.FiltersFacadeImpl
+import com.shevelev.wizard_camera.main_activity.model.filters_facade.display_data.FilterDisplayDataList
+import com.shevelev.wizard_camera.main_activity.model.filters_facade.display_data.FilterDisplayDataListImpl
+import com.shevelev.wizard_camera.main_activity.model.filters_facade.settings.FilterSettingsFacade
+import com.shevelev.wizard_camera.main_activity.model.filters_facade.settings.FilterSettingsFacadeImpl
 import com.shevelev.wizard_camera.main_activity.model.image_capture.ImageCapture
 import com.shevelev.wizard_camera.main_activity.model.image_capture.ImageCaptureImpl
 import com.shevelev.wizard_camera.main_activity.model.orientation.OrientationManager
@@ -34,11 +38,17 @@ abstract class MainActivityModuleBinds {
     abstract fun provideViewModel(model: MainActivityViewModel): ViewModel
 
     @Binds
-    abstract fun provideFiltersRepository(repository: FiltersRepositoryImpl): FiltersRepository
+    abstract fun provideFiltersRepository(repository: FiltersFacadeImpl): FiltersFacade
 
     @Binds
     abstract fun provideImageCapture(capture: ImageCaptureImpl): ImageCapture
 
     @Binds
     abstract fun provideOrientationManager(manager: OrientationManagerImpl): OrientationManager
+
+    @Binds
+    abstract fun provideFilterDisplayDataList(list: FilterDisplayDataListImpl): FilterDisplayDataList
+
+    @Binds
+    abstract fun provideFilterSettingsFacade(facade: FilterSettingsFacadeImpl): FilterSettingsFacade
 }

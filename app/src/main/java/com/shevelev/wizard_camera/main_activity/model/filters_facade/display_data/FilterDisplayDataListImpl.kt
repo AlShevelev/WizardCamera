@@ -1,10 +1,13 @@
-package com.shevelev.wizard_camera.main_activity.model.filters_repository
+package com.shevelev.wizard_camera.main_activity.model.filters_facade.display_data
 
 import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.common_entities.enums.FilterCode
 import com.shevelev.wizard_camera.main_activity.dto.FilterDisplayData
+import javax.inject.Inject
 
-class FilterDisplayDataList {
+class FilterDisplayDataListImpl
+@Inject
+constructor() : FilterDisplayDataList {
     private val items = listOf(
         FilterDisplayData(FilterCode.EDGE_DETECTION, R.drawable.img_filter_edge_detection, R.string.filterEdgeDetection),
         FilterDisplayData(FilterCode.PIXELIZE, R.drawable.img_filter_pixelize, R.string.filterPixelize),
@@ -39,13 +42,13 @@ class FilterDisplayDataList {
         FilterDisplayData(FilterCode.WATER_REFLECTION, R.drawable.img_filter_water_reflection, R.string.filterWaterReflection)
     )
 
-    operator fun get(index: Int) = items[index]
+    override operator fun get(index: Int) = items[index]
 
-    operator fun get(code: FilterCode) = items.single { it.code == code }
+    override operator fun get(code: FilterCode) = items.single { it.code == code }
 
-    fun exists(code: FilterCode) = items.any { it.code == code }
+    override fun exists(code: FilterCode) = items.any { it.code == code }
 
-    fun <T>map(mapActon: (FilterDisplayData) -> T): List<T> = items.map { mapActon(it) }
+    override fun <T>map(mapActon: (FilterDisplayData) -> T): List<T> = items.map { mapActon(it) }
 
-    fun getIndex(code: FilterCode): Int = items.indexOfFirst { it.code == code }
+    override fun getIndex(code: FilterCode): Int = items.indexOfFirst { it.code == code }
 }

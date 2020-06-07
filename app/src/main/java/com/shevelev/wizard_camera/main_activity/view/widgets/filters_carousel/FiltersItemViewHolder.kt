@@ -31,6 +31,8 @@ class FiltersItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
             }
         }
 
+        itemView.settingsButton.visibility = if(item.hasSettings) View.VISIBLE else View.INVISIBLE
+
         itemView.favoriteButton.setOnPulseButtonClickListener { isActive ->
             eventsProcessor.onFavoriteFilterClick(item.displayData.code, isActive)
         }

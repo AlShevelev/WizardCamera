@@ -18,4 +18,8 @@
         <attr name="pulse_button_active_icon" format="reference" />
         <attr name="pulse_button_inactive_icon" format="reference" />
     </declare-styleable>
+
+    <declare-styleable name="PulseImageButtonStateless">
+        <attr name="pulse_button_icon" format="reference" />
+    </declare-styleable>
 </resources>

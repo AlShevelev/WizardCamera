@@ -1,11 +1,12 @@
-package com.shevelev.wizard_camera.main_activity.model.filters_repository
+package com.shevelev.wizard_camera.main_activity.model.filters_facade
 
 import com.shevelev.wizard_camera.common_entities.enums.FilterCode
+import com.shevelev.wizard_camera.common_entities.filter_settings.FilterSettings
 import com.shevelev.wizard_camera.main_activity.dto.FiltersListData
 import com.shevelev.wizard_camera.main_activity.dto.FiltersMode
 
-interface FiltersRepository {
-    val displayFilter: FilterCode
+interface FiltersFacade {
+    val displayFilter: FilterSettings
 
     val displayFilterTitle: Int
 

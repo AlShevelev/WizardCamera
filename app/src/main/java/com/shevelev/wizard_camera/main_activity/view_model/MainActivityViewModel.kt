@@ -9,6 +9,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.common_entities.enums.FilterCode
+import com.shevelev.wizard_camera.common_entities.filter_settings.FilterSettings
 import com.shevelev.wizard_camera.main_activity.dto.*
 import com.shevelev.wizard_camera.main_activity.model.MainActivityModel
 import com.shevelev.wizard_camera.main_activity.view.gestures.*
@@ -29,7 +30,7 @@ constructor(
     FilterEventsProcessor {
 
     private val _selectedFilter = MutableLiveData(model.filters.displayFilter)
-    val selectedFilter: LiveData<FilterCode> = _selectedFilter
+    val selectedFilter: LiveData<FilterSettings> = _selectedFilter
 
     private val _screenTitle = MutableLiveData(appContext.getString(model.filters.displayFilterTitle))
     val screenTitle: LiveData<String> = _screenTitle
@@ -92,7 +93,7 @@ constructor(
             }
 
             val screenOrientation = model.orientation.screenOrientation
-            val isSuccess = model.capture.capture(textureView, model.filters.displayFilter, screenOrientation)
+            val isSuccess = model.capture.capture(textureView, model.filters.displayFilter.code, screenOrientation)
 
             _command.value = if(isSuccess) {
                 ShowCapturingSuccessCommand(screenOrientation)

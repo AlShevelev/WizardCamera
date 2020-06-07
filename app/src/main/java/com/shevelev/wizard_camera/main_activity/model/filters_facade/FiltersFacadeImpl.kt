@@ -1,24 +1,31 @@
-package com.shevelev.wizard_camera.main_activity.model.filters_repository
+package com.shevelev.wizard_camera.main_activity.model.filters_facade
 
 import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.common_entities.entities.LastUsedFilter
 import com.shevelev.wizard_camera.common_entities.enums.FilterCode
-import com.shevelev.wizard_camera.main_activity.dto.*
+import com.shevelev.wizard_camera.common_entities.filter_settings.EmptyFilterSettings
+import com.shevelev.wizard_camera.common_entities.filter_settings.FilterSettings
+import com.shevelev.wizard_camera.main_activity.dto.FilterFavoriteType
+import com.shevelev.wizard_camera.main_activity.dto.FilterListItem
+import com.shevelev.wizard_camera.main_activity.dto.FiltersListData
+import com.shevelev.wizard_camera.main_activity.dto.FiltersMode
+import com.shevelev.wizard_camera.main_activity.model.filters_facade.display_data.FilterDisplayDataList
+import com.shevelev.wizard_camera.main_activity.model.filters_facade.settings.FilterSettingsFacade
 import com.shevelev.wizard_camera.shared.coroutines.DispatchersProvider
 import com.shevelev.wizard_camera.storage.repositories.FavoriteFilterRepository
 import com.shevelev.wizard_camera.storage.repositories.LastUsedFilterRepository
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class FiltersRepositoryImpl
+class FiltersFacadeImpl
 @Inject
 constructor(
     private val dispatchersProvider: DispatchersProvider,
     private val lastUsedFilterRepository: LastUsedFilterRepository,
-    private val favoriteFilterRepository: FavoriteFilterRepository
-) : FiltersRepository {
-
-    private val displayData = FilterDisplayDataList()
+    private val favoriteFilterRepository: FavoriteFilterRepository,
+    private val displayData: FilterDisplayDataList,
+    private val filterSettings: FilterSettingsFacade
+) : FiltersFacade {
 
     private lateinit var favoritesList: MutableList<FilterCode>
 
@@ -27,11 +34,11 @@ constructor(
 
     private var priorFavoritesListData: FiltersListData? = null
 
-    override val displayFilter: FilterCode
+    override val displayFilter: FilterSettings
         get() = when(filtersMode) {
-            FiltersMode.NO_FILTERS -> FilterCode.ORIGINAL
-            FiltersMode.ALL-> selectedFilter
-            FiltersMode.FAVORITE -> selectedFavoriteFilter
+            FiltersMode.NO_FILTERS -> filterSettings[FilterCode.ORIGINAL]
+            FiltersMode.ALL-> filterSettings[selectedFilter]
+            FiltersMode.FAVORITE -> filterSettings[selectedFavoriteFilter]
         }
 
     override val displayFilterTitle: Int
@@ -48,6 +55,8 @@ constructor(
     override var filtersMode: FiltersMode = FiltersMode.NO_FILTERS
 
     override suspend fun init() {
+        filterSettings.init()
+
         val lastUsedFilters = withContext(dispatchersProvider.ioDispatcher) {
             lastUsedFilterRepository.read()
         }
@@ -83,7 +92,7 @@ constructor(
     override suspend fun getAllFiltersListData(): FiltersListData {
         val startItems = displayData.map {
             val isFavorite = if(favoritesList.contains(it.code)) FilterFavoriteType.FAVORITE else FilterFavoriteType.NOT_FAVORITE
-            FilterListItem(it, isFavorite)
+            FilterListItem(it, isFavorite, filterSettings[it.code] !is EmptyFilterSettings)
         }
 
         return FiltersListData(displayData.getIndex(selectedFilter), startItems)
@@ -93,7 +102,7 @@ constructor(
         var startIndex = favoritesList.indexOf(selectedFavoriteFilter)
 
         val items = favoritesList.map {
-            FilterListItem(displayData[it], FilterFavoriteType.HIDDEN)
+            FilterListItem(displayData[it], FilterFavoriteType.HIDDEN, filterSettings[it] !is EmptyFilterSettings)
         }
 
         if(items.isNotEmpty() && startIndex == -1) {

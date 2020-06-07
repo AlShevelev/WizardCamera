@@ -27,18 +27,30 @@
         android:layout_gravity="center"
         />
 
-    <com.shevelev.wizard_camera.main_activity.view.widgets.PulseImageButton
+    <com.shevelev.wizard_camera.main_activity.view.widgets.pulse_image_button.PulseImageButton
         android:id="@+id/favoriteButton"
 
-        android:layout_width="15dp"
-        android:layout_height="15dp"
+        android:layout_width="@dimen/mainFilterCarouselSettingsButton"
+        android:layout_height="@dimen/mainFilterCarouselSettingsButton"
         android:layout_gravity="center"
 
-        android:layout_marginStart="17dp"
-        android:layout_marginBottom="17dp"
+        android:layout_marginStart="@dimen/mainFilterCarouselSettingsButtonMargin"
+        android:layout_marginBottom="@dimen/mainFilterCarouselSettingsButtonMargin"
 
         app:pulse_button_active_icon="@drawable/ic_favorite_selected"
         app:pulse_button_inactive_icon="@drawable/ic_favorite_unselected"
     />
+
+    <com.shevelev.wizard_camera.main_activity.view.widgets.pulse_image_button.PulseImageButtonStateless
+        android:id="@+id/settingsButton"
+        android:layout_width="@dimen/mainFilterCarouselSettingsButton"
+        android:layout_height="@dimen/mainFilterCarouselSettingsButton"
+
+        android:layout_gravity="center"
+
+        app:pulse_button_icon="@drawable/ic_settings"
+
+        android:layout_marginTop="@dimen/mainFilterCarouselSettingsButtonMargin"
+        android:layout_marginEnd="@dimen/mainFilterCarouselSettingsButtonMargin" />
 
 </FrameLayout>

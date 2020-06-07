@@ -18,7 +18,7 @@ import com.shevelev.wizard_camera.camera.camera_renderer.manager.CameraManager
 import com.shevelev.wizard_camera.camera.camera_renderer.manager.CameraSettings
 import com.shevelev.wizard_camera.camera.filter.CameraFilter
 import com.shevelev.wizard_camera.camera.utils.TextureUtils
-import com.shevelev.wizard_camera.common_entities.enums.FilterCode
+import com.shevelev.wizard_camera.common_entities.filter_settings.FilterSettings
 import timber.log.Timber
 import java.io.IOException
 import javax.microedition.khronos.egl.*
@@ -52,7 +52,7 @@ class CameraRenderer(
     private var cameraTextureId: Int = 0
 
     private lateinit var selectedFilter: CameraFilter
-    private lateinit var selectedFilterCode: FilterCode
+    private lateinit var selectedFilterSettings: FilterSettings
 
     private lateinit var filtersFactory: FiltersFactory
 
@@ -86,7 +86,7 @@ class CameraRenderer(
         isRenderingSetUp = true
 
         filtersFactory = FiltersFactory(context)
-        setSelectedFilter(selectedFilterCode)
+        setSelectedFilter(selectedFilterSettings)
 
         // Create texture for camera preview
         cameraTextureId = TextureUtils.createTexture(GLES11Ext.GL_TEXTURE_EXTERNAL_OES)
@@ -143,11 +143,11 @@ class CameraRenderer(
         GLES31.glDeleteTextures(1, intArrayOf(cameraTextureId), 0)
     }
 
-    fun setSelectedFilter(code: FilterCode) {
-        selectedFilterCode = code
+    fun setSelectedFilter(settings: FilterSettings) {
+        selectedFilterSettings = settings
 
         if(isRenderingSetUp) {
-            selectedFilter = filtersFactory.getFilter(code)
+            selectedFilter = filtersFactory.getFilter(settings.code)
             selectedFilter.onAttach()
         }
     }

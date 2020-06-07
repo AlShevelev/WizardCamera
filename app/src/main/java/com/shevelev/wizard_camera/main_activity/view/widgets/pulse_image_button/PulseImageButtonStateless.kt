@@ -1,16 +1,15 @@
-package com.shevelev.wizard_camera.main_activity.view.widgets
+package com.shevelev.wizard_camera.main_activity.view.widgets.pulse_image_button
 
 import android.animation.AnimatorSet
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.drawable.VectorDrawable
 import android.util.AttributeSet
 import android.widget.ImageView
 import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.shared.animation.AnimationUtils
 
 @SuppressLint("AppCompatCustomView")
-class PulseImageButton
+class PulseImageButtonStateless
 @JvmOverloads
 constructor(
     context: Context,
@@ -20,38 +19,24 @@ constructor(
 
     private var animSet: AnimatorSet? = null
 
-    private val activeIcon: VectorDrawable
-    private val inactiveIcon: VectorDrawable
-
     private val minScale = 0.8f
     private val maxScale = 1f
 
-    var isActive = false
-    set(value) {
-        field = value
-        setImageDrawable(if(field) activeIcon else inactiveIcon)
-    }
-
-    private var onClickListener: ((Boolean) -> Unit)? = null
+    private var onClickListener: (() -> Unit)? = null
 
     init {
-        val typedArray = context.obtainStyledAttributes(attrs, R.styleable.PulseImageButton)
-
-        activeIcon =  typedArray.getDrawable(R.styleable.PulseImageButton_pulse_button_active_icon) as VectorDrawable
-        inactiveIcon =  typedArray.getDrawable(R.styleable.PulseImageButton_pulse_button_inactive_icon) as VectorDrawable
-
+        val typedArray = context.obtainStyledAttributes(attrs, R.styleable.PulseImageButtonStateless)
+        setImageDrawable(typedArray.getDrawable(R.styleable.PulseImageButtonStateless_pulse_button_icon))
         typedArray.recycle()
 
         scaleType = ScaleType.FIT_XY
         scaleX = maxScale
         scaleY = maxScale
 
-        setImageDrawable(inactiveIcon)
-
         super.setOnClickListener { processClick() }
     }
 
-    fun setOnPulseButtonClickListener(listener: ((Boolean) -> Unit)?) {
+    fun setOnPulseButtonClickListener(listener: (() -> Unit)?) {
         onClickListener = listener
     }
 
@@ -70,9 +55,6 @@ constructor(
             updateListener = {
                 scaleX = it
                 scaleY = it
-            },
-            completeListener = {
-                isActive = !isActive
             }
         )
         val increaseAnimation = AnimationUtils.getFloatAnimator(
@@ -84,7 +66,7 @@ constructor(
                 scaleY = it
             },
             completeListener = {
-                onClickListener?.invoke(isActive)
+                onClickListener?.invoke()
             }
         )
 

@@ -24,4 +24,7 @@ abstract class AppModuleBinds {
 
     @Binds
     abstract fun provideFavoriteFilterRepository(repository: FavoriteFilterRepositoryImpl): FavoriteFilterRepository
+
+    @Binds
+    abstract fun provideFilterSettingsRepository(repository: FilterSettingsRepositoryImpl): FilterSettingsRepository
 }
