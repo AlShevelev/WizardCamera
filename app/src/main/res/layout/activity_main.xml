@@ -98,6 +98,9 @@
             app:exposure_stroke_color="@color/mainButtonsForeground"
             app:exposure_stroke_width="@dimen/strokeWidthNormal"
 
+            android:visibility="@{viewModel.exposureBarVisibility}"
+            tools:visibility="visible"
+
             app:layout_constraintBottom_toTopOf="@+id/allFiltersCarousel"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/galleryButton" />
@@ -196,6 +199,9 @@
             android:layout_marginBottom="@dimen/marginNormal"
             android:layout_marginStart="@dimen/marginNormal"
             android:layout_marginEnd="@dimen/marginNormal"
+
+            android:visibility="invisible"
+            tools:visibility="visible"
 
             app:layout_constraintBottom_toTopOf="@+id/allFiltersCarousel"
             app:layout_constraintEnd_toEndOf="parent"

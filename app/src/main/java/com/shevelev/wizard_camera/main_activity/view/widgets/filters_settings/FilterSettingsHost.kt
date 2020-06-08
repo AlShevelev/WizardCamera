@@ -32,9 +32,13 @@ constructor(
     }
 
     fun show(settings: FilterSettings) {
+        if(visibility == View.VISIBLE) {
+            return
+        }
+
         settingsWidget = createWidget(settings)
 
-        layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        val layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         settingsContainer.addView(settingsWidget, layoutParams)
 
         with(settingsWidget as FilterSettingsWidget) {
@@ -47,6 +51,10 @@ constructor(
     }
 
     fun hide() {
+        if(visibility != View.VISIBLE) {
+            return
+        }
+
         visibility = View.INVISIBLE
 
         settingsContainer.removeView(settingsWidget)

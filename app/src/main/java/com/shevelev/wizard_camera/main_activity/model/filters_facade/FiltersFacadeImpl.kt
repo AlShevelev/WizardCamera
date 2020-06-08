@@ -157,4 +157,6 @@ constructor(
             }
         }
     }
+
+    override fun getSettings(code: FilterCode) = filterSettings[code]
 }

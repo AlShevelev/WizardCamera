@@ -59,6 +59,11 @@ constructor(
     private val _favoritesFiltersVisibility = MutableLiveData(View.INVISIBLE)
     val favoritesFiltersVisibility: LiveData<Int> = _favoritesFiltersVisibility
 
+    private val _exposureBarVisibility = MutableLiveData(View.INVISIBLE)
+    val exposureBarVisibility: LiveData<Int> = _exposureBarVisibility
+
+    private var isSettingsVisible = false
+
     var isFlashActive: Boolean = false
         private set
 
@@ -79,6 +84,7 @@ constructor(
     }
 
     fun processGesture(gesture: Gesture) {
+        hideSettings()
         when(gesture) {
             is Tap -> selectManualFocus(gesture.touchPoint, gesture.touchAreaSize)
             is Pinch -> zoom(gesture.touchDistance)
@@ -87,6 +93,8 @@ constructor(
 
     fun onShootClick(textureView: TextureView) {
         launch {
+            hideSettings()
+
             if(model.capture.inProgress) {
                 _command.value = ShowMessageResCommand(R.string.capturingInProgressError)
                 return@launch
@@ -129,9 +137,13 @@ constructor(
         _autoFocusButtonVisibility.value = View.INVISIBLE
         _command.value = ResetExposureCommand()
         _command.value = ReleaseCameraCommand()
+
+        hideSettings()
     }
 
     fun onFlashClick() {
+        hideSettings()
+
         isFlashActive = !isFlashActive
         _flashButtonState.value = if(isFlashActive)  ButtonState.SELECTED else ButtonState.ACTIVE
         _command.value = SetFlashStateCommand(isFlashActive)
@@ -146,10 +158,14 @@ constructor(
         _favoritesFiltersVisibility.value = if(model.filters.filtersMode == FiltersMode.FAVORITE) View.VISIBLE else View.INVISIBLE
 
         _isShotButtonEnabled.value = true
+
+        _exposureBarVisibility.value = View.VISIBLE
     }
 
     fun onSwitchFilterModeClick(mode: FiltersMode) {
         launch {
+            hideSettings()
+
             model.filters.filtersMode = mode
 
             _selectedFilter.value = model.filters.displayFilter
@@ -171,6 +187,8 @@ constructor(
     }
 
     fun onAutoFocusClick() {
+        hideSettings()
+
         isAutoFocus = true
         _autoFocusButtonVisibility.value = View.INVISIBLE
         _screenTitle.value = appContext.getString(R.string.focusAuto)
@@ -186,6 +204,7 @@ constructor(
     }
 
     fun onGalleyClick() {
+        hideSettings()
         _command.value = NavigateToGalleryCommand()
     }
 
@@ -196,6 +215,8 @@ constructor(
 
     fun onFilterSelected(filterCode: FilterCode) {
         launch {
+            hideSettings()
+
             model.filters.selectFilter(filterCode)
 
             if(model.filters.filtersMode == FiltersMode.ALL) {
@@ -207,6 +228,8 @@ constructor(
 
     fun onFavoriteFilterSelected(filterCode: FilterCode) {
         launch {
+            hideSettings()
+
             model.filters.selectFavoriteFilter(filterCode)
 
             if(model.filters.filtersMode == FiltersMode.FAVORITE) {
@@ -216,14 +239,30 @@ constructor(
         }
     }
 
+    fun onBackClick(): Boolean =
+        if(isSettingsVisible) {
+            hideSettings()
+            false
+        }  else {
+            true
+        }
+
     override fun onFavoriteFilterClick(code: FilterCode, isSelected: Boolean) {
         launch {
+            hideSettings()
+
             if(isSelected) {
                 model.filters.addToFavorite(code)
             } else {
                 model.filters.removeFromFavorite(code)
             }
         }
+    }
+
+    override fun onSettingsClick(code: FilterCode) {
+        _exposureBarVisibility.value = View.INVISIBLE
+        _command.value = ShowFilterSettingsCommand(model.filters.getSettings(code))
+        isSettingsVisible = true
     }
 
     private fun selectManualFocus(touchPoint: PointF, touchAreaSize: SizeF) {
@@ -239,5 +278,15 @@ constructor(
 
     private fun zoom(touchDistance: Float) {
         _command.value = ZoomCommand(touchDistance)
+    }
+
+    private fun hideSettings() {
+        if(!isSettingsVisible) {
+            return
+        }
+
+        _command.value = HideFilterSettingsCommand()
+        _exposureBarVisibility.value = View.VISIBLE
+        isSettingsVisible = false
     }
 }

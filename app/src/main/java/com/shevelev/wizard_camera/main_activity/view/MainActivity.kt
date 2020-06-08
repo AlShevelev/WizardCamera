@@ -103,6 +103,14 @@ class MainActivity : ActivityBaseMVVM<ActivityMainBinding, MainActivityViewModel
             is SetExposureCommand -> renderer!!.updateExposure(command.exposureValue)
             is NavigateToGalleryCommand -> navigateToGallery()
             is ExitCommand -> exit(command.messageResId)
+            is ShowFilterSettingsCommand -> { settings.hide(); settings.show(command.settings) }
+            is HideFilterSettingsCommand -> settings.hide()
+        }
+    }
+
+    override fun onBackPressed() {
+        if(viewModel.onBackClick()) {
+            super.onBackPressed()
         }
     }
 

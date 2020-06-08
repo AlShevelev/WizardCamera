@@ -36,10 +36,15 @@ class FiltersItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         itemView.favoriteButton.setOnPulseButtonClickListener { isActive ->
             eventsProcessor.onFavoriteFilterClick(item.displayData.code, isActive)
         }
+
+        itemView.settingsButton.setOnPulseButtonClickListener {
+            eventsProcessor.onSettingsClick(item.displayData.code)
+        }
     }
 
     fun recycle() {
         iconGlideTarget?.clear(itemView.context.applicationContext)
         itemView.favoriteButton.setOnPulseButtonClickListener(null)
+        itemView.settingsButton.setOnPulseButtonClickListener(null)
     }
 }

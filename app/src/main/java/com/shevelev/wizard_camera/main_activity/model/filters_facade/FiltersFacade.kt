@@ -25,4 +25,6 @@ interface FiltersFacade {
     suspend fun addToFavorite(code: FilterCode)
 
     suspend fun removeFromFavorite(code: FilterCode)
+
+    fun getSettings(code: FilterCode): FilterSettings
 }

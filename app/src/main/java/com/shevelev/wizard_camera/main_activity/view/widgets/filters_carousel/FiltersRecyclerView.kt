@@ -75,7 +75,6 @@ class FiltersRecyclerView(
         newAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
             override fun onChanged() {
                 post {
-                    Timber.tag("FAVORITES").d("addAdapter() -> onChanged()")
                     if(offsetToCenterScroll == -1) {
                         val child = getChildAt(0)
                         offsetToCenterScroll = -child.width/2
@@ -88,7 +87,6 @@ class FiltersRecyclerView(
                     addOnScrollListener(object : OnScrollListener() {
                         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                             super.onScrolled(recyclerView, dx, dy)
-                            Timber.tag("FAVORITES").d("addAdapter() -> onScrolled()")
                             onScrollChanged()
                         }
 
@@ -115,7 +113,6 @@ class FiltersRecyclerView(
 
     private fun setUp(position: Int) {
         post{
-            Timber.tag("FAVORITES").d("setUp()")
             val startPosition = (adapter as FiltersAdapter).recalculatePosition(position)
             scrollToAbsolutePosition(startPosition)
         }
@@ -123,7 +120,6 @@ class FiltersRecyclerView(
 
     private fun onScrollChanged() {
         post {
-            Timber.tag("FAVORITES").d("onScrollChanged()")
             val parentCenterX = width / 2
 
             var maxScale = Float.MIN_VALUE
@@ -158,7 +154,6 @@ class FiltersRecyclerView(
     }
 
     private fun getGaussianScale(childCenterX: Int, parentCenterX: Int): Float {
-        Timber.tag("FAVORITES").d("getGaussianScale()")
         val minScaleOffset = 1f
         val scaleFactor = 1f
         //val spreadFactor = 150.0
@@ -184,7 +179,6 @@ class FiltersRecyclerView(
     }
 
     private fun scrollToAbsolutePosition(position: Int) {
-        Timber.tag("FAVORITES").d("scrollToAbsolutePosition($position)")
         (layoutManager as LinearLayoutManager).scrollToPositionWithOffset(position, offsetToCenterScroll)
     }
 }
