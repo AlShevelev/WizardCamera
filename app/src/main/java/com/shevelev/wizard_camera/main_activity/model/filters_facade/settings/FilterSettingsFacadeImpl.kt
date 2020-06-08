@@ -1,6 +1,7 @@
 package com.shevelev.wizard_camera.main_activity.model.filters_facade.settings
 
 import com.shevelev.wizard_camera.common_entities.enums.FilterCode
+import com.shevelev.wizard_camera.common_entities.filter_settings.BlackAndWhiteFilterSettings
 import com.shevelev.wizard_camera.common_entities.filter_settings.EdgeDetectionFilterSettings
 import com.shevelev.wizard_camera.common_entities.filter_settings.EmptyFilterSettings
 import com.shevelev.wizard_camera.common_entities.filter_settings.FilterSettings
@@ -36,7 +37,6 @@ constructor(
         FilterCode.MONEY to EmptyFilterSettings(FilterCode.MONEY),
         FilterCode.CRACKED to EmptyFilterSettings(FilterCode.CRACKED),
         FilterCode.POLYGONIZATION to EmptyFilterSettings(FilterCode.POLYGONIZATION),
-        FilterCode.BLACK_AND_WHITE to EmptyFilterSettings(FilterCode.BLACK_AND_WHITE),
         FilterCode.GRAY to EmptyFilterSettings(FilterCode.GRAY),
         FilterCode.NEGATIVE to EmptyFilterSettings(FilterCode.NEGATIVE),
         FilterCode.NOSTALGIA to EmptyFilterSettings(FilterCode.NOSTALGIA),
@@ -56,8 +56,10 @@ constructor(
         }
 
         settingsMap[FilterCode.EDGE_DETECTION] =
-            dbSettings.firstOrNull { it.code == FilterCode.EDGE_DETECTION } ?:
-            EdgeDetectionFilterSettings(FilterCode.EDGE_DETECTION, false)
+            dbSettings.firstOrNull { it.code == FilterCode.EDGE_DETECTION } ?: EdgeDetectionFilterSettings(isInverted =  false)
+
+        settingsMap[FilterCode.BLACK_AND_WHITE] =
+            dbSettings.firstOrNull { it.code == FilterCode.BLACK_AND_WHITE } ?: BlackAndWhiteFilterSettings(isInverted = false)
     }
 
     override fun get(code: FilterCode): FilterSettings = settingsMap[code]!!

@@ -1,11 +1,8 @@
 package com.shevelev.wizard_camera.camera
 
 import android.content.Context
-import com.shevelev.wizard_camera.camera.filter.CameraFilter
-import com.shevelev.wizard_camera.camera.filter.EdgeDetectionCameraFilter
+import com.shevelev.wizard_camera.camera.filter.*
 import com.shevelev.wizard_camera.common_entities.enums.FilterCode
-import com.shevelev.wizard_camera.camera.filter.MappingCameraFilter
-import com.shevelev.wizard_camera.camera.filter.RefractionCameraFilter
 
 class FiltersFactory(context: Context) {
     private val filters = mutableMapOf(         // All filters must be created in a renderer thread
@@ -29,7 +26,7 @@ class FiltersFactory(context: Context) {
         FilterCode.MONEY to CameraFilter(context, R.raw.money_filter),
         FilterCode.CRACKED to CameraFilter(context, R.raw.cracked),
         FilterCode.POLYGONIZATION to CameraFilter(context, R.raw.polygonization),
-        FilterCode.BLACK_AND_WHITE to CameraFilter(context, R.raw.black_and_white),
+        FilterCode.BLACK_AND_WHITE to BlackAndWhiteCameraFilter(context),
         FilterCode.GRAY to CameraFilter(context, R.raw.gray),
         FilterCode.NEGATIVE to CameraFilter(context, R.raw.negative),
         FilterCode.NOSTALGIA to CameraFilter(context, R.raw.nostalgia),

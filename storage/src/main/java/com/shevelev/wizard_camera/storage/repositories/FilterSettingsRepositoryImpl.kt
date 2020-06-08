@@ -1,6 +1,7 @@
 package com.shevelev.wizard_camera.storage.repositories
 
 import com.shevelev.wizard_camera.common_entities.enums.FilterCode
+import com.shevelev.wizard_camera.common_entities.filter_settings.BlackAndWhiteFilterSettings
 import com.shevelev.wizard_camera.common_entities.filter_settings.EdgeDetectionFilterSettings
 import com.shevelev.wizard_camera.common_entities.filter_settings.FilterSettings
 import com.shevelev.wizard_camera.storage.core.DbCore
@@ -31,17 +32,23 @@ constructor(
 
     private fun FilterSettingsDb.map(): FilterSettings =
         when(code) {
-            FilterCode.EDGE_DETECTION -> moshi.adapter(EdgeDetectionFilterSettings::class.java).fromJson(settings)!!
+            FilterCode.EDGE_DETECTION -> fromJson(EdgeDetectionFilterSettings::class.java, settings)
+            FilterCode.BLACK_AND_WHITE -> fromJson(BlackAndWhiteFilterSettings::class.java, settings)
             else -> throw UnsupportedOperationException("This code is not supported: ${this.code}")
         }
 
     private fun FilterSettings.map(id: Long): FilterSettingsDb {
         val settingsStr= when (code) {
-            FilterCode.EDGE_DETECTION ->
-                moshi.adapter(EdgeDetectionFilterSettings::class.java).toJson(this as EdgeDetectionFilterSettings)
+            FilterCode.EDGE_DETECTION -> toJson(EdgeDetectionFilterSettings::class.java, this)
+            FilterCode.BLACK_AND_WHITE -> toJson(BlackAndWhiteFilterSettings::class.java, this)
             else -> throw UnsupportedOperationException("This code is not supported: ${this.code}")
         }
 
         return FilterSettingsDb(id, code, settingsStr)
     }
+
+    private fun <T>fromJson(cls: Class<T>, settings: String) = moshi.adapter(cls).fromJson(settings)!!
+
+    @Suppress("UNCHECKED_CAST")
+    private fun <T>toJson(cls: Class<T>, settings: FilterSettings) = moshi.adapter(cls).toJson(settings as T)
 }

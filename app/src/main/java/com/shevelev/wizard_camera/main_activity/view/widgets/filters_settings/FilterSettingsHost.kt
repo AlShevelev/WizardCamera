@@ -68,6 +68,7 @@ constructor(
     private fun createWidget(settings: FilterSettings): View =
         when(settings.code) {
             FilterCode.EDGE_DETECTION -> FilterSettingsEdgeDetection(context)
+            FilterCode.BLACK_AND_WHITE -> FilterSettingsBlackAndWhite(context)
             else -> throw UnsupportedOperationException("This code is not supported: ${settings.code}")
         }
 }

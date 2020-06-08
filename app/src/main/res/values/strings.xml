@@ -60,4 +60,5 @@
 
     <string name="inverted">Inverted</string>
     <string name="filterEdgeDetectionSettings">Edges detection settings</string>
+    <string name="filterBlackAndWhiteSettings">Black and White settings</string>
 </resources>
