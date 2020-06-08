@@ -84,10 +84,13 @@ constructor(
     }
 
     fun processGesture(gesture: Gesture) {
-        hideSettings()
-        when(gesture) {
-            is Tap -> selectManualFocus(gesture.touchPoint, gesture.touchAreaSize)
-            is Pinch -> zoom(gesture.touchDistance)
+        if(isSettingsVisible) {
+            hideSettings()
+        } else {
+            when (gesture) {
+                is Tap -> selectManualFocus(gesture.touchPoint, gesture.touchAreaSize)
+                is Pinch -> zoom(gesture.touchDistance)
+            }
         }
     }
 
@@ -246,6 +249,13 @@ constructor(
         }  else {
             true
         }
+
+    fun onFilterSettingsChange(settings: FilterSettings) {
+        launch {
+            model.filters.updateSettings(settings)
+            _selectedFilter.value = model.filters.displayFilter
+        }
+    }
 
     override fun onFavoriteFilterClick(code: FilterCode, isSelected: Boolean) {
         launch {

@@ -159,4 +159,6 @@ constructor(
     }
 
     override fun getSettings(code: FilterCode) = filterSettings[code]
+
+    override suspend fun updateSettings(settings: FilterSettings) = filterSettings.update(settings)
 }

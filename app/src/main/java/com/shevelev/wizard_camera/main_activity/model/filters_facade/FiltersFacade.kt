@@ -27,4 +27,6 @@ interface FiltersFacade {
     suspend fun removeFromFavorite(code: FilterCode)
 
     fun getSettings(code: FilterCode): FilterSettings
+
+    suspend fun updateSettings(settings: FilterSettings)
 }

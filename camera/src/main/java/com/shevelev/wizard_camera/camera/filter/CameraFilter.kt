@@ -7,11 +7,15 @@ import androidx.annotation.CallSuper
 import androidx.annotation.RawRes
 import com.shevelev.wizard_camera.camera.R
 import com.shevelev.wizard_camera.camera.utils.ShaderUtils
+import com.shevelev.wizard_camera.common_entities.filter_settings.FilterSettings
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import java.nio.FloatBuffer
 
-open class CameraFilter(context: Context, @RawRes fragmentFilterResId: Int) {
+open class CameraFilter(
+    context: Context,
+    @RawRes fragmentFilterResId: Int
+) {
     companion object {
         private val squareCoordinates = floatArrayOf(
             1.0f, -1.0f,
@@ -78,6 +82,8 @@ open class CameraFilter(context: Context, @RawRes fragmentFilterResId: Int) {
 
     protected val filterProgram: Int
 
+    private lateinit var settings: FilterSettings
+
     init {
         if (mainProgram == 0) {
             mainProgram = ShaderUtils.buildProgram(context, R.raw.vertext, R.raw.original_rtt)
@@ -86,10 +92,10 @@ open class CameraFilter(context: Context, @RawRes fragmentFilterResId: Int) {
         filterProgram = ShaderUtils.buildProgram(context, R.raw.vertext, fragmentFilterResId)
     }
 
-
     @CallSuper
-    fun onAttach() {
+    open fun onAttach(settings: FilterSettings) {
         iFrame = 0
+        this.settings = settings
     }
 
     fun draw(cameraTexId: Int, canvasWidth: Int, canvasHeight: Int) {
@@ -140,8 +146,10 @@ open class CameraFilter(context: Context, @RawRes fragmentFilterResId: Int) {
     /**
      * [iChannels] - set of textures id to render
      */
-    fun setupShaderInputs(program: Int, iResolution: IntArray, iChannels: IntArray) {
+    open fun setupShaderInputs(program: Int, iResolution: IntArray, iChannels: IntArray) {
         GLES31.glUseProgram(program)
+
+        passSettingsParams(program, settings)
 
         val iResolutionLocation = GLES31.glGetUniformLocation(program, "iResolution")
         GLES31.glUniform3fv(
@@ -173,5 +181,12 @@ open class CameraFilter(context: Context, @RawRes fragmentFilterResId: Int) {
 
         val iChannelResolutionLocation = GLES31.glGetUniformLocation(program, "iChannelResolution")
         GLES31.glUniform3fv(iChannelResolutionLocation, 0, FloatBuffer.wrap(FloatArray(0)))
+    }
+
+    /**
+     * Pass filter-specific arguments
+     */
+    protected open fun passSettingsParams(program: Int, settings: FilterSettings) {
+        // do nothing
     }
 }

@@ -44,6 +44,6 @@ dependencies {
 
     implementation "com.google.dagger:dagger:$dagger_version"
 
-    implementation "com.squareup.moshi:moshi:$moshi_version"
+    implementation "com.squareup.moshi:moshi-kotlin:$moshi_version"
     kapt "com.squareup.moshi:moshi-kotlin-codegen:$moshi_version"
 }

@@ -25,6 +25,8 @@ constructor(
 
     init {
         inflate(context, R.layout.view_filters_settings_host, this)
+
+        setOnClickListener {  } // To prevent unexpected close the "dialog"
     }
 
     fun setOnSettingsChangeListener(listener: ((FilterSettings) -> Unit)?) {

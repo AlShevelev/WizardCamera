@@ -148,7 +148,7 @@ class CameraRenderer(
 
         if(isRenderingSetUp) {
             selectedFilter = filtersFactory.getFilter(settings.code)
-            selectedFilter.onAttach()
+            selectedFilter.onAttach(settings)
         }
     }
 

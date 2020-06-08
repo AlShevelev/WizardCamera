@@ -8,6 +8,7 @@ import com.shevelev.wizard_camera.storage.builder.DatabaseBuilder
 import com.shevelev.wizard_camera.storage.core.DbCore
 import com.shevelev.wizard_camera.utils.logging.TimberTreeDebug
 import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
 import dagger.Provides
 import kotlinx.coroutines.CoroutineDispatcher
@@ -40,5 +41,9 @@ class AppModule(
     internal fun provideRoomDbCore(appContext: Context): DbCore = DatabaseBuilder.build(appContext)
 
     @Provides
-    internal fun provideMoshi(): Moshi = Moshi.Builder().build()
+    internal fun provideMoshi(): Moshi =
+        Moshi
+        .Builder()
+        .add(KotlinJsonAdapterFactory())
+        .build()
 }

@@ -65,6 +65,8 @@ class MainActivity : ActivityBaseMVVM<ActivityMainBinding, MainActivityViewModel
         allFiltersCarousel.setOnItemSelectedListener { viewModel.onFilterSelected(it) }
         favoritesFiltersCarousel.setOnItemSelectedListener { viewModel.onFavoriteFilterSelected(it) }
 
+        settings.setOnSettingsChangeListener { viewModel.onFilterSettingsChange(it) }
+
         root.layoutTransition.setDuration(resources.getInteger(android.R.integer.config_shortAnimTime).toLong())
     }
 

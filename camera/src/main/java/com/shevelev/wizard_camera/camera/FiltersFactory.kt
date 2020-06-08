@@ -2,6 +2,7 @@ package com.shevelev.wizard_camera.camera
 
 import android.content.Context
 import com.shevelev.wizard_camera.camera.filter.CameraFilter
+import com.shevelev.wizard_camera.camera.filter.EdgeDetectionCameraFilter
 import com.shevelev.wizard_camera.common_entities.enums.FilterCode
 import com.shevelev.wizard_camera.camera.filter.MappingCameraFilter
 import com.shevelev.wizard_camera.camera.filter.RefractionCameraFilter
@@ -9,7 +10,7 @@ import com.shevelev.wizard_camera.camera.filter.RefractionCameraFilter
 class FiltersFactory(context: Context) {
     private val filters = mutableMapOf(         // All filters must be created in a renderer thread
         FilterCode.ORIGINAL to CameraFilter(context, R.raw.original),
-        FilterCode.EDGE_DETECTION to CameraFilter(context, R.raw.edge_detection),
+        FilterCode.EDGE_DETECTION to EdgeDetectionCameraFilter(context),
         FilterCode.PIXELIZE to CameraFilter(context, R.raw.pixelize),
         FilterCode.EM_INTERFERENCE to CameraFilter(context, R.raw.em_interference),
         FilterCode.TRIANGLES_MOSAIC to CameraFilter(context, R.raw.triangles_mosaic),
