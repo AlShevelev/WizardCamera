@@ -57,4 +57,7 @@
 
     <string name="emptyGallery">The gallery is empty</string>
     <string name="emptyFiltersList">There are no filters in this list</string>
+
+    <string name="inverted">Inverted</string>
+    <string name="filterEdgeDetectionSettings">Edges detection settings</string>
 </resources>

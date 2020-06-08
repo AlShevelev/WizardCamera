@@ -23,7 +23,11 @@
         <item name="android:textSize">@dimen/textSizeNormal</item>
     </style>
 
-    <style name="TextNormal.Light.SingleLine.CameraTextLabel" parent="TextNormal.Light.SingleLine">
+    <style name="TextSmall.Light.SingleLine" parent="Common.Base.TextStyle.SingleLine">
+        <item name="android:textSize">@dimen/textSizeSmall</item>
+    </style>
+
+    <style name="CameraTextLabel" parent="TextNormal.Light.SingleLine">
         <item name="android:textSize">@dimen/textSizeNormal</item>
         <item name="android:background">@drawable/bcg_main_text</item>
         <item name="android:maxWidth">250dp</item>
@@ -31,6 +35,10 @@
         <item name="android:paddingTop">4dp</item>
         <item name="android:paddingEnd">15dp</item>
         <item name="android:paddingBottom">5dp</item>
+    </style>
+
+    <style name="CameraTextLabel.WithoutBackground" parent="CameraTextLabel">
+        <item name="android:background">@null</item>
     </style>
     <!-- endregion Text END -->
 

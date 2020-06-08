@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <corners android:radius="@dimen/mainSettingsCorner" />
+            <solid android:color="@color/mainButtonsBackground" />
+            <stroke android:color="@color/mainButtonsForeground" android:width="@dimen/strokeWidthNormal" />
+        </shape>
+    </item>
+</selector>
