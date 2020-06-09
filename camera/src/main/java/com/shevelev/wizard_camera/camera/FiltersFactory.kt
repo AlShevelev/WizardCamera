@@ -11,7 +11,7 @@ class FiltersFactory(context: Context) {
         FilterCode.PIXELIZE to CameraFilter(context, R.raw.pixelize),
         FilterCode.EM_INTERFERENCE to CameraFilter(context, R.raw.em_interference),
         FilterCode.TRIANGLES_MOSAIC to CameraFilter(context, R.raw.triangles_mosaic),
-        FilterCode.LEGOFIED to CameraFilter(context, R.raw.legofied),
+        FilterCode.LEGOFIED to LegofiedCameraFilter(context),
         FilterCode.TILE_MOSAIC to CameraFilter(context, R.raw.tile_mosaic),
         FilterCode.BLUE_ORANGE to CameraFilter(context, R.raw.blue_orange),
         FilterCode.CHROMATIC_ABERRATION to CameraFilter(context, R.raw.chromatic_aberration),

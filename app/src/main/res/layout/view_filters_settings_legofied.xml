@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        style="@style/TextSmall.Light.SingleLine"
+
+        android:layout_marginBottom="@dimen/marginNormal"
+
+        android:text="@string/blockSize" />
+
+    <RadioGroup
+        android:id="@+id/sizeGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/smallSize"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            style="@style/TextSmall.Light.SingleLine"
+
+            android:layout_marginEnd="@dimen/marginNormal"
+
+            android:text="@string/small" />
+
+        <RadioButton
+            android:id="@+id/normalSize"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_marginEnd="@dimen/marginNormal"
+
+            style="@style/TextSmall.Light.SingleLine"
+
+            android:text="@string/normal" />
+
+        <RadioButton
+            android:id="@+id/largeSize"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_marginEnd="@dimen/marginNormal"
+
+            style="@style/TextSmall.Light.SingleLine"
+
+            android:text="@string/large" />
+    </RadioGroup>
+</LinearLayout>

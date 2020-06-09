@@ -69,6 +69,7 @@ constructor(
         when(settings.code) {
             FilterCode.EDGE_DETECTION -> FilterSettingsEdgeDetection(context)
             FilterCode.BLACK_AND_WHITE -> FilterSettingsBlackAndWhite(context)
+            FilterCode.LEGOFIED -> FilterSettingsLegofied(context)
             else -> throw UnsupportedOperationException("This code is not supported: ${settings.code}")
         }
 }

@@ -1,10 +1,8 @@
 package com.shevelev.wizard_camera.main_activity.model.filters_facade.settings
 
 import com.shevelev.wizard_camera.common_entities.enums.FilterCode
-import com.shevelev.wizard_camera.common_entities.filter_settings.BlackAndWhiteFilterSettings
-import com.shevelev.wizard_camera.common_entities.filter_settings.EdgeDetectionFilterSettings
-import com.shevelev.wizard_camera.common_entities.filter_settings.EmptyFilterSettings
-import com.shevelev.wizard_camera.common_entities.filter_settings.FilterSettings
+import com.shevelev.wizard_camera.common_entities.enums.Size
+import com.shevelev.wizard_camera.common_entities.filter_settings.*
 import com.shevelev.wizard_camera.shared.coroutines.DispatchersProvider
 import com.shevelev.wizard_camera.storage.repositories.FilterSettingsRepository
 import kotlinx.coroutines.withContext
@@ -22,7 +20,6 @@ constructor(
         FilterCode.PIXELIZE to EmptyFilterSettings(FilterCode.PIXELIZE),
         FilterCode.EM_INTERFERENCE to EmptyFilterSettings(FilterCode.EM_INTERFERENCE),
         FilterCode.TRIANGLES_MOSAIC to EmptyFilterSettings(FilterCode.TRIANGLES_MOSAIC),
-        FilterCode.LEGOFIED to EmptyFilterSettings(FilterCode.LEGOFIED),
         FilterCode.TILE_MOSAIC to EmptyFilterSettings(FilterCode.TILE_MOSAIC),
         FilterCode.BLUE_ORANGE to EmptyFilterSettings(FilterCode.BLUE_ORANGE),
         FilterCode.CHROMATIC_ABERRATION to EmptyFilterSettings(FilterCode.CHROMATIC_ABERRATION),
@@ -60,6 +57,9 @@ constructor(
 
         settingsMap[FilterCode.BLACK_AND_WHITE] =
             dbSettings.firstOrNull { it.code == FilterCode.BLACK_AND_WHITE } ?: BlackAndWhiteFilterSettings(isInverted = false)
+
+        settingsMap[FilterCode.LEGOFIED] =
+            dbSettings.firstOrNull { it.code == FilterCode.LEGOFIED } ?: LegofiedFilterSettings(size = Size.NORMAL)
     }
 
     override fun get(code: FilterCode): FilterSettings = settingsMap[code]!!

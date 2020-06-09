@@ -151,6 +151,7 @@ open class CameraFilter(
 
         passSettingsParams(program, settings)
 
+        // Screen size in pixels
         val iResolutionLocation = GLES31.glGetUniformLocation(program, "iResolution")
         GLES31.glUniform3fv(
             iResolutionLocation,
