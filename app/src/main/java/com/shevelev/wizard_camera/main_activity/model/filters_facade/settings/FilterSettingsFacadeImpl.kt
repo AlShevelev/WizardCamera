@@ -19,7 +19,6 @@ constructor(
         FilterCode.ORIGINAL to EmptyFilterSettings(FilterCode.ORIGINAL),
         FilterCode.PIXELIZE to EmptyFilterSettings(FilterCode.PIXELIZE),
         FilterCode.EM_INTERFERENCE to EmptyFilterSettings(FilterCode.EM_INTERFERENCE),
-        FilterCode.TRIANGLES_MOSAIC to EmptyFilterSettings(FilterCode.TRIANGLES_MOSAIC),
         FilterCode.TILE_MOSAIC to EmptyFilterSettings(FilterCode.TILE_MOSAIC),
         FilterCode.BLUE_ORANGE to EmptyFilterSettings(FilterCode.BLUE_ORANGE),
         FilterCode.CHROMATIC_ABERRATION to EmptyFilterSettings(FilterCode.CHROMATIC_ABERRATION),
@@ -59,7 +58,10 @@ constructor(
             dbSettings.firstOrNull { it.code == FilterCode.BLACK_AND_WHITE } ?: BlackAndWhiteFilterSettings(isInverted = false)
 
         settingsMap[FilterCode.LEGOFIED] =
-            dbSettings.firstOrNull { it.code == FilterCode.LEGOFIED } ?: LegofiedFilterSettings(size = Size.NORMAL)
+            dbSettings.firstOrNull { it.code == FilterCode.LEGOFIED } ?: LegofiedFilterSettings(size = Size.SMALL)
+
+        settingsMap[FilterCode.TRIANGLES_MOSAIC] =
+            dbSettings.firstOrNull { it.code == FilterCode.TRIANGLES_MOSAIC } ?: TrianglesMosaicFilterSettings(size = Size.SMALL)
     }
 
     override fun get(code: FilterCode): FilterSettings = settingsMap[code]!!

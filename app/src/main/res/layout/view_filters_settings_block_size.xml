@@ -6,13 +6,13 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/titleText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
         style="@style/TextSmall.Light.SingleLine"
 
-        android:layout_marginBottom="@dimen/marginNormal"
+        android:layout_marginBottom="@dimen/marginSmall"
 
         android:text="@string/blockSize" />
 

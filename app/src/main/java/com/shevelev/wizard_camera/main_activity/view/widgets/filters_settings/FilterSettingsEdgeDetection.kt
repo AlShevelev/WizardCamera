@@ -6,7 +6,7 @@ import android.widget.FrameLayout
 import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.common_entities.filter_settings.EdgeDetectionFilterSettings
 import com.shevelev.wizard_camera.common_entities.filter_settings.FilterSettings
-import kotlinx.android.synthetic.main.view_filters_settings_edge_detection.view.*
+import kotlinx.android.synthetic.main.view_filters_settings_inverted.view.*
 
 class FilterSettingsEdgeDetection
 @JvmOverloads
@@ -21,7 +21,7 @@ constructor(
     private lateinit var settings: FilterSettings
 
     init {
-        inflate(context, R.layout.view_filters_settings_edge_detection, this)
+        inflate(context, R.layout.view_filters_settings_inverted, this)
     }
 
     override val title: Int = R.string.filterEdgeDetectionSettings

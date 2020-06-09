@@ -6,10 +6,10 @@ import android.widget.LinearLayout
 import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.common_entities.enums.Size
 import com.shevelev.wizard_camera.common_entities.filter_settings.FilterSettings
-import com.shevelev.wizard_camera.common_entities.filter_settings.LegofiedFilterSettings
+import com.shevelev.wizard_camera.common_entities.filter_settings.TrianglesMosaicFilterSettings
 import kotlinx.android.synthetic.main.view_filters_settings_block_size.view.*
 
-class FilterSettingsLegofied
+class FilterSettingsTrianglesMosaic
 @JvmOverloads
 constructor(
     context: Context,
@@ -19,18 +19,18 @@ constructor(
     FilterSettingsWidget {
 
     private var onSettingsChangeListener: ((FilterSettings) -> Unit)? = null
-    private lateinit var settings: LegofiedFilterSettings
+    private lateinit var settings: TrianglesMosaicFilterSettings
 
     init {
         inflate(context, R.layout.view_filters_settings_block_size, this)
     }
 
-    override val title: Int = R.string.filterLegofiedSettings
+    override val title: Int = R.string.filterTrianglesMosaicSettings
 
     override fun init(settings: FilterSettings) {
-        titleText.setText(R.string.blockSize)
+        titleText.setText(R.string.triangleSize)
 
-        this.settings = settings as LegofiedFilterSettings
+        this.settings = settings as TrianglesMosaicFilterSettings
 
         when(settings.size) {
             Size.SMALL -> sizeGroup.check(R.id.smallSize)

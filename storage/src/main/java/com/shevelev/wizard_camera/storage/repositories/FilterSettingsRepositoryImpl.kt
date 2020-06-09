@@ -1,10 +1,7 @@
 package com.shevelev.wizard_camera.storage.repositories
 
 import com.shevelev.wizard_camera.common_entities.enums.FilterCode
-import com.shevelev.wizard_camera.common_entities.filter_settings.BlackAndWhiteFilterSettings
-import com.shevelev.wizard_camera.common_entities.filter_settings.EdgeDetectionFilterSettings
-import com.shevelev.wizard_camera.common_entities.filter_settings.FilterSettings
-import com.shevelev.wizard_camera.common_entities.filter_settings.LegofiedFilterSettings
+import com.shevelev.wizard_camera.common_entities.filter_settings.*
 import com.shevelev.wizard_camera.storage.core.DbCore
 import com.shevelev.wizard_camera.storage.entities.FilterSettingsDb
 import com.shevelev.wizard_camera.utils.id.IdUtil
@@ -36,6 +33,7 @@ constructor(
             FilterCode.EDGE_DETECTION -> fromJson(EdgeDetectionFilterSettings::class.java, settings)
             FilterCode.BLACK_AND_WHITE -> fromJson(BlackAndWhiteFilterSettings::class.java, settings)
             FilterCode.LEGOFIED -> fromJson(LegofiedFilterSettings::class.java, settings)
+            FilterCode.TRIANGLES_MOSAIC -> fromJson(TrianglesMosaicFilterSettings::class.java, settings)
             else -> throw UnsupportedOperationException("This code is not supported: ${this.code}")
         }
 
@@ -44,6 +42,7 @@ constructor(
             FilterCode.EDGE_DETECTION -> toJson(EdgeDetectionFilterSettings::class.java, this)
             FilterCode.BLACK_AND_WHITE -> toJson(BlackAndWhiteFilterSettings::class.java, this)
             FilterCode.LEGOFIED -> toJson(LegofiedFilterSettings::class.java, this)
+            FilterCode.TRIANGLES_MOSAIC -> toJson(TrianglesMosaicFilterSettings::class.java, this)
             else -> throw UnsupportedOperationException("This code is not supported: ${this.code}")
         }
 
