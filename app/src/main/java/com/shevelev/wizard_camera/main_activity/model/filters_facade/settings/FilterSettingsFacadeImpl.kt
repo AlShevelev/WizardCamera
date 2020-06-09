@@ -7,6 +7,7 @@ import com.shevelev.wizard_camera.shared.coroutines.DispatchersProvider
 import com.shevelev.wizard_camera.storage.repositories.FilterSettingsRepository
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
+import kotlin.random.Random
 
 class FilterSettingsFacadeImpl
 @Inject
@@ -31,7 +32,6 @@ constructor(
         FilterCode.LICHTENSTEIN_ESQUE to EmptyFilterSettings(FilterCode.LICHTENSTEIN_ESQUE),
         FilterCode.ASCII_ART to EmptyFilterSettings(FilterCode.ASCII_ART),
         FilterCode.MONEY to EmptyFilterSettings(FilterCode.MONEY),
-        FilterCode.CRACKED to EmptyFilterSettings(FilterCode.CRACKED),
         FilterCode.POLYGONIZATION to EmptyFilterSettings(FilterCode.POLYGONIZATION),
         FilterCode.GRAY to EmptyFilterSettings(FilterCode.GRAY),
         FilterCode.NEGATIVE to EmptyFilterSettings(FilterCode.NEGATIVE),
@@ -39,7 +39,6 @@ constructor(
         FilterCode.CASTING to EmptyFilterSettings(FilterCode.CASTING),
         FilterCode.RELIEF to EmptyFilterSettings(FilterCode.RELIEF),
         FilterCode.SWIRL to EmptyFilterSettings(FilterCode.SWIRL),
-        FilterCode.HEXAGON_MOSAIC to EmptyFilterSettings(FilterCode.HEXAGON_MOSAIC),
         FilterCode.MIRROR to EmptyFilterSettings(FilterCode.MIRROR),
         FilterCode.TRIPLE to EmptyFilterSettings(FilterCode.TRIPLE),
         FilterCode.CARTOON to EmptyFilterSettings(FilterCode.CARTOON),
@@ -52,16 +51,32 @@ constructor(
         }
 
         settingsMap[FilterCode.EDGE_DETECTION] =
-            dbSettings.firstOrNull { it.code == FilterCode.EDGE_DETECTION } ?: EdgeDetectionFilterSettings(isInverted =  false)
+            dbSettings.firstOrNull { it.code == FilterCode.EDGE_DETECTION } 
+            ?: EdgeDetectionFilterSettings(isInverted =  false)
 
         settingsMap[FilterCode.BLACK_AND_WHITE] =
-            dbSettings.firstOrNull { it.code == FilterCode.BLACK_AND_WHITE } ?: BlackAndWhiteFilterSettings(isInverted = false)
+            dbSettings.firstOrNull { it.code == FilterCode.BLACK_AND_WHITE } 
+            ?: BlackAndWhiteFilterSettings(isInverted = false)
 
         settingsMap[FilterCode.LEGOFIED] =
-            dbSettings.firstOrNull { it.code == FilterCode.LEGOFIED } ?: LegofiedFilterSettings(size = Size.SMALL)
+            dbSettings.firstOrNull { it.code == FilterCode.LEGOFIED } 
+            ?: LegofiedFilterSettings(size = Size.SMALL)
 
         settingsMap[FilterCode.TRIANGLES_MOSAIC] =
-            dbSettings.firstOrNull { it.code == FilterCode.TRIANGLES_MOSAIC } ?: TrianglesMosaicFilterSettings(size = Size.SMALL)
+            dbSettings.firstOrNull { it.code == FilterCode.TRIANGLES_MOSAIC } 
+            ?: TrianglesMosaicFilterSettings(size = Size.SMALL)
+
+        settingsMap[FilterCode.HEXAGON_MOSAIC] =
+            dbSettings.firstOrNull { it.code == FilterCode.HEXAGON_MOSAIC } 
+            ?: HexagonMosaicFilterSettings(size = Size.SMALL)
+
+        settingsMap[FilterCode.CRACKED] =
+            dbSettings.firstOrNull { it.code == FilterCode.CRACKED } 
+            ?: CrackedFilterSettings(
+                shards = 15, 
+                randomA = Random.nextDouble(1.0, 359.0).toFloat(),
+                randomB = Random.nextDouble(1.0, 359.0).toFloat(),
+                randomC = Random.nextDouble(1.0, 359.0).toFloat())
     }
 
     override fun get(code: FilterCode): FilterSettings = settingsMap[code]!!

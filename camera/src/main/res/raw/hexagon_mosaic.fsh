@@ -1,42 +1,42 @@
 precision highp float;
 
-uniform vec3                iResolution;
-uniform sampler2D           iChannel0;
-varying vec2                texCoord;
+uniform vec3 iResolution;
+uniform sampler2D iChannel0;
+varying vec2 texCoord;
 
-const float mosaicSize = 0.03;
+// 0.0075 - small; 0.01 - medium; 0.015 - large
+uniform float blockSize;
 
-void mainImage( out vec4 fragColor, in vec2 fragCoord )
-  {
-    float length = mosaicSize;
-    float TR = 0.866025;
+void mainImage(out vec4 fragColor, in vec2 fragCoord) {
+    float TY = 0.866025;
+    float TX = 1.5;
 
     float x = texCoord.x;
     float y = texCoord.y;
 
-    int wx = int(x / 1.5 / length);
-    int wy = int(y / TR / length);
+    int wx = int(x / TX / blockSize);
+    int wy = int(y / TY / blockSize);
     vec2 v1, v2, vn;
 
     if (wx/2 * 2 == wx) {
         if (wy/2 * 2 == wy) {
             //(0,0),(1,1)
-            v1 = vec2(length * 1.5 * float(wx), length * TR * float(wy));
-            v2 = vec2(length * 1.5 * float(wx + 1), length * TR * float(wy + 1));
+            v1 = vec2(blockSize * TX * float(wx), blockSize * TY * float(wy));
+            v2 = vec2(blockSize * TX * float(wx + 1), blockSize * TY * float(wy + 1));
         } else {
             //(0,1),(1,0)
-            v1 = vec2(length * 1.5 * float(wx), length * TR * float(wy + 1));
-            v2 = vec2(length * 1.5 * float(wx + 1), length * TR * float(wy));
+            v1 = vec2(blockSize * TX * float(wx), blockSize * TY * float(wy + 1));
+            v2 = vec2(blockSize * TX * float(wx + 1), blockSize * TY * float(wy));
         }
     }else {
         if (wy/2 * 2 == wy) {
             //(0,1),(1,0)
-            v1 = vec2(length * 1.5 * float(wx), length * TR * float(wy + 1));
-            v2 = vec2(length * 1.5 * float(wx + 1), length * TR * float(wy));
+            v1 = vec2(blockSize * TX * float(wx), blockSize * TY * float(wy + 1));
+            v2 = vec2(blockSize * TX * float(wx + 1), blockSize * TY * float(wy));
         } else {
             //(0,0),(1,1)
-            v1 = vec2(length * 1.5 * float(wx), length * TR * float(wy));
-            v2 = vec2(length * 1.5 * float(wx + 1), length * TR * float(wy + 1));
+            v1 = vec2(blockSize * TX * float(wx), blockSize * TY * float(wy));
+            v2 = vec2(blockSize * TX * float(wx + 1), blockSize * TY * float(wy + 1));
         }
     }
 

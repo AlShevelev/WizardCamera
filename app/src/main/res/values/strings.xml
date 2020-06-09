@@ -64,9 +64,13 @@
     <string name="large">Large</string>
     <string name="blockSize">Block size</string>
     <string name="triangleSize">Triangle size</string>
+    <string name="totalShards">Total shards</string>
+    <string name="randomShards">Random shards</string>
 
     <string name="filterEdgeDetectionSettings">Edges detection settings</string>
     <string name="filterBlackAndWhiteSettings">Black and White settings</string>
     <string name="filterLegofiedSettings">Legofied settings</string>
     <string name="filterTrianglesMosaicSettings">Triangles mosaic settings</string>
+    <string name="filterHexagonMosaicSettings">Hexagon mosaic settings</string>
+    <string name="filterCrackedSettings">Cracked settings</string>
 </resources>

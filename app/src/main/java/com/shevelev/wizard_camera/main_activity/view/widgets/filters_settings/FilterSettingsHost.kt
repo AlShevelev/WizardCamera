@@ -8,7 +8,7 @@ import android.widget.LinearLayout
 import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.common_entities.enums.FilterCode
 import com.shevelev.wizard_camera.common_entities.filter_settings.FilterSettings
-import kotlinx.android.synthetic.main.view_filters_settings_host.view.*
+import kotlinx.android.synthetic.main.view_filter_settings_host.view.*
 import java.lang.UnsupportedOperationException
 
 class FilterSettingsHost
@@ -24,7 +24,7 @@ constructor(
     private var settingsWidget: View? = null
 
     init {
-        inflate(context, R.layout.view_filters_settings_host, this)
+        inflate(context, R.layout.view_filter_settings_host, this)
 
         setOnClickListener {  } // To prevent unexpected close the "dialog"
     }
@@ -71,6 +71,8 @@ constructor(
             FilterCode.BLACK_AND_WHITE -> FilterSettingsBlackAndWhite(context)
             FilterCode.LEGOFIED -> FilterSettingsLegofied(context)
             FilterCode.TRIANGLES_MOSAIC -> FilterSettingsTrianglesMosaic(context)
+            FilterCode.HEXAGON_MOSAIC -> FilterSettingsHexagonMosaic(context)
+            FilterCode.CRACKED -> FilterSettingsCracked(context)
             else -> throw UnsupportedOperationException("This code is not supported: ${settings.code}")
         }
 }

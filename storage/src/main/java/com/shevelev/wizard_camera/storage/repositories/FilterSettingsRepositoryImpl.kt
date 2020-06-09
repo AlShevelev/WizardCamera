@@ -34,6 +34,8 @@ constructor(
             FilterCode.BLACK_AND_WHITE -> fromJson(BlackAndWhiteFilterSettings::class.java, settings)
             FilterCode.LEGOFIED -> fromJson(LegofiedFilterSettings::class.java, settings)
             FilterCode.TRIANGLES_MOSAIC -> fromJson(TrianglesMosaicFilterSettings::class.java, settings)
+            FilterCode.HEXAGON_MOSAIC -> fromJson(HexagonMosaicFilterSettings::class.java, settings)
+            FilterCode.CRACKED -> fromJson(CrackedFilterSettings::class.java, settings)
             else -> throw UnsupportedOperationException("This code is not supported: ${this.code}")
         }
 
@@ -43,6 +45,8 @@ constructor(
             FilterCode.BLACK_AND_WHITE -> toJson(BlackAndWhiteFilterSettings::class.java, this)
             FilterCode.LEGOFIED -> toJson(LegofiedFilterSettings::class.java, this)
             FilterCode.TRIANGLES_MOSAIC -> toJson(TrianglesMosaicFilterSettings::class.java, this)
+            FilterCode.HEXAGON_MOSAIC -> toJson(HexagonMosaicFilterSettings::class.java, this)
+            FilterCode.CRACKED -> toJson(CrackedFilterSettings::class.java, this)
             else -> throw UnsupportedOperationException("This code is not supported: ${this.code}")
         }
 

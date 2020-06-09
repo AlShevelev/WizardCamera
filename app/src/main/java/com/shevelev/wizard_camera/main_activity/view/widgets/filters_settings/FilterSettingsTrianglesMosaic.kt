@@ -7,7 +7,7 @@ import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.common_entities.enums.Size
 import com.shevelev.wizard_camera.common_entities.filter_settings.FilterSettings
 import com.shevelev.wizard_camera.common_entities.filter_settings.TrianglesMosaicFilterSettings
-import kotlinx.android.synthetic.main.view_filters_settings_block_size.view.*
+import kotlinx.android.synthetic.main.view_filter_settings_block_size.view.*
 
 class FilterSettingsTrianglesMosaic
 @JvmOverloads
@@ -22,17 +22,17 @@ constructor(
     private lateinit var settings: TrianglesMosaicFilterSettings
 
     init {
-        inflate(context, R.layout.view_filters_settings_block_size, this)
+        inflate(context, R.layout.view_filter_settings_block_size, this)
     }
 
     override val title: Int = R.string.filterTrianglesMosaicSettings
 
-    override fun init(settings: FilterSettings) {
+    override fun init(startSettings: FilterSettings) {
         titleText.setText(R.string.triangleSize)
 
-        this.settings = settings as TrianglesMosaicFilterSettings
+        this.settings = startSettings as TrianglesMosaicFilterSettings
 
-        when(settings.size) {
+        when(startSettings.size) {
             Size.SMALL -> sizeGroup.check(R.id.smallSize)
             Size.NORMAL -> sizeGroup.check(R.id.normalSize)
             Size.LARGE -> sizeGroup.check(R.id.largeSize)
@@ -40,9 +40,9 @@ constructor(
 
         sizeGroup.setOnCheckedChangeListener { _, checkedId ->
             when(checkedId) {
-                R.id.smallSize -> onSettingsChangeListener?.invoke(settings.copy(size = Size.SMALL))
-                R.id.normalSize -> onSettingsChangeListener?.invoke(settings.copy(size = Size.NORMAL))
-                R.id.largeSize -> onSettingsChangeListener?.invoke(settings.copy(size = Size.LARGE))
+                R.id.smallSize -> onSettingsChangeListener?.invoke(startSettings.copy(size = Size.SMALL))
+                R.id.normalSize -> onSettingsChangeListener?.invoke(startSettings.copy(size = Size.NORMAL))
+                R.id.largeSize -> onSettingsChangeListener?.invoke(startSettings.copy(size = Size.LARGE))
             }
         }
     }

@@ -6,10 +6,10 @@ import android.widget.LinearLayout
 import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.common_entities.enums.Size
 import com.shevelev.wizard_camera.common_entities.filter_settings.FilterSettings
-import com.shevelev.wizard_camera.common_entities.filter_settings.LegofiedFilterSettings
+import com.shevelev.wizard_camera.common_entities.filter_settings.HexagonMosaicFilterSettings
 import kotlinx.android.synthetic.main.view_filter_settings_block_size.view.*
 
-class FilterSettingsLegofied
+class FilterSettingsHexagonMosaic
 @JvmOverloads
 constructor(
     context: Context,
@@ -19,18 +19,18 @@ constructor(
     FilterSettingsWidget {
 
     private var onSettingsChangeListener: ((FilterSettings) -> Unit)? = null
-    private lateinit var settings: LegofiedFilterSettings
+    private lateinit var settings: HexagonMosaicFilterSettings
 
     init {
         inflate(context, R.layout.view_filter_settings_block_size, this)
     }
 
-    override val title: Int = R.string.filterLegofiedSettings
+    override val title: Int = R.string.filterHexagonMosaicSettings
 
     override fun init(startSettings: FilterSettings) {
         titleText.setText(R.string.blockSize)
 
-        this.settings = startSettings as LegofiedFilterSettings
+        this.settings = startSettings as HexagonMosaicFilterSettings
 
         when(startSettings.size) {
             Size.SMALL -> sizeGroup.check(R.id.smallSize)
