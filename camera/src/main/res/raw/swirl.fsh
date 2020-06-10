@@ -1,16 +1,22 @@
 precision highp float;
 
-uniform vec3                iResolution;
-uniform sampler2D           iChannel0;
-varying vec2                texCoord;
+uniform vec3 iResolution;
+uniform sampler2D iChannel0;
+
+// [1.0 - 10.0]
+uniform float rotation;
+
+// [0.1 - 1.0]
+uniform float radiusRatio;
+
+varying vec2 texCoord;
 
 const float PI = 3.14159265;
-const float rotateRadian = PI/3.0;
-const float radiusRatio = 0.8;
 const float center = 0.5;
 
-void mainImage( out vec4 fragColor, in vec2 fragCoord )
-  {
+void mainImage(out vec4 fragColor, in vec2 fragCoord) {
+    float rotateRadian = PI/rotation;
+
     float radius = min(iResolution.x,iResolution.y)*radiusRatio/2.0;
     vec2 texCoord = fragCoord;
     vec2 currentUV = texCoord;
@@ -29,7 +35,7 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
     dstUV.x /=iResolution.x;
     dstUV.y /=iResolution.y;
     fragColor = texture2D(iChannel0, dstUV);
-   }
+}
 
 void main() {
  	mainImage(gl_FragColor, texCoord);

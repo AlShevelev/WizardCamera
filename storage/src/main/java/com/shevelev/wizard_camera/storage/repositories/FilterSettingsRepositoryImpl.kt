@@ -36,6 +36,7 @@ constructor(
             FilterCode.TRIANGLES_MOSAIC -> fromJson(TrianglesMosaicFilterSettings::class.java, settings)
             FilterCode.HEXAGON_MOSAIC -> fromJson(HexagonMosaicFilterSettings::class.java, settings)
             FilterCode.CRACKED -> fromJson(CrackedFilterSettings::class.java, settings)
+            FilterCode.SWIRL -> fromJson(SwirlFilterSettings::class.java, settings)
             else -> throw UnsupportedOperationException("This code is not supported: ${this.code}")
         }
 
@@ -47,6 +48,7 @@ constructor(
             FilterCode.TRIANGLES_MOSAIC -> toJson(TrianglesMosaicFilterSettings::class.java, this)
             FilterCode.HEXAGON_MOSAIC -> toJson(HexagonMosaicFilterSettings::class.java, this)
             FilterCode.CRACKED -> toJson(CrackedFilterSettings::class.java, this)
+            FilterCode.SWIRL -> toJson(SwirlFilterSettings::class.java, this)
             else -> throw UnsupportedOperationException("This code is not supported: ${this.code}")
         }
 

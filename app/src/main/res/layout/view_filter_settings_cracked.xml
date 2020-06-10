@@ -52,7 +52,7 @@
         android:text="3"
 
         style="@style/TextSmall.Light.SingleLine"
-        android:layout_marginTop="@dimen/marginNormal"
+        android:layout_marginTop="@dimen/marginSmall"
 
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/titleText"

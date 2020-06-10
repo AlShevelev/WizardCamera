@@ -38,7 +38,6 @@ constructor(
         FilterCode.NOSTALGIA to EmptyFilterSettings(FilterCode.NOSTALGIA),
         FilterCode.CASTING to EmptyFilterSettings(FilterCode.CASTING),
         FilterCode.RELIEF to EmptyFilterSettings(FilterCode.RELIEF),
-        FilterCode.SWIRL to EmptyFilterSettings(FilterCode.SWIRL),
         FilterCode.MIRROR to EmptyFilterSettings(FilterCode.MIRROR),
         FilterCode.TRIPLE to EmptyFilterSettings(FilterCode.TRIPLE),
         FilterCode.CARTOON to EmptyFilterSettings(FilterCode.CARTOON),
@@ -77,6 +76,10 @@ constructor(
                 randomA = Random.nextDouble(1.0, 359.0).toFloat(),
                 randomB = Random.nextDouble(1.0, 359.0).toFloat(),
                 randomC = Random.nextDouble(1.0, 359.0).toFloat())
+
+        settingsMap[FilterCode.SWIRL] =
+            dbSettings.firstOrNull { it.code == FilterCode.SWIRL }
+                ?: SwirlFilterSettings(radius = 5, rotation = 5, invertRotation = false)
     }
 
     override fun get(code: FilterCode): FilterSettings = settingsMap[code]!!

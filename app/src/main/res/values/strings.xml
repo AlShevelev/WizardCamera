@@ -66,6 +66,9 @@
     <string name="triangleSize">Triangle size</string>
     <string name="totalShards">Total shards</string>
     <string name="randomShards">Random shards</string>
+    <string name="size">Size</string>
+    <string name="rotation">Rotation</string>
+    <string name="invertedRotation">Inverted rotation</string>
 
     <string name="filterEdgeDetectionSettings">Edges detection settings</string>
     <string name="filterBlackAndWhiteSettings">Black and White settings</string>
@@ -73,4 +76,5 @@
     <string name="filterTrianglesMosaicSettings">Triangles mosaic settings</string>
     <string name="filterHexagonMosaicSettings">Hexagon mosaic settings</string>
     <string name="filterCrackedSettings">Cracked settings</string>
+    <string name="filterSwirlSettings">Swirl settings</string>
 </resources>

@@ -32,7 +32,7 @@ class FiltersFactory(context: Context) {
         FilterCode.NOSTALGIA to CameraFilter(context, R.raw.nostalgia),
         FilterCode.CASTING to CameraFilter(context, R.raw.casting),
         FilterCode.RELIEF to CameraFilter(context, R.raw.relief),
-        FilterCode.SWIRL to CameraFilter(context, R.raw.swirl),
+        FilterCode.SWIRL to SwirlCameraFilter(context),
         FilterCode.HEXAGON_MOSAIC to HexagonMosaicCameraFilter(context),
         FilterCode.MIRROR to CameraFilter(context, R.raw.mirror),
         FilterCode.TRIPLE to CameraFilter(context, R.raw.triple),
