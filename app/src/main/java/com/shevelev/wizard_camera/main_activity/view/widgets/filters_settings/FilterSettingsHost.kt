@@ -74,6 +74,7 @@ constructor(
             FilterCode.HEXAGON_MOSAIC -> FilterSettingsHexagonMosaic(context)
             FilterCode.CRACKED -> FilterSettingsCracked(context)
             FilterCode.SWIRL -> FilterSettingsSwirl(context)
+            FilterCode.TILE_MOSAIC -> FilterSettingsTileMosaic(context)
             else -> throw UnsupportedOperationException("This code is not supported: ${settings.code}")
         }
 }

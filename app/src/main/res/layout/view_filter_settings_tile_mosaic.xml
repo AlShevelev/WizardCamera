@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/titleTileSize"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text="@string/tileSize"
+        style="@style/TextSmall.Light.SingleLine"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <SeekBar
+        android:id="@+id/tileSizeBar"
+        style="@style/Widget.AppCompat.SeekBar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+
+
+        app:layout_constraintEnd_toStartOf="@+id/maxLabelSize"
+        app:layout_constraintStart_toEndOf="@+id/minLabelSize"
+
+        android:layout_marginStart="@dimen/marginNormal"
+        android:layout_marginEnd="@dimen/marginNormal"
+
+        app:layout_constraintTop_toTopOf="@+id/minLabelSize"
+        app:layout_constraintBottom_toBottomOf="@+id/minLabelSize"
+        tools:layout_editor_absoluteY="374dp" />
+
+    <TextView
+        android:id="@+id/minLabelSize"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="40"
+
+        style="@style/TextSmall.Light.SingleLine"
+        android:layout_marginTop="@dimen/marginSmall"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titleTileSize"
+        tools:ignore="HardcodedText" />
+
+    <TextView
+        android:id="@+id/maxLabelSize"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="100"
+
+        style="@style/TextSmall.Light.SingleLine"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/minLabelSize"
+        app:layout_constraintBottom_toBottomOf="@+id/minLabelSize"
+        tools:ignore="HardcodedText" />
+
+    <TextView
+        android:id="@+id/titleBorderSize"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text="@string/borderSize"
+        style="@style/TextSmall.Light.SingleLine"
+
+        android:layout_marginTop="@dimen/marginLarge"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/minLabelSize" />
+
+    <SeekBar
+        android:id="@+id/borderSizeBar"
+        style="@style/Widget.AppCompat.SeekBar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+
+
+        app:layout_constraintEnd_toStartOf="@+id/maxLabelRotation"
+        app:layout_constraintStart_toEndOf="@+id/minLabelRotation"
+
+        android:layout_marginStart="@dimen/marginNormal"
+        android:layout_marginEnd="@dimen/marginNormal"
+
+        app:layout_constraintTop_toTopOf="@+id/minLabelRotation"
+        app:layout_constraintBottom_toBottomOf="@+id/minLabelRotation"
+        tools:layout_editor_absoluteY="374dp" />
+
+    <TextView
+        android:id="@+id/minLabelRotation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1"
+
+        style="@style/TextSmall.Light.SingleLine"
+        android:layout_marginTop="@dimen/marginSmall"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titleBorderSize"
+        tools:ignore="HardcodedText" />
+
+    <TextView
+        android:id="@+id/maxLabelRotation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="5"
+
+        style="@style/TextSmall.Light.SingleLine"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/minLabelRotation"
+        app:layout_constraintBottom_toBottomOf="@+id/minLabelRotation"
+        tools:ignore="HardcodedText" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -20,7 +20,6 @@ constructor(
         FilterCode.ORIGINAL to EmptyFilterSettings(FilterCode.ORIGINAL),
         FilterCode.PIXELIZE to EmptyFilterSettings(FilterCode.PIXELIZE),
         FilterCode.EM_INTERFERENCE to EmptyFilterSettings(FilterCode.EM_INTERFERENCE),
-        FilterCode.TILE_MOSAIC to EmptyFilterSettings(FilterCode.TILE_MOSAIC),
         FilterCode.BLUE_ORANGE to EmptyFilterSettings(FilterCode.BLUE_ORANGE),
         FilterCode.CHROMATIC_ABERRATION to EmptyFilterSettings(FilterCode.CHROMATIC_ABERRATION),
         FilterCode.BASIC_DEFORM to EmptyFilterSettings(FilterCode.BASIC_DEFORM),
@@ -80,6 +79,10 @@ constructor(
         settingsMap[FilterCode.SWIRL] =
             dbSettings.firstOrNull { it.code == FilterCode.SWIRL }
                 ?: SwirlFilterSettings(radius = 5, rotation = 5, invertRotation = false)
+
+        settingsMap[FilterCode.TILE_MOSAIC] =
+            dbSettings.firstOrNull { it.code == FilterCode.TILE_MOSAIC }
+                ?: TileMosaicFilterSettings(tileSize = 70, borderSize = 3)
     }
 
     override fun get(code: FilterCode): FilterSettings = settingsMap[code]!!

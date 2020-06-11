@@ -12,7 +12,7 @@ class FiltersFactory(context: Context) {
         FilterCode.EM_INTERFERENCE to CameraFilter(context, R.raw.em_interference),
         FilterCode.TRIANGLES_MOSAIC to TrianglesMosaicCameraFilter(context),
         FilterCode.LEGOFIED to LegofiedCameraFilter(context),
-        FilterCode.TILE_MOSAIC to CameraFilter(context, R.raw.tile_mosaic),
+        FilterCode.TILE_MOSAIC to TileMosaicCameraFilter(context),
         FilterCode.BLUE_ORANGE to CameraFilter(context, R.raw.blue_orange),
         FilterCode.CHROMATIC_ABERRATION to CameraFilter(context, R.raw.chromatic_aberration),
         FilterCode.BASIC_DEFORM to CameraFilter(context, R.raw.basic_deform),
