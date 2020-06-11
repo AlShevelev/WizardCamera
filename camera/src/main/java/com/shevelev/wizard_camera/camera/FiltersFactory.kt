@@ -35,7 +35,7 @@ class FiltersFactory(context: Context) {
         FilterCode.SWIRL to SwirlCameraFilter(context),
         FilterCode.HEXAGON_MOSAIC to HexagonMosaicCameraFilter(context),
         FilterCode.MIRROR to CameraFilter(context, R.raw.mirror),
-        FilterCode.TRIPLE to CameraFilter(context, R.raw.triple),
+        FilterCode.TRIPLE to TripleCameraFilter(context),
         FilterCode.CARTOON to CameraFilter(context, R.raw.cartoon),
         FilterCode.WATER_REFLECTION to CameraFilter(context, R.raw.water_reflection)
     )

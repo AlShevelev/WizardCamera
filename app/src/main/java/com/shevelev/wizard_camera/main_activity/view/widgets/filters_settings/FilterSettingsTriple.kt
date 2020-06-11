@@ -4,11 +4,11 @@ import android.content.Context
 import android.util.AttributeSet
 import android.widget.FrameLayout
 import com.shevelev.wizard_camera.R
-import com.shevelev.wizard_camera.common_entities.filter_settings.EdgeDetectionFilterSettings
 import com.shevelev.wizard_camera.common_entities.filter_settings.FilterSettings
+import com.shevelev.wizard_camera.common_entities.filter_settings.TripleFilterSettings
 import kotlinx.android.synthetic.main.view_filter_settings_single_check.view.*
 
-class FilterSettingsEdgeDetection
+class FilterSettingsTriple
 @JvmOverloads
 constructor(
     context: Context,
@@ -24,15 +24,16 @@ constructor(
         inflate(context, R.layout.view_filter_settings_single_check, this)
     }
 
-    override val title: Int = R.string.filterEdgeDetectionSettings
+    override val title: Int = R.string.filterTripleSettings
 
     override fun init(startSettings: FilterSettings) {
         this.settings = startSettings
 
-        check.isChecked = (startSettings as EdgeDetectionFilterSettings).isInverted
+        check.setText(R.string.horizontal)
+        check.isChecked = (startSettings as TripleFilterSettings).isHorizontal
 
         check.setOnCheckedChangeListener {
-            _, isChecked -> onSettingsChangeListener?.invoke(startSettings.copy(isInverted = isChecked))
+            _, isChecked -> onSettingsChangeListener?.invoke(startSettings.copy(isHorizontal = isChecked))
         }
     }
 

@@ -1,13 +1,12 @@
 precision highp float;
 
-uniform vec3                iResolution;
-uniform float               iGlobalTime;
-uniform sampler2D           iChannel0;
-uniform sampler2D           iChannel1;
-varying vec2                texCoord;
+uniform vec3 iResolution;
+uniform float iGlobalTime;
+uniform sampler2D iChannel0;
+uniform sampler2D iChannel1;
+varying vec2 texCoord;
 
-void mainImage( out vec4 fragColor, in vec2 fragCoord )
-{
+void mainImage(out vec4 fragColor, in vec2 fragCoord) {
 	vec2 uv = fragCoord.xy;
 
 	vec4 bump = texture2D(iChannel1, uv + iGlobalTime * 0.05);

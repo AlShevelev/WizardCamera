@@ -1,22 +1,19 @@
 precision highp float;
 
-uniform vec3                iResolution;
-uniform float               iGlobalTime;
-uniform sampler2D           iChannel0;
-varying vec2                texCoord;
+uniform vec3 iResolution;
+uniform float iGlobalTime;
+uniform sampler2D iChannel0;
+varying vec2 texCoord;
 
-float rng2(vec2 seed)
-{
+float rng2(vec2 seed) {
     return fract(sin(dot(seed * floor(iGlobalTime * 12.), vec2(127.1,311.7))) * 43758.5453123);
 }
 
-float rng(float seed)
-{
+float rng(float seed) {
     return rng2(vec2(seed, 1.0));
 }
 
-void mainImage( out vec4 fragColor, in vec2 fragCoord )
-{
+void mainImage(out vec4 fragColor, in vec2 fragCoord) {
 	vec2 uv = fragCoord.xy;
     vec2 blockS = floor(uv * vec2(24., 9.));
     vec2 blockL = floor(uv * vec2(8., 4.));

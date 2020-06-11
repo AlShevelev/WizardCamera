@@ -71,6 +71,7 @@
     <string name="invertedRotation">Inverted rotation</string>
     <string name="tileSize">Tile size</string>
     <string name="borderSize">Border size</string>
+    <string name="horizontal">Horizontal</string>
 
     <string name="filterEdgeDetectionSettings">Edges detection settings</string>
     <string name="filterBlackAndWhiteSettings">Black and White settings</string>
@@ -80,4 +81,5 @@
     <string name="filterCrackedSettings">Cracked settings</string>
     <string name="filterSwirlSettings">Swirl settings</string>
     <string name="filterTileMosaicSettings">Tile mosaic settings</string>
+    <string name="filterTripleSettings">Triple settings</string>
 </resources>

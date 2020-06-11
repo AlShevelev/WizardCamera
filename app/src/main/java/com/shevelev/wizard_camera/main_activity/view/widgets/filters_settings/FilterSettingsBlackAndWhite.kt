@@ -6,7 +6,7 @@ import android.widget.FrameLayout
 import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.common_entities.filter_settings.BlackAndWhiteFilterSettings
 import com.shevelev.wizard_camera.common_entities.filter_settings.FilterSettings
-import kotlinx.android.synthetic.main.view_filter_settings_inverted.view.*
+import kotlinx.android.synthetic.main.view_filter_settings_single_check.view.*
 
 class FilterSettingsBlackAndWhite
 @JvmOverloads
@@ -21,7 +21,7 @@ constructor(
     private lateinit var settings: FilterSettings
 
     init {
-        inflate(context, R.layout.view_filter_settings_inverted, this)
+        inflate(context, R.layout.view_filter_settings_single_check, this)
     }
 
     override val title: Int = R.string.filterBlackAndWhiteSettings
@@ -29,9 +29,9 @@ constructor(
     override fun init(startSettings: FilterSettings) {
         this.settings = startSettings
 
-        inverted.isChecked = (startSettings as BlackAndWhiteFilterSettings).isInverted
+        check.isChecked = (startSettings as BlackAndWhiteFilterSettings).isInverted
 
-        inverted.setOnCheckedChangeListener {
+        check.setOnCheckedChangeListener {
             _, isChecked -> onSettingsChangeListener?.invoke(startSettings.copy(isInverted = isChecked))
         }
     }

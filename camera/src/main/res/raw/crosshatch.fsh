@@ -1,9 +1,9 @@
 precision highp float;
 
-uniform vec3                iResolution;
-uniform float               iGlobalTime;
-uniform sampler2D           iChannel0;
-varying vec2                texCoord;
+uniform vec3 iResolution;
+uniform float iGlobalTime;
+uniform sampler2D iChannel0;
+varying vec2 texCoord;
 
 // The brightnesses at which different hatch lines appear
 float hatch_1 = 0.8;
@@ -37,8 +37,7 @@ float hatch_4_brightness = 0.0;
 
 float d = 1.0; // kernel offset
 
-float lookup(vec2 p, float dx, float dy)
-{
+float lookup(vec2 p, float dx, float dy) {
     vec2 uv = (p.xy + vec2(dx * d, dy * d)) / iResolution.xy;
     vec4 c = texture2D(iChannel0, uv.xy);
 
@@ -47,8 +46,7 @@ float lookup(vec2 p, float dx, float dy)
 }
 
 
-void mainImage( out vec4 fragColor, in vec2 fragCoord )
-{
+void mainImage(out vec4 fragColor, in vec2 fragCoord) {
 	//
 	// Inspired by the technique illustrated at
 	// http://www.geeks3d.com/20110219/shader-library-crosshatching-glsl-filter/
@@ -75,10 +73,8 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
 		tex.rgb = vec3(1.0,1.0,1.0);
 #endif // COLOUR_HATCHES
 
-    if (brightness < hatch_1)
-    {
-		if (mod(fragCoord.x + fragCoord.y, density) <= width)
-		{
+    if (brightness < hatch_1) {
+		if (mod(fragCoord.x + fragCoord.y, density) <= width) {
 #ifdef COLOUR_HATCHES
 			res = vec3(tex.rgb * hatch_1_brightness);
 #else
@@ -87,10 +83,8 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
 		}
     }
 
-    if (brightness < hatch_2)
-    {
-		if (mod(fragCoord.x - fragCoord.y, density) <= width)
-		{
+    if (brightness < hatch_2) {
+		if (mod(fragCoord.x - fragCoord.y, density) <= width) {
 #ifdef COLOUR_HATCHES
 			res = vec3(tex.rgb * hatch_2_brightness);
 #else
@@ -99,10 +93,8 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
 		}
     }
 
-    if (brightness < hatch_3)
-    {
-		if (mod(fragCoord.x + fragCoord.y - (density*0.5), density) <= width)
-		{
+    if (brightness < hatch_3) {
+		if (mod(fragCoord.x + fragCoord.y - (density*0.5), density) <= width) {
 #ifdef COLOUR_HATCHES
 			res = vec3(tex.rgb * hatch_3_brightness);
 #else
@@ -111,10 +103,8 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
 		}
     }
 
-    if (brightness < hatch_4)
-    {
-		if (mod(fragCoord.x - fragCoord.y - (density*0.5), density) <= width)
-		{
+    if (brightness < hatch_4) {
+		if (mod(fragCoord.x - fragCoord.y - (density*0.5), density) <= width) {
 #ifdef COLOUR_HATCHES
 			res = vec3(tex.rgb * hatch_4_brightness);
 #else

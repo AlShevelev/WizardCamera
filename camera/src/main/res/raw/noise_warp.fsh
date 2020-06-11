@@ -1,27 +1,23 @@
 precision highp float;
 
-uniform vec3                iResolution;
-uniform float               iGlobalTime;
-uniform sampler2D           iChannel0;
-varying vec2                texCoord;
+uniform vec3 iResolution;
+uniform float iGlobalTime;
+uniform sampler2D iChannel0;
+varying vec2 texCoord;
 
-float mod289(float x)
-{
+float mod289(float x) {
     return x - floor(x * (1.0 / 289.0)) * 289.0;
 }
 
-vec4 mod289(vec4 x)
-{
+vec4 mod289(vec4 x) {
     return x - floor(x * (1.0 / 289.0)) * 289.0;
 }
 
-vec4 perm(vec4 x)
-{
+vec4 perm(vec4 x) {
     return mod289(((x * 34.0) + 1.0) * x);
 }
 
-float noise3d(vec3 p)
-{
+float noise3d(vec3 p) {
     vec3 a = floor(p);
     vec3 d = p - a;
     d = d * d * (3.0 - 2.0 * d);
@@ -43,8 +39,7 @@ float noise3d(vec3 p)
     return o4.y * d.y + o4.x * (1.0 - d.y);
 }
 
-void mainImage( out vec4 fragColor, in vec2 fragCoord )
-{
+void mainImage(out vec4 fragColor, in vec2 fragCoord) {
 	vec2 uv = fragCoord.xy;
 	float v1 = noise3d(vec3(uv * 10.0, 0.0));
 	float v2 = noise3d(vec3(uv * 10.0, 1.0));

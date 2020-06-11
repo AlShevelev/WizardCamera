@@ -1,12 +1,11 @@
 precision mediump float;
 
-uniform vec3                iResolution;
-uniform float               iGlobalTime;
-uniform sampler2D           iChannel0;
-varying vec2                texCoord;
+uniform vec3 iResolution;
+uniform float iGlobalTime;
+uniform sampler2D iChannel0;
+varying vec2 texCoord;
 
-void mainImage( out vec4 fragColor, in vec2 fragCoord )
-{
+void mainImage(out vec4 fragColor, in vec2 fragCoord) {
     vec2 uv = fragCoord.xy;
 	
 	vec3 tex = texture2D( iChannel0, uv ).rgb;

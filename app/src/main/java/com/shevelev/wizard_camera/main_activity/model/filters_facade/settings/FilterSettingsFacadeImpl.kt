@@ -38,7 +38,6 @@ constructor(
         FilterCode.CASTING to EmptyFilterSettings(FilterCode.CASTING),
         FilterCode.RELIEF to EmptyFilterSettings(FilterCode.RELIEF),
         FilterCode.MIRROR to EmptyFilterSettings(FilterCode.MIRROR),
-        FilterCode.TRIPLE to EmptyFilterSettings(FilterCode.TRIPLE),
         FilterCode.CARTOON to EmptyFilterSettings(FilterCode.CARTOON),
         FilterCode.WATER_REFLECTION to EmptyFilterSettings(FilterCode.WATER_REFLECTION)
     )
@@ -83,6 +82,10 @@ constructor(
         settingsMap[FilterCode.TILE_MOSAIC] =
             dbSettings.firstOrNull { it.code == FilterCode.TILE_MOSAIC }
                 ?: TileMosaicFilterSettings(tileSize = 70, borderSize = 3)
+
+        settingsMap[FilterCode.TRIPLE] =
+            dbSettings.firstOrNull { it.code == FilterCode.TRIPLE }
+                ?: TripleFilterSettings(isHorizontal = true)
     }
 
     override fun get(code: FilterCode): FilterSettings = settingsMap[code]!!

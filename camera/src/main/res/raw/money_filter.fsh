@@ -1,18 +1,16 @@
 precision highp float;
 
-uniform vec3                iResolution;
-uniform float               iGlobalTime;
-uniform sampler2D           iChannel0;
-varying vec2                texCoord;
-
+uniform vec3 iResolution;
+uniform float iGlobalTime;
+uniform sampler2D iChannel0;
+varying vec2 texCoord;
 
 // Money filter by Giacomo Preciado
 // Based on: "Free Engraved Illustration Effect Action for Photoshop" - http://snip.ly/j0gq
 // e-mail: giacomo@kyrie.pe
 // website: http://kyrie.pe
 
-void mainImage( out vec4 fragColor, in vec2 fragCoord )
-{
+void mainImage(out vec4 fragColor, in vec2 fragCoord) {
     vec2 xy = fragCoord.xy / iResolution.yy;
 
     float amplitud = 0.03;
@@ -35,8 +33,7 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
     vec4 color = texture2D(iChannel0, vec2(fragCoord.x / iResolution.x, xy.y));
     fragColor = color;
 
-    for(int i = 0; i < kNumPatrones; i++)
-    {
+    for(int i = 0; i < kNumPatrones; i++) {
         float coseno = datosPatron[i].x;
         float seno = datosPatron[i].y;
 
@@ -49,8 +46,7 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
         float dist = mod(punto.y + grosor * 0.5 - sin(punto.x * frecuencia) * amplitud, divisor);
         float brillo = 0.3 * color.r + 0.4 * color.g + 0.3 * color.b;
 
-        if(dist < grosor && brillo < 0.75 - 0.12 * float(i))
-        {
+        if(dist < grosor && brillo < 0.75 - 0.12 * float(i)) {
             // Suavizado
             float k = datosPatron[i].z;
             float x = (grosor - dist) / grosor;
