@@ -21,7 +21,7 @@ class FiltersFactory(context: Context) {
         FilterCode.REFRACTION to RefractionCameraFilter(context),
         FilterCode.MAPPING to MappingCameraFilter(context),
         FilterCode.CROSSHATCH to CameraFilter(context, R.raw.crosshatch),
-        FilterCode.LICHTENSTEIN_ESQUE to CameraFilter(context, R.raw.lichtenstein_esque),
+        FilterCode.NEWSPAPER to NewspaperCameraFilter(context),
         FilterCode.ASCII_ART to CameraFilter(context, R.raw.ascii_art),
         FilterCode.MONEY to CameraFilter(context, R.raw.money_filter),
         FilterCode.CRACKED to CrackedCameraFilter(context),

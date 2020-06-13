@@ -16,7 +16,7 @@ enum class FilterCode {
     REFRACTION,
     MAPPING,
     CROSSHATCH,
-    LICHTENSTEIN_ESQUE,
+    NEWSPAPER,
     ASCII_ART,
     MONEY,
     CRACKED,

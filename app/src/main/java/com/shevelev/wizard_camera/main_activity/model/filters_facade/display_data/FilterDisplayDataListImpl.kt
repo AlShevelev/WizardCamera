@@ -23,7 +23,7 @@ constructor() : FilterDisplayDataList {
         FilterDisplayData(FilterCode.REFRACTION, R.drawable.img_filter_refraction, R.string.filterRefraction),
         FilterDisplayData(FilterCode.MAPPING, R.drawable.img_filter_mapping, R.string.filterMapping),
         FilterDisplayData(FilterCode.CROSSHATCH, R.drawable.img_filter_crosshatch, R.string.filterCrosshatch),
-        FilterDisplayData(FilterCode.LICHTENSTEIN_ESQUE, R.drawable.img_filter_lichtenstein_esque, R.string.filterLichtensteinEsque),
+        FilterDisplayData(FilterCode.NEWSPAPER, R.drawable.img_filter_lichtenstein_esque, R.string.filterNewspaper),
         FilterDisplayData(FilterCode.ASCII_ART, R.drawable.img_filter_ascii_art, R.string.filterAsciiArt),
         FilterDisplayData(FilterCode.MONEY, R.drawable.img_filter_money, R.string.filterMoney),
         FilterDisplayData(FilterCode.CRACKED, R.drawable.img_filter_cracked, R.string.filterCracked),

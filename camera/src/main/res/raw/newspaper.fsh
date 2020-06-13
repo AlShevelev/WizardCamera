@@ -3,6 +3,9 @@ precision highp float;
 uniform vec3 iResolution;
 uniform float iGlobalTime;
 uniform sampler2D iChannel0;
+
+uniform int grayscale;
+
 varying vec2 texCoord;
 
 // Size of the quad in pixels
@@ -21,12 +24,21 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
 	// Distance to quad center
 	float dist = length(quadCenter - fragCoord.xy);
 
+	vec4 tempColor;
+
 	vec4 texel = texture2D(iChannel0, quad);
 	if (dist > radius) {
-		fragColor = vec4(0.25);
+		tempColor = vec4(0.25);
 	} else {
-		fragColor = texel;
+		tempColor = texel;
 	}
+
+	if(grayscale == 1) {
+		float midColor = (tempColor.r + tempColor.g + tempColor.b) /3.0;
+		tempColor =vec4(midColor, midColor, midColor, 1.0);
+	}
+
+	fragColor = tempColor;
 }
 
 

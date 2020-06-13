@@ -39,6 +39,7 @@ constructor(
             FilterCode.SWIRL -> fromJson(SwirlFilterSettings::class.java, settings)
             FilterCode.TILE_MOSAIC -> fromJson(TileMosaicFilterSettings::class.java, settings)
             FilterCode.TRIPLE -> fromJson(TripleFilterSettings::class.java, settings)
+            FilterCode.NEWSPAPER -> fromJson(NewspaperFilterSettings::class.java, settings)
             else -> throw UnsupportedOperationException("This code is not supported: ${this.code}")
         }
 
@@ -53,6 +54,7 @@ constructor(
             FilterCode.SWIRL -> toJson(SwirlFilterSettings::class.java, this)
             FilterCode.TILE_MOSAIC -> toJson(TileMosaicFilterSettings::class.java, this)
             FilterCode.TRIPLE -> toJson(TripleFilterSettings::class.java, this)
+            FilterCode.NEWSPAPER -> toJson(NewspaperFilterSettings::class.java, this)
             else -> throw UnsupportedOperationException("This code is not supported: ${this.code}")
         }
 

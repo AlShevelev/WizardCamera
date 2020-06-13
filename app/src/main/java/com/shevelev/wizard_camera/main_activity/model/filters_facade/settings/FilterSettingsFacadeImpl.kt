@@ -28,7 +28,6 @@ constructor(
         FilterCode.REFRACTION to EmptyFilterSettings(FilterCode.REFRACTION),
         FilterCode.MAPPING to EmptyFilterSettings(FilterCode.MAPPING),
         FilterCode.CROSSHATCH to EmptyFilterSettings(FilterCode.CROSSHATCH),
-        FilterCode.LICHTENSTEIN_ESQUE to EmptyFilterSettings(FilterCode.LICHTENSTEIN_ESQUE),
         FilterCode.ASCII_ART to EmptyFilterSettings(FilterCode.ASCII_ART),
         FilterCode.MONEY to EmptyFilterSettings(FilterCode.MONEY),
         FilterCode.POLYGONIZATION to EmptyFilterSettings(FilterCode.POLYGONIZATION),
@@ -86,6 +85,10 @@ constructor(
         settingsMap[FilterCode.TRIPLE] =
             dbSettings.firstOrNull { it.code == FilterCode.TRIPLE }
                 ?: TripleFilterSettings(isHorizontal = true)
+
+        settingsMap[FilterCode.NEWSPAPER] =
+            dbSettings.firstOrNull { it.code == FilterCode.NEWSPAPER }
+                ?: NewspaperFilterSettings(isGrayscale = false)
     }
 
     override fun get(code: FilterCode): FilterSettings = settingsMap[code]!!

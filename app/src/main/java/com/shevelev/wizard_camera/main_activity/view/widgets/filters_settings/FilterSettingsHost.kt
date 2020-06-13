@@ -76,6 +76,7 @@ constructor(
             FilterCode.SWIRL -> FilterSettingsSwirl(context)
             FilterCode.TILE_MOSAIC -> FilterSettingsTileMosaic(context)
             FilterCode.TRIPLE -> FilterSettingsTriple(context)
+            FilterCode.NEWSPAPER -> FilterSettingsNewspaper(context)
             else -> throw UnsupportedOperationException("This code is not supported: ${settings.code}")
         }
 }

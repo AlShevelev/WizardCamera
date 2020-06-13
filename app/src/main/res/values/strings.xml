@@ -20,7 +20,7 @@
     <string name="filterRefraction">Refraction</string>
     <string name="filterMapping">Mapping</string>
     <string name="filterCrosshatch">Crosshatch</string>
-    <string name="filterLichtensteinEsque">Lichtenstein esque</string>
+    <string name="filterNewspaper">Newspaper</string>
     <string name="filterAsciiArt">Ascii art</string>
     <string name="filterMoney">Money filter</string>
     <string name="filterCracked">Cracked</string>
@@ -72,6 +72,7 @@
     <string name="tileSize">Tile size</string>
     <string name="borderSize">Border size</string>
     <string name="horizontal">Horizontal</string>
+    <string name="grayscale">Grayscale</string>
 
     <string name="filterEdgeDetectionSettings">Edges detection settings</string>
     <string name="filterBlackAndWhiteSettings">Black and White settings</string>
@@ -82,4 +83,5 @@
     <string name="filterSwirlSettings">Swirl settings</string>
     <string name="filterTileMosaicSettings">Tile mosaic settings</string>
     <string name="filterTripleSettings">Triple settings</string>
+    <string name="filterNewspaperSettings">Newspaper settings</string>
 </resources>

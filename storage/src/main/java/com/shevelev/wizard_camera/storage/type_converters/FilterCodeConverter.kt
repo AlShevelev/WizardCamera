@@ -25,7 +25,7 @@ class FilterCodeConverter {
                 FilterCode.REFRACTION -> 12
                 FilterCode.MAPPING -> 13
                 FilterCode.CROSSHATCH -> 14 
-                FilterCode.LICHTENSTEIN_ESQUE -> 15 
+                FilterCode.NEWSPAPER -> 15
                 FilterCode.ASCII_ART -> 16
                 FilterCode.MONEY -> 17
                 FilterCode.CRACKED -> 18
@@ -64,7 +64,7 @@ class FilterCodeConverter {
                 12 -> FilterCode.REFRACTION
                 13 -> FilterCode.MAPPING
                 14 -> FilterCode.CROSSHATCH
-                15 -> FilterCode.LICHTENSTEIN_ESQUE
+                15 -> FilterCode.NEWSPAPER
                 16 -> FilterCode.ASCII_ART
                 17 -> FilterCode.MONEY
                 18 -> FilterCode.CRACKED
