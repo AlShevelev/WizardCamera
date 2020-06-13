@@ -4,21 +4,22 @@ uniform vec3 iResolution;
 uniform float iGlobalTime;
 uniform sampler2D iChannel0;
 uniform sampler2D iChannel1;
+
+// from 0.5(included) to 2.0(included)
+uniform float mixFactor;
+
 varying vec2 texCoord;
 
 void mainImage(out vec4 fragColor, in vec2 fragCoord) {
-	vec2 pos = fragCoord.xy;
-	vec2 uv2 = vec2(fragCoord.xy / iResolution.xy);
-	vec4 sound = texture2D(iChannel0, uv2);
-	pos.x = pos.x + 150.0 * sound.r;
-	pos.y = pos.y + 150.0 * sound.b;
-	vec2 uv = pos / iResolution.xy;
+	vec2 texPoint = vec2(fragCoord.xy / iResolution.xy);
 
-	vec4 col = texture2D(iChannel1, uv);
+	vec4 sourceColor = texture2D(iChannel0, texCoord);
+	vec4 texColor = texture2D(iChannel1, texPoint);
 
-	col.a += 1.0 - sin(col.x - col.y + iGlobalTime * 0.1);
+	vec4 colorMix = (sourceColor * mixFactor + texColor / mixFactor) / 2.0;
 
-	fragColor =  col * sound.r;
+	fragColor = colorMix;
+
 }
 
 void main() {

@@ -77,6 +77,7 @@ constructor(
             FilterCode.TILE_MOSAIC -> FilterSettingsTileMosaic(context)
             FilterCode.TRIPLE -> FilterSettingsTriple(context)
             FilterCode.NEWSPAPER -> FilterSettingsNewspaper(context)
+            FilterCode.MAPPING -> FilterSettingsMapping(context)
             else -> throw UnsupportedOperationException("This code is not supported: ${settings.code}")
         }
 }

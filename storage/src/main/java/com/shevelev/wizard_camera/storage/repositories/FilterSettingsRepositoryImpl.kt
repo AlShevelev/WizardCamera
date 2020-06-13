@@ -40,6 +40,7 @@ constructor(
             FilterCode.TILE_MOSAIC -> fromJson(TileMosaicFilterSettings::class.java, settings)
             FilterCode.TRIPLE -> fromJson(TripleFilterSettings::class.java, settings)
             FilterCode.NEWSPAPER -> fromJson(NewspaperFilterSettings::class.java, settings)
+            FilterCode.MAPPING -> fromJson(MappingFilterSettings::class.java, settings)
             else -> throw UnsupportedOperationException("This code is not supported: ${this.code}")
         }
 
@@ -55,6 +56,7 @@ constructor(
             FilterCode.TILE_MOSAIC -> toJson(TileMosaicFilterSettings::class.java, this)
             FilterCode.TRIPLE -> toJson(TripleFilterSettings::class.java, this)
             FilterCode.NEWSPAPER -> toJson(NewspaperFilterSettings::class.java, this)
+            FilterCode.MAPPING -> toJson(MappingFilterSettings::class.java, this)
             else -> throw UnsupportedOperationException("This code is not supported: ${this.code}")
         }
 

@@ -139,14 +139,14 @@ open class CameraFilter(
 
     @Override
     protected open fun onDraw(cameraTexId: Int, canvasWidth: Int, canvasHeight: Int) {
-        setupShaderInputs(filterProgram, intArrayOf(canvasWidth, canvasHeight), intArrayOf(cameraTexId))
+        setupShaderInputs(filterProgram, intArrayOf(canvasWidth, canvasHeight), cameraTexId)
         GLES31.glDrawArrays(GLES31.GL_TRIANGLE_STRIP, 0, 4)
     }
 
     /**
-     * [iChannels] - set of textures id to render
+     * [mainChannel] - set of textures id to render
      */
-    open fun setupShaderInputs(program: Int, iResolution: IntArray, iChannels: IntArray) {
+    open fun setupShaderInputs(program: Int, iResolution: IntArray, mainChannel: Int) {
         GLES31.glUseProgram(program)
 
         passSettingsParams(program, settings)
@@ -173,12 +173,10 @@ open class CameraFilter(
         GLES31.glEnableVertexAttribArray(vTexCoordLocation)
         GLES31.glVertexAttribPointer(vTexCoordLocation, 2, GLES31.GL_FLOAT, false, 4 * 2, textureCoordinatesBuffer)
 
-        iChannels.forEachIndexed { i, _ ->
-            val sTextureLocation = GLES31.glGetUniformLocation(program, "iChannel$i")
-            GLES31.glActiveTexture(GLES31.GL_TEXTURE0 + i)
-            GLES31.glBindTexture(GLES31.GL_TEXTURE_2D, iChannels[i])
-            GLES31.glUniform1i(sTextureLocation, i)
-        }
+        val sTextureLocation = GLES31.glGetUniformLocation(program, "iChannel0")
+        GLES31.glActiveTexture(GLES31.GL_TEXTURE0)
+        GLES31.glBindTexture(GLES31.GL_TEXTURE_2D, mainChannel)
+        GLES31.glUniform1i(sTextureLocation, 0)
 
         val iChannelResolutionLocation = GLES31.glGetUniformLocation(program, "iChannelResolution")
         GLES31.glUniform3fv(iChannelResolutionLocation, 0, FloatBuffer.wrap(FloatArray(0)))

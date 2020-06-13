@@ -73,6 +73,7 @@
     <string name="borderSize">Border size</string>
     <string name="horizontal">Horizontal</string>
     <string name="grayscale">Grayscale</string>
+    <string name="mixFactor">Mixture factor</string>
 
     <string name="filterEdgeDetectionSettings">Edges detection settings</string>
     <string name="filterBlackAndWhiteSettings">Black and White settings</string>
@@ -84,4 +85,5 @@
     <string name="filterTileMosaicSettings">Tile mosaic settings</string>
     <string name="filterTripleSettings">Triple settings</string>
     <string name="filterNewspaperSettings">Newspaper settings</string>
+    <string name="filterMappingSettings">Mapping settings</string>
 </resources>

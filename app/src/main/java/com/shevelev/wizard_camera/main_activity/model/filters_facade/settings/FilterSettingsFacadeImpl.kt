@@ -1,6 +1,7 @@
 package com.shevelev.wizard_camera.main_activity.model.filters_facade.settings
 
 import com.shevelev.wizard_camera.common_entities.enums.FilterCode
+import com.shevelev.wizard_camera.common_entities.enums.MappingFilterTexture
 import com.shevelev.wizard_camera.common_entities.enums.Size
 import com.shevelev.wizard_camera.common_entities.filter_settings.*
 import com.shevelev.wizard_camera.shared.coroutines.DispatchersProvider
@@ -26,7 +27,6 @@ constructor(
         FilterCode.CONTRAST to EmptyFilterSettings(FilterCode.CONTRAST),
         FilterCode.NOISE_WARP to EmptyFilterSettings(FilterCode.NOISE_WARP),
         FilterCode.REFRACTION to EmptyFilterSettings(FilterCode.REFRACTION),
-        FilterCode.MAPPING to EmptyFilterSettings(FilterCode.MAPPING),
         FilterCode.CROSSHATCH to EmptyFilterSettings(FilterCode.CROSSHATCH),
         FilterCode.ASCII_ART to EmptyFilterSettings(FilterCode.ASCII_ART),
         FilterCode.MONEY to EmptyFilterSettings(FilterCode.MONEY),
@@ -89,6 +89,10 @@ constructor(
         settingsMap[FilterCode.NEWSPAPER] =
             dbSettings.firstOrNull { it.code == FilterCode.NEWSPAPER }
                 ?: NewspaperFilterSettings(isGrayscale = false)
+
+        settingsMap[FilterCode.MAPPING] =
+            dbSettings.firstOrNull { it.code == FilterCode.MAPPING }
+                ?: MappingFilterSettings(texture = MappingFilterTexture.TEXTURE_0, mixFactor = 15)
     }
 
     override fun get(code: FilterCode): FilterSettings = settingsMap[code]!!

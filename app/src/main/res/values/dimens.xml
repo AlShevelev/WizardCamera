@@ -22,6 +22,7 @@
     <dimen name="mainFilterCarouselSettingsButtonMargin">17dp</dimen>
     <dimen name="mainSettingsCorner">15dp</dimen>
     <dimen name="mainSettingsCornerButton">7dp</dimen>
+    <dimen name="mainSettingsMappingTextureSize">100dp</dimen>
 
     <dimen name="navigationBarButtonsMargin">52dp</dimen>
 

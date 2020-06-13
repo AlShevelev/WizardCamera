@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <SeekBar
+        android:id="@+id/mixFactorBar"
+        style="@style/Widget.AppCompat.SeekBar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+
+
+        app:layout_constraintEnd_toStartOf="@+id/maxLabel"
+        app:layout_constraintStart_toEndOf="@+id/minLabel"
+
+        android:layout_marginStart="@dimen/marginNormal"
+        android:layout_marginEnd="@dimen/marginNormal"
+
+        app:layout_constraintTop_toTopOf="@+id/minLabel"
+        app:layout_constraintBottom_toBottomOf="@+id/minLabel"
+        tools:layout_editor_absoluteY="374dp" />
+
+    <TextView
+        android:id="@+id/titleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text="@string/mixFactor"
+        style="@style/TextSmall.Light.SingleLine"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/minLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="5"
+
+        style="@style/TextSmall.Light.SingleLine"
+        android:layout_marginTop="@dimen/marginSmall"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titleText"
+        tools:ignore="HardcodedText" />
+
+    <TextView
+        android:id="@+id/maxLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="20"
+
+        style="@style/TextSmall.Light.SingleLine"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/minLabel"
+        app:layout_constraintBottom_toBottomOf="@+id/minLabel"
+        tools:ignore="HardcodedText" />
+
+    <HorizontalScrollView
+        android:id="@+id/texturesList"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mixFactorBar"
+
+        android:layout_marginTop="@dimen/marginLarge">
+
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/mappingTex0"
+                android:layout_width="@dimen/mainSettingsMappingTextureSize"
+                android:layout_height="@dimen/mainSettingsMappingTextureSize"
+
+                android:src="@drawable/img_mapping_tex0_small"
+                tools:ignore="ContentDescription"
+            />
+            <ImageView
+                android:id="@+id/mappingTex1"
+                android:layout_width="@dimen/mainSettingsMappingTextureSize"
+                android:layout_height="@dimen/mainSettingsMappingTextureSize"
+
+                android:src="@drawable/img_mapping_tex1_small"
+                tools:ignore="ContentDescription"
+            />
+            <ImageView
+                android:id="@+id/mappingTex2"
+                android:layout_width="@dimen/mainSettingsMappingTextureSize"
+                android:layout_height="@dimen/mainSettingsMappingTextureSize"
+
+                android:src="@drawable/img_mapping_tex2_small"
+                tools:ignore="ContentDescription"
+                />
+            <ImageView
+                android:id="@+id/mappingTex3"
+                android:layout_width="@dimen/mainSettingsMappingTextureSize"
+                android:layout_height="@dimen/mainSettingsMappingTextureSize"
+
+                android:src="@drawable/img_mapping_tex3_small"
+                tools:ignore="ContentDescription"
+                />
+            <ImageView
+                android:id="@+id/mappingTex4"
+                android:layout_width="@dimen/mainSettingsMappingTextureSize"
+                android:layout_height="@dimen/mainSettingsMappingTextureSize"
+
+                android:src="@drawable/img_mapping_tex4_small"
+                tools:ignore="ContentDescription"
+                />
+            <ImageView
+                android:id="@+id/mappingTex5"
+                android:layout_width="@dimen/mainSettingsMappingTextureSize"
+                android:layout_height="@dimen/mainSettingsMappingTextureSize"
+
+                android:src="@drawable/img_mapping_tex5_small"
+                tools:ignore="ContentDescription"
+                />
+            <ImageView
+                android:id="@+id/mappingTex6"
+                android:layout_width="@dimen/mainSettingsMappingTextureSize"
+                android:layout_height="@dimen/mainSettingsMappingTextureSize"
+
+                android:src="@drawable/img_mapping_tex6_small"
+                tools:ignore="ContentDescription"
+                />
+            <ImageView
+                android:id="@+id/mappingTex7"
+                android:layout_width="@dimen/mainSettingsMappingTextureSize"
+                android:layout_height="@dimen/mainSettingsMappingTextureSize"
+
+                android:src="@drawable/img_mapping_tex7_small"
+                tools:ignore="ContentDescription"
+                />
+            <ImageView
+                android:id="@+id/mappingTex8"
+                android:layout_width="@dimen/mainSettingsMappingTextureSize"
+                android:layout_height="@dimen/mainSettingsMappingTextureSize"
+
+                android:src="@drawable/img_mapping_tex8_small"
+                tools:ignore="ContentDescription"
+                />
+            <ImageView
+                android:id="@+id/mappingTex9"
+                android:layout_width="@dimen/mainSettingsMappingTextureSize"
+                android:layout_height="@dimen/mainSettingsMappingTextureSize"
+
+                android:src="@drawable/img_mapping_tex9_small"
+                tools:ignore="ContentDescription"
+                />
+            <ImageView
+                android:id="@+id/mappingTex10"
+                android:layout_width="@dimen/mainSettingsMappingTextureSize"
+                android:layout_height="@dimen/mainSettingsMappingTextureSize"
+
+                android:src="@drawable/img_mapping_tex10_small"
+                tools:ignore="ContentDescription"
+                />
+            <ImageView
+                android:id="@+id/mappingTex11"
+                android:layout_width="@dimen/mainSettingsMappingTextureSize"
+                android:layout_height="@dimen/mainSettingsMappingTextureSize"
+
+                android:src="@drawable/img_mapping_tex11_small"
+                tools:ignore="ContentDescription"
+                />
+            <ImageView
+                android:id="@+id/mappingTex12"
+                android:layout_width="@dimen/mainSettingsMappingTextureSize"
+                android:layout_height="@dimen/mainSettingsMappingTextureSize"
+
+                android:src="@drawable/img_mapping_tex12_small"
+                tools:ignore="ContentDescription"
+                />
+            <ImageView
+                android:id="@+id/mappingTex13"
+                android:layout_width="@dimen/mainSettingsMappingTextureSize"
+                android:layout_height="@dimen/mainSettingsMappingTextureSize"
+
+                android:src="@drawable/img_mapping_tex13_small"
+                tools:ignore="ContentDescription"
+                />
+            <ImageView
+                android:id="@+id/mappingTex14"
+                android:layout_width="@dimen/mainSettingsMappingTextureSize"
+                android:layout_height="@dimen/mainSettingsMappingTextureSize"
+
+                android:src="@drawable/img_mapping_tex14_small"
+                tools:ignore="ContentDescription"
+                />
+        </LinearLayout>
+    </HorizontalScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
