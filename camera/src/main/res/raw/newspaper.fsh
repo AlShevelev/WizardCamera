@@ -9,7 +9,7 @@ uniform int grayscale;
 varying vec2 texCoord;
 
 // Size of the quad in pixels
-const float size = 15.0;
+const float size = 12.0;
 
 // Radius of the circle
 const float radius = size * 0.5;
