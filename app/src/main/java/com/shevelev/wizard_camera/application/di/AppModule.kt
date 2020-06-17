@@ -2,11 +2,14 @@ package com.shevelev.wizard_camera.application.di
 
 import android.app.Application
 import android.content.Context
+import com.shevelev.wizard_camera.BuildConfig
 import com.shevelev.wizard_camera.application.di.scopes.ApplicationScope
 import com.shevelev.wizard_camera.shared.coroutines.DispatchersProvider
 import com.shevelev.wizard_camera.storage.builder.DatabaseBuilder
 import com.shevelev.wizard_camera.storage.core.DbCore
+import com.shevelev.wizard_camera.utils.crashlytics.CrashlyticsFacade
 import com.shevelev.wizard_camera.utils.logging.TimberTreeDebug
+import com.shevelev.wizard_camera.utils.logging.TimberTreeRelease
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
@@ -34,7 +37,12 @@ class AppModule(
     }
 
     @Provides
-    internal fun provideTimberTree(): Timber.Tree = TimberTreeDebug()
+    internal fun provideTimberTree(crashlytics: CrashlyticsFacade): Timber.Tree =
+        when(BuildConfig.FLAVOR) {
+            "dev" -> TimberTreeDebug()
+            "prod" -> TimberTreeRelease(crashlytics)
+            else -> throw UnsupportedOperationException("This flavor is not supported: ${BuildConfig.FLAVOR}")
+        }
 
     @Provides
     @ApplicationScope

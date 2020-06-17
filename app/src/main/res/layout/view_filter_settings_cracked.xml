@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent" android:layout_height="match_parent">
 
     <Button
@@ -15,7 +15,7 @@
         style="@style/Settings.Button"
 
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/minLabel" />
+        app:layout_constraintTop_toBottomOf="@+id/totalShards" />
 
     <SeekBar
         android:id="@+id/totalShards"
@@ -23,16 +23,13 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
 
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
 
-        app:layout_constraintEnd_toStartOf="@+id/maxLabel"
-        app:layout_constraintStart_toEndOf="@+id/minLabel"
+        android:layout_marginTop="@dimen/marginNormal"
 
-        android:layout_marginStart="@dimen/marginNormal"
-        android:layout_marginEnd="@dimen/marginNormal"
-
-        app:layout_constraintTop_toTopOf="@+id/minLabel"
-        app:layout_constraintBottom_toBottomOf="@+id/minLabel"
-        tools:layout_editor_absoluteY="374dp" />
+        app:layout_constraintTop_toBottomOf="@+id/titleText"
+        />
 
     <TextView
         android:id="@+id/titleText"
@@ -44,30 +41,4 @@
 
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/minLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="3"
-
-        style="@style/TextSmall.Light.SingleLine"
-        android:layout_marginTop="@dimen/marginSmall"
-
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/titleText"
-        tools:ignore="HardcodedText" />
-
-    <TextView
-        android:id="@+id/maxLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="30"
-
-        style="@style/TextSmall.Light.SingleLine"
-
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/minLabel"
-        app:layout_constraintBottom_toBottomOf="@+id/minLabel"
-        tools:ignore="HardcodedText" />
 </androidx.constraintlayout.widget.ConstraintLayout>

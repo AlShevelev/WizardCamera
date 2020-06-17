@@ -8,8 +8,8 @@ varying vec2 texCoord;
 uniform float blockSize;
 
 void mainImage(out vec4 fragColor, in vec2 fragCoord) {
-    float TY = 0.866025;
-    float TX = 1.5;
+    float TY = 1.0;
+    float TX = iResolution.y / iResolution.x;
 
     float x = texCoord.x;
     float y = texCoord.y;
@@ -28,7 +28,7 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
             v1 = vec2(blockSize * TX * float(wx), blockSize * TY * float(wy + 1));
             v2 = vec2(blockSize * TX * float(wx + 1), blockSize * TY * float(wy));
         }
-    }else {
+    } else {
         if (wy/2 * 2 == wy) {
             //(0,1),(1,0)
             v1 = vec2(blockSize * TX * float(wx), blockSize * TY * float(wy + 1));

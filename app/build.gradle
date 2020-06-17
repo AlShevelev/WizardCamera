@@ -2,6 +2,9 @@ apply plugin: "com.android.application"
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'
+
 
 android {
     compileSdkVersion target_sdk_version
@@ -22,6 +25,20 @@ android {
     }
     dataBinding {
         enabled = true
+    }
+
+    flavorDimensions "wizardCamera-config-type"
+    productFlavors {
+        prod {
+            dimension "wizardCamera-config-type"
+
+            buildConfigField "Boolean", 'CRASH_REPORTS_ENABLED', "true"
+        }
+        dev {
+            dimension "wizardCamera-config-type"
+
+            buildConfigField "Boolean", 'CRASH_REPORTS_ENABLED', "false"
+        }
     }
 }
 
@@ -65,7 +82,10 @@ dependencies {
 
     implementation "com.squareup.moshi:moshi-kotlin:$moshi_version"
     kapt "com.squareup.moshi:moshi-kotlin-codegen:$moshi_version"
+
+    implementation "com.google.firebase:firebase-crashlytics:$google_crashlytics_version"
 }
 repositories {
+    google()
     mavenCentral()
 }

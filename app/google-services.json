@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "17958454810",
+    "firebase_url": "https://wizard-camera.firebaseio.com",
+    "project_id": "wizard-camera",
+    "storage_bucket": "wizard-camera.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:17958454810:android:b744e0a5003171dab5b3a3",
+        "android_client_info": {
+          "package_name": "com.shevelev.wizard_camera"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "17958454810-di6fa1sni51gbfe793naie4q0sr6egkf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDm3ALT3gCW6ARh6xkbAynHvSfACrPkIfk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "17958454810-di6fa1sni51gbfe793naie4q0sr6egkf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

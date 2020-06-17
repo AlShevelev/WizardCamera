@@ -196,15 +196,15 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
 
-            android:layout_marginBottom="@dimen/marginNormal"
             android:layout_marginStart="@dimen/marginNormal"
             android:layout_marginEnd="@dimen/marginNormal"
+            android:layout_marginBottom="@dimen/marginNormal"
 
             android:visibility="invisible"
-            tools:visibility="visible"
+            app:layout_constraintBottom_toTopOf="@+id/shootButton"
 
-            app:layout_constraintBottom_toTopOf="@+id/allFiltersCarousel"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            tools:visibility="visible" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

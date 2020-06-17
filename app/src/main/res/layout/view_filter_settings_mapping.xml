@@ -10,15 +10,12 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
 
+        android:layout_marginTop="@dimen/marginNormal"
 
-        app:layout_constraintEnd_toStartOf="@+id/maxLabel"
-        app:layout_constraintStart_toEndOf="@+id/minLabel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
 
-        android:layout_marginStart="@dimen/marginNormal"
-        android:layout_marginEnd="@dimen/marginNormal"
-
-        app:layout_constraintTop_toTopOf="@+id/minLabel"
-        app:layout_constraintBottom_toBottomOf="@+id/minLabel"
+        app:layout_constraintTop_toBottomOf="@+id/titleText"
         tools:layout_editor_absoluteY="374dp" />
 
     <TextView
@@ -31,32 +28,6 @@
 
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/minLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="5"
-
-        style="@style/TextSmall.Light.SingleLine"
-        android:layout_marginTop="@dimen/marginSmall"
-
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/titleText"
-        tools:ignore="HardcodedText" />
-
-    <TextView
-        android:id="@+id/maxLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="20"
-
-        style="@style/TextSmall.Light.SingleLine"
-
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/minLabel"
-        app:layout_constraintBottom_toBottomOf="@+id/minLabel"
-        tools:ignore="HardcodedText" />
 
     <HorizontalScrollView
         android:id="@+id/texturesList"

@@ -63,6 +63,8 @@ constructor(
     val exposureBarVisibility: LiveData<Int> = _exposureBarVisibility
 
     private var isSettingsVisible = false
+    private var isAllFiltersWereVisible = false
+    private var isFavoriteFiltersWereVisible = false
 
     var isFlashActive: Boolean = false
         private set
@@ -269,11 +271,7 @@ constructor(
         }
     }
 
-    override fun onSettingsClick(code: FilterCode) {
-        _exposureBarVisibility.value = View.INVISIBLE
-        _command.value = ShowFilterSettingsCommand(model.filters.getSettings(code))
-        isSettingsVisible = true
-    }
+    override fun onSettingsClick(code: FilterCode) = showSettings(code)
 
     private fun selectManualFocus(touchPoint: PointF, touchAreaSize: SizeF) {
         _command.value = FocusOnTouchCommand(touchPoint, touchAreaSize)
@@ -290,6 +288,18 @@ constructor(
         _command.value = ZoomCommand(touchDistance)
     }
 
+    private fun showSettings(code: FilterCode) {
+        isAllFiltersWereVisible = _allFiltersVisibility.value == View.VISIBLE
+        isFavoriteFiltersWereVisible = _favoritesFiltersVisibility.value == View.VISIBLE
+
+        _exposureBarVisibility.value = View.INVISIBLE
+        _allFiltersVisibility.value = View.INVISIBLE
+        _favoritesFiltersVisibility.value = View.INVISIBLE
+
+        _command.value = ShowFilterSettingsCommand(model.filters.getSettings(code))
+        isSettingsVisible = true
+    }
+
     private fun hideSettings() {
         if(!isSettingsVisible) {
             return
@@ -297,6 +307,12 @@ constructor(
 
         _command.value = HideFilterSettingsCommand()
         _exposureBarVisibility.value = View.VISIBLE
+        if(isAllFiltersWereVisible) {
+            _allFiltersVisibility.value = View.VISIBLE
+        }
+        if(isFavoriteFiltersWereVisible) {
+            _favoritesFiltersVisibility.value = View.VISIBLE
+        }
         isSettingsVisible = false
     }
 }

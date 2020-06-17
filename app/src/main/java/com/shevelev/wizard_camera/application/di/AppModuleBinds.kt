@@ -1,10 +1,14 @@
 package com.shevelev.wizard_camera.application.di
 
+import com.shevelev.wizard_camera.shared.crashlytics.CrashlyticsFacadeImpl
+import com.shevelev.wizard_camera.utils.device_info.DeviceInfoProvider
+import com.shevelev.wizard_camera.utils.device_info.DeviceInfoProviderImpl
 import com.shevelev.wizard_camera.shared.files.FilesHelper
 import com.shevelev.wizard_camera.shared.files.FilesHelperImpl
 import com.shevelev.wizard_camera.shared.media_scanner.MediaScanner
 import com.shevelev.wizard_camera.shared.media_scanner.MediaScannerImpl
 import com.shevelev.wizard_camera.storage.repositories.*
+import com.shevelev.wizard_camera.utils.crashlytics.CrashlyticsFacade
 import dagger.Binds
 import dagger.Module
 
@@ -27,4 +31,10 @@ abstract class AppModuleBinds {
 
     @Binds
     abstract fun provideFilterSettingsRepository(repository: FilterSettingsRepositoryImpl): FilterSettingsRepository
+
+    @Binds
+    abstract fun provideDeviceInfoProviderImpl(provider: DeviceInfoProviderImpl): DeviceInfoProvider
+
+    @Binds
+    abstract fun provideCrashlyticsFacade(facade: CrashlyticsFacadeImpl): CrashlyticsFacade
 }
