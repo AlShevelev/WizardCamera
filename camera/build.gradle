@@ -32,4 +32,6 @@ dependencies {
     implementation "androidx.core:core-ktx:$core_ktx_version"
 
     implementation "com.jakewharton.timber:timber:$timber_version"
+
+    implementation "com.google.dagger:dagger:$dagger_version"
 }

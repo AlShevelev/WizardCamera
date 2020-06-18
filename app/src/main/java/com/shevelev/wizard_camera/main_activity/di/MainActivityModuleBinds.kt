@@ -1,7 +1,7 @@
 package com.shevelev.wizard_camera.main_activity.di
 
 import androidx.lifecycle.ViewModel
-import com.shevelev.wizard_camera.application.di.scopes.ActivityScope
+import com.shevelev.wizard_camera.common_entities.di_scopes.ActivityScope
 import com.shevelev.wizard_camera.main_activity.model.MainActivityModel
 import com.shevelev.wizard_camera.main_activity.model.MainActivityModelImpl
 import com.shevelev.wizard_camera.main_activity.model.filters_facade.FiltersFacade

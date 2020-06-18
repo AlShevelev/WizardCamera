@@ -1,5 +1,8 @@
 package com.shevelev.wizard_camera.application.di
 
+import com.shevelev.wizard_camera.camera.camera_settings_repository.CameraSettingsRepository
+import com.shevelev.wizard_camera.camera.camera_settings_repository.CameraSettingsRepositoryImpl
+import com.shevelev.wizard_camera.common_entities.di_scopes.ApplicationScope
 import com.shevelev.wizard_camera.shared.crashlytics.CrashlyticsFacadeImpl
 import com.shevelev.wizard_camera.utils.device_info.DeviceInfoProvider
 import com.shevelev.wizard_camera.utils.device_info.DeviceInfoProviderImpl
@@ -37,4 +40,8 @@ abstract class AppModuleBinds {
 
     @Binds
     abstract fun provideCrashlyticsFacade(facade: CrashlyticsFacadeImpl): CrashlyticsFacade
+
+    @Binds
+    @ApplicationScope
+    abstract fun provideCameraSettingsRepository(repository: CameraSettingsRepositoryImpl): CameraSettingsRepository
 }

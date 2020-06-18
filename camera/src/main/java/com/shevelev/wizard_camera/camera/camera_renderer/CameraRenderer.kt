@@ -14,8 +14,8 @@ import android.view.WindowManager
 import android.widget.Toast
 import com.shevelev.wizard_camera.camera.FiltersFactory
 import com.shevelev.wizard_camera.camera.R
-import com.shevelev.wizard_camera.camera.camera_renderer.manager.CameraManager
-import com.shevelev.wizard_camera.camera.camera_renderer.manager.CameraSettings
+import com.shevelev.wizard_camera.camera.camera_manager.CameraManager
+import com.shevelev.wizard_camera.common_entities.camera.CameraSettings
 import com.shevelev.wizard_camera.camera.filter.CameraFilter
 import com.shevelev.wizard_camera.camera.utils.TextureUtils
 import com.shevelev.wizard_camera.common_entities.filter_settings.FilterSettings
@@ -268,6 +268,24 @@ class CameraRenderer(
         val realSize = Point()
         display.getRealSize(realSize)
 
-        return context.resources.displayMetrics.let { Size(realSize.x, realSize.y) }
+        Timber.tag("RENDERER_CAMERA").d("Real size: ${realSize.x};${realSize.y}")
+
+        //1440 x 2960 pixe
+        return Size(720, 1280)
+        //return Size(720, 960)
+        //return Size(720, 405)
+//        return Size(realSize.x, realSize.y)
     }
 }
+
+
+// 1. Get Output sizes and select the most appropriate one (see getBackCameraInfo)
+// 2. Setup texture size (see setupCamera() in MainActivity)
+// 3. Start capture with an output size from p.1 - how to do it????????????????????????????????
+// 3.1. I think, we can do it via surfaceTexture.setDefaultBufferSize() method
+
+// What to do?
+// 1. Try this sample on the Samsung device https://medium.com/@tomoima525/how-to-programmatically-control-preview-size-of-android-camera-app-62c26168b784
+// 2. If it'll not be work - YES - IT DOESN'T WORK
+// 2.1. Use Camera 1 API
+// 2.2. OR don't supports devices without Camera 2 API

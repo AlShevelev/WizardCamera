@@ -1,7 +1,8 @@
-package com.shevelev.wizard_camera.camera.camera_renderer.manager
+package com.shevelev.wizard_camera.camera.camera_manager
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.ImageFormat
 import android.graphics.PointF
 import android.graphics.Rect
 import android.graphics.SurfaceTexture
@@ -14,6 +15,8 @@ import android.util.Rational
 import android.util.Size
 import android.util.SizeF
 import android.view.Surface
+import com.shevelev.wizard_camera.camera.camera_settings_repository.CameraInfo
+import com.shevelev.wizard_camera.common_entities.camera.CameraSettings
 import com.shevelev.wizard_camera.utils.useful_ext.fitInRange
 import com.shevelev.wizard_camera.utils.useful_ext.ifNotNull
 import com.shevelev.wizard_camera.utils.useful_ext.reduceToRange
@@ -103,7 +106,10 @@ class CameraManager(context: Context) {
         val surface = Surface(surfaceTexture)
 
         requestBuilder = cameraDevice!!.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW).also { builder ->
-            surfaceTexture.setDefaultBufferSize(viewSize.height, viewSize.width)
+            Timber.tag("RENDERER_CAMERA").d("CameraManager::startPreview viewSize is: ${viewSize.width}x${viewSize.height}")
+            //surfaceTexture.setDefaultBufferSize(viewSize.height, viewSize.width)
+            surfaceTexture.setDefaultBufferSize(2560, 1440)
+            //surfaceTexture.setDefaultBufferSize(viewSize.width, viewSize.height)
             builder.addTarget(surface)
 
             // Automatic continuous focus
@@ -311,6 +317,15 @@ class CameraManager(context: Context) {
         cameraIds.forEach { cameraId ->
             val cameraCharacteristics = cameraService.getCameraCharacteristics(cameraId)
             if(cameraCharacteristics[CameraCharacteristics.LENS_FACING] == CameraCharacteristics.LENS_FACING_BACK) {
+
+                val configurationMap = cameraCharacteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP)
+                val sizes = configurationMap!!.getOutputSizes(ImageFormat.JPEG)
+                sizes.forEach {
+                    Timber.tag("RENDERER_CAMERA").d("Output size: ${it.width};${it.height}")
+                }
+
+//                Aspect ratio of a texture must be the same as aspect ratio of current output mode
+
                 return CameraInfo(
                     id = cameraId,
                     isMeteringAreaAFSupported = (cameraCharacteristics[CameraCharacteristics.CONTROL_MAX_REGIONS_AF] as Int) >= 1,

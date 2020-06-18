@@ -1,4 +1,4 @@
-package com.shevelev.wizard_camera.application.di.scopes
+package com.shevelev.wizard_camera.common_entities.di_scopes
 
 import javax.inject.Scope
 

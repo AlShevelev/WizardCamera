@@ -3,7 +3,7 @@ package com.shevelev.wizard_camera.application.di
 import android.app.Application
 import android.content.Context
 import com.shevelev.wizard_camera.BuildConfig
-import com.shevelev.wizard_camera.application.di.scopes.ApplicationScope
+import com.shevelev.wizard_camera.common_entities.di_scopes.ApplicationScope
 import com.shevelev.wizard_camera.shared.coroutines.DispatchersProvider
 import com.shevelev.wizard_camera.storage.builder.DatabaseBuilder
 import com.shevelev.wizard_camera.storage.core.DbCore

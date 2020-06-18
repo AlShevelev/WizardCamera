@@ -1,7 +1,7 @@
 package com.shevelev.wizard_camera.gallery_activity.di
 
 import androidx.lifecycle.ViewModel
-import com.shevelev.wizard_camera.application.di.scopes.ActivityScope
+import com.shevelev.wizard_camera.common_entities.di_scopes.ActivityScope
 import com.shevelev.wizard_camera.gallery_activity.model.GalleryActivityModel
 import com.shevelev.wizard_camera.gallery_activity.model.GalleryActivityModelImpl
 import com.shevelev.wizard_camera.gallery_activity.view_model.GalleryActivityViewModel

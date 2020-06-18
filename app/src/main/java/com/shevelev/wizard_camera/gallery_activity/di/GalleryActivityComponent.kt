@@ -1,6 +1,6 @@
 package com.shevelev.wizard_camera.gallery_activity.di
 
-import com.shevelev.wizard_camera.application.di.scopes.ActivityScope
+import com.shevelev.wizard_camera.common_entities.di_scopes.ActivityScope
 import com.shevelev.wizard_camera.gallery_activity.view.GalleryActivity
 import com.shevelev.wizard_camera.gallery_page.di.GalleryPageFragmentComponent
 import dagger.Subcomponent

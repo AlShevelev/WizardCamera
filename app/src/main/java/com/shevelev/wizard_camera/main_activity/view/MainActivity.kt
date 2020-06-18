@@ -5,7 +5,9 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.TextureView
+import android.widget.FrameLayout
 import androidx.annotation.StringRes
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.Observer
 import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.application.App
@@ -128,6 +130,10 @@ class MainActivity : ActivityBaseMVVM<ActivityMainBinding, MainActivityViewModel
             textureView = TextureView(this)
             root.addView(textureView, 0)
             textureView!!.surfaceTextureListener = it
+            textureView!!.layoutParams = ConstraintLayout.LayoutParams(720, 1280)
+//            textureView!!.layoutParams = ConstraintLayout.LayoutParams(720, 960)
+//            textureView!!.layoutParams = ConstraintLayout.LayoutParams(720, 405)
+
 
             textureView!!.setOnTouchListener { view, event ->
                 gestureDetector.onTouchEvent(view, event)
