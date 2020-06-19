@@ -1,5 +1,7 @@
 package com.shevelev.wizard_camera.main_activity.model
 
+import android.util.Size
+import com.shevelev.wizard_camera.camera.camera_settings_repository.CameraSettingsRepository
 import com.shevelev.wizard_camera.main_activity.model.filters_facade.FiltersFacade
 import com.shevelev.wizard_camera.main_activity.model.image_capture.ImageCapture
 import com.shevelev.wizard_camera.main_activity.model.orientation.OrientationManager
@@ -12,7 +14,8 @@ class MainActivityModelImpl
 constructor(
     override val filters: FiltersFacade,
     private val imageCapture: Lazy<ImageCapture>,
-    override val orientation: OrientationManager
+    override val orientation: OrientationManager,
+    override val cameraSettings: CameraSettingsRepository
 ) : ModelBaseImpl(),
     MainActivityModel {
 

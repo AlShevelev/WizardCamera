@@ -1,33 +1,31 @@
 package com.shevelev.wizard_camera.camera.camera_renderer
 
 import android.content.Context
-import android.graphics.Point
 import android.graphics.PointF
 import android.graphics.SurfaceTexture
 import android.opengl.GLES11Ext
 import android.opengl.GLES31
 import android.os.Handler
-import android.util.Size
 import android.util.SizeF
 import android.view.TextureView
-import android.view.WindowManager
 import android.widget.Toast
 import com.shevelev.wizard_camera.camera.FiltersFactory
 import com.shevelev.wizard_camera.camera.R
 import com.shevelev.wizard_camera.camera.camera_manager.CameraManager
-import com.shevelev.wizard_camera.common_entities.camera.CameraSettings
+import com.shevelev.wizard_camera.camera.camera_settings_repository.CameraSettingsRepository
 import com.shevelev.wizard_camera.camera.filter.CameraFilter
 import com.shevelev.wizard_camera.camera.utils.TextureUtils
+import com.shevelev.wizard_camera.common_entities.camera.UserCameraSettings
 import com.shevelev.wizard_camera.common_entities.filter_settings.FilterSettings
 import timber.log.Timber
 import java.io.IOException
 import javax.microedition.khronos.egl.*
-import kotlin.math.absoluteValue
 
 class CameraRenderer(
     private val context: Context,
     private val turnFlashOn: Boolean,
     private val isAutoFocus: Boolean,
+    cameraSettings: CameraSettingsRepository,
     private var cameraSetUpCallback: (() -> Unit)?
 ) : Runnable, TextureView.SurfaceTextureListener {
     private companion object {
@@ -46,7 +44,7 @@ class CameraRenderer(
     private lateinit var eglContext: EGLContext
     private lateinit var egl10: EGL10
 
-    private var camera = CameraManager(context)
+    private var camera = CameraManager(context, cameraSettings)
 
     private lateinit var cameraSurfaceTexture: SurfaceTexture
     private var cameraTextureId: Int = 0
@@ -65,12 +63,17 @@ class CameraRenderer(
 
     override fun onSurfaceTextureAvailable(surface: SurfaceTexture, width: Int, height: Int) {
         Timber.tag("RENDERER_CAMERA").d("onSurfaceTextureAvailable: $width $height")
-        tryToStartRendering(surface, width, height)
+
+        if(isRenderingStarted) {
+            return
+        }
+
+        isRenderingStarted = true
+        startRendering(surface, width, height)
     }
 
     override fun onSurfaceTextureSizeChanged(surface: SurfaceTexture, width: Int, height: Int) {
         Timber.tag("RENDERER_CAMERA").d("onSurfaceTextureSizeChanged: $width $height")
-        tryToStartRendering(surface, width, height)
     }
 
     override fun onSurfaceTextureUpdated(surface: SurfaceTexture?) {}
@@ -94,11 +97,7 @@ class CameraRenderer(
 
         // Start camera preview
         val isSuccess = try {
-            camera.startPreview(
-                cameraSurfaceTexture,
-                Size(glWidth.absoluteValue, glHeight.absoluteValue),
-                CameraSettings(turnFlashOn, isAutoFocus),
-                mainThreadHandler)
+            camera.startPreview(cameraSurfaceTexture, UserCameraSettings(turnFlashOn, isAutoFocus), mainThreadHandler)
         } catch (ex: IOException) {
             Timber.e(ex)
             Toast.makeText(context, R.string.cameraError, Toast.LENGTH_LONG).show()
@@ -161,21 +160,6 @@ class CameraRenderer(
     fun zoom(touchDistance: Float): Float = camera.zoom(touchDistance)
 
     fun updateExposure(exposureValue: Float) = camera.updateExposure(exposureValue)
-
-    private fun tryToStartRendering(surface: SurfaceTexture, width: Int, height: Int) {
-        if(isRenderingStarted) {
-            return
-        }
-
-        val displaySize = getDisplaySizeInPixels()
-
-        Timber.tag("RENDERER_CAMERA").d("tryToStartRendering() displaySize is: ${displaySize.width}x${displaySize.height}")
-
-        if(displaySize.width == width && displaySize.height == height) {
-            isRenderingStarted = true
-            startRendering(surface, width, height)
-        }
-    }
 
     private fun startRendering(surface: SurfaceTexture, width: Int, height: Int) {
         Timber.tag("RENDERER_CAMERA").d("Rendering started")
@@ -260,32 +244,4 @@ class CameraRenderer(
             throw RuntimeException("eglMakeCurrent failed: ${android.opengl.GLUtils.getEGLErrorString(egl10.eglGetError())}")
         }
     }
-
-    private fun getDisplaySizeInPixels(): Size {
-        val windowsService = context.applicationContext.getSystemService(Context.WINDOW_SERVICE) as WindowManager
-        val display = windowsService.defaultDisplay
-
-        val realSize = Point()
-        display.getRealSize(realSize)
-
-        Timber.tag("RENDERER_CAMERA").d("Real size: ${realSize.x};${realSize.y}")
-
-        //1440 x 2960 pixe
-        return Size(720, 1280)
-        //return Size(720, 960)
-        //return Size(720, 405)
-//        return Size(realSize.x, realSize.y)
-    }
 }
-
-
-// 1. Get Output sizes and select the most appropriate one (see getBackCameraInfo)
-// 2. Setup texture size (see setupCamera() in MainActivity)
-// 3. Start capture with an output size from p.1 - how to do it????????????????????????????????
-// 3.1. I think, we can do it via surfaceTexture.setDefaultBufferSize() method
-
-// What to do?
-// 1. Try this sample on the Samsung device https://medium.com/@tomoima525/how-to-programmatically-control-preview-size-of-android-camera-app-62c26168b784
-// 2. If it'll not be work - YES - IT DOESN'T WORK
-// 2.1. Use Camera 1 API
-// 2.2. OR don't supports devices without Camera 2 API

@@ -20,5 +20,5 @@ interface CameraSettingsRepository {
 
     val optimalOutputSize: Size
 
-    val screenTextureHeight: Int
+    val screenTextureSize: Size
 }

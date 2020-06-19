@@ -2,12 +2,14 @@ package com.shevelev.wizard_camera.main_activity.view_model
 
 import android.content.Context
 import android.graphics.PointF
+import android.util.Size
 import android.util.SizeF
 import android.view.TextureView
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.shevelev.wizard_camera.R
+import com.shevelev.wizard_camera.camera.camera_settings_repository.CameraSettingsRepository
 import com.shevelev.wizard_camera.common_entities.enums.FilterCode
 import com.shevelev.wizard_camera.common_entities.filter_settings.FilterSettings
 import com.shevelev.wizard_camera.main_activity.dto.*
@@ -76,6 +78,9 @@ constructor(
         private set
 
     private var exiting = false
+
+    val cameraSettings: CameraSettingsRepository
+        get() = model.cameraSettings
 
     init {
         launch {

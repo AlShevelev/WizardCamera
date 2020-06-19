@@ -2,7 +2,6 @@ package com.shevelev.wizard_camera.camera.camera_manager
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.ImageFormat
 import android.graphics.PointF
 import android.graphics.Rect
 import android.graphics.SurfaceTexture
@@ -11,18 +10,16 @@ import android.hardware.camera2.CameraManager
 import android.hardware.camera2.params.MeteringRectangle
 import android.os.Handler
 import android.util.Range
-import android.util.Rational
-import android.util.Size
 import android.util.SizeF
 import android.view.Surface
-import com.shevelev.wizard_camera.camera.camera_settings_repository.CameraInfo
-import com.shevelev.wizard_camera.common_entities.camera.CameraSettings
+import com.shevelev.wizard_camera.camera.camera_settings_repository.CameraSettingsRepository
+import com.shevelev.wizard_camera.common_entities.camera.UserCameraSettings
 import com.shevelev.wizard_camera.utils.useful_ext.fitInRange
 import com.shevelev.wizard_camera.utils.useful_ext.ifNotNull
 import com.shevelev.wizard_camera.utils.useful_ext.reduceToRange
 import timber.log.Timber
 
-class CameraManager(context: Context) {
+class CameraManager(context: Context, private val cameraSettings: CameraSettingsRepository) {
     private companion object {
         const val DEBUG_TAG = "CAMERA_MANAGER"
     }
@@ -35,8 +32,6 @@ class CameraManager(context: Context) {
     private var cameraSession: CameraCaptureSession? = null
 
     private var requestBuilder: CaptureRequest.Builder? = null
-
-    private var cameraInfo: CameraInfo? = null
 
     private var manualFocusEngaged = false
 
@@ -53,13 +48,7 @@ class CameraManager(context: Context) {
     @SuppressLint("MissingPermission")
     fun openCamera(openCameraResult: (Boolean) -> Unit) {
         try {
-            cameraInfo = getBackCameraInfo()
-            if(cameraInfo == null) {
-                openCameraResult(false)
-                return
-            }
-
-            cameraService.openCamera(cameraInfo!!.id, object: CameraDevice.StateCallback() {
+            cameraService.openCamera(cameraSettings.cameraId, object: CameraDevice.StateCallback() {
                 override fun onOpened(camera: CameraDevice) {
                     Timber.tag(DEBUG_TAG).d("Camera is opened")
                     cameraDevice = camera
@@ -92,7 +81,6 @@ class CameraManager(context: Context) {
         cameraSession = null
         cameraDevice = null
         requestBuilder = null
-        cameraInfo = null
 
         priorZoomTouchDistance = 0f
         zoomLevel = minZoom
@@ -102,24 +90,23 @@ class CameraManager(context: Context) {
     /**
      * @return true in case of success
      */
-    fun startPreview(surfaceTexture: SurfaceTexture, viewSize: Size, settings: CameraSettings, callbackHandler: Handler): Boolean {
+    fun startPreview(surfaceTexture: SurfaceTexture, userSettings: UserCameraSettings, callbackHandler: Handler): Boolean {
         val surface = Surface(surfaceTexture)
 
         requestBuilder = cameraDevice!!.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW).also { builder ->
-            Timber.tag("RENDERER_CAMERA").d("CameraManager::startPreview viewSize is: ${viewSize.width}x${viewSize.height}")
-            //surfaceTexture.setDefaultBufferSize(viewSize.height, viewSize.width)
-            surfaceTexture.setDefaultBufferSize(2560, 1440)
-            //surfaceTexture.setDefaultBufferSize(viewSize.width, viewSize.height)
+            with(cameraSettings.optimalOutputSize) {
+                surfaceTexture.setDefaultBufferSize(width, height)
+            }
             builder.addTarget(surface)
 
             // Automatic continuous focus
-            if(settings.isAutoFocus) {
+            if(userSettings.isAutoFocus) {
                 builder.set(CaptureRequest.CONTROL_MODE, CameraMetadata.CONTROL_MODE_AUTO)
                 builder.set(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_IDLE)
                 builder.set(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE)
             }
 
-            if(settings.turnFlashOn) {
+            if(userSettings.turnFlashOn) {
                 builder.set(CaptureRequest.FLASH_MODE, CaptureRequest.FLASH_MODE_TORCH)
             }
         }
@@ -207,8 +194,8 @@ class CameraManager(context: Context) {
         }
 
         // Calculate focus area
-        val y = ((touchPoint.x / touchAreaSize.width)  * cameraInfo!!.sensorArraySize.height().toFloat()).toInt()
-        val x = ((touchPoint.y / touchAreaSize.height)  * cameraInfo!!.sensorArraySize.width().toFloat()).toInt()
+        val y = ((touchPoint.x / touchAreaSize.width)  * cameraSettings.sensorArraySize.height().toFloat()).toInt()
+        val x = ((touchPoint.y / touchAreaSize.height)  * cameraSettings.sensorArraySize.width().toFloat()).toInt()
         val halfTouchWidth  = 150
         val halfTouchHeight = 150
 
@@ -246,7 +233,7 @@ class CameraManager(context: Context) {
             cameraSession.capture(requestBuilder.build(), callback, null)
 
             //Now add a new AF trigger with focus region
-            if (cameraInfo!!.isMeteringAreaAFSupported) {
+            if (cameraSettings.isMeteringAreaAFSupported) {
                 requestBuilder.set(CaptureRequest.CONTROL_AF_REGIONS, arrayOf(focusAreaTouch))
             }
             requestBuilder.set(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_AUTO)
@@ -261,8 +248,8 @@ class CameraManager(context: Context) {
     }
 
     fun zoom(touchDistance: Float): Float {
-        val maxZoom = cameraInfo!!.maxZoom * 10
-        val sensorArraySize = cameraInfo!!.sensorArraySize
+        val maxZoom = cameraSettings.maxZoom * 10
+        val sensorArraySize = cameraSettings.sensorArraySize
 
         if(touchDistance > 0f) {
             when{
@@ -295,11 +282,11 @@ class CameraManager(context: Context) {
 
         val narrowingFactor = 0.25f     // To decrease exposure range and  make it more sensitive
 
-        ifNotNull(cameraInfo, requestBuilder, cameraSession) { cameraInfo, requestBuilder, cameraSession ->
-            val floatExposureStep = cameraInfo.exposureStep.denominator.toFloat() / cameraInfo.exposureStep.numerator
+        ifNotNull(requestBuilder, cameraSession) { requestBuilder, cameraSession ->
+            val floatExposureStep = cameraSettings.exposureStep.denominator.toFloat() / cameraSettings.exposureStep.numerator
             val floatExposureRange = Range(
-                cameraInfo.exposureRange.lower * narrowingFactor * floatExposureStep,
-                cameraInfo.exposureRange.upper * narrowingFactor * floatExposureStep)
+                cameraSettings.exposureRange.lower * narrowingFactor * floatExposureStep,
+                cameraSettings.exposureRange.upper * narrowingFactor * floatExposureStep)
 
             val compensationValue = exposureValue.reduceToRange(Range(-1f, 1f), floatExposureRange).toInt()
 
@@ -309,34 +296,5 @@ class CameraManager(context: Context) {
                 cameraSession.setRepeatingRequest(requestBuilder.build(), null, null)
             }
         }
-    }
-
-    private fun getBackCameraInfo(): CameraInfo? {
-        val cameraIds = cameraService.cameraIdList
-
-        cameraIds.forEach { cameraId ->
-            val cameraCharacteristics = cameraService.getCameraCharacteristics(cameraId)
-            if(cameraCharacteristics[CameraCharacteristics.LENS_FACING] == CameraCharacteristics.LENS_FACING_BACK) {
-
-                val configurationMap = cameraCharacteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP)
-                val sizes = configurationMap!!.getOutputSizes(ImageFormat.JPEG)
-                sizes.forEach {
-                    Timber.tag("RENDERER_CAMERA").d("Output size: ${it.width};${it.height}")
-                }
-
-//                Aspect ratio of a texture must be the same as aspect ratio of current output mode
-
-                return CameraInfo(
-                    id = cameraId,
-                    isMeteringAreaAFSupported = (cameraCharacteristics[CameraCharacteristics.CONTROL_MAX_REGIONS_AF] as Int) >= 1,
-                    sensorArraySize = cameraCharacteristics[CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE] as Rect,
-                    maxZoom = cameraCharacteristics[CameraCharacteristics.SCALER_AVAILABLE_MAX_DIGITAL_ZOOM] as Float,
-                    exposureRange = cameraCharacteristics[CameraCharacteristics.CONTROL_AE_COMPENSATION_RANGE] as Range<Int>,
-                    exposureStep = cameraCharacteristics[CameraCharacteristics.CONTROL_AE_COMPENSATION_STEP] as Rational
-                )
-            }
-        }
-
-        return null
     }
 }

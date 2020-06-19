@@ -40,7 +40,7 @@ constructor(
 
     override val optimalOutputSize = cameraInfo.optimalOutputSize
 
-    override val screenTextureHeight by lazy { calculateScreenTextureHeight() }
+    override val screenTextureSize by lazy { calculateScreenTextureHeight() }
 
     private fun calculateCameraInfo(): CameraInfo {
         val cameraService = appContext.getSystemService(Context.CAMERA_SERVICE) as CameraManager
@@ -99,8 +99,9 @@ constructor(
         return Size(realSize.x, realSize.y)
     }
 
-    private fun calculateScreenTextureHeight(): Int {
+    private fun calculateScreenTextureHeight(): Size {
         val relativeHeight = ((realScreenSize.width.toFloat() / optimalOutputSize.height) * optimalOutputSize.width).toInt()
-        return if(relativeHeight > realScreenSize.height) realScreenSize.height  else relativeHeight
+        val textureHeight = if(relativeHeight > realScreenSize.height) realScreenSize.height  else relativeHeight
+        return Size(realScreenSize.width, textureHeight)
     }
 }

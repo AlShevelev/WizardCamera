@@ -5,7 +5,6 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.TextureView
-import android.widget.FrameLayout
 import androidx.annotation.StringRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.Observer
@@ -126,20 +125,25 @@ class MainActivity : ActivityBaseMVVM<ActivityMainBinding, MainActivityViewModel
             return
         }
 
-        renderer = CameraRenderer(this, viewModel.isFlashActive, viewModel.isAutoFocus, { viewModel.onCameraIsSetUp() }).also {
-            textureView = TextureView(this)
-            root.addView(textureView, 0)
-            textureView!!.surfaceTextureListener = it
-            textureView!!.layoutParams = ConstraintLayout.LayoutParams(720, 1280)
-//            textureView!!.layoutParams = ConstraintLayout.LayoutParams(720, 960)
-//            textureView!!.layoutParams = ConstraintLayout.LayoutParams(720, 405)
+        renderer = CameraRenderer(
+            this,
+            viewModel.isFlashActive,
+            viewModel.isAutoFocus,
+            viewModel.cameraSettings,
+            { viewModel.onCameraIsSetUp() }).also {
+                textureView = TextureView(this)
+                root.addView(textureView, 0)
+                textureView!!.surfaceTextureListener = it
 
+                with(viewModel.cameraSettings.screenTextureSize) {
+                    textureView!!.layoutParams = ConstraintLayout.LayoutParams(width, height)
+                }
 
-            textureView!!.setOnTouchListener { view, event ->
-                gestureDetector.onTouchEvent(view, event)
-                true
-            }
-            it.setSelectedFilter(viewModel.selectedFilter.value!!)
+                textureView!!.setOnTouchListener { view, event ->
+                    gestureDetector.onTouchEvent(view, event)
+                    true
+                }
+                it.setSelectedFilter(viewModel.selectedFilter.value!!)
         }
     }
 
