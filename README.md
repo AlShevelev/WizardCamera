@@ -1,5 +1,11 @@
 # Wizard Camera
 
+[![GitHub license](https://img.shields.io/github/license/AlShevelev/WizardCamera)](https://github.com/AlShevelev/WizardCamera/blob/master/LICENSE)
+[![Platform android](https://img.shields.io/badge/platform-android-blue)](https://img.shields.io/badge/platform-android-blue)
+[![Language kotlin](https://img.shields.io/badge/language-kotlin-blue)](https://img.shields.io/badge/language-kotlin-blue)
+[![Technologies](https://img.shields.io/badge/technologies-Camera2%20API%3B%20OpenGL%20ES-blue)](https://img.shields.io/badge/technologies-Camera2%20API%3B%20OpenGL%20ES-blue)
+
+
 Wizard Camera is a simple photo camera application that lets you add some funny effects to your shots. It uses Camera 2 API and OpenGL ES shaders to do it! A vital feature of the application is the ability to see the effects while previewing - what you see on a phone screen that you’ll get on a shot!.  
 
 ## Notes about Camera 2 API
