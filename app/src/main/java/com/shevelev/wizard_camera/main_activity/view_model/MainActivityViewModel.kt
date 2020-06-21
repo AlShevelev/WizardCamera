@@ -128,14 +128,18 @@ constructor(
 
         isActive = true
 
-        _flashButtonState.value = ButtonState.DISABLED
-        _filterModeButtonState.value = _filterModeButtonState.value!!.copy(isDisabled = true)
-        _isShotButtonEnabled.value = false
-        _allFiltersVisibility.value = View.INVISIBLE
+        if(!model.cameraSettings.canUseCamera) {
+            _command.value = ExitCommand(R.string.camera_2_warning)
+        } else {
+            _flashButtonState.value = ButtonState.DISABLED
+            _filterModeButtonState.value = _filterModeButtonState.value!!.copy(isDisabled = true)
+            _isShotButtonEnabled.value = false
+            _allFiltersVisibility.value = View.INVISIBLE
 
-        model.orientation.start()
+            model.orientation.start()
 
-        _command.value = SetupCameraCommand()
+            _command.value = SetupCameraCommand()
+        }
     }
 
     fun onInactive() {

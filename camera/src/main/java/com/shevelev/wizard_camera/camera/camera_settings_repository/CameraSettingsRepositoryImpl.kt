@@ -11,7 +11,6 @@ import android.util.Rational
 import android.util.Size
 import android.view.WindowManager
 import com.shevelev.wizard_camera.common_entities.di_scopes.ApplicationScope
-import java.lang.UnsupportedOperationException
 import javax.inject.Inject
 import kotlin.math.abs
 
@@ -40,6 +39,8 @@ constructor(
 
     override val optimalOutputSize = cameraInfo.optimalOutputSize
 
+    override val canUseCamera = cameraInfo.canUseCamera
+
     override val screenTextureSize by lazy { calculateScreenTextureHeight() }
 
     private fun calculateCameraInfo(): CameraInfo {
@@ -54,6 +55,9 @@ constructor(
 
                 val outputSize = configurationMap!!.getOutputSizes(ImageFormat.JPEG).toList()
 
+                // We need 1 (Full) or 3 (Level 3) to work
+                val camera2Support =cameraCharacteristics[CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL]
+
                 return CameraInfo(
                     id = cameraId,
                     isMeteringAreaAFSupported = (cameraCharacteristics[CameraCharacteristics.CONTROL_MAX_REGIONS_AF] as Int) >= 1,
@@ -62,7 +66,8 @@ constructor(
                     exposureRange = cameraCharacteristics[CameraCharacteristics.CONTROL_AE_COMPENSATION_RANGE] as Range<Int>,
                     exposureStep = cameraCharacteristics[CameraCharacteristics.CONTROL_AE_COMPENSATION_STEP] as Rational,
                     outputSize = outputSize,
-                    optimalOutputSize = calculateOptimalOutputSize(outputSize)
+                    optimalOutputSize = calculateOptimalOutputSize(outputSize),
+                    canUseCamera = camera2Support == 3 || camera2Support == 1
                 )
             }
         }

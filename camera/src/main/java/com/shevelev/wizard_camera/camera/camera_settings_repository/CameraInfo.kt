@@ -14,5 +14,7 @@ data class CameraInfo(
     val exposureStep: Rational,
 
     val outputSize: List<Size>,
-    val optimalOutputSize: Size
+    val optimalOutputSize: Size,
+
+    val canUseCamera: Boolean
 )
