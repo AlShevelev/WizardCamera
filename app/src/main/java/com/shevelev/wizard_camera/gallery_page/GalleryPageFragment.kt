@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.application.App
 import com.shevelev.wizard_camera.common_entities.entities.PhotoShot
+import com.shevelev.wizard_camera.databinding.FragmentGalleryPageBinding
 import com.shevelev.wizard_camera.gallery_page.di.GalleryPageFragmentComponent
 import com.shevelev.wizard_camera.shared.files.FilesHelper
 import com.shevelev.wizard_camera.shared.glide.GlideTarget
@@ -14,7 +15,6 @@ import com.shevelev.wizard_camera.shared.glide.clear
 import com.shevelev.wizard_camera.shared.glide.load
 import com.shevelev.wizard_camera.shared.mvvm.view.FragmentBase
 import com.shevelev.wizard_camera.utils.useful_ext.ifNotNull
-import kotlinx.android.synthetic.main.fragment_gallery_page.*
 import javax.inject.Inject
 
 class GalleryPageFragment : FragmentBase() {
@@ -24,6 +24,10 @@ class GalleryPageFragment : FragmentBase() {
         fun newInstance(item: PhotoShot): GalleryPageFragment =
             GalleryPageFragment().apply { arguments = Bundle().apply { putParcelable(ARG_PHOTO, item) } }
     }
+
+    private var _binding: FragmentGalleryPageBinding? = null
+    private val binding: FragmentGalleryPageBinding
+        get() = _binding!!
 
     @Inject
     internal lateinit var filesHelper: FilesHelper
@@ -35,12 +39,13 @@ class GalleryPageFragment : FragmentBase() {
     override fun releaseInjection(key: String) = App.injections.release<GalleryPageFragmentComponent>(key)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_gallery_page, container, false)
+        _binding = FragmentGalleryPageBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val photo = arguments!!.getParcelable<PhotoShot>(ARG_PHOTO)!!
-        glideCancel = imageContainer.load(filesHelper.getShotFileByName(photo.fileName), R.drawable.ic_sad_face)
+        glideCancel = binding.imageContainer.load(filesHelper.getShotFileByName(photo.fileName), R.drawable.ic_sad_face)
     }
 
     override fun onDestroyView() {
@@ -49,5 +54,7 @@ class GalleryPageFragment : FragmentBase() {
         ifNotNull(glideCancel, context) { glideCancel, context ->
             glideCancel.clear(context)
         }
+
+        _binding = null
     }
 }

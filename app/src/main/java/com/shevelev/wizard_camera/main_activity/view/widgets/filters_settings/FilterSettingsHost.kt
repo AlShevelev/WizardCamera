@@ -4,11 +4,12 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.LinearLayout
+import android.widget.TextView
 import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.common_entities.enums.FilterCode
 import com.shevelev.wizard_camera.common_entities.filter_settings.FilterSettings
-import kotlinx.android.synthetic.main.view_filter_settings_host.view.*
 import java.lang.UnsupportedOperationException
 
 class FilterSettingsHost
@@ -22,6 +23,9 @@ constructor(
     private var onSettingsChangeListener: ((FilterSettings) -> Unit)? = null
 
     private var settingsWidget: View? = null
+
+    private val settingsContainer by lazy { findViewById<FrameLayout>(R.id.settingsContainer) }
+    private val headerText by lazy { findViewById<TextView>(R.id.headerText) }
 
     init {
         inflate(context, R.layout.view_filter_settings_host, this)

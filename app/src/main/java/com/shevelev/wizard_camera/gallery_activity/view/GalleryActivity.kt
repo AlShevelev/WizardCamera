@@ -2,7 +2,6 @@ package com.shevelev.wizard_camera.gallery_activity.view
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.lifecycle.Observer
 import androidx.viewpager2.widget.ViewPager2
 import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.application.App
@@ -16,7 +15,6 @@ import com.shevelev.wizard_camera.shared.dialogs.ConfirmationDialog
 import com.shevelev.wizard_camera.shared.mvvm.view.ActivityBaseMVVM
 import com.shevelev.wizard_camera.shared.mvvm.view_commands.ViewCommand
 import com.shevelev.wizard_camera.shared.ui_utils.hideSystemUI
-import kotlinx.android.synthetic.main.activity_gallery.*
 
 class GalleryActivity : ActivityBaseMVVM<ActivityGalleryBinding, GalleryActivityViewModel>() {
     override fun provideViewModelType(): Class<GalleryActivityViewModel> = GalleryActivityViewModel::class.java
@@ -34,20 +32,20 @@ class GalleryActivity : ActivityBaseMVVM<ActivityGalleryBinding, GalleryActivity
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        galleryPager.adapter = GalleryAdapter(this, viewModel.pageSize, viewModel)
-        viewModel.photos.observe(this, Observer { (galleryPager.adapter as GalleryAdapter).updateItems(it) })
+        binding.galleryPager.adapter = GalleryAdapter(this, viewModel.pageSize, viewModel)
+        viewModel.photos.observe(this, { (binding.galleryPager.adapter as GalleryAdapter).updateItems(it) })
 
-        deleteButton.setOnClickListener {
+        binding.deleteButton.setOnClickListener {
             ConfirmationDialog.show(supportFragmentManager, R.string.deletePhotoQuestion, R.string.delete, R.string.cancel) {
                 if(it) {
-                    viewModel.deleteShot(galleryPager.currentItem)
+                    viewModel.deleteShot(binding.galleryPager.currentItem)
                 }
             }
         }
 
-        shareButton.setOnClickListener { viewModel.shareShot(galleryPager.currentItem) }
+        binding.shareButton.setOnClickListener { viewModel.shareShot(binding.galleryPager.currentItem) }
 
-        galleryPager.registerOnPageChangeCallback(object: ViewPager2.OnPageChangeCallback() {
+        binding.galleryPager.registerOnPageChangeCallback(object: ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 viewModel.onShotSelected(position)
             }

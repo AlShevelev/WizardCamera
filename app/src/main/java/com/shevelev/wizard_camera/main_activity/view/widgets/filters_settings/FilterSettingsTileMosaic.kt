@@ -7,7 +7,6 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.common_entities.filter_settings.FilterSettings
 import com.shevelev.wizard_camera.common_entities.filter_settings.TileMosaicFilterSettings
-import kotlinx.android.synthetic.main.view_filter_settings_tile_mosaic.view.*
 
 class FilterSettingsTileMosaic
 @JvmOverloads
@@ -26,6 +25,9 @@ constructor(
 
     private val minBorderSizeValue = 1
     private val maxBorderSizeValue = 5
+
+    private val tileSizeBar by lazy { findViewById<SeekBar>(R.id.tileSizeBar) }
+    private val borderSizeBar by lazy { findViewById<SeekBar>(R.id.borderSizeBar) }
 
     init {
         inflate(context, R.layout.view_filter_settings_tile_mosaic, this)

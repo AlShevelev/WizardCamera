@@ -2,11 +2,11 @@ package com.shevelev.wizard_camera.main_activity.view.widgets.filters_settings
 
 import android.content.Context
 import android.util.AttributeSet
+import android.widget.CheckBox
 import android.widget.FrameLayout
 import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.common_entities.filter_settings.FilterSettings
 import com.shevelev.wizard_camera.common_entities.filter_settings.NewspaperFilterSettings
-import kotlinx.android.synthetic.main.view_filter_settings_single_check.view.*
 
 class FilterSettingsNewspaper
 @JvmOverloads
@@ -19,6 +19,8 @@ constructor(
 
     private var onSettingsChangeListener: ((FilterSettings) -> Unit)? = null
     private lateinit var settings: FilterSettings
+
+    private val check by lazy { findViewById<CheckBox>(R.id.check) }
 
     init {
         inflate(context, R.layout.view_filter_settings_single_check, this)

@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.view.TextureView
 import androidx.annotation.StringRes
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.lifecycle.Observer
 import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.application.App
 import com.shevelev.wizard_camera.camera.camera_renderer.CameraRenderer
@@ -22,7 +21,6 @@ import com.shevelev.wizard_camera.shared.dialogs.OkDialog
 import com.shevelev.wizard_camera.shared.mvvm.view.ActivityBaseMVVM
 import com.shevelev.wizard_camera.shared.mvvm.view_commands.ViewCommand
 import com.shevelev.wizard_camera.shared.ui_utils.hideSystemUI
-import kotlinx.android.synthetic.main.activity_main.*
 import permissions.dispatcher.NeedsPermission
 import permissions.dispatcher.OnPermissionDenied
 import permissions.dispatcher.RuntimePermissions
@@ -52,23 +50,23 @@ class MainActivity : ActivityBaseMVVM<ActivityMainBinding, MainActivityViewModel
 
         gestureDetector = GesturesDetector(this).apply { setOnGestureListener { processGesture(it) } }
 
-        viewModel.selectedFilter.observe(this, Observer { renderer?.setSelectedFilter(it) })
-        viewModel.allFiltersListData.observe(this, Observer { allFiltersCarousel.setStartData(it, viewModel) })
-        viewModel.favoriteFiltersListData.observe(this, Observer { favoritesFiltersCarousel.setStartData(it, viewModel) })
+        viewModel.selectedFilter.observe(this, { renderer?.setSelectedFilter(it) })
+        viewModel.allFiltersListData.observe(this, { binding.allFiltersCarousel.setStartData(it, viewModel) })
+        viewModel.favoriteFiltersListData.observe(this, { binding.favoritesFiltersCarousel.setStartData(it, viewModel) })
 
-        shootButton.setOnClickListener { textureView?.let { viewModel.onShootClick(it) } }
-        flashButton.setOnClickListener { viewModel.onFlashClick() }
-        filtersModeButton.setOnModeChangeListener { viewModel.onSwitchFilterModeClick(it) }
-        autoFocusButton.setOnClickListener { viewModel.onAutoFocusClick() }
-        expositionBar.setOnValueChangeListener { viewModel.onExposeValueUpdated(it) }
-        galleryButton.setOnClickListener { viewModel.onGalleyClick() }
+        binding.shootButton.setOnClickListener { textureView?.let { viewModel.onShootClick(it) } }
+        binding.flashButton.setOnClickListener { viewModel.onFlashClick() }
+        binding.filtersModeButton.setOnModeChangeListener { viewModel.onSwitchFilterModeClick(it) }
+        binding.autoFocusButton.setOnClickListener { viewModel.onAutoFocusClick() }
+        binding.expositionBar.setOnValueChangeListener { viewModel.onExposeValueUpdated(it) }
+        binding.galleryButton.setOnClickListener { viewModel.onGalleyClick() }
 
-        allFiltersCarousel.setOnItemSelectedListener { viewModel.onFilterSelected(it) }
-        favoritesFiltersCarousel.setOnItemSelectedListener { viewModel.onFavoriteFilterSelected(it) }
+        binding.allFiltersCarousel.setOnItemSelectedListener { viewModel.onFilterSelected(it) }
+        binding.favoritesFiltersCarousel.setOnItemSelectedListener { viewModel.onFavoriteFilterSelected(it) }
 
-        settings.setOnSettingsChangeListener { viewModel.onFilterSettingsChange(it) }
+        binding.settings.setOnSettingsChangeListener { viewModel.onFilterSettingsChange(it) }
 
-        root.layoutTransition.setDuration(resources.getInteger(android.R.integer.config_shortAnimTime).toLong())
+        binding.root.layoutTransition.setDuration(resources.getInteger(android.R.integer.config_shortAnimTime).toLong())
     }
 
     override fun onResume() {
@@ -98,16 +96,19 @@ class MainActivity : ActivityBaseMVVM<ActivityMainBinding, MainActivityViewModel
             is SetupCameraCommand -> setupCameraWithPermissionCheck()
             is ReleaseCameraCommand -> releaseCamera()
             is SetFlashStateCommand -> renderer!!.updateFlashState(command.turnFlashOn)
-            is ShowCapturingSuccessCommand -> captureSuccess.show(command.screenOrientation)
+            is ShowCapturingSuccessCommand -> binding.captureSuccess.show(command.screenOrientation)
             is FocusOnTouchCommand -> renderer!!.focusOnTouch(command.touchPoint, command.touchAreaSize)
             is AutoFocusCommand -> renderer!!.setAutoFocus()
             is ZoomCommand -> renderer!!.zoom(command.touchDistance).let { viewModel.onZoomUpdated(it) }
-            is ResetExposureCommand -> expositionBar.reset()
+            is ResetExposureCommand -> binding.expositionBar.reset()
             is SetExposureCommand -> renderer!!.updateExposure(command.exposureValue)
             is NavigateToGalleryCommand -> navigateToGallery()
             is ExitCommand -> exit(command.messageResId)
-            is ShowFilterSettingsCommand -> { settings.hide(); settings.show(command.settings) }
-            is HideFilterSettingsCommand -> settings.hide()
+            is ShowFilterSettingsCommand -> {
+                binding.settings.hide()
+                binding.settings.show(command.settings)
+            }
+            is HideFilterSettingsCommand -> binding.settings.hide()
         }
     }
 
@@ -132,7 +133,7 @@ class MainActivity : ActivityBaseMVVM<ActivityMainBinding, MainActivityViewModel
             viewModel.cameraSettings,
             { viewModel.onCameraIsSetUp() }).also {
                 textureView = TextureView(this)
-                root.addView(textureView, 0)
+                binding.root.addView(textureView, 0)
                 textureView!!.surfaceTextureListener = it
 
                 with(viewModel.cameraSettings.screenTextureSize) {
@@ -152,7 +153,7 @@ class MainActivity : ActivityBaseMVVM<ActivityMainBinding, MainActivityViewModel
 
     @SuppressLint("ClickableViewAccessibility")
     private fun releaseCamera() {
-        root.removeView(textureView)
+        binding.root.removeView(textureView)
         renderer = null
 
         textureView?.setOnTouchListener(null)

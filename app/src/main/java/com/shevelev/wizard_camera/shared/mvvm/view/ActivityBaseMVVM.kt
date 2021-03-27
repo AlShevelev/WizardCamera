@@ -20,10 +20,9 @@ import javax.inject.Inject
  * Base class for all activities
  */
 abstract class ActivityBaseMVVM<VDB : ViewDataBinding, VM : ViewModelBase<out ModelBase>> : ActivityBase() {
-    private lateinit var binding: VDB
+    protected lateinit var binding: VDB
 
     private lateinit var _viewModel: VM
-
     protected val viewModel: VM
         get() = _viewModel
 

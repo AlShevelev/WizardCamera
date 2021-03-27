@@ -2,13 +2,12 @@ package com.shevelev.wizard_camera.main_activity.view.widgets.filters_settings
 
 import android.content.Context
 import android.util.AttributeSet
+import android.widget.CheckBox
 import android.widget.SeekBar
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.common_entities.filter_settings.FilterSettings
 import com.shevelev.wizard_camera.common_entities.filter_settings.SwirlFilterSettings
-import kotlinx.android.synthetic.main.view_filter_settings_swirl.view.*
-import kotlin.random.Random
 
 class FilterSettingsSwirl
 @JvmOverloads
@@ -24,6 +23,10 @@ constructor(
 
     private val minValue = 1
     private val maxValue = 10
+
+    private val sizeBar by lazy { findViewById<SeekBar>(R.id.sizeBar) }
+    private val rotationBar by lazy { findViewById<SeekBar>(R.id.rotationBar) }
+    private val invertedRotation by lazy { findViewById<CheckBox>(R.id.invertedRotation) }
 
     init {
         inflate(context, R.layout.view_filter_settings_swirl, this)

@@ -2,12 +2,12 @@ package com.shevelev.wizard_camera.main_activity.view.widgets.filters_settings
 
 import android.content.Context
 import android.util.AttributeSet
+import android.widget.Button
 import android.widget.SeekBar
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.common_entities.filter_settings.CrackedFilterSettings
 import com.shevelev.wizard_camera.common_entities.filter_settings.FilterSettings
-import kotlinx.android.synthetic.main.view_filter_settings_cracked.view.*
 import kotlin.random.Random
 
 class FilterSettingsCracked
@@ -24,6 +24,9 @@ constructor(
 
     private val minShards = 3
     private val maxShards = 30
+
+    private val totalShards by lazy { findViewById<SeekBar>(R.id.totalShards) }
+    private val randomShardsButton by lazy { findViewById<Button>(R.id.randomShardsButton) }
 
     init {
         inflate(context, R.layout.view_filter_settings_cracked, this)

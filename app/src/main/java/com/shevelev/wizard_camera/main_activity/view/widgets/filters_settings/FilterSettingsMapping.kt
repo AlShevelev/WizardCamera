@@ -4,13 +4,14 @@ import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
 import android.view.View
+import android.widget.HorizontalScrollView
+import android.widget.ImageView
 import android.widget.SeekBar
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.common_entities.enums.MappingFilterTexture
 import com.shevelev.wizard_camera.common_entities.filter_settings.FilterSettings
 import com.shevelev.wizard_camera.common_entities.filter_settings.MappingFilterSettings
-import kotlinx.android.synthetic.main.view_filter_settings_mapping.view.*
 
 @Suppress("MapGetWithNotNullAssertionOperator")
 class FilterSettingsMapping
@@ -31,6 +32,25 @@ constructor(
     private val texturesToWidget: Map<MappingFilterTexture, View>
 
     private lateinit var selectedTextureWidget: View
+
+    private val mappingTex0 by lazy { findViewById<ImageView>(R.id.mappingTex0) }
+    private val mappingTex1 by lazy { findViewById<ImageView>(R.id.mappingTex1) }
+    private val mappingTex2 by lazy { findViewById<ImageView>(R.id.mappingTex2) }
+    private val mappingTex3 by lazy { findViewById<ImageView>(R.id.mappingTex3) }
+    private val mappingTex4 by lazy { findViewById<ImageView>(R.id.mappingTex4) }
+    private val mappingTex5 by lazy { findViewById<ImageView>(R.id.mappingTex5) }
+    private val mappingTex6 by lazy { findViewById<ImageView>(R.id.mappingTex6) }
+    private val mappingTex7 by lazy { findViewById<ImageView>(R.id.mappingTex7) }
+    private val mappingTex8 by lazy { findViewById<ImageView>(R.id.mappingTex8) }
+    private val mappingTex9 by lazy { findViewById<ImageView>(R.id.mappingTex9) }
+    private val mappingTex10 by lazy { findViewById<ImageView>(R.id.mappingTex10) }
+    private val mappingTex11 by lazy { findViewById<ImageView>(R.id.mappingTex11) }
+    private val mappingTex12 by lazy { findViewById<ImageView>(R.id.mappingTex12) }
+    private val mappingTex13 by lazy { findViewById<ImageView>(R.id.mappingTex13) }
+    private val mappingTex14 by lazy { findViewById<ImageView>(R.id.mappingTex14) }
+
+    private val mixFactorBar by lazy { findViewById<SeekBar>(R.id.mixFactorBar) }
+    private val texturesList by lazy { findViewById<HorizontalScrollView>(R.id.texturesList) }
 
     init {
         inflate(context, R.layout.view_filter_settings_mapping, this)

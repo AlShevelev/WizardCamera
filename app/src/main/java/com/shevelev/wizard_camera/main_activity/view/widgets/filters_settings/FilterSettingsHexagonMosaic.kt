@@ -3,11 +3,12 @@ package com.shevelev.wizard_camera.main_activity.view.widgets.filters_settings
 import android.content.Context
 import android.util.AttributeSet
 import android.widget.LinearLayout
+import android.widget.RadioGroup
+import android.widget.TextView
 import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.common_entities.enums.Size
 import com.shevelev.wizard_camera.common_entities.filter_settings.FilterSettings
 import com.shevelev.wizard_camera.common_entities.filter_settings.HexagonMosaicFilterSettings
-import kotlinx.android.synthetic.main.view_filter_settings_block_size.view.*
 
 class FilterSettingsHexagonMosaic
 @JvmOverloads
@@ -20,6 +21,9 @@ constructor(
 
     private var onSettingsChangeListener: ((FilterSettings) -> Unit)? = null
     private lateinit var settings: HexagonMosaicFilterSettings
+
+    private val titleText by lazy { findViewById<TextView>(R.id.titleText) }
+    private val sizeGroup by lazy { findViewById<RadioGroup>(R.id.sizeGroup) }
 
     init {
         inflate(context, R.layout.view_filter_settings_block_size, this)

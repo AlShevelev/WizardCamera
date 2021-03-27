@@ -5,11 +5,11 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import android.widget.FrameLayout
+import android.widget.ImageView
 import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.main_activity.dto.FiltersMode
 import com.shevelev.wizard_camera.main_activity.dto.FiltersModeButtonState
 import com.shevelev.wizard_camera.shared.animation.AnimationUtils
-import kotlinx.android.synthetic.main.view_filters_mode.view.*
 
 class FiltersModeButton
 @JvmOverloads
@@ -24,6 +24,13 @@ constructor(
     private var filtersMode = FiltersMode.NO_FILTERS
 
     private var onModeChangeListener: ((FiltersMode) -> Unit)? = null
+
+    private val noFiltersSelected by lazy { findViewById<ImageView>(R.id.noFiltersSelected) }
+    private val allFiltersSelected by lazy { findViewById<ImageView>(R.id.allFiltersSelected) }
+    private val favoritesFiltersSelected by lazy { findViewById<ImageView>(R.id.favoritesFiltersSelected) }
+    private val noFilters by lazy { findViewById<ImageView>(R.id.noFilters) }
+    private val allFilters by lazy { findViewById<ImageView>(R.id.allFilters) }
+    private val favoritesFilters by lazy { findViewById<ImageView>(R.id.favoritesFilters) }
 
     init {
         inflate(context, R.layout.view_filters_mode, this)
