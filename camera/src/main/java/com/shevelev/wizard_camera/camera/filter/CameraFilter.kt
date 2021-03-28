@@ -6,7 +6,8 @@ import android.opengl.GLES31
 import androidx.annotation.CallSuper
 import androidx.annotation.RawRes
 import com.shevelev.wizard_camera.camera.R
-import com.shevelev.wizard_camera.camera.utils.ShaderUtils
+import com.shevelev.wizard_camera.camera.camera_renderer.RenderBuffer
+import com.shevelev.wizard_camera.camera.camera_renderer.utils.ShaderUtils
 import com.shevelev.wizard_camera.common_entities.filter_settings.FilterSettings
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
@@ -69,7 +70,7 @@ open class CameraFilter(
         private var mainProgram = 0
         private const val activeTextUnit = GLES31.GL_TEXTURE8
 
-        private var cameraRenderBuffer: com.shevelev.wizard_camera.camera.RenderBuffer? = null
+        private var cameraRenderBuffer: RenderBuffer? = null
 
         fun release() {
             mainProgram = 0
@@ -101,7 +102,7 @@ open class CameraFilter(
     fun draw(cameraTexId: Int, canvasWidth: Int, canvasHeight: Int) {
         // Create texture for transformation
         if (cameraRenderBuffer == null || cameraRenderBuffer!!.width != canvasWidth || cameraRenderBuffer!!.height != canvasHeight) {
-            cameraRenderBuffer = com.shevelev.wizard_camera.camera.RenderBuffer(canvasWidth, canvasHeight, activeTextUnit)
+            cameraRenderBuffer = RenderBuffer(canvasWidth, canvasHeight, activeTextUnit)
         }
 
         // Use shaders for rendering texture from a camera

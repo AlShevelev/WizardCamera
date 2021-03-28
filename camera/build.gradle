@@ -20,6 +20,10 @@ android {
         }
     }
 
+    compileOptions {
+        sourceCompatibility java_version
+        targetCompatibility java_version
+    }
 }
 
 dependencies {
@@ -30,6 +34,10 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "androidx.appcompat:appcompat:$appcompat_version"
     implementation "androidx.core:core-ktx:$core_ktx_version"
+
+    implementation "androidx.camera:camera-core:$camerax_version"
+    implementation "androidx.camera:camera-camera2:$camerax_version"
+    implementation "androidx.camera:camera-lifecycle:$camerax_version"
 
     implementation "com.jakewharton.timber:timber:$timber_version"
 

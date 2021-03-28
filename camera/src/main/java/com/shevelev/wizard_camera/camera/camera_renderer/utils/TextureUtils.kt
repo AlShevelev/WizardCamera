@@ -1,4 +1,4 @@
-package com.shevelev.wizard_camera.camera.utils
+package com.shevelev.wizard_camera.camera.camera_renderer.utils
 
 import android.content.Context
 import android.graphics.BitmapFactory

@@ -128,9 +128,9 @@ constructor(
 
         isActive = true
 
-        if(!model.cameraSettings.canUseCamera) {
-            _command.value = ExitCommand(R.string.camera_2_warning)
-        } else {
+//        if(!model.cameraSettings.canUseCamera) {
+//            _command.value = ExitCommand(R.string.camera_2_warning)
+//        } else {
             _flashButtonState.value = ButtonState.DISABLED
             _filterModeButtonState.value = _filterModeButtonState.value!!.copy(isDisabled = true)
             _isShotButtonEnabled.value = false
@@ -139,7 +139,7 @@ constructor(
             model.orientation.start()
 
             _command.value = SetupCameraCommand()
-        }
+//        }
     }
 
     fun onInactive() {

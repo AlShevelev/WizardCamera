@@ -33,36 +33,37 @@ constructor(
 
     @Suppress("BlockingMethodInNonBlockingContext")
     override suspend fun capture(textureView: TextureView, activeFilter: FilterCode, screenOrientation: ScreenOrientation): Boolean {
-        inProgress = true
-        try {
-            val rawBitmap = textureView.bitmap
-
-            val bitmap = withContext(dispatchersProvider.calculationsDispatcher) {
-                correctScreenOrientation(rawBitmap, screenOrientation)
-            }
-
-            val outputFile = withContext(dispatchersProvider.ioDispatcher) {
-                filesHelper.createFileForShot(activeFilter).also { outputFile ->
-                    FileOutputStream(outputFile).use { outputStream ->
-                        compressBitmap(bitmap, outputStream)
-                        outputStream.flush()
-                    }
-                }
-            }
-
-            val contentUri = mediaScanner.processNewShot(outputFile)
-
-            withContext(dispatchersProvider.ioDispatcher) {
-                saveToDb(outputFile.name, activeFilter, contentUri)
-            }
-
-            return true
-        } catch (ex: Exception) {
-            Timber.e(ex)
-            return false
-        } finally {
-            inProgress = false
-        }
+//        inProgress = true
+//        try {
+//            val rawBitmap = textureView.bitmap
+//
+//            val bitmap = withContext(dispatchersProvider.calculationsDispatcher) {
+//                correctScreenOrientation(rawBitmap, screenOrientation)
+//            }
+//
+//            val outputFile = withContext(dispatchersProvider.ioDispatcher) {
+//                filesHelper.createFileForShot(activeFilter).also { outputFile ->
+//                    FileOutputStream(outputFile).use { outputStream ->
+//                        compressBitmap(bitmap, outputStream)
+//                        outputStream.flush()
+//                    }
+//                }
+//            }
+//
+//            val contentUri = mediaScanner.processNewShot(outputFile)
+//
+//            withContext(dispatchersProvider.ioDispatcher) {
+//                saveToDb(outputFile.name, activeFilter, contentUri)
+//            }
+//
+//            return true
+//        } catch (ex: Exception) {
+//            Timber.e(ex)
+//            return false
+//        } finally {
+//            inProgress = false
+//        }
+        return true
     }
 
     private fun compressBitmap(bitmap: Bitmap, outputStream: OutputStream) =

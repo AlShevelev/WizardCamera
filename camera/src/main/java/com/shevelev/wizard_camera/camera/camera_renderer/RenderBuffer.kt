@@ -1,7 +1,7 @@
-package com.shevelev.wizard_camera.camera
+package com.shevelev.wizard_camera.camera.camera_renderer
 
 import android.opengl.GLES31
-import com.shevelev.wizard_camera.camera.utils.TextureUtils
+import com.shevelev.wizard_camera.camera.camera_renderer.utils.TextureUtils
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import javax.microedition.khronos.opengles.GL10

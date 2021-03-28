@@ -3,9 +3,8 @@ package com.shevelev.wizard_camera.camera.filter
 import android.content.Context
 import android.opengl.GLES31
 import com.shevelev.wizard_camera.camera.R
-import com.shevelev.wizard_camera.camera.utils.TextureUtils
+import com.shevelev.wizard_camera.camera.camera_renderer.utils.TextureUtils
 import com.shevelev.wizard_camera.common_entities.filter_settings.FilterSettings
-import com.shevelev.wizard_camera.common_entities.filter_settings.MappingFilterSettings
 
 class RefractionCameraFilter(
     private val context: Context

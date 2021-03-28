@@ -9,12 +9,12 @@ import android.os.Handler
 import android.util.SizeF
 import android.view.TextureView
 import android.widget.Toast
-import com.shevelev.wizard_camera.camera.FiltersFactory
+import com.shevelev.wizard_camera.camera.filter.factory.FiltersFactory
 import com.shevelev.wizard_camera.camera.R
 import com.shevelev.wizard_camera.camera.camera_manager.CameraManager
 import com.shevelev.wizard_camera.camera.camera_settings_repository.CameraSettingsRepository
 import com.shevelev.wizard_camera.camera.filter.CameraFilter
-import com.shevelev.wizard_camera.camera.utils.TextureUtils
+import com.shevelev.wizard_camera.camera.camera_renderer.utils.TextureUtils
 import com.shevelev.wizard_camera.common_entities.camera.UserCameraSettings
 import com.shevelev.wizard_camera.common_entities.filter_settings.FilterSettings
 import timber.log.Timber
@@ -76,9 +76,9 @@ class CameraRenderer(
         Timber.tag("RENDERER_CAMERA").d("onSurfaceTextureSizeChanged: $width $height")
     }
 
-    override fun onSurfaceTextureUpdated(surface: SurfaceTexture?) {}
+    override fun onSurfaceTextureUpdated(surface: SurfaceTexture) {}
 
-    override fun onSurfaceTextureDestroyed(surface: SurfaceTexture?): Boolean {
+    override fun onSurfaceTextureDestroyed(surface: SurfaceTexture): Boolean {
         Timber.tag("RENDERER_CAMERA").d("onSurfaceTextureDestroyed")
         stopRendering()
         return true
