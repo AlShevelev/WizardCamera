@@ -9,14 +9,17 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/root"
-
         android:layout_width="match_parent"
         android:layout_height="match_parent"
 
         android:animateLayoutChanges="true"
 
         tools:background="#EA00FF">
+
+        <FrameLayout
+            android:id="@+id/textureContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
         <com.shevelev.wizard_camera.main_activity.view.widgets.CaptureSuccessWidget
             android:id="@+id/captureSuccess"

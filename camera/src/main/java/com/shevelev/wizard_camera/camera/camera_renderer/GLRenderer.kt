@@ -6,11 +6,14 @@ import android.opengl.GLES11Ext
 import android.opengl.GLES31
 import com.shevelev.wizard_camera.camera.filter.CameraFilter
 import com.shevelev.wizard_camera.camera.camera_renderer.utils.TextureUtils
+import com.shevelev.wizard_camera.camera.filter.factory.FiltersFactory
+import com.shevelev.wizard_camera.common_entities.filter_settings.FilterSettings
 import javax.microedition.khronos.egl.*
 
 class GLRenderer(
     private var glWidth: Int,
-    private var glHeight: Int
+    private var glHeight: Int,
+    private val filtersFactory: FiltersFactory
 ) {
     private lateinit var egl10: EGL10
     private lateinit var eglDisplay: EGLDisplay
@@ -84,11 +87,14 @@ class GLRenderer(
         }
     }
 
-    fun setFilter(filter: CameraFilter) {
-        this.filter = filter
+    fun setFilter(filterSettings: FilterSettings) {
+        val selectedFilter = filtersFactory.getFilter(filterSettings.code)
+        selectedFilter.onAttach(filterSettings)
+
+        this.filter = selectedFilter
     }
 
-    fun renderFrame() {
+    private fun renderFrame() {
         if (glWidth < 0 && glHeight < 0) {
             glWidth = -glWidth
             glHeight = -glHeight
