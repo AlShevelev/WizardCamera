@@ -18,7 +18,10 @@ import com.shevelev.wizard_camera.camera.filter.factory.FiltersFactory
 import com.shevelev.wizard_camera.databinding.ActivityMainBinding
 import com.shevelev.wizard_camera.gallery_activity.view.GalleryActivity
 import com.shevelev.wizard_camera.main_activity.di.MainActivityComponent
+import com.shevelev.wizard_camera.main_activity.dto.HideFilterSettingsCommand
+import com.shevelev.wizard_camera.main_activity.dto.ShowFilterSettingsCommand
 import com.shevelev.wizard_camera.main_activity.view.gestures.Gesture
+import com.shevelev.wizard_camera.main_activity.view.gestures.GesturesDetector
 import com.shevelev.wizard_camera.main_activity.view_model.MainActivityViewModel
 import com.shevelev.wizard_camera.shared.dialogs.OkDialog
 import com.shevelev.wizard_camera.shared.mvvm.view.ActivityBaseMVVM
@@ -38,7 +41,7 @@ class MainActivity : ActivityBaseMVVM<ActivityMainBinding, MainActivityViewModel
 
     private lateinit var cameraManager: CameraXManager
 
-//    private lateinit var gestureDetector: GesturesDetector
+    private lateinit var gestureDetector: GesturesDetector
 
     @Inject
     internal lateinit var cameraSettingsRepository: CameraSettingsRepository
@@ -58,8 +61,8 @@ class MainActivity : ActivityBaseMVVM<ActivityMainBinding, MainActivityViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-//        gestureDetector = GesturesDetector(this).apply { setOnGestureListener { processGesture(it) } }
-//
+        gestureDetector = GesturesDetector(this).apply { setOnGestureListener { processGesture(it) } }
+
         viewModel.selectedFilter.observe(this, { renderer?.setFilter(it) })
         viewModel.allFiltersListData.observe(this, { binding.allFiltersCarousel.setStartData(it, viewModel) })
         viewModel.favoriteFiltersListData.observe(this, { binding.favoritesFiltersCarousel.setStartData(it, viewModel) })
@@ -116,11 +119,11 @@ class MainActivity : ActivityBaseMVVM<ActivityMainBinding, MainActivityViewModel
 //            is SetExposureCommand -> renderer!!.updateExposure(command.exposureValue)
 //            is NavigateToGalleryCommand -> navigateToGallery()
 //            is ExitCommand -> exit(command.messageResId)
-//            is ShowFilterSettingsCommand -> {
-//                binding.settings.hide()
-//                binding.settings.show(command.settings)
-//            }
-//            is HideFilterSettingsCommand -> binding.settings.hide()
+            is ShowFilterSettingsCommand -> {
+                binding.settings.hide()
+                binding.settings.show(command.settings)
+            }
+            is HideFilterSettingsCommand -> binding.settings.hide()
         }
     }
 
@@ -156,6 +159,11 @@ class MainActivity : ActivityBaseMVVM<ActivityMainBinding, MainActivityViewModel
         textureView = TextureView(this).also {
             binding.textureContainer.addView(it)
             it.surfaceTextureListener = this
+
+            it.setOnTouchListener { view, event ->
+                gestureDetector.onTouchEvent(view, event)
+                true
+            }
         }
 
 //        renderer = CameraRenderer(
