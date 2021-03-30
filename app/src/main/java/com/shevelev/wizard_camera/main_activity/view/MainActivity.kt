@@ -20,7 +20,7 @@ import com.shevelev.wizard_camera.gallery_activity.view.GalleryActivity
 import com.shevelev.wizard_camera.main_activity.di.MainActivityComponent
 import com.shevelev.wizard_camera.main_activity.dto.HideFilterSettingsCommand
 import com.shevelev.wizard_camera.main_activity.dto.ShowFilterSettingsCommand
-import com.shevelev.wizard_camera.main_activity.view.gestures.Gesture
+import com.shevelev.wizard_camera.main_activity.dto.ZoomCommand
 import com.shevelev.wizard_camera.main_activity.view.gestures.GesturesDetector
 import com.shevelev.wizard_camera.main_activity.view_model.MainActivityViewModel
 import com.shevelev.wizard_camera.shared.dialogs.OkDialog
@@ -61,14 +61,14 @@ class MainActivity : ActivityBaseMVVM<ActivityMainBinding, MainActivityViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        gestureDetector = GesturesDetector(this).apply { setOnGestureListener { processGesture(it) } }
+        gestureDetector = GesturesDetector(this).apply { setOnGestureListener { viewModel.processGesture(it) } }
 
         viewModel.selectedFilter.observe(this, { renderer?.setFilter(it) })
         viewModel.allFiltersListData.observe(this, { binding.allFiltersCarousel.setStartData(it, viewModel) })
         viewModel.favoriteFiltersListData.observe(this, { binding.favoritesFiltersCarousel.setStartData(it, viewModel) })
 //
 //        binding.shootButton.setOnClickListener { textureView?.let { viewModel.onShootClick(it) } }
-//        binding.flashButton.setOnClickListener { viewModel.onFlashClick() }
+        binding.flashButton.setOnClickListener { viewModel.onFlashClick() }
         binding.filtersModeButton.setOnModeChangeListener { viewModel.onSwitchFilterModeClick(it) }
 //        binding.autoFocusButton.setOnClickListener { viewModel.onAutoFocusClick() }
 //        binding.expositionBar.setOnValueChangeListener { viewModel.onExposeValueUpdated(it) }
@@ -114,7 +114,7 @@ class MainActivity : ActivityBaseMVVM<ActivityMainBinding, MainActivityViewModel
 //            is ShowCapturingSuccessCommand -> binding.captureSuccess.show(command.screenOrientation)
 //            is FocusOnTouchCommand -> renderer!!.focusOnTouch(command.touchPoint, command.touchAreaSize)
 //            is AutoFocusCommand -> renderer!!.setAutoFocus()
-//            is ZoomCommand -> renderer!!.zoom(command.touchDistance).let { viewModel.onZoomUpdated(it) }
+            is ZoomCommand -> cameraManager.zoom(command.scaleFactor).let { viewModel.onZoomUpdated(it) }
 //            is ResetExposureCommand -> binding.expositionBar.reset()
 //            is SetExposureCommand -> renderer!!.updateExposure(command.exposureValue)
 //            is NavigateToGalleryCommand -> navigateToGallery()
@@ -244,8 +244,6 @@ class MainActivity : ActivityBaseMVVM<ActivityMainBinding, MainActivityViewModel
 
         CameraFilter.release()
     }
-
-    private fun processGesture(gesture: Gesture) = viewModel.processGesture(gesture)
 
     private fun navigateToGallery() {
         val galleryIntent = Intent(this, GalleryActivity::class.java)

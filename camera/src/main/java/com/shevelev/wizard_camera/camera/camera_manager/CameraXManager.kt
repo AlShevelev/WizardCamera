@@ -2,12 +2,14 @@ package com.shevelev.wizard_camera.camera.camera_manager
 
 import android.content.Context
 import android.graphics.SurfaceTexture
+import android.util.Range
 import android.view.TextureView
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import com.shevelev.wizard_camera.camera.camera_settings_repository.CameraSettingsRepository
+import com.shevelev.wizard_camera.utils.useful_ext.fitInRange
 import java.util.*
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
@@ -52,6 +54,24 @@ class CameraXManager(private val cameraSettingsRepository: CameraSettingsReposit
         cameraExecutor?.shutdown()
         cameraExecutor = null
     }
+
+    /**
+     * Zooms a camera preview
+     * @param scaleFactor a scale factor value
+     * @return a zoom ration factor
+     */
+    fun zoom(scaleFactor: Float): Float? =
+        camera?.let { camera ->
+            camera.cameraInfo.zoomState.value?.let { zoomInfo ->
+                val minRatio = zoomInfo.minZoomRatio
+                val maxRatio = zoomInfo.maxZoomRatio
+
+                val ratio = (zoomInfo.zoomRatio * scaleFactor).fitInRange(Range(minRatio, maxRatio))
+                camera.cameraControl.setZoomRatio(ratio)
+
+                ratio
+            }
+        }
 
     fun capture(context: Context) {
 /*

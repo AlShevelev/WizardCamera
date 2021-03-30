@@ -17,7 +17,7 @@ class GesturesDetector(context: Context) : GestureDetector.OnGestureListener, Sc
     private lateinit var viewSize: SizeF
 
     override fun onScale(detector: ScaleGestureDetector): Boolean {
-        onGestureListener?.invoke(Pinch(detector.currentSpan))
+        onGestureListener?.invoke(Pinch(detector.scaleFactor))
         return true
     }
 

@@ -2,7 +2,6 @@ package com.shevelev.wizard_camera.main_activity.view_model
 
 import android.content.Context
 import android.graphics.PointF
-import android.util.Size
 import android.util.SizeF
 import android.view.TextureView
 import android.view.View
@@ -96,7 +95,7 @@ constructor(
         } else {
             when (gesture) {
                 is Tap -> selectManualFocus(gesture.touchPoint, gesture.touchAreaSize)
-                is Pinch -> zoom(gesture.touchDistance)
+                is Pinch -> zoom(gesture.scaleFactor)
             }
         }
     }
@@ -209,8 +208,8 @@ constructor(
         _command.value = AutoFocusCommand()
     }
 
-    fun onZoomUpdated(zoomValue: Float) {
-        _screenTitle.value = "${appContext.getString(R.string.zoomFactor)} ${zoomValue.format("#.00")}"
+    fun onZoomUpdated(zoomRatio: Float?) {
+        zoomRatio?.let { _screenTitle.value = "${appContext.getString(R.string.zoomFactor)} ${it.format("#.00")}" }
     }
 
     fun onExposeValueUpdated(exposeValue: Float) {

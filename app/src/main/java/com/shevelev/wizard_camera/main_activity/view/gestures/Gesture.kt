@@ -7,4 +7,4 @@ sealed class Gesture
 
 data class Tap(val touchPoint: PointF, val touchAreaSize: SizeF) : Gesture()
 
-data class Pinch(val touchDistance: Float) : Gesture()
+data class Pinch(val scaleFactor: Float) : Gesture()
