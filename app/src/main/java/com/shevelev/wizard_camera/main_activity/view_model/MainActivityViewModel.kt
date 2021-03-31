@@ -153,7 +153,9 @@ constructor(
 
         isFlashActive = !isFlashActive
         _flashButtonState.value = if(isFlashActive)  ButtonState.SELECTED else ButtonState.ACTIVE
-        _command.value = SetFlashStateCommand(isFlashActive)
+
+        val titleRes = if(isFlashActive) R.string.camera_flash_on else R.string.camera_flash_off
+        _screenTitle.value = appContext.getString(titleRes)
     }
 
     fun onCameraIsSetUp() {

@@ -107,7 +107,6 @@ class MainActivity : ActivityBaseMVVM<ActivityMainBinding, MainActivityViewModel
         when(command) {
 //            is SetupCameraCommand -> setupCameraWithPermissionCheck()
 //            is ReleaseCameraCommand -> releaseCamera()
-//            is SetFlashStateCommand -> renderer!!.updateFlashState(command.turnFlashOn)
 //            is ShowCapturingSuccessCommand -> binding.captureSuccess.show(command.screenOrientation)
             is ZoomCommand -> cameraManager.zoom(command.scaleFactor).let { viewModel.onZoomUpdated(it) }
             is ResetExposureCommand -> binding.expositionBar.reset()
