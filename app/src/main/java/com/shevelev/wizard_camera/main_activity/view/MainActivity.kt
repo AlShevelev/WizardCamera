@@ -18,9 +18,7 @@ import com.shevelev.wizard_camera.camera.filter.factory.FiltersFactory
 import com.shevelev.wizard_camera.databinding.ActivityMainBinding
 import com.shevelev.wizard_camera.gallery_activity.view.GalleryActivity
 import com.shevelev.wizard_camera.main_activity.di.MainActivityComponent
-import com.shevelev.wizard_camera.main_activity.dto.HideFilterSettingsCommand
-import com.shevelev.wizard_camera.main_activity.dto.ShowFilterSettingsCommand
-import com.shevelev.wizard_camera.main_activity.dto.ZoomCommand
+import com.shevelev.wizard_camera.main_activity.dto.*
 import com.shevelev.wizard_camera.main_activity.view.gestures.GesturesDetector
 import com.shevelev.wizard_camera.main_activity.view_model.MainActivityViewModel
 import com.shevelev.wizard_camera.shared.dialogs.OkDialog
@@ -71,7 +69,7 @@ class MainActivity : ActivityBaseMVVM<ActivityMainBinding, MainActivityViewModel
         binding.flashButton.setOnClickListener { viewModel.onFlashClick() }
         binding.filtersModeButton.setOnModeChangeListener { viewModel.onSwitchFilterModeClick(it) }
 //        binding.autoFocusButton.setOnClickListener { viewModel.onAutoFocusClick() }
-//        binding.expositionBar.setOnValueChangeListener { viewModel.onExposeValueUpdated(it) }
+        binding.expositionBar.setOnValueChangeListener { viewModel.onExposeValueUpdated(it) }
 //        binding.galleryButton.setOnClickListener { viewModel.onGalleyClick() }
 //
         binding.allFiltersCarousel.setOnItemSelectedListener { viewModel.onFilterSelected(it) }
@@ -91,7 +89,7 @@ class MainActivity : ActivityBaseMVVM<ActivityMainBinding, MainActivityViewModel
 
     override fun onPause() {
         super.onPause()
-//        viewModel.onInactive()
+        viewModel.onInactive()
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
@@ -115,8 +113,8 @@ class MainActivity : ActivityBaseMVVM<ActivityMainBinding, MainActivityViewModel
 //            is FocusOnTouchCommand -> renderer!!.focusOnTouch(command.touchPoint, command.touchAreaSize)
 //            is AutoFocusCommand -> renderer!!.setAutoFocus()
             is ZoomCommand -> cameraManager.zoom(command.scaleFactor).let { viewModel.onZoomUpdated(it) }
-//            is ResetExposureCommand -> binding.expositionBar.reset()
-//            is SetExposureCommand -> renderer!!.updateExposure(command.exposureValue)
+            is ResetExposureCommand -> binding.expositionBar.reset()
+            is SetExposureCommand -> cameraManager.updateExposure(command.exposureValue)
 //            is NavigateToGalleryCommand -> navigateToGallery()
 //            is ExitCommand -> exit(command.messageResId)
             is ShowFilterSettingsCommand -> {

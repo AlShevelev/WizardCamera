@@ -73,8 +73,8 @@ constructor(
     var isAutoFocus: Boolean = true
         private set
 
-    var isActive: Boolean = false
-        private set
+//    var isActive: Boolean = false
+//        private set
 
     private var exiting = false
 
@@ -125,7 +125,7 @@ constructor(
             return
         }
 
-        isActive = true
+//        isActive = true
 
 //        if(!model.cameraSettings.canUseCamera) {
 //            _command.value = ExitCommand(R.string.camera_2_warning)
@@ -142,14 +142,14 @@ constructor(
     }
 
     fun onInactive() {
-        isActive = false
+//        isActive = false
 
-        model.orientation.stop()
+//        model.orientation.stop()
 
-        isAutoFocus = true
-        _autoFocusButtonVisibility.value = View.INVISIBLE
+//        isAutoFocus = true
+//        _autoFocusButtonVisibility.value = View.INVISIBLE
         _command.value = ResetExposureCommand()
-        _command.value = ReleaseCameraCommand()
+//        _command.value = ReleaseCameraCommand()
 
         hideSettings()
     }

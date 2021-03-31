@@ -10,6 +10,8 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import com.shevelev.wizard_camera.camera.camera_settings_repository.CameraSettingsRepository
 import com.shevelev.wizard_camera.utils.useful_ext.fitInRange
+import com.shevelev.wizard_camera.utils.useful_ext.reduceToRange
+import timber.log.Timber
 import java.util.*
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
@@ -72,6 +74,18 @@ class CameraXManager(private val cameraSettingsRepository: CameraSettingsReposit
                 ratio
             }
         }
+
+    fun updateExposure(exposureFactor: Float) {
+        camera?.let { camera ->
+            camera.cameraInfo.exposureState?.let { exposureInfo ->
+                val sourceRange = exposureInfo.exposureCompensationRange
+                val calculationRange = Range(sourceRange.lower.toFloat(), sourceRange.upper.toFloat())
+                val calculatedFactor = exposureFactor.reduceToRange(Range(-1f, 1f), calculationRange)
+
+                camera.cameraControl.setExposureCompensationIndex(calculatedFactor.toInt())
+            }
+        }
+    }
 
     fun capture(context: Context) {
 /*
