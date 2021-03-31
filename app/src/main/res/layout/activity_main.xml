@@ -53,24 +53,6 @@
             tools:text="Original" />
 
         <ImageButton
-            android:id="@+id/autoFocusButton"
-            android:layout_width="@dimen/toolButtonSizeNormal"
-            android:layout_height="@dimen/toolButtonSizeNormal"
-
-            android:layout_marginStart="@dimen/marginNormal"
-            android:layout_marginTop="@dimen/marginNormal"
-
-            android:background="@drawable/bcg_main_button"
-            android:src="@drawable/ic_auto_focus"
-
-            android:visibility="@{viewModel.autoFocusButtonVisibility}"
-            app:layout_constraintStart_toStartOf="parent"
-
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="ContentDescription"
-            tools:visibility="visible" />
-
-        <ImageButton
             android:id="@+id/galleryButton"
             android:layout_width="@dimen/toolButtonSizeNormal"
             android:layout_height="@dimen/toolButtonSizeNormal"

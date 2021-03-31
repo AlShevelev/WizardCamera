@@ -1,8 +1,10 @@
 package com.shevelev.wizard_camera.camera.camera_manager
 
 import android.content.Context
+import android.graphics.PointF
 import android.graphics.SurfaceTexture
 import android.util.Range
+import android.util.SizeF
 import android.view.TextureView
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
@@ -77,7 +79,7 @@ class CameraXManager(private val cameraSettingsRepository: CameraSettingsReposit
 
     fun updateExposure(exposureFactor: Float) {
         camera?.let { camera ->
-            camera.cameraInfo.exposureState?.let { exposureInfo ->
+            camera.cameraInfo.exposureState.let { exposureInfo ->
                 val sourceRange = exposureInfo.exposureCompensationRange
                 val calculationRange = Range(sourceRange.lower.toFloat(), sourceRange.upper.toFloat())
                 val calculatedFactor = exposureFactor.reduceToRange(Range(-1f, 1f), calculationRange)

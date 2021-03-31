@@ -45,9 +45,6 @@ constructor(
     private val _isShotButtonEnabled = MutableLiveData(false)
     val isShotButtonEnabled: LiveData<Boolean> = _isShotButtonEnabled
 
-    private val _autoFocusButtonVisibility = MutableLiveData(View.INVISIBLE)
-    val autoFocusButtonVisibility: LiveData<Int> = _autoFocusButtonVisibility
-
     private val _allFiltersListData: MutableLiveData<FiltersListData> = MutableLiveData()
     val allFiltersListData: LiveData<FiltersListData> = _allFiltersListData
 
@@ -68,9 +65,6 @@ constructor(
     private var isFavoriteFiltersWereVisible = false
 
     var isFlashActive: Boolean = false
-        private set
-
-    var isAutoFocus: Boolean = true
         private set
 
 //    var isActive: Boolean = false
@@ -94,7 +88,7 @@ constructor(
             hideSettings()
         } else {
             when (gesture) {
-                is Tap -> selectManualFocus(gesture.touchPoint, gesture.touchAreaSize)
+                is Tap -> { /* temporary unused */ }
                 is Pinch -> zoom(gesture.scaleFactor)
             }
         }
@@ -199,15 +193,6 @@ constructor(
         }
     }
 
-    fun onAutoFocusClick() {
-        hideSettings()
-
-        isAutoFocus = true
-        _autoFocusButtonVisibility.value = View.INVISIBLE
-        _screenTitle.value = appContext.getString(R.string.focusAuto)
-        _command.value = AutoFocusCommand()
-    }
-
     fun onZoomUpdated(zoomRatio: Float?) {
         zoomRatio?.let { _screenTitle.value = "${appContext.getString(R.string.zoomFactor)} ${it.format("#.00")}" }
     }
@@ -280,17 +265,6 @@ constructor(
     }
 
     override fun onSettingsClick(code: FilterCode) = showSettings(code)
-
-    private fun selectManualFocus(touchPoint: PointF, touchAreaSize: SizeF) {
-        _command.value = FocusOnTouchCommand(touchPoint, touchAreaSize)
-
-        if(isAutoFocus) {
-            _screenTitle.value = appContext.getString(R.string.focusManual)
-        }
-
-        isAutoFocus = false
-        _autoFocusButtonVisibility.value = View.VISIBLE
-    }
 
     private fun zoom(touchDistance: Float) {
         _command.value = ZoomCommand(touchDistance)

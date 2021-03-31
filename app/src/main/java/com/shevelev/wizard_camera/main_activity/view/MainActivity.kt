@@ -68,7 +68,6 @@ class MainActivity : ActivityBaseMVVM<ActivityMainBinding, MainActivityViewModel
 //        binding.shootButton.setOnClickListener { textureView?.let { viewModel.onShootClick(it) } }
         binding.flashButton.setOnClickListener { viewModel.onFlashClick() }
         binding.filtersModeButton.setOnModeChangeListener { viewModel.onSwitchFilterModeClick(it) }
-//        binding.autoFocusButton.setOnClickListener { viewModel.onAutoFocusClick() }
         binding.expositionBar.setOnValueChangeListener { viewModel.onExposeValueUpdated(it) }
 //        binding.galleryButton.setOnClickListener { viewModel.onGalleyClick() }
 //
@@ -110,8 +109,6 @@ class MainActivity : ActivityBaseMVVM<ActivityMainBinding, MainActivityViewModel
 //            is ReleaseCameraCommand -> releaseCamera()
 //            is SetFlashStateCommand -> renderer!!.updateFlashState(command.turnFlashOn)
 //            is ShowCapturingSuccessCommand -> binding.captureSuccess.show(command.screenOrientation)
-//            is FocusOnTouchCommand -> renderer!!.focusOnTouch(command.touchPoint, command.touchAreaSize)
-//            is AutoFocusCommand -> renderer!!.setAutoFocus()
             is ZoomCommand -> cameraManager.zoom(command.scaleFactor).let { viewModel.onZoomUpdated(it) }
             is ResetExposureCommand -> binding.expositionBar.reset()
             is SetExposureCommand -> cameraManager.updateExposure(command.exposureValue)
