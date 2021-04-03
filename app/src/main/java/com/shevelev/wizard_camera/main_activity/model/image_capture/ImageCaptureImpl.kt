@@ -1,9 +1,10 @@
 package com.shevelev.wizard_camera.main_activity.model.image_capture
 
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Matrix
 import android.net.Uri
-import android.view.TextureView
+import androidx.exifinterface.media.ExifInterface
 import com.shevelev.wizard_camera.common_entities.entities.PhotoShot
 import com.shevelev.wizard_camera.common_entities.enums.FilterCode
 import com.shevelev.wizard_camera.main_activity.dto.ScreenOrientation
@@ -15,8 +16,7 @@ import com.shevelev.wizard_camera.utils.id.IdUtil
 import kotlinx.coroutines.withContext
 import org.threeten.bp.ZonedDateTime
 import timber.log.Timber
-import java.io.FileOutputStream
-import java.io.OutputStream
+import java.io.File
 import javax.inject.Inject
 
 class ImageCaptureImpl
@@ -28,70 +28,88 @@ constructor(
     private val mediaScanner: MediaScanner
 ) : ImageCapture {
 
-    override var inProgress: Boolean = false
-        private set
+    override val inProgress: Boolean
+        get() = targetFile != null
 
-    @Suppress("BlockingMethodInNonBlockingContext")
-    override suspend fun capture(textureView: TextureView, activeFilter: FilterCode, screenOrientation: ScreenOrientation): Boolean {
-//        inProgress = true
-//        try {
-//            val rawBitmap = textureView.bitmap
-//
-//            val bitmap = withContext(dispatchersProvider.calculationsDispatcher) {
-//                correctScreenOrientation(rawBitmap, screenOrientation)
-//            }
-//
-//            val outputFile = withContext(dispatchersProvider.ioDispatcher) {
-//                filesHelper.createFileForShot(activeFilter).also { outputFile ->
-//                    FileOutputStream(outputFile).use { outputStream ->
-//                        compressBitmap(bitmap, outputStream)
-//                        outputStream.flush()
-//                    }
-//                }
-//            }
-//
-//            val contentUri = mediaScanner.processNewShot(outputFile)
-//
-//            withContext(dispatchersProvider.ioDispatcher) {
-//                saveToDb(outputFile.name, activeFilter, contentUri)
-//            }
-//
-//            return true
-//        } catch (ex: Exception) {
-//            Timber.e(ex)
-//            return false
-//        } finally {
-//            inProgress = false
-//        }
-        return true
-    }
+    private var targetFile: File? = null
 
-    private fun compressBitmap(bitmap: Bitmap, outputStream: OutputStream) =
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 75, outputStream)
+    private var activeFilter: FilterCode? = null
 
-    private fun rotate(bitmap: Bitmap, degrees: Float): Bitmap {
-        val matrix = Matrix()
-        matrix.postRotate(degrees)
-        return Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
-    }
+    /**
+     * Starts capturing process
+     * @return target file for an image
+     */
+    override suspend fun startCapture(activeFilter: FilterCode, screenOrientation: ScreenOrientation): File? {
+        targetFile = try {
+            this.activeFilter = activeFilter
 
-    private fun convertScreenOrientationToDegrees(orientation: ScreenOrientation): Float =
-        when (orientation) {
-            ScreenOrientation.PORTRAIT -> 0f
-            ScreenOrientation.LANDSCAPE -> 270f
-            ScreenOrientation.REVERSED_LANDSCAPE -> 90f
-            ScreenOrientation.REVERSED_PORTRAIT -> 180f
+            withContext(dispatchersProvider.ioDispatcher) {
+                filesHelper.createFileForShot(activeFilter)
+            }
+        } catch (ex: Exception) {
+            Timber.e(ex)
+            null
         }
 
-    private fun correctScreenOrientation(bitmap: Bitmap, screenOrientation: ScreenOrientation): Bitmap {
-        val degrees = convertScreenOrientationToDegrees(screenOrientation)
-        return if (degrees != 0f) {
-            rotate(bitmap, degrees)
-        } else {
-            bitmap
+        return targetFile
+    }
+
+    override suspend fun captureCompleted() {
+        withContext(dispatchersProvider.ioDispatcher) {
+            targetFile?.let { targetFile ->
+                checkAndCorrectOrientation(targetFile)
+
+                val contentUri = mediaScanner.processNewShot(targetFile)
+
+                saveToDb(targetFile.name, activeFilter!!, contentUri)
+            }
+        }
+
+        targetFile = null
+    }
+
+    private fun checkAndCorrectOrientation(file: File) {
+        val exifOrientation = ExifInterface(file)
+            .getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED)
+
+        if(needToRotate(exifOrientation)) {
+            saveBitmapToFile(rotateBitmap(BitmapFactory.decodeFile(file.absolutePath), exifOrientation), file)
+        }
+    }
+
+    private fun needToRotate(exifOrientation: Int) =
+        exifOrientation == ExifInterface.ORIENTATION_ROTATE_90 ||
+            exifOrientation == ExifInterface.ORIENTATION_ROTATE_180 ||
+            exifOrientation == ExifInterface.ORIENTATION_ROTATE_270
+
+    private fun rotateBitmap(source: Bitmap, exifOrientation: Int): Bitmap {
+        val rotateAngle = when(exifOrientation) {
+            ExifInterface.ORIENTATION_ROTATE_90 -> 90
+            ExifInterface.ORIENTATION_ROTATE_180 ->180
+            ExifInterface.ORIENTATION_ROTATE_270 -> 270
+            else -> 0
+        }
+
+        if(rotateAngle == 0) {
+            return source
+        }
+
+        val matrix = Matrix()
+        matrix.postRotate(rotateAngle.toFloat())
+
+        return Bitmap.createBitmap(source, 0, 0, source.width, source.height, matrix, true)
+    }
+
+    private fun saveBitmapToFile(bitmap: Bitmap, targetFile: File) {
+        targetFile.outputStream().use { fileOut ->
+            bitmap.compress(Bitmap.CompressFormat.JPEG, DEFAULT_COMPRESS_RATE, fileOut)
         }
     }
 
     private fun saveToDb(fileName: String, filter: FilterCode, contentUri: Uri?) =
         photoShotRepository.create(PhotoShot(IdUtil.generateLongId(), fileName, ZonedDateTime.now(), filter, contentUri))
+
+    companion object {
+        private const val DEFAULT_COMPRESS_RATE = 75
+    }
 }

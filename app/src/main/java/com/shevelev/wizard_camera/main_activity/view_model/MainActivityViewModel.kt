@@ -1,10 +1,8 @@
 package com.shevelev.wizard_camera.main_activity.view_model
 
 import android.content.Context
-import android.graphics.PointF
-import android.util.SizeF
-import android.view.TextureView
 import android.view.View
+import androidx.annotation.MainThread
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.shevelev.wizard_camera.R
@@ -94,7 +92,7 @@ constructor(
         }
     }
 
-    fun onShootClick(textureView: TextureView) {
+    fun onCaptureClick() {
         launch {
             hideSettings()
 
@@ -103,11 +101,23 @@ constructor(
                 return@launch
             }
 
+            val filterCode = model.filters.displayFilter.code
             val screenOrientation = model.orientation.screenOrientation
-            val isSuccess = model.capture.capture(textureView, model.filters.displayFilter.code, screenOrientation)
+            val targetFile = model.capture.startCapture(filterCode, screenOrientation)
 
+            if(targetFile == null) {
+                ShowMessageResCommand(R.string.generalError)
+            } else {
+                _command.value = StartCaptureCommand(targetFile, isFlashActive)
+            }
+        }
+    }
+
+    fun onCaptureComplete(isSuccess: Boolean) {
+        launch {
             _command.value = if(isSuccess) {
-                ShowCapturingSuccessCommand(screenOrientation)
+                model.capture.captureCompleted()
+                ShowCapturingSuccessCommand(model.orientation.screenOrientation)
             } else {
                 ShowMessageResCommand(R.string.generalError)
             }
@@ -152,14 +162,19 @@ constructor(
         hideSettings()
 
         isFlashActive = !isFlashActive
-        _flashButtonState.value = if(isFlashActive)  ButtonState.SELECTED else ButtonState.ACTIVE
+        _flashButtonState.value = if(isFlashActive)  ButtonState.SELECTED else ButtonState.ENABLED
 
         val titleRes = if(isFlashActive) R.string.camera_flash_on else R.string.camera_flash_off
         _screenTitle.value = appContext.getString(titleRes)
     }
 
-    fun onCameraIsSetUp() {
-        _flashButtonState.value = if(isFlashActive)  ButtonState.SELECTED else ButtonState.ACTIVE
+    @MainThread
+    fun onCameraIsSetUp(isFlashSupported: Boolean) {
+        _flashButtonState.value = if(isFlashSupported) {
+            if(isFlashActive)  ButtonState.SELECTED else ButtonState.ENABLED
+        } else {
+            ButtonState.DISABLED
+        }
 
         _filterModeButtonState.value = FiltersModeButtonState(model.filters.filtersMode, false)
 

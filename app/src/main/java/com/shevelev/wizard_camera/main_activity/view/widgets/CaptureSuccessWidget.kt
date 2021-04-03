@@ -8,6 +8,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.main_activity.dto.ScreenOrientation
 import com.shevelev.wizard_camera.shared.animation.AnimationUtils
+import timber.log.Timber
 import kotlin.random.Random
 
 class CaptureSuccessWidget
@@ -25,12 +26,13 @@ constructor(
         R.drawable.img_smile_4, R.drawable.img_smile_5, R.drawable.img_smile_6)
 
     fun show(screenOrientation: ScreenOrientation) {
+        Timber. tag("CAPTURE").d("show()")
+
         rotation = convertScreenOrientationToDegrees(screenOrientation)
 
         animSet?.cancel()
 
         alpha = 0f
-        visibility = View.VISIBLE
 
         setImageResource(imageIds[Random.nextInt(0, imageIds.size)])
 
@@ -42,8 +44,7 @@ constructor(
         val hideAnimation = AnimationUtils.getFloatAnimator(
             forward = false,
             duration = duration,
-            updateListener = { alpha = it },
-            completeListener = { visibility = View.INVISIBLE }
+            updateListener = { alpha = it }
         ).apply { startDelay = duration }
 
         animSet = AnimatorSet()

@@ -1,7 +1,6 @@
 package com.shevelev.wizard_camera.main_activity.view.data_binding
 
 import android.widget.ImageButton
-import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LiveData
 import com.shevelev.wizard_camera.main_activity.dto.ButtonState
@@ -21,7 +20,7 @@ fun setButtonState(view: ImageButton, valueToBind: LiveData<ButtonState>?) =
                 view.isSelected = true
                 view.isEnabled = true
             }
-            ButtonState.ACTIVE -> {
+            ButtonState.ENABLED -> {
                 view.isSelected = false
                 view.isEnabled = true
             }

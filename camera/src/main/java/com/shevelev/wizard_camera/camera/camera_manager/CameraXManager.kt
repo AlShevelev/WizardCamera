@@ -1,12 +1,12 @@
 package com.shevelev.wizard_camera.camera.camera_manager
 
 import android.content.Context
-import android.graphics.PointF
 import android.graphics.SurfaceTexture
 import android.util.Range
-import android.util.SizeF
 import android.view.TextureView
 import androidx.camera.core.*
+import androidx.camera.core.ImageCapture.FLASH_MODE_OFF
+import androidx.camera.core.ImageCapture.FLASH_MODE_ON
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
@@ -14,6 +14,7 @@ import com.shevelev.wizard_camera.camera.camera_settings_repository.CameraSettin
 import com.shevelev.wizard_camera.utils.useful_ext.fitInRange
 import com.shevelev.wizard_camera.utils.useful_ext.reduceToRange
 import timber.log.Timber
+import java.io.File
 import java.util.*
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
@@ -28,6 +29,8 @@ class CameraXManager(private val cameraSettingsRepository: CameraSettingsReposit
     private var preview: Preview? = null
     private var imageCapture: ImageCapture? = null
 
+    val isFlashLightSupported: Boolean
+        get() = camera?.cameraInfo?.hasFlashUnit() ?: false
 
     /** Blocking camera operations are performed using this executor */
     private var cameraExecutor: ExecutorService? = null
@@ -37,7 +40,8 @@ class CameraXManager(private val cameraSettingsRepository: CameraSettingsReposit
         lifecycleOwner: LifecycleOwner,
         surface: SurfaceTexture,
         screenTexture: TextureView,
-        lensFacing: Int) {
+        lensFacing: Int,
+        cameraInitCompleted: () -> Unit) {
 
         // Initialize our background executor
         cameraExecutor = Executors.newSingleThreadExecutor()
@@ -49,7 +53,9 @@ class CameraXManager(private val cameraSettingsRepository: CameraSettingsReposit
             cameraProvider = cameraProviderFuture.get()
 
             // Build and bind the camera use cases
-            bindCameraUseCases(context, lifecycleOwner, surface, screenTexture, lensFacing)
+            bindCameraUseCases(lifecycleOwner, surface, screenTexture, lensFacing)
+
+            cameraInitCompleted()
         }, ContextCompat.getMainExecutor(context))
     }
 
@@ -89,51 +95,39 @@ class CameraXManager(private val cameraSettingsRepository: CameraSettingsReposit
         }
     }
 
-    fun capture(context: Context) {
-/*
-        // Get a stable reference of the modifiable image capture use case
+    /**
+     * Captures an image
+     * @param imageFile a file in which an image will be saved
+     * @param useFlashLight if the value is "true" a flash light will be used, otherwise not
+     * @param saveCompleted a callback which is called when a saving is completed (a value "true" is passed in case of success)
+     */
+    fun capture(imageFile: File, useFlashLight: Boolean, saveCompleted: (Boolean) -> Unit) {
         imageCapture?.let { imageCapture ->
-
-            val outputDirectory = context.MainActivity.getOutputDirectory(context)
-
-            // Create output file to hold the image
-            val photoFile = File(outputDirectory, "1.jpg")
-
-            // Setup image capture metadata
             val metadata = ImageCapture.Metadata().apply {
                 isReversedHorizontal = false
             }
 
-            // Create output options object which contains file + metadata
-            val outputOptions = ImageCapture.OutputFileOptions.Builder(photoFile)
+            val outputOptions = ImageCapture.OutputFileOptions.Builder(imageFile)
                 .setMetadata(metadata)
                 .build()
 
-            // Setup image capture listener which is triggered after photo has been taken
-            imageCapture.takePicture(
-                outputOptions, cameraExecutor!!, object : ImageCapture.OnImageSavedCallback {
+            imageCapture.flashMode = if(useFlashLight) FLASH_MODE_ON else FLASH_MODE_OFF
+
+            imageCapture.takePicture(outputOptions, cameraExecutor!!, object : ImageCapture.OnImageSavedCallback {
                 override fun onError(ex: ImageCaptureException) {
-                    ex.printStackTrace()
+                    Timber.e(ex)
+                    saveCompleted(false)
                 }
 
                 override fun onImageSaved(output: ImageCapture.OutputFileResults) {
-                    val savedUri = output.savedUri ?: Uri.fromFile(photoFile)
-
-                    // If the folder selected is an external media directory, this is
-                    // unnecessary but otherwise other apps will not be able to access our
-                    // images unless we scan them using [MediaScannerConnection]
-                    val mimeType = MimeTypeMap.getSingleton()
-                        .getMimeTypeFromExtension(savedUri.toFile().extension)
-                    MediaScannerConnection.scanFile(context, arrayOf(savedUri.toFile().absolutePath), arrayOf(mimeType)) { _, _ -> }
+                    saveCompleted(true)
                 }
             })
         }
-*/
     }
 
     /** Declare and bind preview, capture and analysis use cases */
     private fun bindCameraUseCases(
-        context: Context,
         lifecycleOwner: LifecycleOwner,
         cameraSurface: SurfaceTexture,
         screenTexture: TextureView,

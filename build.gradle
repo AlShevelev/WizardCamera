@@ -30,6 +30,8 @@ buildscript {
         view_pager_version = "1.0.0"
         constraintlayout_version = "2.0.4"
 
+        exif_version = "1.3.2"
+
         camerax_version = "1.0.0-rc04"
 
         gradle_version = '4.1.2'

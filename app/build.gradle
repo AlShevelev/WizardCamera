@@ -83,6 +83,8 @@ dependencies {
     implementation "org.permissionsdispatcher:permissionsdispatcher:$permissionsdispatcher_version"
     kapt "org.permissionsdispatcher:permissionsdispatcher-processor:$permissionsdispatcher_version"
 
+    implementation "androidx.exifinterface:exifinterface:$exif_version"
+
     implementation "com.google.dagger:dagger:$dagger_version"
     kapt "com.google.dagger:dagger-compiler:$dagger_version"
     kapt "com.google.dagger:dagger-android-processor:$dagger_version"

@@ -16,8 +16,7 @@ constructor(
     private val imageCapture: Lazy<ImageCapture>,
     override val orientation: OrientationManager,
     override val cameraSettings: CameraSettingsRepository
-) : ModelBaseImpl(),
-    MainActivityModel {
+) : ModelBaseImpl(), MainActivityModel {
 
     override val capture: ImageCapture
         get() = imageCapture.get()

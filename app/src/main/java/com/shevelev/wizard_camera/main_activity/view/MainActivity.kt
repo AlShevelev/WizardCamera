@@ -65,7 +65,7 @@ class MainActivity : ActivityBaseMVVM<ActivityMainBinding, MainActivityViewModel
         viewModel.allFiltersListData.observe(this, { binding.allFiltersCarousel.setStartData(it, viewModel) })
         viewModel.favoriteFiltersListData.observe(this, { binding.favoritesFiltersCarousel.setStartData(it, viewModel) })
 //
-//        binding.shootButton.setOnClickListener { textureView?.let { viewModel.onShootClick(it) } }
+        binding.shootButton.setOnClickListener { textureView.let { viewModel.onCaptureClick() } }
         binding.flashButton.setOnClickListener { viewModel.onFlashClick() }
         binding.filtersModeButton.setOnModeChangeListener { viewModel.onSwitchFilterModeClick(it) }
         binding.expositionBar.setOnValueChangeListener { viewModel.onExposeValueUpdated(it) }
@@ -107,7 +107,7 @@ class MainActivity : ActivityBaseMVVM<ActivityMainBinding, MainActivityViewModel
         when(command) {
 //            is SetupCameraCommand -> setupCameraWithPermissionCheck()
 //            is ReleaseCameraCommand -> releaseCamera()
-//            is ShowCapturingSuccessCommand -> binding.captureSuccess.show(command.screenOrientation)
+            is ShowCapturingSuccessCommand -> binding.captureSuccess.show(command.screenOrientation)
             is ZoomCommand -> cameraManager.zoom(command.scaleFactor).let { viewModel.onZoomUpdated(it) }
             is ResetExposureCommand -> binding.expositionBar.reset()
             is SetExposureCommand -> cameraManager.updateExposure(command.exposureValue)
@@ -117,7 +117,12 @@ class MainActivity : ActivityBaseMVVM<ActivityMainBinding, MainActivityViewModel
                 binding.settings.hide()
                 binding.settings.show(command.settings)
             }
+
             is HideFilterSettingsCommand -> binding.settings.hide()
+
+            is StartCaptureCommand -> cameraManager.capture(command.targetFile, command.isFlashLightActive) { isSuccess ->
+                viewModel.onCaptureComplete(isSuccess)
+            }
         }
     }
 
@@ -218,11 +223,12 @@ class MainActivity : ActivityBaseMVVM<ActivityMainBinding, MainActivityViewModel
 
             it.setFilter(viewModel.selectedFilter.value!!)
 
-
             cameraManager = CameraXManager(cameraSettingsRepository)
-            cameraManager.initCamera(this, this, it.cameraSurfaceTexture, textureView, CameraSelector.LENS_FACING_BACK)
-
-            viewModel.onCameraIsSetUp()
+            cameraManager.initCamera(this, this, it.cameraSurfaceTexture, textureView, CameraSelector.LENS_FACING_BACK) {
+                binding.root.post {
+                    viewModel.onCameraIsSetUp(cameraManager.isFlashLightSupported)
+                }
+            }
         }
     }
 
