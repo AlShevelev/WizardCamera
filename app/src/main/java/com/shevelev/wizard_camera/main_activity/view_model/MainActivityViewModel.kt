@@ -19,6 +19,7 @@ import com.shevelev.wizard_camera.utils.useful_ext.format
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@SuppressLint("StaticFieldLeak")
 class MainActivityViewModel
 @Inject
 constructor(
@@ -62,8 +63,7 @@ constructor(
     private var isAllFiltersWereVisible = false
     private var isFavoriteFiltersWereVisible = false
 
-    var isFlashActive: Boolean = false
-        private set
+    private var isFlashActive: Boolean = false
 
     private var exiting = false
 
@@ -119,14 +119,7 @@ constructor(
     }
 
     fun onInactive() {
-//        isActive = false
-
-//        model.orientation.stop()
-
-//        isAutoFocus = true
-//        _autoFocusButtonVisibility.value = View.INVISIBLE
         _command.value = ResetExposureCommand()
-//        _command.value = ReleaseCameraCommand()
 
         hideSettings()
     }

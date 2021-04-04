@@ -64,26 +64,21 @@ class MainActivity : ActivityBaseMVVM<ActivityMainBinding, MainActivityViewModel
         viewModel.selectedFilter.observe(this, { renderer?.setFilter(it) })
         viewModel.allFiltersListData.observe(this, { binding.allFiltersCarousel.setStartData(it, viewModel) })
         viewModel.favoriteFiltersListData.observe(this, { binding.favoritesFiltersCarousel.setStartData(it, viewModel) })
-//
+
         binding.shootButton.setOnClickListener { textureView.let { viewModel.onCaptureClick() } }
         binding.flashButton.setOnClickListener { viewModel.onFlashClick() }
         binding.filtersModeButton.setOnModeChangeListener { viewModel.onSwitchFilterModeClick(it) }
         binding.expositionBar.setOnValueChangeListener { viewModel.onExposeValueUpdated(it) }
-//        binding.galleryButton.setOnClickListener { viewModel.onGalleyClick() }
-//
+        binding.galleryButton.setOnClickListener { viewModel.onGalleyClick() }
+
         binding.allFiltersCarousel.setOnItemSelectedListener { viewModel.onFilterSelected(it) }
         binding.favoritesFiltersCarousel.setOnItemSelectedListener { viewModel.onFavoriteFilterSelected(it) }
 
         binding.settings.setOnSettingsChangeListener { viewModel.onFilterSettingsChange(it) }
 
-//        binding.root.layoutTransition.setDuration(resources.getInteger(android.R.integer.config_shortAnimTime).toLong())
+        binding.root.layoutTransition.setDuration(resources.getInteger(android.R.integer.config_shortAnimTime).toLong())
 
         setupCameraWithPermissionCheck()
-    }
-
-    override fun onResume() {
-        super.onResume()
-//        viewModel.onActive()
     }
 
     override fun onPause() {
@@ -105,14 +100,11 @@ class MainActivity : ActivityBaseMVVM<ActivityMainBinding, MainActivityViewModel
 
     override fun processViewCommand(command: ViewCommand) {
         when(command) {
-//            is SetupCameraCommand -> setupCameraWithPermissionCheck()
-//            is ReleaseCameraCommand -> releaseCamera()
             is ShowCapturingSuccessCommand -> binding.captureSuccess.show(command.screenOrientation)
             is ZoomCommand -> cameraManager.zoom(command.scaleFactor).let { viewModel.onZoomUpdated(it) }
             is ResetExposureCommand -> binding.expositionBar.reset()
             is SetExposureCommand -> cameraManager.updateExposure(command.exposureValue)
-//            is NavigateToGalleryCommand -> navigateToGallery()
-//            is ExitCommand -> exit(command.messageResId)
+            is NavigateToGalleryCommand -> navigateToGallery()
             is ShowFilterSettingsCommand -> {
                 binding.settings.hide()
                 binding.settings.show(command.settings)
@@ -151,10 +143,6 @@ class MainActivity : ActivityBaseMVVM<ActivityMainBinding, MainActivityViewModel
     @SuppressLint("ClickableViewAccessibility")
     @NeedsPermission(Manifest.permission.CAMERA)
     internal fun setupCamera() {
-//        if(!viewModel.isActive) {
-//            return
-//        }
-
         textureView = TextureView(this).also {
             binding.textureContainer.addView(it)
             it.surfaceTextureListener = this
@@ -164,42 +152,10 @@ class MainActivity : ActivityBaseMVVM<ActivityMainBinding, MainActivityViewModel
                 true
             }
         }
-
-//        renderer = CameraRenderer(
-//            this,
-//            viewModel.isFlashActive,
-//            viewModel.isAutoFocus,
-//            viewModel.cameraSettings,
-//            { viewModel.onCameraIsSetUp() }).also {
-//                textureView = TextureView(this)
-//                binding.root.addView(textureView, 0)
-//                textureView!!.surfaceTextureListener = it
-//
-//                with(viewModel.cameraSettings.screenTextureSize) {
-//                    textureView!!.layoutParams = ConstraintLayout.LayoutParams(width, height)
-//                }
-//
-//                textureView!!.setOnTouchListener { view, event ->
-//                    gestureDetector.onTouchEvent(view, event)
-//                    true
-//                }
-//                it.setSelectedFilter(viewModel.selectedFilter.value!!)
-//        }
     }
 
     @OnPermissionDenied(Manifest.permission.CAMERA)
     internal fun onCameraPermissionsDenied() = viewModel.onPermissionDenied()
-
-    @SuppressLint("ClickableViewAccessibility")
-    private fun releaseCamera() {
-//        binding.root.removeView(textureView)
-//        renderer = null
-//
-//        textureView?.setOnTouchListener(null)
-//        textureView?.addOnLayoutChangeListener(null)
-//
-//        textureView = null
-    }
 
     private fun startRendering(surface: SurfaceTexture, width: Int, height: Int) {
         if(renderer != null) {
@@ -208,18 +164,6 @@ class MainActivity : ActivityBaseMVVM<ActivityMainBinding, MainActivityViewModel
 
         renderer = GLRenderer(-width, -height, FiltersFactory(this.applicationContext)).also {
             it.initGL(surface)
-
-//            val filtersFactory = FiltersFactory(this)
-//            val selectedFilterSettings = viewModel.selectedFilter.value!!
-//            val selectedFilter = filtersFactory.getFilter(selectedFilterSettings.code)
-//            selectedFilter.onAttach(selectedFilterSettings)
-//
-//            it.setFilter(selectedFilter)
-
-//            val filtersFactory = FiltersFactory(this)
-//            val selectedFilterSettings = viewModel.selectedFilter.value!!
-//            val selectedFilter = filtersFactory.getFilter(selectedFilterSettings.code)
-//            selectedFilter.onAttach(selectedFilterSettings)
 
             it.setFilter(viewModel.selectedFilter.value!!)
 
@@ -248,11 +192,5 @@ class MainActivity : ActivityBaseMVVM<ActivityMainBinding, MainActivityViewModel
     private fun navigateToGallery() {
         val galleryIntent = Intent(this, GalleryActivity::class.java)
         startActivity(galleryIntent)
-    }
-
-    private fun exit(@StringRes messageResId: Int) {
-        OkDialog.show(supportFragmentManager, messageResId) {
-            exitProcess(0)
-        }
     }
 }
