@@ -1,12 +1,12 @@
 package com.shevelev.wizard_camera.main_activity.view_model
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.View
 import androidx.annotation.MainThread
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.shevelev.wizard_camera.R
-import com.shevelev.wizard_camera.camera.camera_settings_repository.CameraSettingsRepository
 import com.shevelev.wizard_camera.common_entities.enums.FilterCode
 import com.shevelev.wizard_camera.common_entities.filter_settings.FilterSettings
 import com.shevelev.wizard_camera.main_activity.dto.*
@@ -65,13 +65,7 @@ constructor(
     var isFlashActive: Boolean = false
         private set
 
-//    var isActive: Boolean = false
-//        private set
-
     private var exiting = false
-
-    val cameraSettings: CameraSettingsRepository
-        get() = model.cameraSettings
 
     init {
         launch {
@@ -122,27 +116,6 @@ constructor(
                 ShowMessageResCommand(R.string.generalError)
             }
         }
-    }
-
-    fun onActive() {
-        if(exiting) {
-            return
-        }
-
-//        isActive = true
-
-//        if(!model.cameraSettings.canUseCamera) {
-//            _command.value = ExitCommand(R.string.camera_2_warning)
-//        } else {
-            _flashButtonState.value = ButtonState.DISABLED
-            _filterModeButtonState.value = _filterModeButtonState.value!!.copy(isDisabled = true)
-            _isShotButtonEnabled.value = false
-            _allFiltersVisibility.value = View.INVISIBLE
-
-            model.orientation.start()
-
-            _command.value = SetupCameraCommand()
-//        }
     }
 
     fun onInactive() {

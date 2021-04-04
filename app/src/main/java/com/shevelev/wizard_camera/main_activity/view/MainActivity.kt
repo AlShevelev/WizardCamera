@@ -10,7 +10,7 @@ import androidx.annotation.StringRes
 import androidx.camera.core.CameraSelector
 import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.application.App
-import com.shevelev.wizard_camera.camera.camera_manager.CameraXManager
+import com.shevelev.wizard_camera.camera.camera_manager.CameraManager
 import com.shevelev.wizard_camera.camera.camera_renderer.GLRenderer
 import com.shevelev.wizard_camera.camera.camera_settings_repository.CameraSettingsRepository
 import com.shevelev.wizard_camera.camera.filter.CameraFilter
@@ -37,7 +37,7 @@ class MainActivity : ActivityBaseMVVM<ActivityMainBinding, MainActivityViewModel
 
     private var renderer: GLRenderer? = null
 
-    private lateinit var cameraManager: CameraXManager
+    private lateinit var cameraManager: CameraManager
 
     private lateinit var gestureDetector: GesturesDetector
 
@@ -223,7 +223,7 @@ class MainActivity : ActivityBaseMVVM<ActivityMainBinding, MainActivityViewModel
 
             it.setFilter(viewModel.selectedFilter.value!!)
 
-            cameraManager = CameraXManager(cameraSettingsRepository)
+            cameraManager = CameraManager(cameraSettingsRepository)
             cameraManager.initCamera(this, this, it.cameraSurfaceTexture, textureView, CameraSelector.LENS_FACING_BACK) {
                 binding.root.post {
                     viewModel.onCameraIsSetUp(cameraManager.isFlashLightSupported)
