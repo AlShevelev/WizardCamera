@@ -21,9 +21,9 @@ class GalleryActivity : ActivityBaseMVVM<ActivityGalleryBinding, GalleryActivity
 
     override fun layoutResId(): Int = R.layout.activity_gallery
 
-    override fun inject(key: String) = App.injections.get<GalleryActivityComponent>(key).inject(this)
+    override fun inject() = App.injections.get<GalleryActivityComponent>().inject(this)
 
-    override fun releaseInjection(key: String) = App.injections.release<GalleryActivityComponent>(key)
+    override fun releaseInjection() = App.injections.release<GalleryActivityComponent>()
 
     override fun linkViewModel(binding: ActivityGalleryBinding, viewModel: GalleryActivityViewModel) {
         binding.viewModel = viewModel

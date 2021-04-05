@@ -34,11 +34,11 @@ class GalleryPageFragment : FragmentBase() {
 
     private var glideCancel: GlideTarget? = null
 
-    override fun inject(key: String) = App.injections.get<GalleryPageFragmentComponent>(key).inject(this)
+    override fun inject() = App.injections.get<GalleryPageFragmentComponent>().inject(this)
 
-    override fun releaseInjection(key: String) = App.injections.release<GalleryPageFragmentComponent>(key)
+    override fun releaseInjection() = App.injections.release<GalleryPageFragmentComponent>()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentGalleryPageBinding.inflate(inflater, container, false)
         return binding.root
     }

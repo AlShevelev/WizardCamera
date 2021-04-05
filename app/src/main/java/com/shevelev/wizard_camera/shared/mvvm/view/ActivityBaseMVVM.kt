@@ -5,7 +5,6 @@ import android.widget.Toast
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.shevelev.wizard_camera.shared.mvvm.model.ModelBase
 import com.shevelev.wizard_camera.shared.mvvm.view_commands.ShowMessageResCommand
@@ -42,7 +41,7 @@ abstract class ActivityBaseMVVM<VDB : ViewDataBinding, VM : ViewModelBase<out Mo
         _viewModel = viewModel
         linkViewModel(binding, _viewModel)
 
-        _viewModel.command.observe(this, Observer { processViewCommandGeneral(it) })
+        _viewModel.command.observe(this, { processViewCommandGeneral(it) })
     }
 
     abstract fun provideViewModelType(): Class<VM>

@@ -6,7 +6,6 @@ import android.content.Intent
 import android.graphics.SurfaceTexture
 import android.os.Bundle
 import android.view.TextureView
-import androidx.annotation.StringRes
 import androidx.camera.core.CameraSelector
 import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.application.App
@@ -21,7 +20,6 @@ import com.shevelev.wizard_camera.main_activity.di.MainActivityComponent
 import com.shevelev.wizard_camera.main_activity.dto.*
 import com.shevelev.wizard_camera.main_activity.view.gestures.GesturesDetector
 import com.shevelev.wizard_camera.main_activity.view_model.MainActivityViewModel
-import com.shevelev.wizard_camera.shared.dialogs.OkDialog
 import com.shevelev.wizard_camera.shared.mvvm.view.ActivityBaseMVVM
 import com.shevelev.wizard_camera.shared.mvvm.view_commands.ViewCommand
 import com.shevelev.wizard_camera.shared.ui_utils.hideSystemUI
@@ -29,7 +27,6 @@ import permissions.dispatcher.NeedsPermission
 import permissions.dispatcher.OnPermissionDenied
 import permissions.dispatcher.RuntimePermissions
 import javax.inject.Inject
-import kotlin.system.exitProcess
 
 @RuntimePermissions
 class MainActivity : ActivityBaseMVVM<ActivityMainBinding, MainActivityViewModel>(), TextureView.SurfaceTextureListener {
@@ -48,9 +45,9 @@ class MainActivity : ActivityBaseMVVM<ActivityMainBinding, MainActivityViewModel
 
     override fun layoutResId(): Int = R.layout.activity_main
 
-    override fun inject(key: String) = App.injections.get<MainActivityComponent>(key).inject(this)
+    override fun inject() = App.injections.get<MainActivityComponent>().inject(this)
 
-    override fun releaseInjection(key: String) = App.injections.release<MainActivityComponent>(key)
+    override fun releaseInjection() = App.injections.release<MainActivityComponent>()
 
     override fun linkViewModel(binding: ActivityMainBinding, viewModel: MainActivityViewModel) {
         binding.viewModel = viewModel

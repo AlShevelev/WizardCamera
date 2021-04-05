@@ -6,19 +6,12 @@ import androidx.fragment.app.Fragment
 import com.shevelev.wizard_camera.utils.id.IdUtil
 
 abstract class FragmentBase: Fragment() {
-    companion object {
-        private const val INJECTION_KEY = "INJECTION_KEY"
-    }
-
-    private lateinit var injectionKey: String
-
     protected open val isBackHandlerEnabled = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        injectionKey = savedInstanceState?.getString(INJECTION_KEY) ?: IdUtil.generateStringId()
-        inject(injectionKey)
+        inject()
 
         if(isBackHandlerEnabled) {
             requireActivity().onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(isBackHandlerEnabled) {
@@ -29,21 +22,17 @@ abstract class FragmentBase: Fragment() {
         }
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        outState.putString(INJECTION_KEY, injectionKey)
-    }
-
     override fun onDestroy() {
         super.onDestroy()
 
         if(isRemoving) {
-            releaseInjection(injectionKey)
+            releaseInjection()
         }
     }
 
-    protected open fun inject(key: String) {}
+    protected open fun inject() {}
 
-    protected open fun releaseInjection(key: String) {}
+    protected open fun releaseInjection() {}
 
     protected open fun onBackPressed() { }
 }
