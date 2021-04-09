@@ -6,7 +6,8 @@ import com.shevelev.wizard_camera.application.di.AppModule
 import com.shevelev.wizard_camera.application.di.DaggerAppComponent
 import com.shevelev.wizard_camera.gallery_activity.di.GalleryActivityComponent
 import com.shevelev.wizard_camera.gallery_page.di.GalleryPageFragmentComponent
-import com.shevelev.wizard_camera.main_activity.di.MainActivityComponent
+import com.shevelev.wizard_camera.activity_main.di.MainActivityComponent
+import com.shevelev.wizard_camera.activity_main.fragment_camera.di.CameraFragmentComponent
 import kotlin.reflect.KClass
 
 /** Storage for Dagger components on application level  */
@@ -41,6 +42,8 @@ class DependencyInjectionStorage(private val app: Application) {
             AppComponent::class -> DaggerAppComponent.builder().appModule(AppModule(app)).build()
 
             MainActivityComponent::class -> get<AppComponent>().mainActivity.build()
+
+            CameraFragmentComponent::class -> get<MainActivityComponent>().cameraFragment.build()
 
             GalleryActivityComponent::class -> get<AppComponent>().galleryActivity.build()
             GalleryPageFragmentComponent::class -> get<GalleryActivityComponent>().galleryPageFragment.build()

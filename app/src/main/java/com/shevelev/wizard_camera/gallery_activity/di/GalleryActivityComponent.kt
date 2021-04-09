@@ -5,7 +5,7 @@ import com.shevelev.wizard_camera.gallery_activity.view.GalleryActivity
 import com.shevelev.wizard_camera.gallery_page.di.GalleryPageFragmentComponent
 import dagger.Subcomponent
 
-@Subcomponent(modules = [GalleryActivityModuleBinds::class, GalleryActivityModuleChilds::class])
+@Subcomponent(modules = [GalleryActivityModule::class, GalleryActivityModuleChilds::class])
 @ActivityScope
 interface GalleryActivityComponent {
     @Subcomponent.Builder

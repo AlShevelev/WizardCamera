@@ -6,8 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.shared.coroutines.DispatchersProvider
-import com.shevelev.wizard_camera.shared.mvvm.model.ModelBase
-import com.shevelev.wizard_camera.shared.mvvm.model.ModelBaseImpl
+import com.shevelev.wizard_camera.shared.mvvm.model.InteractorBase
 import com.shevelev.wizard_camera.shared.mvvm.view_commands.ShowMessageResCommand
 import com.shevelev.wizard_camera.shared.mvvm.view_commands.ViewCommand
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -17,19 +16,16 @@ import kotlinx.coroutines.SupervisorJob
 import timber.log.Timber
 import kotlin.coroutines.CoroutineContext
 
-abstract class ViewModelBase<TModel: ModelBase>
+abstract class ViewModelBase<TInteractor: InteractorBase>
 constructor(
     dispatchersProvider: DispatchersProvider,
-    _model: TModel? = null
+    protected val interactor: TInteractor
 ) : ViewModel(), CoroutineScope {
     private val scopeJob: Job = SupervisorJob()
 
     private val errorHandler = CoroutineExceptionHandler { _, exception ->
         handleError(exception)
     }
-
-    @Suppress("UNCHECKED_CAST")
-    protected val model: TModel = _model ?: ModelBaseImpl() as TModel
 
     /**
      * Context of this scope.

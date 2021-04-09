@@ -6,7 +6,7 @@ import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.ViewModelProviders
-import com.shevelev.wizard_camera.shared.mvvm.model.ModelBase
+import com.shevelev.wizard_camera.shared.mvvm.model.InteractorBase
 import com.shevelev.wizard_camera.shared.mvvm.view_commands.ShowMessageResCommand
 import com.shevelev.wizard_camera.shared.mvvm.view_commands.ViewCommand
 import com.shevelev.wizard_camera.shared.mvvm.view_model.ActivityViewModelFactory
@@ -18,7 +18,7 @@ import javax.inject.Inject
 /**
  * Base class for all activities
  */
-abstract class ActivityBaseMVVM<VDB : ViewDataBinding, VM : ViewModelBase<out ModelBase>> : ActivityBase() {
+abstract class ActivityBaseMVVM<VDB : ViewDataBinding, VM : ViewModelBase<out InteractorBase>> : ActivityBase() {
     protected lateinit var binding: VDB
 
     private lateinit var _viewModel: VM

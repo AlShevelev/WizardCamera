@@ -40,7 +40,6 @@ class CameraManager(private val cameraSettingsRepository: CameraSettingsReposito
         lifecycleOwner: LifecycleOwner,
         surface: SurfaceTexture,
         screenTexture: TextureView,
-        lensFacing: Int,
         cameraInitCompleted: () -> Unit) {
 
         // Initialize our background executor
@@ -53,7 +52,7 @@ class CameraManager(private val cameraSettingsRepository: CameraSettingsReposito
             cameraProvider = cameraProviderFuture.get()
 
             // Build and bind the camera use cases
-            bindCameraUseCases(lifecycleOwner, surface, screenTexture, lensFacing)
+            bindCameraUseCases(lifecycleOwner, surface, screenTexture, CameraSelector.LENS_FACING_BACK)
 
             cameraInitCompleted()
         }, ContextCompat.getMainExecutor(context))

@@ -17,17 +17,13 @@ import com.shevelev.wizard_camera.shared.mvvm.view.FragmentBase
 import com.shevelev.wizard_camera.utils.useful_ext.ifNotNull
 import javax.inject.Inject
 
-class GalleryPageFragment : FragmentBase() {
+class GalleryPageFragment : FragmentBase<FragmentGalleryPageBinding>() {
     companion object {
         private const val ARG_PHOTO = "PHOTO"
 
         fun newInstance(item: PhotoShot): GalleryPageFragment =
             GalleryPageFragment().apply { arguments = Bundle().apply { putParcelable(ARG_PHOTO, item) } }
     }
-
-    private var _binding: FragmentGalleryPageBinding? = null
-    private val binding: FragmentGalleryPageBinding
-        get() = _binding!!
 
     @Inject
     internal lateinit var filesHelper: FilesHelper
@@ -37,11 +33,6 @@ class GalleryPageFragment : FragmentBase() {
     override fun inject() = App.injections.get<GalleryPageFragmentComponent>().inject(this)
 
     override fun releaseInjection() = App.injections.release<GalleryPageFragmentComponent>()
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        _binding = FragmentGalleryPageBinding.inflate(inflater, container, false)
-        return binding.root
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val photo = arguments!!.getParcelable<PhotoShot>(ARG_PHOTO)!!
@@ -54,7 +45,8 @@ class GalleryPageFragment : FragmentBase() {
         ifNotNull(glideCancel, context) { glideCancel, context ->
             glideCancel.clear(context)
         }
-
-        _binding = null
     }
+
+    override fun createBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentGalleryPageBinding =
+        FragmentGalleryPageBinding.inflate(inflater, container, false)
 }

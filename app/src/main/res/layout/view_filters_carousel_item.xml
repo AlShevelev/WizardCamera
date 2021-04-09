@@ -27,7 +27,7 @@
         android:layout_gravity="center"
         />
 
-    <com.shevelev.wizard_camera.main_activity.view.widgets.pulse_image_button.PulseImageButton
+    <com.shevelev.wizard_camera.activity_main.fragment_camera.view.widgets.pulse_image_button.PulseImageButton
         android:id="@+id/favoriteButton"
 
         android:layout_width="@dimen/mainFilterCarouselSettingsButton"
@@ -41,7 +41,7 @@
         app:pulse_button_inactive_icon="@drawable/ic_favorite_unselected"
     />
 
-    <com.shevelev.wizard_camera.main_activity.view.widgets.pulse_image_button.PulseImageButtonStateless
+    <com.shevelev.wizard_camera.activity_main.fragment_camera.view.widgets.pulse_image_button.PulseImageButtonStateless
         android:id="@+id/settingsButton"
         android:layout_width="@dimen/mainFilterCarouselSettingsButton"
         android:layout_height="@dimen/mainFilterCarouselSettingsButton"

@@ -7,11 +7,10 @@ import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.common_entities.entities.PhotoShot
 import com.shevelev.wizard_camera.gallery_activity.dto.ShareShotCommand
 import com.shevelev.wizard_camera.gallery_activity.dto.ShotsLoadingResult
-import com.shevelev.wizard_camera.gallery_activity.model.GalleryActivityModel
+import com.shevelev.wizard_camera.gallery_activity.model.GalleryActivityInteractor
 import com.shevelev.wizard_camera.shared.coroutines.DispatchersProvider
 import com.shevelev.wizard_camera.shared.mvvm.view_commands.ShowMessageResCommand
 import com.shevelev.wizard_camera.shared.mvvm.view_model.ViewModelBase
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.threeten.bp.format.DateTimeFormatter
 import org.threeten.bp.format.FormatStyle
@@ -22,14 +21,14 @@ class GalleryActivityViewModel
 @Inject
 constructor(
     dispatchersProvider: DispatchersProvider,
-    model: GalleryActivityModel
-) : ViewModelBase<GalleryActivityModel>(dispatchersProvider, model),
+    interactor: GalleryActivityInteractor
+) : ViewModelBase<GalleryActivityInteractor>(dispatchersProvider, interactor),
     GalleryPagingActions {
 
     private val _photos = MutableLiveData<List<PhotoShot>>()
     val photos: LiveData<List<PhotoShot>> = _photos
 
-    val pageSize: Int = model.pageSize
+    val pageSize: Int = interactor.pageSize
 
     private val _isShareButtonVisible = MutableLiveData(View.INVISIBLE)
     val isShareButtonVisible: LiveData<Int> = _isShareButtonVisible
@@ -45,7 +44,7 @@ constructor(
 
     init {
         launch {
-            model.loadingResult.collect {
+            interactor.loadingResult.collect {
                 when(it) {
                     is ShotsLoadingResult.PreLoading -> {
                         _isNoDataStubVisible.value = View.INVISIBLE
@@ -64,7 +63,7 @@ constructor(
         }
 
         launch {
-            model.setUp()
+            interactor.setUp()
             loadPage()
         }
     }
@@ -72,7 +71,7 @@ constructor(
     override fun loadPage() {
         launch {
             try {
-                model.loadPage()
+                interactor.loadPage()
             } catch(ex: Exception) {
                 _command.value = ShowMessageResCommand(R.string.generalError)
             }
@@ -82,7 +81,7 @@ constructor(
     fun deleteShot(position: Int) {
         launch {
             try {
-                model.delete(position)
+                interactor.delete(position)
             } catch(ex: Exception) {
                 _command.value = ShowMessageResCommand(R.string.generalError)
             }
@@ -90,11 +89,11 @@ constructor(
     }
 
     fun shareShot(position: Int) {
-        _command.value = ShareShotCommand(model.getShot(position))
+        _command.value = ShareShotCommand(interactor.getShot(position))
     }
 
     fun onShotSelected(position: Int) {
-        val shot = model.getShot(position)
+        val shot = interactor.getShot(position)
 
         _shotDateTime.value = shot.created.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT))
         _isShareButtonVisible.value = shot.contentUri?.let { View.VISIBLE } ?: View.INVISIBLE
@@ -102,6 +101,6 @@ constructor(
 
     override fun onCleared() {
         super.onCleared()
-        model.clear()
+        interactor.clear()
     }
 }
