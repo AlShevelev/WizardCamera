@@ -86,6 +86,11 @@ class CameraFragment : FragmentBaseMVVM<FragmentCameraBinding, CameraFragmentVie
         setupCameraWithPermissionCheck()
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.onActive()
+    }
+
     override fun onPause() {
         super.onPause()
         viewModel.onInactive()

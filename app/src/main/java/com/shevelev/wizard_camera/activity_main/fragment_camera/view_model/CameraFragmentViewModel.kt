@@ -118,7 +118,13 @@ constructor(
         }
     }
 
+    fun onActive() {
+        interactor.orientation.start()
+    }
+
     fun onInactive() {
+        interactor.orientation.stop()
+
         _command.value = ResetExposureCommand()
 
         hideSettings()
