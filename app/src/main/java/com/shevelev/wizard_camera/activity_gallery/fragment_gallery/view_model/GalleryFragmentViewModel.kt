@@ -1,13 +1,13 @@
-package com.shevelev.wizard_camera.gallery_activity.view_model
+package com.shevelev.wizard_camera.activity_gallery.fragment_gallery.view_model
 
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.common_entities.entities.PhotoShot
-import com.shevelev.wizard_camera.gallery_activity.dto.ShareShotCommand
-import com.shevelev.wizard_camera.gallery_activity.dto.ShotsLoadingResult
-import com.shevelev.wizard_camera.gallery_activity.model.GalleryActivityInteractor
+import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.model.dto.ShareShotCommand
+import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.model.dto.ShotsLoadingResult
+import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.model.GalleryFragmentInteractor
 import com.shevelev.wizard_camera.shared.coroutines.DispatchersProvider
 import com.shevelev.wizard_camera.shared.mvvm.view_commands.ShowMessageResCommand
 import com.shevelev.wizard_camera.shared.mvvm.view_model.ViewModelBase
@@ -17,12 +17,12 @@ import org.threeten.bp.format.FormatStyle
 import javax.inject.Inject
 import kotlinx.coroutines.flow.collect
 
-class GalleryActivityViewModel
+class GalleryFragmentViewModel
 @Inject
 constructor(
     dispatchersProvider: DispatchersProvider,
-    interactor: GalleryActivityInteractor
-) : ViewModelBase<GalleryActivityInteractor>(dispatchersProvider, interactor),
+    interactor: GalleryFragmentInteractor
+) : ViewModelBase<GalleryFragmentInteractor>(dispatchersProvider, interactor),
     GalleryPagingActions {
 
     private val _photos = MutableLiveData<List<PhotoShot>>()

@@ -1,11 +1,11 @@
-package com.shevelev.wizard_camera.gallery_activity.model
+package com.shevelev.wizard_camera.activity_gallery.fragment_gallery.model
 
 import com.shevelev.wizard_camera.common_entities.entities.PhotoShot
-import com.shevelev.wizard_camera.gallery_activity.dto.ShotsLoadingResult
+import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.model.dto.ShotsLoadingResult
 import com.shevelev.wizard_camera.shared.mvvm.model.InteractorBase
 import kotlinx.coroutines.flow.Flow
 
-interface GalleryActivityInteractor : InteractorBase {
+interface GalleryFragmentInteractor : InteractorBase {
     val loadingResult: Flow<ShotsLoadingResult>
 
     val pageSize: Int

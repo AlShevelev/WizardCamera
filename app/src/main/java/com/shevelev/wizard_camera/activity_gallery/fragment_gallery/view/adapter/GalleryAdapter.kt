@@ -1,19 +1,18 @@
-package com.shevelev.wizard_camera.gallery_activity.view.adapter
+package com.shevelev.wizard_camera.activity_gallery.fragment_gallery.view.adapter
 
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView.NO_ID
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.view_model.GalleryPagingActions
+import com.shevelev.wizard_camera.activity_gallery.fragment_gallery_page.GalleryPageFragment
 import com.shevelev.wizard_camera.common_entities.entities.PhotoShot
-import com.shevelev.wizard_camera.gallery_activity.view_model.GalleryPagingActions
-import com.shevelev.wizard_camera.gallery_page.GalleryPageFragment
 
 class GalleryAdapter(
-    activity: FragmentActivity,
+    fragment: Fragment,
     private val pageSize: Int,
     private val galleryPaging: GalleryPagingActions
-) : FragmentStateAdapter(activity) {
+) : FragmentStateAdapter(fragment) {
     private var items = listOf<PhotoShot>()
 
     fun updateItems(newItems: List<PhotoShot>) {

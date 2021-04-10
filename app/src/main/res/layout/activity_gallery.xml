@@ -1,128 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="activity_main.MainActivity">
 
-    <data>
-        <variable name="viewModel" type="com.shevelev.wizard_camera.gallery_activity.view_model.GalleryActivityViewModel" />
-    </data>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/setupNavHostFragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".gallery_activity.view.GalleryActivity">
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/gallery_activity_navigation" />
 
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/galleryPager"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0"
-
-            android:visibility="@{viewModel.isShotWidgetsVisible}"
-            tools:visibility="visible" />
-
-        <TextView
-            android:id="@+id/shotDateTime"
-            style="@style/TextNormal.Light.SingleLine"
-            android:layout_width="wrap_content"
-
-            android:layout_height="wrap_content"
-
-            android:layout_marginTop="@dimen/marginLarge"
-            android:layout_marginEnd="@dimen/marginNormal"
-
-            android:text="@{viewModel.shotDateTime}"
-
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-
-            android:visibility="@{viewModel.isShotWidgetsVisible}"
-            tools:visibility="visible"
-
-            tools:text="42.42.42 42:42" />
-
-        <ImageButton
-            android:id="@+id/deleteButton"
-            android:layout_width="@dimen/toolButtonSizeNormal"
-            android:layout_height="@dimen/toolButtonSizeNormal"
-            android:layout_marginBottom="@dimen/navigationBarButtonsMargin"
-            android:background="@null"
-
-            android:src="@drawable/ic_delete"
-
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-
-            android:visibility="@{viewModel.isShotWidgetsVisible}"
-            tools:visibility="visible"
-
-            tools:ignore="ContentDescription" />
-
-        <ImageButton
-            android:id="@+id/shareButton"
-            android:layout_width="@dimen/toolButtonSizeNormal"
-            android:layout_height="@dimen/toolButtonSizeNormal"
-
-            android:background="@null"
-
-            android:src="@drawable/ic_share"
-
-            android:visibility="@{viewModel.isShareButtonVisible}"
-            tools:visibility="visible"
-
-            android:layout_marginEnd="@dimen/marginSmall"
-
-            app:layout_constraintBottom_toBottomOf="@+id/deleteButton"
-            app:layout_constraintEnd_toStartOf="@+id/deleteButton"
-            tools:ignore="ContentDescription"
-         />
-
-        <ImageView
-            android:id="@+id/noDataStubIcon"
-            android:layout_width="@dimen/toolButtonSizeLarge"
-            android:layout_height="@dimen/toolButtonSizeLarge"
-
-            android:src="@drawable/ic_sad_face"
-
-            app:layout_constraintBottom_toTopOf="@+id/noDataStubText"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_chainStyle="packed"
-
-            android:visibility="@{viewModel.isNoDataStubVisible}"
-            tools:visibility="visible"
-
-            tools:ignore="ContentDescription" />
-
-        <TextView
-            android:id="@+id/noDataStubText"
-
-            style="@style/TextNormal.Light.SingleLine"
-            android:layout_width="wrap_content"
-
-            android:layout_height="wrap_content"
-
-            android:layout_marginTop="@dimen/marginSmall"
-            android:text="@string/emptyGallery"
-
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/noDataStubIcon"
-
-            android:visibility="@{viewModel.isNoDataStubVisible}"
-            tools:visibility="visible"
-
-            />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
+</FrameLayout>

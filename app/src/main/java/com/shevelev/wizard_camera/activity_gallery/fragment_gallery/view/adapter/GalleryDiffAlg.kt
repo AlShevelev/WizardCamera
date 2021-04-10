@@ -1,4 +1,4 @@
-package com.shevelev.wizard_camera.gallery_activity.view.adapter
+package com.shevelev.wizard_camera.activity_gallery.fragment_gallery.view.adapter
 
 import androidx.recyclerview.widget.DiffUtil
 import com.shevelev.wizard_camera.common_entities.entities.PhotoShot

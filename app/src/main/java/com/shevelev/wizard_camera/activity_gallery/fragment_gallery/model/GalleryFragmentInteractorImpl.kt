@@ -1,7 +1,7 @@
-package com.shevelev.wizard_camera.gallery_activity.model
+package com.shevelev.wizard_camera.activity_gallery.fragment_gallery.model
 
 import com.shevelev.wizard_camera.common_entities.entities.PhotoShot
-import com.shevelev.wizard_camera.gallery_activity.dto.ShotsLoadingResult
+import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.model.dto.ShotsLoadingResult
 import com.shevelev.wizard_camera.shared.coroutines.DispatchersProvider
 import com.shevelev.wizard_camera.shared.files.FilesHelper
 import com.shevelev.wizard_camera.shared.media_scanner.MediaScanner
@@ -17,14 +17,14 @@ import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
 @FlowPreview
-class GalleryActivityInteractorImpl
+class GalleryFragmentInteractorImpl
 @Inject
 constructor(
     private val dispatchersProvider: DispatchersProvider,
     private val photoShotRepository: PhotoShotRepository,
     private val filesHelper: FilesHelper,
     private val mediaScanner: MediaScanner
-) : GalleryActivityInteractor {
+) : GalleryFragmentInteractor {
 
     companion object {
         private const val PAGE_SIZE = 20

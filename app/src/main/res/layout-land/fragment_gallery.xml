@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable name="viewModel" type="com.shevelev.wizard_camera.activity_gallery.fragment_gallery.view_model.GalleryFragmentViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".activity_gallery.GalleryActivity">
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/galleryPager"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+
+            android:visibility="@{viewModel.isShotWidgetsVisible}"
+            tools:visibility="visible"
+            />
+
+        <TextView
+            android:id="@+id/shotDateTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_gravity="top|end"
+
+            android:textSize="@dimen/textSizeNormal"
+            android:textColor="@color/white"
+
+            android:layout_marginTop="@dimen/marginLarge"
+            android:layout_marginEnd="@dimen/marginNormal"
+
+            android:text="@{viewModel.shotDateTime}"
+
+            android:visibility="@{viewModel.isShotWidgetsVisible}"
+            tools:visibility="visible"
+
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="42.42.42 42:42" />
+
+        <ImageButton
+            android:id="@+id/shareButton"
+            android:layout_width="@dimen/toolButtonSizeNormal"
+            android:layout_height="@dimen/toolButtonSizeNormal"
+            android:layout_gravity="end|bottom"
+
+            android:background="@null"
+            android:src="@drawable/ic_share"
+
+            app:layout_constraintBottom_toBottomOf="@+id/deleteButton"
+            app:layout_constraintEnd_toStartOf="@+id/deleteButton"
+            tools:ignore="ContentDescription"
+
+            android:layout_marginEnd="@dimen/marginSmall"
+
+            android:visibility="@{viewModel.isShareButtonVisible}"
+            tools:visibility="visible"
+            />
+
+        <ImageButton
+            android:id="@+id/deleteButton"
+            android:layout_width= "@dimen/toolButtonSizeNormal"
+            android:layout_height="@dimen/toolButtonSizeNormal"
+            android:src="@drawable/ic_delete"
+            android:background="@null"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+
+            android:visibility="@{viewModel.isShotWidgetsVisible}"
+            tools:visibility="visible"
+
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/noDataStubIcon"
+            android:layout_width="@dimen/toolButtonSizeLarge"
+            android:layout_height="@dimen/toolButtonSizeLarge"
+
+            android:src="@drawable/ic_sad_face"
+
+            app:layout_constraintBottom_toTopOf="@+id/noDataStubText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
+
+            android:visibility="@{viewModel.isNoDataStubVisible}"
+            tools:visibility="visible"
+
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/noDataStubText"
+
+            style="@style/TextNormal.Light.SingleLine"
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="@dimen/marginSmall"
+            android:text="@string/emptyGallery"
+
+            android:visibility="@{viewModel.isNoDataStubVisible}"
+            tools:visibility="visible"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/noDataStubIcon" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -1,4 +1,4 @@
-package com.shevelev.wizard_camera.gallery_page
+package com.shevelev.wizard_camera.activity_gallery.fragment_gallery_page
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,7 +8,7 @@ import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.application.App
 import com.shevelev.wizard_camera.common_entities.entities.PhotoShot
 import com.shevelev.wizard_camera.databinding.FragmentGalleryPageBinding
-import com.shevelev.wizard_camera.gallery_page.di.GalleryPageFragmentComponent
+import com.shevelev.wizard_camera.activity_gallery.fragment_gallery_page.di.GalleryPageFragmentComponent
 import com.shevelev.wizard_camera.shared.files.FilesHelper
 import com.shevelev.wizard_camera.shared.glide.GlideTarget
 import com.shevelev.wizard_camera.shared.glide.clear

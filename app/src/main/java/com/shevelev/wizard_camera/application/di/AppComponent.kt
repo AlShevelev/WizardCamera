@@ -2,7 +2,7 @@ package com.shevelev.wizard_camera.application.di
 
 import com.shevelev.wizard_camera.application.App
 import com.shevelev.wizard_camera.common_entities.di_scopes.ApplicationScope
-import com.shevelev.wizard_camera.gallery_activity.di.GalleryActivityComponent
+import com.shevelev.wizard_camera.activity_gallery.di.GalleryActivityComponent
 import com.shevelev.wizard_camera.activity_main.di.MainActivityComponent
 import dagger.Component
 

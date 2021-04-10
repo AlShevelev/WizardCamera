@@ -7,8 +7,8 @@ import android.graphics.SurfaceTexture
 import android.os.Bundle
 import android.view.TextureView
 import android.view.View
-import androidx.camera.core.CameraSelector
 import com.shevelev.wizard_camera.R
+import com.shevelev.wizard_camera.activity_gallery.GalleryActivity
 import com.shevelev.wizard_camera.activity_main.fragment_camera.di.CameraFragmentComponent
 import com.shevelev.wizard_camera.activity_main.fragment_camera.model.dto.*
 import com.shevelev.wizard_camera.activity_main.fragment_camera.view.gestures.GesturesDetector
@@ -20,7 +20,6 @@ import com.shevelev.wizard_camera.camera.camera_settings_repository.CameraSettin
 import com.shevelev.wizard_camera.camera.filter.CameraFilter
 import com.shevelev.wizard_camera.camera.filter.factory.FiltersFactory
 import com.shevelev.wizard_camera.databinding.FragmentCameraBinding
-import com.shevelev.wizard_camera.gallery_activity.view.GalleryActivity
 import com.shevelev.wizard_camera.shared.mvvm.view.FragmentBaseMVVM
 import com.shevelev.wizard_camera.shared.mvvm.view_commands.ViewCommand
 import permissions.dispatcher.NeedsPermission
@@ -107,7 +106,7 @@ class CameraFragment : FragmentBaseMVVM<FragmentCameraBinding, CameraFragmentVie
             is ZoomCommand -> cameraManager.zoom(command.scaleFactor).let { viewModel.onZoomUpdated(it) }
             is ResetExposureCommand -> binding.expositionBar.reset()
             is SetExposureCommand -> cameraManager.updateExposure(command.exposureValue)
-//            is NavigateToGalleryCommand -> navigateToGallery()
+            is NavigateToGalleryCommand -> navigateToGallery()
             is ShowFilterSettingsCommand -> {
                 binding.settings.hide()
                 binding.settings.show(command.settings)
@@ -186,8 +185,8 @@ class CameraFragment : FragmentBaseMVVM<FragmentCameraBinding, CameraFragmentVie
         CameraFilter.release()
     }
 
-//    private fun navigateToGallery() {
-//        val galleryIntent = Intent(this, GalleryActivity::class.java)
-//        startActivity(galleryIntent)
-//    }
+    private fun navigateToGallery() {
+        val galleryIntent = Intent(requireContext(), GalleryActivity::class.java)
+        startActivity(galleryIntent)
+    }
 }
