@@ -11,6 +11,8 @@ import com.shevelev.wizard_camera.shared.files.FilesHelperImpl
 import com.shevelev.wizard_camera.shared.media_scanner.MediaScanner
 import com.shevelev.wizard_camera.shared.media_scanner.MediaScannerImpl
 import com.shevelev.wizard_camera.storage.repositories.*
+import com.shevelev.wizard_camera.storage.type_converters.filter_settings.FilerSettingsConverter
+import com.shevelev.wizard_camera.storage.type_converters.filter_settings.FilerSettingsConverterImpl
 import com.shevelev.wizard_camera.utils.crashlytics.CrashlyticsFacade
 import dagger.Binds
 import dagger.Module
@@ -22,6 +24,9 @@ abstract class AppModuleBinds {
 
     @Binds
     abstract fun provideMediaScanner(scanner: MediaScannerImpl): MediaScanner
+
+    @Binds
+    abstract fun provideFilerSettingsConverter(converter: FilerSettingsConverterImpl): FilerSettingsConverter
 
     @Binds
     abstract fun providePhotoShotRepository(repository: PhotoShotRepositoryImpl): PhotoShotRepository

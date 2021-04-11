@@ -1,7 +1,10 @@
 package com.shevelev.wizard_camera.common_entities.filter_settings
 
+import android.os.Parcelable
 import com.shevelev.wizard_camera.common_entities.enums.FilterCode
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class TileMosaicFilterSettings(
     override val code: FilterCode = FilterCode.TILE_MOSAIC,
 
@@ -14,4 +17,4 @@ data class TileMosaicFilterSettings(
      * from 1(included) to 5(included)
      */
     val borderSize: Int
-): FilterSettings
+): FilterSettings, Parcelable

@@ -4,12 +4,14 @@ import android.net.Uri
 import com.shevelev.wizard_camera.common_entities.entities.PhotoShot
 import com.shevelev.wizard_camera.storage.core.DbCore
 import com.shevelev.wizard_camera.storage.entities.PhotoShotDb
+import com.shevelev.wizard_camera.storage.type_converters.filter_settings.FilerSettingsConverter
 import javax.inject.Inject
 
 class PhotoShotRepositoryImpl
 @Inject
 constructor(
-    private val db: DbCore
+    private val db: DbCore,
+    private val filerSettingsConverter: FilerSettingsConverter
 ): PhotoShotRepository {
     override fun create(shot: PhotoShot) = db.photoShot.create(shot.map())
 
@@ -23,7 +25,8 @@ constructor(
             fileName = fileName,
             created = created,
             createdSort = created.toEpochSecond(),
-            filter = filter,
+            filterCode = filter.code,
+            filterSettings = filerSettingsConverter.toString(filter),
             contentUri = contentUri?.toString()
         )
 
@@ -32,7 +35,7 @@ constructor(
             id = id,
             fileName = fileName,
             created = created,
-            filter = filter,
+            filter = filerSettingsConverter.fromString(filterCode, filterSettings),
             contentUri = contentUri?.let { Uri.parse(it)}
         )
 }

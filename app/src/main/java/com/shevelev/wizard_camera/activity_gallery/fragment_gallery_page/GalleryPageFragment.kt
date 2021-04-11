@@ -22,7 +22,11 @@ class GalleryPageFragment : FragmentBase<FragmentGalleryPageBinding>() {
         private const val ARG_PHOTO = "PHOTO"
 
         fun newInstance(item: PhotoShot): GalleryPageFragment =
-            GalleryPageFragment().apply { arguments = Bundle().apply { putParcelable(ARG_PHOTO, item) } }
+            GalleryPageFragment().apply {
+                arguments = Bundle().apply {
+                    putParcelable(ARG_PHOTO, item)
+                }
+            }
     }
 
     @Inject

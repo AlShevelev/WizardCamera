@@ -95,9 +95,9 @@ constructor(
                 return@launch
             }
 
-            val filterCode = interactor.filters.displayFilter.code
+            val filter = interactor.filters.displayFilter
             val screenOrientation = interactor.orientation.screenOrientation
-            val targetFile = interactor.capture.startCapture(filterCode, screenOrientation)
+            val targetFile = interactor.capture.startCapture(filter, screenOrientation)
 
             if(targetFile == null) {
                 ShowMessageResCommand(R.string.generalError)

@@ -5,9 +5,9 @@ import android.graphics.BitmapFactory
 import android.graphics.Matrix
 import android.net.Uri
 import androidx.exifinterface.media.ExifInterface
-import com.shevelev.wizard_camera.common_entities.entities.PhotoShot
-import com.shevelev.wizard_camera.common_entities.enums.FilterCode
 import com.shevelev.wizard_camera.activity_main.fragment_camera.model.dto.ScreenOrientation
+import com.shevelev.wizard_camera.common_entities.entities.PhotoShot
+import com.shevelev.wizard_camera.common_entities.filter_settings.FilterSettings
 import com.shevelev.wizard_camera.shared.coroutines.DispatchersProvider
 import com.shevelev.wizard_camera.shared.files.FilesHelper
 import com.shevelev.wizard_camera.shared.media_scanner.MediaScanner
@@ -33,18 +33,18 @@ constructor(
 
     private var targetFile: File? = null
 
-    private var activeFilter: FilterCode? = null
+    private var activeFilter: FilterSettings? = null
 
     /**
      * Starts capturing process
      * @return target file for an image
      */
-    override suspend fun startCapture(activeFilter: FilterCode, screenOrientation: ScreenOrientation): File? {
+    override suspend fun startCapture(activeFilter: FilterSettings, screenOrientation: ScreenOrientation): File? {
         targetFile = try {
             this.activeFilter = activeFilter
 
             withContext(dispatchersProvider.ioDispatcher) {
-                filesHelper.createFileForShot(activeFilter)
+                filesHelper.createFileForShot()
             }
         } catch (ex: Exception) {
             Timber.e(ex)
@@ -106,7 +106,7 @@ constructor(
         }
     }
 
-    private fun saveToDb(fileName: String, filter: FilterCode, contentUri: Uri?) =
+    private fun saveToDb(fileName: String, filter: FilterSettings, contentUri: Uri?) =
         photoShotRepository.create(PhotoShot(IdUtil.generateLongId(), fileName, ZonedDateTime.now(), filter, contentUri))
 
     companion object {
