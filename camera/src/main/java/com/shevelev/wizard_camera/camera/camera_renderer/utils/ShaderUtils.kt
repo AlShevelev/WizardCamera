@@ -4,13 +4,12 @@ import android.content.Context
 import android.opengl.GLES31
 import android.opengl.GLException
 import androidx.annotation.RawRes
+import com.shevelev.my_footprints_remastered.utils.resources.getRawString
 import timber.log.Timber
-import java.io.ByteArrayOutputStream
-import java.io.IOException
 
 object ShaderUtils {
     fun buildProgram(context: Context, @RawRes vertexSourceRawId: Int, @RawRes fragmentSourceRawId: Int): Int =
-        buildProgram(getStringFromRaw(context, vertexSourceRawId), getStringFromRaw(context, fragmentSourceRawId))
+        buildProgram(context.getRawString(vertexSourceRawId), context.getRawString(fragmentSourceRawId))
 
     private fun buildProgram(vertexSource: String, fragmentSource: String): Int {
         val vertexShader = buildShader(GLES31.GL_VERTEX_SHADER, vertexSource)
@@ -49,22 +48,4 @@ object ShaderUtils {
 
         return shader
     }
-
-    private fun getStringFromRaw(context: Context, @RawRes resId: Int): String =
-        try {
-            context.resources.openRawResource(resId).use { inputStream ->
-                ByteArrayOutputStream().use { outputStream ->
-                    var i = inputStream.read()
-                    while (i != -1) {
-                        outputStream.write(i)
-                        i = inputStream.read()
-                    }
-
-                    outputStream.toString()
-                }
-            }
-        } catch (ex: IOException) {
-            Timber.e(ex)
-            throw ex
-        }
 }

@@ -1,4 +1,4 @@
-package com.shevelev.wizard_camera.camera.filter
+package com.shevelev.wizard_camera.filter
 
 import android.content.Context
 import android.opengl.GLES11Ext

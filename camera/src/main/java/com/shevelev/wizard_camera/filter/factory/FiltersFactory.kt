@@ -1,8 +1,8 @@
-package com.shevelev.wizard_camera.camera.filter.factory
+package com.shevelev.wizard_camera.filter.factory
 
 import android.content.Context
 import com.shevelev.wizard_camera.camera.R
-import com.shevelev.wizard_camera.camera.filter.*
+import com.shevelev.wizard_camera.filter.*
 import com.shevelev.wizard_camera.common_entities.enums.FilterCode
 
 class FiltersFactory(private val context: Context) {

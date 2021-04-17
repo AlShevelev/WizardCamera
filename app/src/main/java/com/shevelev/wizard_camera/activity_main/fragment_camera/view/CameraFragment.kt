@@ -17,8 +17,8 @@ import com.shevelev.wizard_camera.application.App
 import com.shevelev.wizard_camera.camera.camera_manager.CameraManager
 import com.shevelev.wizard_camera.camera.camera_renderer.GLRenderer
 import com.shevelev.wizard_camera.camera.camera_settings_repository.CameraSettingsRepository
-import com.shevelev.wizard_camera.camera.filter.CameraFilter
-import com.shevelev.wizard_camera.camera.filter.factory.FiltersFactory
+import com.shevelev.wizard_camera.filter.CameraFilter
+import com.shevelev.wizard_camera.filter.factory.FiltersFactory
 import com.shevelev.wizard_camera.databinding.FragmentCameraBinding
 import com.shevelev.wizard_camera.shared.mvvm.view.FragmentBaseMVVM
 import com.shevelev.wizard_camera.shared.mvvm.view_commands.ViewCommand
