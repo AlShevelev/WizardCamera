@@ -7,6 +7,7 @@ import android.os.Handler
 import android.util.AttributeSet
 import android.util.SizeF
 import android.view.Gravity
+import android.view.SurfaceHolder
 import android.widget.FrameLayout
 import com.shevelev.wizard_camera.bitmap.renderers.GLSurfaceRenderedBase
 
@@ -58,9 +59,9 @@ constructor(
         }
     }
 
-    fun getBitmap(callback: (Bitmap?) -> Unit) {
-        renderer.startGetFrameAsBitmap(Handler(), callback)
-        requestRender()
+    override fun surfaceDestroyed(holder: SurfaceHolder) {
+        super.surfaceDestroyed(holder)
+        renderer.release()
     }
 
     private fun setBitmapParameters(bitmap: Bitmap) {

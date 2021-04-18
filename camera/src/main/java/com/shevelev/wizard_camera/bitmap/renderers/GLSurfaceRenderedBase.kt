@@ -2,8 +2,7 @@ package com.shevelev.wizard_camera.bitmap.renderers
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.opengl.GLES20
-import android.opengl.GLException
+import android.opengl.GLES31
 import android.opengl.GLSurfaceView
 import android.opengl.GLUtils
 import android.os.Handler
@@ -15,7 +14,6 @@ import com.shevelev.wizard_camera.camera.R
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import java.nio.FloatBuffer
-import java.nio.IntBuffer
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
 
@@ -65,8 +63,8 @@ abstract class GLSurfaceRenderedBase(
     }
 
     override fun onSurfaceChanged(gl: GL10?, width: Int, height: Int) {
-        GLES20.glViewport(0, 0, width, height)
-        GLES20.glClearColor(0f, 0f, 0f, 1f)
+        GLES31.glViewport(0, 0, width, height)
+        GLES31.glClearColor(0f, 0f, 0f, 1f)
 
         surfaceSize = Size(width, height)
 
@@ -78,38 +76,22 @@ abstract class GLSurfaceRenderedBase(
         // do nothing
     }
 
-    fun startGetFrameAsBitmap(handler: Handler, callback: (Bitmap?) -> Unit) {
-        getFrameAsBitmapHandler = handler
-        getFrameAsBitmapCallback = callback
-    }
-
-    protected fun tryToGetFrameAsBitmap(gl: GL10) {
-        getFrameAsBitmapHandler?.let { handler ->
-            val bitmap = extractBitmapFromFrame(gl)
-
-            handler.post {
-                getFrameAsBitmapCallback?.invoke(bitmap)
-
-                getFrameAsBitmapHandler = null
-                getFrameAsBitmapCallback = null
-            }
-        }
-    }
+    abstract fun release()
 
     @CallSuper
     protected open fun createTextures() {
         // Create empty textures
-        GLES20.glGenTextures(2, textures, 0)
+        GLES31.glGenTextures(2, textures, 0)
 
         // Switch to the texture with index 0 and bind the photo to it
-        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textures[0])
+        GLES31.glBindTexture(GLES31.GL_TEXTURE_2D, textures[0])
 
-        GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_LINEAR)
-        GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR)
-        GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_S, GLES20.GL_CLAMP_TO_EDGE)
-        GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_T, GLES20.GL_CLAMP_TO_EDGE)
+        GLES31.glTexParameteri(GLES31.GL_TEXTURE_2D, GLES31.GL_TEXTURE_MIN_FILTER, GLES31.GL_LINEAR)
+        GLES31.glTexParameteri(GLES31.GL_TEXTURE_2D, GLES31.GL_TEXTURE_MAG_FILTER, GLES31.GL_LINEAR)
+        GLES31.glTexParameteri(GLES31.GL_TEXTURE_2D, GLES31.GL_TEXTURE_WRAP_S, GLES31.GL_CLAMP_TO_EDGE)
+        GLES31.glTexParameteri(GLES31.GL_TEXTURE_2D, GLES31.GL_TEXTURE_WRAP_T, GLES31.GL_CLAMP_TO_EDGE)
 
-        GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, bitmap, 0)
+        GLUtils.texImage2D(GLES31.GL_TEXTURE_2D, 0, bitmap, 0)
 
         // Init buffer with polygon vertexes
         var buffer = ByteBuffer.allocateDirect(vertices.size * 4)
@@ -128,82 +110,47 @@ abstract class GLSurfaceRenderedBase(
 
     private fun createProgram() {
         // Init vertex shader code
-        vertexShader = GLES20.glCreateShader(GLES20.GL_VERTEX_SHADER)
-        GLES20.glShaderSource(vertexShader, context.getRawString(R.raw.vertext))
-        GLES20.glCompileShader(vertexShader)
+        vertexShader = GLES31.glCreateShader(GLES31.GL_VERTEX_SHADER)
+        GLES31.glShaderSource(vertexShader, context.getRawString(R.raw.vertext))
+        GLES31.glCompileShader(vertexShader)
 
         // Init fragment shader code
-        fragmentShader = GLES20.glCreateShader(GLES20.GL_FRAGMENT_SHADER)
-        GLES20.glShaderSource(fragmentShader, context.getRawString(fragmentShaderResId))
-        GLES20.glCompileShader(fragmentShader)
+        fragmentShader = GLES31.glCreateShader(GLES31.GL_FRAGMENT_SHADER)
+        GLES31.glShaderSource(fragmentShader, context.getRawString(fragmentShaderResId))
+        GLES31.glCompileShader(fragmentShader)
 
         // Init program
-        program = GLES20.glCreateProgram()
-        GLES20.glAttachShader(program, vertexShader)
-        GLES20.glAttachShader(program, fragmentShader)
+        program = GLES31.glCreateProgram()
+        GLES31.glAttachShader(program, vertexShader)
+        GLES31.glAttachShader(program, fragmentShader)
 
-        GLES20.glLinkProgram(program)
+        GLES31.glLinkProgram(program)
     }
 
     protected fun draw(texture: Int) {
         setFragmentShaderParameters(texture)
 
-        GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT)
-        GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, 4)
+        GLES31.glClear(GLES31.GL_COLOR_BUFFER_BIT)
+        GLES31.glDrawArrays(GLES31.GL_TRIANGLE_STRIP, 0, 4)
     }
 
     @CallSuper
     protected open fun setFragmentShaderParameters(texture: Int) {
-        GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER, 0)
-        GLES20.glUseProgram(program)
-        GLES20.glDisable(GLES20.GL_BLEND)
+        GLES31.glBindFramebuffer(GLES31.GL_FRAMEBUFFER, 0)
+        GLES31.glUseProgram(program)
+        GLES31.glDisable(GLES31.GL_BLEND)
 
-        val texturePositionHandle = GLES20.glGetAttribLocation(program, "vTexCoord")
-        GLES20.glVertexAttribPointer(texturePositionHandle, 2, GLES20.GL_FLOAT, false, 0, textureBuffer)
-        GLES20.glEnableVertexAttribArray(texturePositionHandle)
+        val texturePositionHandle = GLES31.glGetAttribLocation(program, "vTexCoord")
+        GLES31.glVertexAttribPointer(texturePositionHandle, 2, GLES31.GL_FLOAT, false, 0, textureBuffer)
+        GLES31.glEnableVertexAttribArray(texturePositionHandle)
 
-        val textureHandle = GLES20.glGetUniformLocation(program, "iChannel0")
-        GLES20.glActiveTexture(GLES20.GL_TEXTURE0)
-        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, texture)
-        GLES20.glUniform1i(textureHandle, 0)
+        val textureHandle = GLES31.glGetUniformLocation(program, "iChannel0")
+        GLES31.glActiveTexture(GLES31.GL_TEXTURE0)
+        GLES31.glBindTexture(GLES31.GL_TEXTURE_2D, texture)
+        GLES31.glUniform1i(textureHandle, 0)
 
-        val positionHandle = GLES20.glGetAttribLocation(program, "vPosition")
-        GLES20.glVertexAttribPointer(positionHandle, 2, GLES20.GL_FLOAT, false, 0, verticesBuffer)
-        GLES20.glEnableVertexAttribArray(positionHandle)
-    }
-
-    protected fun extractBitmapFromFrame(gl: GL10): Bitmap? {
-        val x = 0
-        val y = 0
-        val width = surfaceSize.width
-        val height = surfaceSize.height
-
-        val bitmapBuffer = IntArray(width * height)
-        val bitmapSource = IntArray(width * height)
-
-        val intBuffer = IntBuffer.wrap(bitmapBuffer)
-        intBuffer.position(0)
-
-        try {
-            gl.glReadPixels(x, y, width, height, GL10.GL_RGBA, GL10.GL_UNSIGNED_BYTE, intBuffer)
-            var offset1: Int
-            var offset2: Int
-            for (i in 0 until height) {
-                offset1 = i * width
-                offset2 = (height - i - 1) * width
-                for (j in 0 until width) {
-                    val texturePixel = bitmapBuffer[offset1 + j]
-                    val blue = (texturePixel shr 16) and 0xff
-                    val red = (texturePixel shl 16) and 0x00ff0000
-                    val pixel = (texturePixel and 0xff00ff00.toInt()) or red or blue
-
-                    bitmapSource[offset2 + j] = pixel
-                }
-            }
-        } catch (ex: GLException) {
-            ex.printStackTrace()
-            return null
-        }
-        return Bitmap.createBitmap(bitmapSource, width, height, Bitmap.Config.ARGB_8888)
+        val positionHandle = GLES31.glGetAttribLocation(program, "vPosition")
+        GLES31.glVertexAttribPointer(positionHandle, 2, GLES31.GL_FLOAT, false, 0, verticesBuffer)
+        GLES31.glEnableVertexAttribArray(positionHandle)
     }
 }

@@ -25,9 +25,14 @@ class GalleryFragment : FragmentBaseMVVM<FragmentGalleryBinding, GalleryFragment
         binding.viewModel = viewModel
     }
 
-    override fun inject() = App.injections.get<GalleryFragmentComponent>().inject(this)
+    override fun inject() {
+        App.injections.get<GalleryFragmentComponent>().inject(this)
 
-    override fun releaseInjection() = App.injections.release<GalleryFragmentComponent>()
+    }
+
+    override fun releaseInjection() {
+        App.injections.release<GalleryFragmentComponent>()
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

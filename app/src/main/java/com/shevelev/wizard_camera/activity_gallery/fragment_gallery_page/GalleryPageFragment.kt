@@ -8,11 +8,6 @@ import android.view.ViewGroup
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery_page.di.GalleryPageFragmentComponent
 import com.shevelev.wizard_camera.application.App
 import com.shevelev.wizard_camera.bitmap.GLSurfaceViewBitmap
-import com.shevelev.wizard_camera.bitmap.renderers.effect.MultiEffectSurfaceRenderer
-import com.shevelev.wizard_camera.bitmap.renderers.effect.effects.BrightnessEffect
-import com.shevelev.wizard_camera.bitmap.renderers.effect.effects.ContrastEffect
-import com.shevelev.wizard_camera.bitmap.renderers.effect.effects.SaturationEffect
-import com.shevelev.wizard_camera.bitmap.renderers.effect.effects.TemperatureEffect
 import com.shevelev.wizard_camera.bitmap.renderers.fragment.GrayscaleSurfaceRenderer
 import com.shevelev.wizard_camera.common_entities.entities.PhotoShot
 import com.shevelev.wizard_camera.databinding.FragmentGalleryPageBinding
@@ -47,12 +42,6 @@ class GalleryPageFragment : FragmentBase<FragmentGalleryPageBinding>() {
         val renderer = GrayscaleSurfaceRenderer(requireContext(), photoBitmap)
 
         GLSurfaceViewBitmap.createAndAddToView(requireContext(), binding.imageContainer, photoBitmap, renderer)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-
-        // Cancel
     }
 
     override fun createBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentGalleryPageBinding =

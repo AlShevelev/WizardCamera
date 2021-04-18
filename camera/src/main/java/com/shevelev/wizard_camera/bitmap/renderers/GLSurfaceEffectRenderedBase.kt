@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import android.media.effect.Effect
 import android.media.effect.EffectContext
 import android.media.effect.EffectFactory
+import android.opengl.GLES31
 import com.shevelev.wizard_camera.camera.R
 import javax.microedition.khronos.opengles.GL10
 
@@ -27,9 +28,11 @@ abstract class GLSurfaceEffectRenderedBase(
         effect!!.apply(textures[0], surfaceSize.width, surfaceSize.height, textures[1])
 
         draw(textures[1])
-
-        tryToGetFrameAsBitmap(gl)
     }
 
     protected abstract fun createEffect(factory: EffectFactory): Effect
+
+    override fun release() {
+        GLES31.glDeleteTextures(2, textures, 0)
+    }
 }

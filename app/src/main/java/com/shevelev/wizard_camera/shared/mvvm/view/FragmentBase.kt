@@ -20,6 +20,8 @@ abstract class FragmentBase<VB: ViewBinding>: Fragment() {
     protected val binding: VB
         get() = _binding!!
 
+    private var isDestroyedBySystem = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -39,6 +41,15 @@ abstract class FragmentBase<VB: ViewBinding>: Fragment() {
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        isDestroyedBySystem = false
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        isDestroyedBySystem = true
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
 
@@ -48,7 +59,7 @@ abstract class FragmentBase<VB: ViewBinding>: Fragment() {
     override fun onDestroy() {
         super.onDestroy()
 
-        if(isRemoving) {
+        if(!isDestroyedBySystem) {
             releaseInjection()
         }
     }
