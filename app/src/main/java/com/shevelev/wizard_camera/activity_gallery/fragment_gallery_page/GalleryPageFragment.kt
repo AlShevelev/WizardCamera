@@ -11,11 +11,64 @@ import com.shevelev.wizard_camera.bitmap.GLSurfaceViewBitmap
 import com.shevelev.wizard_camera.bitmap.renderers.fragment.GrayscaleSurfaceRenderer
 import com.shevelev.wizard_camera.common_entities.entities.PhotoShot
 import com.shevelev.wizard_camera.databinding.FragmentGalleryPageBinding
+import com.shevelev.wizard_camera.shared.coroutines.DispatchersProvider
 import com.shevelev.wizard_camera.shared.files.FilesHelper
 import com.shevelev.wizard_camera.shared.mvvm.view.FragmentBase
+import kotlinx.coroutines.*
+import timber.log.Timber
 import javax.inject.Inject
+import kotlin.coroutines.CoroutineContext
 
-class GalleryPageFragment : FragmentBase<FragmentGalleryPageBinding>() {
+class GalleryPageFragment : FragmentBase<FragmentGalleryPageBinding>(), CoroutineScope {
+    private lateinit var scopeJob: Job
+
+    private val errorHandler = CoroutineExceptionHandler { _, exception -> Timber.e(exception) }
+
+    /**
+     * Context of this scope.
+     */
+    override lateinit var coroutineContext: CoroutineContext
+
+    @Inject
+    internal lateinit var filesHelper: FilesHelper
+
+    @Inject
+    internal lateinit var dispatchersProvider: DispatchersProvider
+
+    override fun inject() = App.injections.get<GalleryPageFragmentComponent>().inject(this)
+
+    override fun releaseInjection() = App.injections.release<GalleryPageFragmentComponent>()
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        scopeJob = SupervisorJob()
+        coroutineContext = scopeJob + dispatchersProvider.uiDispatcher + errorHandler
+
+        val photoSettings = requireArguments().getParcelable<PhotoShot>(ARG_PHOTO)!!
+
+        loadPhoto(photoSettings)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        
+        scopeJob.cancel()
+    }
+
+    override fun createBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentGalleryPageBinding =
+        FragmentGalleryPageBinding.inflate(inflater, container, false)
+
+    private fun loadPhoto(photoSettings: PhotoShot) {
+        launch {
+            val photoBitmap = withContext(dispatchersProvider.ioDispatcher) {
+                BitmapFactory.decodeFile(filesHelper.getShotFileByName(photoSettings.fileName).absolutePath)
+            }
+
+            val renderer = GrayscaleSurfaceRenderer(requireContext(), photoBitmap)
+
+            GLSurfaceViewBitmap.createAndAddToView(requireContext(), binding.imageContainer, photoBitmap, renderer)
+        }
+    }
+
     companion object {
         private const val ARG_PHOTO = "PHOTO"
 
@@ -26,24 +79,4 @@ class GalleryPageFragment : FragmentBase<FragmentGalleryPageBinding>() {
                 }
             }
     }
-
-    @Inject
-    internal lateinit var filesHelper: FilesHelper
-
-    override fun inject() = App.injections.get<GalleryPageFragmentComponent>().inject(this)
-
-    override fun releaseInjection() = App.injections.release<GalleryPageFragmentComponent>()
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val photo = requireArguments().getParcelable<PhotoShot>(ARG_PHOTO)!!
-
-        val photoBitmap = BitmapFactory.decodeFile(filesHelper.getShotFileByName(photo.fileName).absolutePath)
-
-        val renderer = GrayscaleSurfaceRenderer(requireContext(), photoBitmap)
-
-        GLSurfaceViewBitmap.createAndAddToView(requireContext(), binding.imageContainer, photoBitmap, renderer)
-    }
-
-    override fun createBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentGalleryPageBinding =
-        FragmentGalleryPageBinding.inflate(inflater, container, false)
 }
