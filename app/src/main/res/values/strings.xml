@@ -10,12 +10,10 @@
     <string name="filterOriginal">No filters</string>
     <string name="filterEdgeDetection">Edges detection</string>
     <string name="filterPixelize">Pixelize</string>
-    <string name="filterEMInterference">EM Interference</string>
     <string name="filterTrianglesMosaic">Triangles mosaic</string>
     <string name="filterLegofied">Legofied</string>
     <string name="filterTileMosaic">Tile mosaic</string>
     <string name="filterBlueorange">Blue and Orange</string>
-    <string name="filterChromaticAberration">Chromatic aberration</string>
     <string name="filterBasicDeform">Basic deform</string>
     <string name="filterContrast">Contrast</string>
     <string name="filterNoiseWarp">Noise warp</string>

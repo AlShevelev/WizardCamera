@@ -11,12 +11,10 @@ constructor() : FilterDisplayDataList {
     private val items = listOf(
         FilterDisplayData(FilterCode.EDGE_DETECTION, R.drawable.img_filter_edge_detection, R.string.filterEdgeDetection),
         FilterDisplayData(FilterCode.PIXELIZE, R.drawable.img_filter_pixelize, R.string.filterPixelize),
-        FilterDisplayData(FilterCode.EM_INTERFERENCE, R.drawable.img_filter_em_interference, R.string.filterEMInterference),
         FilterDisplayData(FilterCode.TRIANGLES_MOSAIC, R.drawable.img_filter_triangles_mosaic, R.string.filterTrianglesMosaic),
         FilterDisplayData(FilterCode.LEGOFIED, R.drawable.img_filter_legofied, R.string.filterLegofied),
         FilterDisplayData(FilterCode.TILE_MOSAIC, R.drawable.img_filter_tile_mosaic, R.string.filterTileMosaic),
         FilterDisplayData(FilterCode.BLUE_ORANGE, R.drawable.img_filter_blue_orange, R.string.filterBlueorange),
-        FilterDisplayData(FilterCode.CHROMATIC_ABERRATION, R.drawable.img_filter_chromatic_aberration, R.string.filterChromaticAberration),
         FilterDisplayData(FilterCode.BASIC_DEFORM, R.drawable.img_filter_basic_deform, R.string.filterBasicDeform),
         FilterDisplayData(FilterCode.CONTRAST, R.drawable.img_filter_contrast, R.string.filterContrast),
         FilterDisplayData(FilterCode.NOISE_WARP, R.drawable.img_filter_noise_warp, R.string.filterNoiseWarp),

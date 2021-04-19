@@ -20,9 +20,7 @@ constructor(
     private val settingsMap = mutableMapOf<FilterCode, FilterSettings>(
         FilterCode.ORIGINAL to EmptyFilterSettings(FilterCode.ORIGINAL),
         FilterCode.PIXELIZE to EmptyFilterSettings(FilterCode.PIXELIZE),
-        FilterCode.EM_INTERFERENCE to EmptyFilterSettings(FilterCode.EM_INTERFERENCE),
         FilterCode.BLUE_ORANGE to EmptyFilterSettings(FilterCode.BLUE_ORANGE),
-        FilterCode.CHROMATIC_ABERRATION to EmptyFilterSettings(FilterCode.CHROMATIC_ABERRATION),
         FilterCode.BASIC_DEFORM to EmptyFilterSettings(FilterCode.BASIC_DEFORM),
         FilterCode.CONTRAST to EmptyFilterSettings(FilterCode.CONTRAST),
         FilterCode.NOISE_WARP to EmptyFilterSettings(FilterCode.NOISE_WARP),
