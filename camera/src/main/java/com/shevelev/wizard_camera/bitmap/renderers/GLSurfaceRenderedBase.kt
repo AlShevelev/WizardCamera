@@ -9,11 +9,9 @@ import android.os.Handler
 import android.util.Size
 import androidx.annotation.CallSuper
 import androidx.annotation.RawRes
-import com.shevelev.my_footprints_remastered.utils.resources.getRawString
 import com.shevelev.wizard_camera.camera.R
-import java.nio.ByteBuffer
-import java.nio.ByteOrder
-import java.nio.FloatBuffer
+import com.shevelev.wizard_camera.camera.camera_renderer.utils.BufferUtils
+import com.shevelev.wizard_camera.camera.camera_renderer.utils.ShaderUtils
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
 
@@ -26,23 +24,21 @@ abstract class GLSurfaceRenderedBase(
     @RawRes
     private val fragmentShaderResId: Int
 ): GLSurfaceView.Renderer {
-
-    private val vertices = floatArrayOf(
+    // Init buffer with polygon vertexes
+    private val verticesBuffer = BufferUtils.createBuffer(
         -1f, -1f,           // Left-bottom
         1f, -1f,            // Right-bottom
         -1f, 1f,            // Left-top
         1f, 1f              // Right-top
     )
 
-    private val textureVertices = floatArrayOf(
+    // Init buffer with texture vertexes
+    private val textureBuffer = BufferUtils.createBuffer(
         0f, 1f,             // Left-bottom
         1f, 1f,             // Right-bottom
         0f, 0f,             // Left-top
         1f, 0f              // Right-top
     )
-
-    private lateinit var verticesBuffer: FloatBuffer
-    private lateinit var textureBuffer: FloatBuffer
 
     private var vertexShader: Int = 0
     private var fragmentShader: Int = 0
@@ -92,39 +88,10 @@ abstract class GLSurfaceRenderedBase(
         GLES31.glTexParameteri(GLES31.GL_TEXTURE_2D, GLES31.GL_TEXTURE_WRAP_T, GLES31.GL_CLAMP_TO_EDGE)
 
         GLUtils.texImage2D(GLES31.GL_TEXTURE_2D, 0, bitmap, 0)
-
-        // Init buffer with polygon vertexes
-        var buffer = ByteBuffer.allocateDirect(vertices.size * 4)
-        buffer.order(ByteOrder.nativeOrder())
-        verticesBuffer = buffer.asFloatBuffer()
-        verticesBuffer.put(vertices)
-        verticesBuffer.position(0)
-
-        // Init buffer with texture vertexes
-        buffer = ByteBuffer.allocateDirect(textureVertices.size * 4)
-        buffer.order(ByteOrder.nativeOrder())
-        textureBuffer = buffer.asFloatBuffer()
-        textureBuffer.put(textureVertices)
-        textureBuffer.position(0)
     }
 
     private fun createProgram() {
-        // Init vertex shader code
-        vertexShader = GLES31.glCreateShader(GLES31.GL_VERTEX_SHADER)
-        GLES31.glShaderSource(vertexShader, context.getRawString(R.raw.vertext))
-        GLES31.glCompileShader(vertexShader)
-
-        // Init fragment shader code
-        fragmentShader = GLES31.glCreateShader(GLES31.GL_FRAGMENT_SHADER)
-        GLES31.glShaderSource(fragmentShader, context.getRawString(fragmentShaderResId))
-        GLES31.glCompileShader(fragmentShader)
-
-        // Init program
-        program = GLES31.glCreateProgram()
-        GLES31.glAttachShader(program, vertexShader)
-        GLES31.glAttachShader(program, fragmentShader)
-
-        GLES31.glLinkProgram(program)
+        program = ShaderUtils.buildProgram(context, R.raw.vertext, fragmentShaderResId)
     }
 
     protected fun draw(texture: Int) {

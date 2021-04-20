@@ -7,10 +7,9 @@ import androidx.annotation.CallSuper
 import androidx.annotation.RawRes
 import com.shevelev.wizard_camera.camera.R
 import com.shevelev.wizard_camera.camera.camera_renderer.RenderBuffer
+import com.shevelev.wizard_camera.camera.camera_renderer.utils.BufferUtils
 import com.shevelev.wizard_camera.camera.camera_renderer.utils.ShaderUtils
 import com.shevelev.wizard_camera.common_entities.filter_settings.FilterSettings
-import java.nio.ByteBuffer
-import java.nio.ByteOrder
 import java.nio.FloatBuffer
 
 open class CameraFilter(
@@ -18,54 +17,26 @@ open class CameraFilter(
     @RawRes fragmentFilterResId: Int
 ) {
     companion object {
-        private val squareCoordinates = floatArrayOf(
-            1.0f, -1.0f,
-            -1.0f, -1.0f,
-            1.0f, 1.0f,
-            -1.0f, 1.0f
+        private val vertexBuffer = BufferUtils.createBuffer(
+            1.0f, -1.0f,        // Left-bottom
+            -1.0f, -1.0f,       // Right-bottom
+            1.0f, 1.0f,         // Left-top
+            -1.0f, 1.0f         // Right-top
         )
 
-        private val textureCoordinates = floatArrayOf(
-            1.0f, 0.0f,
-            0.0f, 0.0f,
-            1.0f, 1.0f,
-            0.0f, 1.0f
+        private val textureCoordinatesBuffer = BufferUtils.createBuffer(
+            1.0f, 0.0f,     // Left-bottom
+            0.0f, 0.0f,     // Right-bottom
+            1.0f, 1.0f,     // Left-top
+            0.0f, 1.0f      // Right-top
         )
 
-        private val rotatedTextureCoordinates = floatArrayOf(
-            1.0f, 0.0f,
-            1.0f, 1.0f,
-            0.0f, 0.0f,
-            0.0f, 1.0f
+        private val rotatedTextureCoordinatesBuffer = BufferUtils.createBuffer(
+            1.0f, 0.0f,     // Left-bottom
+            1.0f, 1.0f,     // Right-bottom
+            0.0f, 0.0f,     // Left-top
+            0.0f, 1.0f      // Right-top
         )
-
-        private val vertexBuffer =
-            ByteBuffer.allocateDirect(squareCoordinates.size * 4)
-                .order(ByteOrder.nativeOrder())
-                .asFloatBuffer()
-                .apply {
-                    put(squareCoordinates)
-                    position(0)
-                }
-
-
-        private val textureCoordinatesBuffer =
-            ByteBuffer.allocateDirect(textureCoordinates.size * 4)
-                .order(ByteOrder.nativeOrder())
-                .asFloatBuffer()
-                .apply {
-                    put(textureCoordinates)
-                    position(0)
-                }
-
-        private val rotatedTextureCoordinatesBuffer =
-            ByteBuffer.allocateDirect(rotatedTextureCoordinates.size * 4)
-                .order(ByteOrder.nativeOrder())
-                .asFloatBuffer()
-                .apply {
-                    put(rotatedTextureCoordinates)
-                    position(0)
-                }
 
         private var mainProgram = 0
         private const val activeTextUnit = GLES31.GL_TEXTURE8
@@ -81,7 +52,7 @@ open class CameraFilter(
     private val startTime = System.currentTimeMillis()
     private var iFrame = 0
 
-    protected val filterProgram: Int
+    private val filterProgram: Int
 
     private lateinit var settings: FilterSettings
 
