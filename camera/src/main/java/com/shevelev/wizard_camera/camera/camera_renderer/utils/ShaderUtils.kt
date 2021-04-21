@@ -4,7 +4,7 @@ import android.content.Context
 import android.opengl.GLES31
 import android.opengl.GLException
 import androidx.annotation.RawRes
-import com.shevelev.my_footprints_remastered.utils.resources.getRawString
+import com.shevelev.wizard_camera.utils.resources.getRawString
 import timber.log.Timber
 
 object ShaderUtils {

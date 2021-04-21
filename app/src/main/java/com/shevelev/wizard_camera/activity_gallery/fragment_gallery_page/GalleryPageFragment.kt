@@ -9,11 +9,13 @@ import com.shevelev.wizard_camera.activity_gallery.fragment_gallery_page.di.Gall
 import com.shevelev.wizard_camera.application.App
 import com.shevelev.wizard_camera.bitmap.GLSurfaceViewBitmap
 import com.shevelev.wizard_camera.bitmap.renderers.fragment.GrayscaleSurfaceRenderer
+import com.shevelev.wizard_camera.bitmap.renderers.fragment.NewspaperSurfaceRenderer
 import com.shevelev.wizard_camera.common_entities.entities.PhotoShot
 import com.shevelev.wizard_camera.databinding.FragmentGalleryPageBinding
 import com.shevelev.wizard_camera.shared.coroutines.DispatchersProvider
 import com.shevelev.wizard_camera.shared.files.FilesHelper
 import com.shevelev.wizard_camera.shared.mvvm.view.FragmentBase
+import com.shevelev.wizard_camera.utils.resources.getScreenSize
 import kotlinx.coroutines.*
 import timber.log.Timber
 import javax.inject.Inject
@@ -63,7 +65,8 @@ class GalleryPageFragment : FragmentBase<FragmentGalleryPageBinding>(), Coroutin
                 BitmapFactory.decodeFile(filesHelper.getShotFileByName(photoSettings.fileName).absolutePath)
             }
 
-            val renderer = GrayscaleSurfaceRenderer(requireContext(), photoBitmap)
+            //GrayscaleSurfaceRenderer(requireContext(), photoBitmap)
+            val renderer =  NewspaperSurfaceRenderer(requireContext(), photoBitmap, false, requireContext().getScreenSize())
 
             GLSurfaceViewBitmap.createAndAddToView(requireContext(), binding.imageContainer, photoBitmap, renderer)
         }
