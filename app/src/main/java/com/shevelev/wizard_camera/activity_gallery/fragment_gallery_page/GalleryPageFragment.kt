@@ -8,8 +8,7 @@ import android.view.ViewGroup
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery_page.di.GalleryPageFragmentComponent
 import com.shevelev.wizard_camera.application.App
 import com.shevelev.wizard_camera.bitmap.GLSurfaceViewBitmap
-import com.shevelev.wizard_camera.bitmap.renderers.fragment.GrayscaleSurfaceRenderer
-import com.shevelev.wizard_camera.bitmap.renderers.fragment.NewspaperSurfaceRenderer
+import com.shevelev.wizard_camera.bitmap.filters.fragment.NewspaperSurfaceFilter
 import com.shevelev.wizard_camera.common_entities.entities.PhotoShot
 import com.shevelev.wizard_camera.databinding.FragmentGalleryPageBinding
 import com.shevelev.wizard_camera.shared.coroutines.DispatchersProvider
@@ -66,9 +65,9 @@ class GalleryPageFragment : FragmentBase<FragmentGalleryPageBinding>(), Coroutin
             }
 
             //GrayscaleSurfaceRenderer(requireContext(), photoBitmap)
-            val renderer =  NewspaperSurfaceRenderer(requireContext(), photoBitmap, false, requireContext().getScreenSize())
+            val filter =  NewspaperSurfaceFilter(requireContext(), photoBitmap, false, requireContext().getScreenSize())
 
-            GLSurfaceViewBitmap.createAndAddToView(requireContext(), binding.imageContainer, photoBitmap, renderer)
+            GLSurfaceViewBitmap.createAndAddToView(requireContext(), binding.imageContainer, photoBitmap, filter)
         }
     }
 

@@ -3,13 +3,12 @@ package com.shevelev.wizard_camera.bitmap
 import android.content.Context
 import android.graphics.Bitmap
 import android.opengl.GLSurfaceView
-import android.os.Handler
 import android.util.AttributeSet
 import android.util.SizeF
 import android.view.Gravity
 import android.view.SurfaceHolder
 import android.widget.FrameLayout
-import com.shevelev.wizard_camera.bitmap.renderers.GLSurfaceRenderedBase
+import com.shevelev.wizard_camera.bitmap.filters.GLSurfaceFilterBase
 
 class GLSurfaceViewBitmap
 @JvmOverloads
@@ -18,10 +17,10 @@ constructor(
     attrs: AttributeSet? = null
 ) : GLSurfaceView(context, attrs) {
 
-    private lateinit var renderer: GLSurfaceRenderedBase
+    private lateinit var filter: GLSurfaceFilterBase
 
     companion object {
-        fun createAndAddToView(context: Context, root: FrameLayout, bitmap: Bitmap, renderer: GLSurfaceRenderedBase): GLSurfaceViewBitmap {
+        fun createAndAddToView(context: Context, root: FrameLayout, bitmap: Bitmap, filter: GLSurfaceFilterBase): GLSurfaceViewBitmap {
             val surfaceView = GLSurfaceViewBitmap(context)
 
             surfaceView.setBitmapParameters(bitmap)
@@ -33,11 +32,11 @@ constructor(
             surfaceView.layoutParams = layoutParams
 
             surfaceView.setEGLContextClientVersion(2)
-            surfaceView.setRenderer(renderer)
+            surfaceView.setRenderer(filter)
             surfaceView.renderMode = RENDERMODE_WHEN_DIRTY
 
-            renderer.attachSurface(surfaceView)
-            surfaceView.renderer = renderer
+            filter.attachSurface(surfaceView)
+            surfaceView.filter = filter
 
             return surfaceView
         }
@@ -61,7 +60,7 @@ constructor(
 
     override fun surfaceDestroyed(holder: SurfaceHolder) {
         super.surfaceDestroyed(holder)
-        renderer.release()
+        filter.release()
     }
 
     private fun setBitmapParameters(bitmap: Bitmap) {

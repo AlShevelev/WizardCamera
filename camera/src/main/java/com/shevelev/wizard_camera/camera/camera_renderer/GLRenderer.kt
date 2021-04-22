@@ -4,9 +4,9 @@ import android.graphics.SurfaceTexture
 import android.opengl.EGL14
 import android.opengl.GLES11Ext
 import android.opengl.GLES31
-import com.shevelev.wizard_camera.camera.filter.CameraFilter
+import com.shevelev.wizard_camera.camera.filters.CameraFilter
 import com.shevelev.wizard_camera.camera.camera_renderer.utils.TextureUtils
-import com.shevelev.wizard_camera.camera.filter.factory.FiltersFactory
+import com.shevelev.wizard_camera.camera.filters.factory.FiltersFactory
 import com.shevelev.wizard_camera.common_entities.filter_settings.FilterSettings
 import javax.microedition.khronos.egl.*
 
