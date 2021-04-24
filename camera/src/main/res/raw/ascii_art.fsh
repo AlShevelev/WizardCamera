@@ -1,14 +1,12 @@
 precision highp float;
 
 uniform vec3 iResolution;
-uniform float iGlobalTime;
 uniform sampler2D iChannel0;
 varying vec2 texCoord;
 
 // referenced the method of bitmap of iq : https://www.shadertoy.com/view/4dfXWj
 
 #define r iResolution.xy
-#define t iGlobalTime
 
 #define zoom 2.
 

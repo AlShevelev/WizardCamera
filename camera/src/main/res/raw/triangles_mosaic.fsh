@@ -1,6 +1,5 @@
 precision highp float;
 
-uniform vec3 iResolution;
 uniform sampler2D iChannel0;
 
 // 30x60; 40x80; 50x100
