@@ -14,11 +14,10 @@ import com.shevelev.wizard_camera.activity_main.fragment_camera.model.dto.*
 import com.shevelev.wizard_camera.activity_main.fragment_camera.view.gestures.GesturesDetector
 import com.shevelev.wizard_camera.activity_main.fragment_camera.view_model.CameraFragmentViewModel
 import com.shevelev.wizard_camera.application.App
-import com.shevelev.wizard_camera.camera.camera_manager.CameraManager
-import com.shevelev.wizard_camera.camera.camera_renderer.GLRenderer
-import com.shevelev.wizard_camera.camera.camera_settings_repository.CameraSettingsRepository
-import com.shevelev.wizard_camera.camera.filters.CameraFilter
-import com.shevelev.wizard_camera.camera.filters.factory.FiltersFactory
+import com.shevelev.wizard_camera.camera.manager.CameraManager
+import com.shevelev.wizard_camera.camera.renderer.GLRenderer
+import com.shevelev.wizard_camera.camera.settings_repository.CameraSettingsRepository
+import com.shevelev.wizard_camera.camera.filter.CameraFilter
 import com.shevelev.wizard_camera.databinding.FragmentCameraBinding
 import com.shevelev.wizard_camera.shared.mvvm.view.FragmentBaseMVVM
 import com.shevelev.wizard_camera.shared.mvvm.view_commands.ViewCommand
@@ -158,7 +157,7 @@ class CameraFragment : FragmentBaseMVVM<FragmentCameraBinding, CameraFragmentVie
             return
         }
 
-        renderer = GLRenderer(-width, -height, FiltersFactory(requireContext().applicationContext)).also {
+        renderer = GLRenderer(-width, -height, requireContext().applicationContext).also {
             it.initGL(surface)
 
             it.setFilter(viewModel.selectedFilter.value!!)

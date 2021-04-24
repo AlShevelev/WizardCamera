@@ -10,6 +10,7 @@ import com.shevelev.wizard_camera.application.App
 import com.shevelev.wizard_camera.bitmap.GLSurfaceViewBitmap
 import com.shevelev.wizard_camera.bitmap.filters.fragment.NewspaperSurfaceFilter
 import com.shevelev.wizard_camera.common_entities.entities.PhotoShot
+import com.shevelev.wizard_camera.common_entities.filter_settings.NewspaperFilterSettings
 import com.shevelev.wizard_camera.databinding.FragmentGalleryPageBinding
 import com.shevelev.wizard_camera.shared.coroutines.DispatchersProvider
 import com.shevelev.wizard_camera.shared.files.FilesHelper
@@ -65,7 +66,12 @@ class GalleryPageFragment : FragmentBase<FragmentGalleryPageBinding>(), Coroutin
             }
 
             //GrayscaleSurfaceRenderer(requireContext(), photoBitmap)
-            val filter =  NewspaperSurfaceFilter(requireContext(), photoBitmap, false, requireContext().getScreenSize())
+            val filter =  NewspaperSurfaceFilter(
+                requireContext(),
+                photoBitmap,
+                NewspaperFilterSettings(isGrayscale = false),
+                requireContext().getScreenSize()
+            )
 
             GLSurfaceViewBitmap.createAndAddToView(requireContext(), binding.imageContainer, photoBitmap, filter)
         }

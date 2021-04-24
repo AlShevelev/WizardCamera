@@ -51,7 +51,7 @@ android {
 }
 
 dependencies {
-    implementation project(":camera")
+    implementation project(':camera_gl')
     implementation project(":utils")
     implementation project(":common_entities")
     implementation project(":storage")

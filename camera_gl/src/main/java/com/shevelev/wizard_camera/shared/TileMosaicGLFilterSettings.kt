@@ -1,0 +1,23 @@
+package com.shevelev.wizard_camera.shared
+
+import android.opengl.GLES31
+import com.shevelev.wizard_camera.common_entities.filter_settings.TileMosaicFilterSettings
+
+/**
+ * A class for passing [TrianglesMosaicGLFilterSettings] into an OGL filter
+ */
+class TileMosaicGLFilterSettings(
+    settings: TileMosaicFilterSettings
+) : GLFilerSettingsBase<TileMosaicFilterSettings>(settings) {
+    /**
+     * Passes params
+     * @param program OGL program
+     */
+    override fun passSettingsParams(program: Int) {
+        val tileSize = GLES31.glGetUniformLocation(program, "maxTileSize")
+        GLES31.glUniform1f(tileSize, settings.tileSize.toFloat())
+
+        val borderSize = GLES31.glGetUniformLocation(program, "borderSize")
+        GLES31.glUniform1f(borderSize, settings.borderSize.toFloat())
+    }
+}

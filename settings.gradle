@@ -1,5 +1,5 @@
 include ':app'
-include ':camera'
+include ':camera_gl'
 include ':utils'
 include ':storage'
 include ':common_entities'

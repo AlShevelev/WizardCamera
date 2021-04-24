@@ -17,7 +17,7 @@ constructor(
     private val filterSettingsRepository: FilterSettingsRepository
 ) : FilterSettingsFacade {
 
-    private val settingsMap = mutableMapOf<FilterCode, FilterSettings>(
+    private val settingsMap = mutableMapOf<FilterCode,  FilterSettings>(
         FilterCode.ORIGINAL to EmptyFilterSettings(FilterCode.ORIGINAL),
         FilterCode.PIXELIZE to EmptyFilterSettings(FilterCode.PIXELIZE),
         FilterCode.BLUE_ORANGE to EmptyFilterSettings(FilterCode.BLUE_ORANGE),
@@ -36,7 +36,8 @@ constructor(
         FilterCode.RELIEF to EmptyFilterSettings(FilterCode.RELIEF),
         FilterCode.MIRROR to EmptyFilterSettings(FilterCode.MIRROR),
         FilterCode.CARTOON to EmptyFilterSettings(FilterCode.CARTOON),
-        FilterCode.WATER_REFLECTION to EmptyFilterSettings(FilterCode.WATER_REFLECTION)
+        FilterCode.WATER_REFLECTION to EmptyFilterSettings(FilterCode.WATER_REFLECTION),
+        FilterCode.REFRACTION to EmptyFilterSettings(FilterCode.REFRACTION)
     )
 
     override suspend fun init() {
