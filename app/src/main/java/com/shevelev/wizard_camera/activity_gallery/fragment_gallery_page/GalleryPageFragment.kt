@@ -8,11 +8,13 @@ import android.view.ViewGroup
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery_page.di.GalleryPageFragmentComponent
 import com.shevelev.wizard_camera.application.App
 import com.shevelev.wizard_camera.bitmap.GLSurfaceViewBitmap
-import com.shevelev.wizard_camera.bitmap.filters.fragment.NewspaperSurfaceFilter
+import com.shevelev.wizard_camera.bitmap.filters.GLSurfaceShaderFilter
 import com.shevelev.wizard_camera.common_entities.entities.PhotoShot
+import com.shevelev.wizard_camera.common_entities.enums.FilterCode
 import com.shevelev.wizard_camera.common_entities.filter_settings.NewspaperFilterSettings
 import com.shevelev.wizard_camera.databinding.FragmentGalleryPageBinding
 import com.shevelev.wizard_camera.shared.coroutines.DispatchersProvider
+import com.shevelev.wizard_camera.shared.factory.FiltersFactory
 import com.shevelev.wizard_camera.shared.files.FilesHelper
 import com.shevelev.wizard_camera.shared.mvvm.view.FragmentBase
 import com.shevelev.wizard_camera.utils.resources.getScreenSize
@@ -66,11 +68,12 @@ class GalleryPageFragment : FragmentBase<FragmentGalleryPageBinding>(), Coroutin
             }
 
             //GrayscaleSurfaceRenderer(requireContext(), photoBitmap)
-            val filter =  NewspaperSurfaceFilter(
+            val filter =  GLSurfaceShaderFilter(
                 requireContext(),
                 photoBitmap,
-                NewspaperFilterSettings(isGrayscale = false),
-                requireContext().getScreenSize()
+                FiltersFactory.getFilterRes(photoSettings.filter.code),
+                requireContext().getScreenSize(),
+                FiltersFactory.createGLFilterSettings(photoSettings.filter, requireContext())
             )
 
             GLSurfaceViewBitmap.createAndAddToView(requireContext(), binding.imageContainer, photoBitmap, filter)

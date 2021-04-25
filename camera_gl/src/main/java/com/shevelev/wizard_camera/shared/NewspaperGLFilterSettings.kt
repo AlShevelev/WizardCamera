@@ -8,7 +8,7 @@ import com.shevelev.wizard_camera.common_entities.filter_settings.NewspaperFilte
  */
 class NewspaperGLFilterSettings(
     settings: NewspaperFilterSettings
-) : GLFilerSettingsBase<NewspaperFilterSettings>(settings) {
+) : GLFilterSettingsBase<NewspaperFilterSettings>(settings) {
     /**
      * Passes params
      * @param program OGL program

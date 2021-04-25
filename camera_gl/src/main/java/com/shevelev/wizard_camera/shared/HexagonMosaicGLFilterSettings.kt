@@ -9,7 +9,7 @@ import com.shevelev.wizard_camera.common_entities.filter_settings.HexagonMosaicF
  */
 class HexagonMosaicGLFilterSettings(
     settings: HexagonMosaicFilterSettings
-) : GLFilerSettingsBase<HexagonMosaicFilterSettings>(settings) {
+) : GLFilterSettingsBase<HexagonMosaicFilterSettings>(settings) {
     /**
      * Passes params
      * @param program OGL program

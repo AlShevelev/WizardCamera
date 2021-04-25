@@ -12,7 +12,7 @@ import com.shevelev.wizard_camera.common_entities.filter_settings.EmptyFilterSet
 class RefractionGLFilterSettings(
     private val context: Context,
     settings: EmptyFilterSettings
-) : GLFilerSettingsBase<EmptyFilterSettings>(settings) {
+) : GLFilterSettingsBase<EmptyFilterSettings>(settings) {
     /**
      * Passes params
      * @param program OGL program

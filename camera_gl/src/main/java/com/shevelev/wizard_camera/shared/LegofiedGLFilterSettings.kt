@@ -9,7 +9,7 @@ import com.shevelev.wizard_camera.common_entities.filter_settings.LegofiedFilter
  */
 class LegofiedGLFilterSettings(
     settings: LegofiedFilterSettings
-) : GLFilerSettingsBase<LegofiedFilterSettings>(settings) {
+) : GLFilterSettingsBase<LegofiedFilterSettings>(settings) {
     /**
      * Passes params
      * @param program OGL program

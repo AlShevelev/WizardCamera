@@ -8,7 +8,7 @@ import com.shevelev.wizard_camera.common_entities.filter_settings.CrackedFilterS
  */
 class CrackedGLFilterSettings(
     settings: CrackedFilterSettings
-) : GLFilerSettingsBase<CrackedFilterSettings>(settings) {
+) : GLFilterSettingsBase<CrackedFilterSettings>(settings) {
     /**
      * Passes params
      * @param program OGL program

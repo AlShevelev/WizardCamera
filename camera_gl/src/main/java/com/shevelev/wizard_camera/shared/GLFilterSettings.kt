@@ -5,7 +5,7 @@ import com.shevelev.wizard_camera.common_entities.filter_settings.FilterSettings
 /**
  * An interface for passing [FilterSettings] params into OGL program
  */
-interface GLFilerSettings {
+interface GLFilterSettings {
     /**
      * Passes params
      * @param program OGL program

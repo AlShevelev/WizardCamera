@@ -8,7 +8,7 @@ import com.shevelev.wizard_camera.common_entities.filter_settings.SwirlFilterSet
  */
 class SwirlGLFilterSettings(
     settings: SwirlFilterSettings
-) : GLFilerSettingsBase<SwirlFilterSettings>(settings) {
+) : GLFilterSettingsBase<SwirlFilterSettings>(settings) {
     /**
      * Passes params
      * @param program OGL program

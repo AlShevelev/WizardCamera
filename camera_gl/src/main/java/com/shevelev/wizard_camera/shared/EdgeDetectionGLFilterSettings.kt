@@ -8,7 +8,7 @@ import com.shevelev.wizard_camera.common_entities.filter_settings.EdgeDetectionF
  */
 class EdgeDetectionGLFilterSettings(
     settings: EdgeDetectionFilterSettings
-) : GLFilerSettingsBase<EdgeDetectionFilterSettings>(settings) {
+) : GLFilterSettingsBase<EdgeDetectionFilterSettings>(settings) {
     /**
      * Passes params
      * @param program OGL program

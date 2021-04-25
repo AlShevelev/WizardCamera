@@ -5,19 +5,19 @@ import android.graphics.Bitmap
 import android.opengl.GLES31
 import android.util.Size
 import androidx.annotation.RawRes
-import com.shevelev.wizard_camera.common_entities.filter_settings.FilterSettings
+import com.shevelev.wizard_camera.shared.GLFilterSettings
 import javax.microedition.khronos.opengles.GL10
 
 /**
  * Base class for all OpenGL renderers, based on fragment shaders
  */
-abstract class GLSurfaceShaderFilterBase(
+class GLSurfaceShaderFilter(
     context: Context,
     bitmap: Bitmap,
     @RawRes
     private val fragmentShaderResId: Int,
     screenSize: Size,
-    private var settings: FilterSettings
+    private var settings: GLFilterSettings
 ) : GLSurfaceFilterBase(context, bitmap, fragmentShaderResId, screenSize) {
 
     override fun onDrawFrame(gl: GL10) {
@@ -30,16 +30,12 @@ abstract class GLSurfaceShaderFilterBase(
 
     override fun setFragmentShaderParameters(texture: Int) {
         super.setFragmentShaderParameters(texture)
-        useSettings(settings)
+        settings.passSettingsParams(program)
     }
 
-    fun updateSettings(settings: FilterSettings) {
+    fun updateSettings(settings: GLFilterSettings) {
         this.settings = settings
-        useSettings(settings)
+        settings.passSettingsParams(program)
         surface.requestRender()
-    }
-
-    open fun useSettings(settings: FilterSettings) {
-        // do nothing
     }
 }

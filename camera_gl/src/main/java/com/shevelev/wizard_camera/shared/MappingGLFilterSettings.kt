@@ -13,7 +13,7 @@ import com.shevelev.wizard_camera.common_entities.filter_settings.MappingFilterS
 class MappingGLFilterSettings(
     private val context: Context,
     settings: MappingFilterSettings
-) : GLFilerSettingsBase<MappingFilterSettings>(settings) {
+) : GLFilterSettingsBase<MappingFilterSettings>(settings) {
     /**
      * Passes params
      * @param program OGL program

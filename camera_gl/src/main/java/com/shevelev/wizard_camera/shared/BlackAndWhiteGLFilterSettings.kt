@@ -8,7 +8,7 @@ import com.shevelev.wizard_camera.common_entities.filter_settings.BlackAndWhiteF
  */
 class BlackAndWhiteGLFilterSettings(
     settings: BlackAndWhiteFilterSettings
-) : GLFilerSettingsBase<BlackAndWhiteFilterSettings>(settings) {
+) : GLFilterSettingsBase<BlackAndWhiteFilterSettings>(settings) {
     /**
      * Passes params
      * @param program OGL program

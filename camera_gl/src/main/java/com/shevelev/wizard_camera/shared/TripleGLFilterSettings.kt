@@ -8,7 +8,7 @@ import com.shevelev.wizard_camera.common_entities.filter_settings.TripleFilterSe
  */
 class TripleGLFilterSettings(
     settings: TripleFilterSettings
-) : GLFilerSettingsBase<TripleFilterSettings>(settings) {
+) : GLFilterSettingsBase<TripleFilterSettings>(settings) {
     /**
      * Passes params
      * @param program OGL program

@@ -10,7 +10,7 @@ import java.nio.FloatBuffer
  */
 class TrianglesMosaicGLFilterSettings(
     settings: TrianglesMosaicFilterSettings
-) : GLFilerSettingsBase<TrianglesMosaicFilterSettings>(settings) {
+) : GLFilterSettingsBase<TrianglesMosaicFilterSettings>(settings) {
     /**
      * Passes params
      * @param program OGL program

@@ -8,7 +8,7 @@ import com.shevelev.wizard_camera.camera.R
 import com.shevelev.wizard_camera.camera.renderer.RenderBuffer
 import com.shevelev.wizard_camera.camera.renderer.utils.BufferUtils
 import com.shevelev.wizard_camera.camera.renderer.utils.ShaderUtils
-import com.shevelev.wizard_camera.shared.GLFilerSettings
+import com.shevelev.wizard_camera.shared.GLFilterSettings
 import java.nio.FloatBuffer
 
 class CameraFilter(
@@ -53,7 +53,7 @@ class CameraFilter(
 
     private val filterProgram: Int
 
-    private lateinit var settings: GLFilerSettings
+    private lateinit var settings: GLFilterSettings
 
     init {
         if (mainProgram == 0) {
@@ -63,7 +63,7 @@ class CameraFilter(
         filterProgram = ShaderUtils.buildProgram(context, R.raw.vertext, fragmentFilterResId)
     }
 
-    fun onAttach(settings: GLFilerSettings) {
+    fun onAttach(settings: GLFilterSettings) {
         iFrame = 0
         this.settings = settings
     }

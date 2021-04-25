@@ -8,7 +8,7 @@ import com.shevelev.wizard_camera.common_entities.filter_settings.TileMosaicFilt
  */
 class TileMosaicGLFilterSettings(
     settings: TileMosaicFilterSettings
-) : GLFilerSettingsBase<TileMosaicFilterSettings>(settings) {
+) : GLFilterSettingsBase<TileMosaicFilterSettings>(settings) {
     /**
      * Passes params
      * @param program OGL program

@@ -5,9 +5,9 @@ import com.shevelev.wizard_camera.common_entities.filter_settings.EmptyFilterSet
 /**
  * A class for passing [EmptyFilterSettings] into an OGL filter
  */
-class EmptyGLFilerSettings(
+class EmptyGLFilterSettings(
     settings: EmptyFilterSettings
-) : GLFilerSettingsBase<EmptyFilterSettings>(settings) {
+) : GLFilterSettingsBase<EmptyFilterSettings>(settings) {
     /**
      * Passes params
      * @param program OGL program
