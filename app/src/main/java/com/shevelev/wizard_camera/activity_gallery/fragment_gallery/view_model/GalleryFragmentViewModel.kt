@@ -8,6 +8,7 @@ import com.shevelev.wizard_camera.common_entities.entities.PhotoShot
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.model.dto.ShareShotCommand
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.model.dto.ShotsLoadingResult
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.model.GalleryFragmentInteractor
+import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.model.dto.EditShotCommand
 import com.shevelev.wizard_camera.shared.coroutines.DispatchersProvider
 import com.shevelev.wizard_camera.shared.mvvm.view_commands.ShowMessageResCommand
 import com.shevelev.wizard_camera.shared.mvvm.view_model.ViewModelBase
@@ -78,7 +79,7 @@ constructor(
         }
     }
 
-    fun deleteShot(position: Int) {
+    fun onDeleteShotClick(position: Int) {
         launch {
             try {
                 interactor.delete(position)
@@ -88,7 +89,7 @@ constructor(
         }
     }
 
-    fun shareShot(position: Int) {
+    fun onShareShotClick(position: Int) {
         _command.value = ShareShotCommand(interactor.getShot(position))
     }
 
@@ -97,6 +98,10 @@ constructor(
 
         _shotDateTime.value = shot.created.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT))
         _isShareButtonVisible.value = shot.contentUri?.let { View.VISIBLE } ?: View.INVISIBLE
+    }
+
+    fun onEditShotClick(position: Int) {
+        _command.value = EditShotCommand(interactor.getShot(position))
     }
 
     override fun onCleared() {

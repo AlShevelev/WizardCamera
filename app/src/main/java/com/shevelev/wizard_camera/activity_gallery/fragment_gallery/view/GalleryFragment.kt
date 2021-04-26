@@ -3,9 +3,11 @@ package com.shevelev.wizard_camera.activity_gallery.fragment_gallery.view
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.di.GalleryFragmentComponent
+import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.model.dto.EditShotCommand
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.model.dto.ShareShotCommand
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.view.adapter.GalleryAdapter
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.view_model.GalleryFragmentViewModel
@@ -45,12 +47,14 @@ class GalleryFragment : FragmentBaseMVVM<FragmentGalleryBinding, GalleryFragment
         binding.deleteButton.setOnClickListener {
             ConfirmationDialog.show(childFragmentManager, R.string.deletePhotoQuestion, R.string.delete, R.string.cancel) {
                 if(it) {
-                    viewModel.deleteShot(binding.galleryPager.currentItem)
+                    viewModel.onDeleteShotClick(binding.galleryPager.currentItem)
                 }
             }
         }
 
-        binding.shareButton.setOnClickListener { viewModel.shareShot(binding.galleryPager.currentItem) }
+        binding.shareButton.setOnClickListener { viewModel.onShareShotClick(binding.galleryPager.currentItem) }
+
+        binding.editButton.setOnClickListener { viewModel.onEditShotClick(binding.galleryPager.currentItem) }
 
         binding.galleryPager.registerOnPageChangeCallback(object: ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
@@ -62,6 +66,7 @@ class GalleryFragment : FragmentBaseMVVM<FragmentGalleryBinding, GalleryFragment
     override fun processViewCommand(command: ViewCommand) {
         when(command) {
             is ShareShotCommand -> shareShot(command.shot)
+            is EditShotCommand -> findNavController().navigate(R.id.action_galleryFragment_to_editorFragment)
         }
     }
 

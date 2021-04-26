@@ -6,5 +6,13 @@
     <fragment
         android:id="@+id/galleryFragment"
         android:name="com.shevelev.wizard_camera.activity_gallery.fragment_gallery.view.GalleryFragment"
-        android:label="GalleryFragment" />
+        android:label="GalleryFragment" >
+        <action
+            android:id="@+id/action_galleryFragment_to_editorFragment"
+            app:destination="@id/editorFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editorFragment"
+        android:name="com.shevelev.wizard_camera.activity_gallery.fragment_editor.view.EditorFragment"
+        android:label="EditorFragment" />
 </navigation>
