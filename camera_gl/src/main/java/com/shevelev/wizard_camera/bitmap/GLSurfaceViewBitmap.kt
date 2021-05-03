@@ -31,7 +31,7 @@ constructor(
             layoutParams.gravity = Gravity.CENTER
             surfaceView.layoutParams = layoutParams
 
-            surfaceView.setEGLContextClientVersion(2)
+            surfaceView.setEGLContextClientVersion(3)
             surfaceView.setRenderer(filter)
             surfaceView.renderMode = RENDERMODE_WHEN_DIRTY
 

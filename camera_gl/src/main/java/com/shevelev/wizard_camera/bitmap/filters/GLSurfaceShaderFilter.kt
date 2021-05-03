@@ -29,8 +29,8 @@ class GLSurfaceShaderFilter(
     }
 
     override fun setFragmentShaderParameters(texture: Int) {
-        super.setFragmentShaderParameters(texture)
         settings.passSettingsParams(program)
+        super.setFragmentShaderParameters(texture)
     }
 
     fun updateSettings(settings: GLFilterSettings) {
