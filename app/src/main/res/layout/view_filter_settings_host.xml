@@ -13,7 +13,7 @@
 
         tool:text = "Edge Detection settings"
 
-        style="@style/CameraTextLabel.WithoutBackground"
+        style="@style/WizCam.TextStyle.SingleLine.Normal.Camera.WithoutBackground"
 
         android:layout_gravity="top|center_horizontal"
 

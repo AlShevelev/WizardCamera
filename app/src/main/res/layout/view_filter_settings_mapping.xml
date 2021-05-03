@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
 
         android:text="@string/mixFactor"
-        style="@style/TextSmall.Light.SingleLine"
+        style="@style/WizCam.TextStyle.SingleLine.Small"
 
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

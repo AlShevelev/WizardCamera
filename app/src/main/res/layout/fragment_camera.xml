@@ -41,7 +41,7 @@
 
         <com.shevelev.wizard_camera.activity_main.fragment_camera.view.widgets.TitleWidget
             android:id="@+id/screenTitle"
-            style="@style/CameraTextLabel"
+            style="@style/WizCam.TextStyle.SingleLine.Normal.Camera"
 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -55,15 +55,10 @@
 
         <ImageButton
             android:id="@+id/galleryButton"
-            android:layout_width="@dimen/toolButtonSizeNormal"
-            android:layout_height="@dimen/toolButtonSizeNormal"
-
+            style = "@style/WizCam.RoundButton"
             android:layout_marginTop="@dimen/marginNormal"
             android:layout_marginEnd="@dimen/marginNormal"
-
-            android:background="@drawable/bcg_main_button"
             android:src="@drawable/ic_gallery"
-
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="ContentDescription" />
@@ -72,9 +67,7 @@
             android:id="@+id/expositionBar"
             android:layout_width="@dimen/toolButtonSizeNormal"
             android:layout_height="300dp"
-
             android:layout_marginEnd="@dimen/marginNormal"
-
             app:exposure_button_color="@color/mainButtonsBackground"
             app:exposure_button_color_pressed="@color/mainButtonsBackgroundPressed"
             app:exposure_button_icon="@drawable/ic_brightness"
@@ -83,22 +76,17 @@
             app:exposure_min_value="-1"
             app:exposure_stroke_color="@color/mainButtonsForeground"
             app:exposure_stroke_width="@dimen/strokeWidthNormal"
-
             android:visibility="@{viewModel.exposureBarVisibility}"
             tools:visibility="visible"
-
             app:layout_constraintBottom_toTopOf="@+id/allFiltersCarousel"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/galleryButton" />
 
         <com.shevelev.wizard_camera.activity_main.fragment_camera.view.widgets.FiltersModeButton
             android:id="@+id/filtersModeButton"
-
             android:layout_width="@dimen/toolButtonSizeNormal"
             android:layout_height="@dimen/toolButtonSizeNormal"
-
             app:button_state_filters_mode = "@{viewModel.filterModeButtonState}"
-
             app:layout_constraintBottom_toBottomOf="@+id/shootButton"
             app:layout_constraintEnd_toStartOf="@+id/shootButton"
             app:layout_constraintHorizontal_bias="0.5"
@@ -108,17 +96,10 @@
 
         <ImageButton
             android:id="@+id/shootButton"
-            android:layout_width="@dimen/toolButtonSizeLarge"
-            android:layout_height="@dimen/toolButtonSizeLarge"
-
+            style = "@style/WizCam.RoundButton.Large"
             android:layout_marginBottom="@dimen/navigationBarButtonsMargin"
-
             app:button_enabled="@{viewModel.isShotButtonEnabled}"
-
-            android:background="@drawable/bcg_main_button"
             android:src="@drawable/ic_camera"
-            android:tint="@color/color_main_button"
-
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/flashButton"
             app:layout_constraintHorizontal_bias="0.5"
@@ -127,13 +108,8 @@
 
         <ImageButton
             android:id="@+id/flashButton"
-            android:layout_width="@dimen/toolButtonSizeNormal"
-            android:layout_height="@dimen/toolButtonSizeNormal"
-
-            android:background="@drawable/bcg_main_button"
-
+            style = "@style/WizCam.RoundButton"
             android:src="@drawable/ic_flash"
-            android:tint="@color/color_main_button"
             app:button_state="@{viewModel.flashButtonState}"
             app:layout_constraintBottom_toBottomOf="@+id/shootButton"
             app:layout_constraintEnd_toEndOf="parent"

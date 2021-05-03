@@ -12,7 +12,7 @@
 
         android:layout_marginTop="@dimen/marginLarge"
 
-        style="@style/Settings.Button"
+        style="@style/WizCam.TextStyle.SingleLine.Small.SettingsButton"
 
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/totalShards" />
@@ -37,7 +37,7 @@
         android:layout_height="wrap_content"
 
         android:text="@string/totalShards"
-        style="@style/TextSmall.Light.SingleLine"
+        style="@style/WizCam.TextStyle.SingleLine.Small"
 
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

@@ -33,7 +33,7 @@
             android:textSize="@dimen/textSizeNormal"
             android:textColor="@color/white"
             android:layout_marginTop="@dimen/marginLarge"
-            android:layout_marginEnd="@dimen/marginNormal"
+            android:layout_marginEnd="@dimen/navigationBarButtonsMargin"
             android:text="@{viewModel.shotDateTime}"
             android:visibility="@{viewModel.isShotWidgetsVisible}"
             tools:visibility="visible"
@@ -43,22 +43,20 @@
 
         <ImageButton
             android:id="@+id/deleteButton"
-            android:layout_width= "@dimen/toolButtonSizeNormal"
-            android:layout_height="@dimen/toolButtonSizeNormal"
+            style = "@style/WizCam.RoundButton"
             android:src="@drawable/ic_delete"
-            android:background="@null"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="@dimen/navigationBarButtonsMargin"
+            android:layout_marginBottom="@dimen/marginNormal"
             android:visibility="@{viewModel.isShotWidgetsVisible}"
             tools:visibility="visible"
             tools:ignore="ContentDescription" />
 
         <ImageButton
             android:id="@+id/editButton"
-            android:layout_width="@dimen/toolButtonSizeNormal"
-            android:layout_height="@dimen/toolButtonSizeNormal"
+            style = "@style/WizCam.RoundButton"
             android:layout_gravity="end|bottom"
-            android:background="@null"
             android:src="@drawable/ic_edit"
             app:layout_constraintBottom_toBottomOf="@id/deleteButton"
             app:layout_constraintEnd_toStartOf="@id/deleteButton"
@@ -69,10 +67,8 @@
 
         <ImageButton
             android:id="@+id/shareButton"
-            android:layout_width="@dimen/toolButtonSizeNormal"
-            android:layout_height="@dimen/toolButtonSizeNormal"
+            style = "@style/WizCam.RoundButton"
             android:layout_gravity="end|bottom"
-            android:background="@null"
             android:src="@drawable/ic_share"
             app:layout_constraintBottom_toBottomOf="@id/deleteButton"
             app:layout_constraintEnd_toStartOf="@id/editButton"
@@ -98,7 +94,7 @@
 
         <TextView
             android:id="@+id/noDataStubText"
-            style="@style/TextNormal.Light.SingleLine"
+            style="@style/WizCam.TextStyle.SingleLine.Normal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/marginSmall"

@@ -29,7 +29,7 @@
 
         <TextView
             android:id="@+id/shotDateTime"
-            style="@style/TextNormal.Light.SingleLine"
+            style="@style/WizCam.TextStyle.SingleLine.Normal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/marginLarge"
@@ -43,22 +43,19 @@
 
         <ImageButton
             android:id="@+id/deleteButton"
-            android:layout_width="@dimen/toolButtonSizeNormal"
-            android:layout_height="@dimen/toolButtonSizeNormal"
+            style = "@style/WizCam.RoundButton"
             android:layout_marginBottom="@dimen/navigationBarButtonsMargin"
-            android:background="@null"
             android:src="@drawable/ic_delete"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:visibility="@{viewModel.isShotWidgetsVisible}"
+            android:layout_marginEnd="@dimen/marginNormal"
             tools:visibility="visible"
             tools:ignore="ContentDescription" />
 
         <ImageButton
             android:id="@+id/editButton"
-            android:layout_width="@dimen/toolButtonSizeNormal"
-            android:layout_height="@dimen/toolButtonSizeNormal"
-            android:background="@null"
+            style = "@style/WizCam.RoundButton"
             android:src="@drawable/ic_edit"
             android:visibility="@{viewModel.isShareButtonVisible}"
             tools:visibility="visible"
@@ -69,9 +66,7 @@
 
         <ImageButton
             android:id="@+id/shareButton"
-            android:layout_width="@dimen/toolButtonSizeNormal"
-            android:layout_height="@dimen/toolButtonSizeNormal"
-            android:background="@null"
+            style = "@style/WizCam.RoundButton"
             android:src="@drawable/ic_share"
             android:visibility="@{viewModel.isShareButtonVisible}"
             tools:visibility="visible"
@@ -97,7 +92,7 @@
 
         <TextView
             android:id="@+id/noDataStubText"
-            style="@style/TextNormal.Light.SingleLine"
+            style="@style/WizCam.TextStyle.SingleLine.Normal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/marginSmall"

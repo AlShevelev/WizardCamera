@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
 
         android:text="@string/tileSize"
-        style="@style/TextSmall.Light.SingleLine"
+        style="@style/WizCam.TextStyle.SingleLine.Small"
 
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -35,7 +35,7 @@
         android:layout_height="wrap_content"
 
         android:text="@string/borderSize"
-        style="@style/TextSmall.Light.SingleLine"
+        style="@style/WizCam.TextStyle.SingleLine.Small"
 
         android:layout_marginTop="@dimen/marginLarge"
 
