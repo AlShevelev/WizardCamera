@@ -12,9 +12,7 @@
         android:id="@+id/root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
         android:animateLayoutChanges="true"
-
         tools:background="#EA00FF">
 
         <FrameLayout
@@ -42,10 +40,8 @@
         <com.shevelev.wizard_camera.activity_main.fragment_camera.view.widgets.TitleWidget
             android:id="@+id/screenTitle"
             style="@style/WizCam.TextStyle.SingleLine.Normal.Camera"
-
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
             app:layout_constraintBottom_toBottomOf="@+id/galleryButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

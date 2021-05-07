@@ -11,8 +11,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".activity_gallery.GalleryActivity"
-        tools:background="#EA00FF" >
+        tools:background="#EA00FF"
+        tools:context=".activity_gallery.GalleryActivity">
 
         <FrameLayout
             android:id="@+id/imageContainer"
@@ -24,62 +24,62 @@
             style="@style/WizCam.TextStyle.SingleLine.Normal.Camera"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="@+id/cancelButton"
-            app:layout_constraintEnd_toStartOf="@+id/cancelButton"
-            app:layout_constraintStart_toEndOf="@+id/acceptButton"
-            app:layout_constraintTop_toTopOf="@+id/cancelButton"
+            app:layout_constraintBottom_toBottomOf="@id/cancelButton"
+            app:layout_constraintEnd_toStartOf="@id/cancelButton"
+            app:layout_constraintStart_toEndOf="@id/acceptButton"
+            app:layout_constraintTop_toTopOf="@id/cancelButton"
             tools:text="Original" />
 
         <ImageButton
             android:id="@+id/cropButton"
-            style = "@style/WizCam.RoundButton"
-            android:layout_marginBottom="@dimen/navigationBarButtonsMargin"
+            style="@style/WizCam.RoundButton"
+            android:layout_marginEnd="@dimen/navigationBarButtonsMargin"
+            android:layout_marginBottom="@dimen/marginNormal"
             android:src="@drawable/ic_crop"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="@dimen/marginNormal"
-            tools:visibility="visible"
-            tools:ignore="ContentDescription" />
+            tools:ignore="ContentDescription"
+            tools:visibility="visible" />
 
         <ImageButton
             android:id="@+id/standardFiltersButton"
-            style = "@style/WizCam.RoundButton"
-            android:src="@drawable/ic_gallery_brightness"
-            tools:visibility="visible"
+            style="@style/WizCam.RoundButton"
             android:layout_marginEnd="@dimen/marginSmall"
+            android:src="@drawable/ic_gallery_brightness"
             app:layout_constraintBottom_toBottomOf="@id/cropButton"
             app:layout_constraintEnd_toStartOf="@id/cropButton"
-            tools:ignore="ContentDescription" />
+            tools:ignore="ContentDescription"
+            tools:visibility="visible" />
 
         <ImageButton
             android:id="@+id/filtersButton"
-            style = "@style/WizCam.RoundButton"
-            android:src="@drawable/ic_gallery_filter"
-            tools:visibility="visible"
+            style="@style/WizCam.RoundButton"
             android:layout_marginEnd="@dimen/marginSmall"
+            android:src="@drawable/ic_gallery_filter"
             app:layout_constraintBottom_toBottomOf="@id/cropButton"
             app:layout_constraintEnd_toStartOf="@id/standardFiltersButton"
-            tools:ignore="ContentDescription" />
+            tools:ignore="ContentDescription"
+            tools:visibility="visible" />
 
         <ImageButton
             android:id="@+id/cancelButton"
-            style = "@style/WizCam.RoundButton"
-            android:src="@drawable/ic_cancel"
-            tools:visibility="visible"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="@id/cropButton"
+            style="@style/WizCam.RoundButton"
             android:layout_marginTop="@dimen/marginNormal"
-            tools:ignore="ContentDescription" />
+            android:src="@drawable/ic_cancel"
+            app:layout_constraintEnd_toEndOf="@id/cropButton"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription"
+            tools:visibility="visible" />
 
         <ImageButton
             android:id="@+id/acceptButton"
-            style = "@style/WizCam.RoundButton"
+            style="@style/WizCam.RoundButton"
+            android:layout_marginStart="@dimen/navigationBarButtonsMargin"
             android:src="@drawable/ic_accept"
-            tools:visibility="visible"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/cancelButton"
-            android:layout_marginStart="@dimen/marginNormal"
-            tools:ignore="ContentDescription" />
+            tools:ignore="ContentDescription"
+            tools:visibility="visible" />
 
         <!-- FiltersCarouselWidget'll be here -->
         <FrameLayout
@@ -87,9 +87,9 @@
             android:layout_width="0dp"
             android:layout_height="@dimen/mainFilterCarouselHeight"
             android:layout_marginBottom="@dimen/marginNormal"
-            app:layout_constraintBottom_toTopOf="@+id/filtersButton"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/filtersButton"
+            app:layout_constraintEnd_toEndOf="@id/guideline80"
+            app:layout_constraintStart_toEndOf="@id/guideline20"
             tools:background="#0000ff"
             tools:visibility="visible" />
 
@@ -98,15 +98,29 @@
             android:id="@+id/settings"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            tools:layout_height="75dp"
             android:layout_marginStart="@dimen/marginNormal"
             android:layout_marginEnd="@dimen/marginNormal"
             android:layout_marginBottom="@dimen/marginNormal"
             android:visibility="invisible"
-            tools:background="#00ff00"
-            app:layout_constraintBottom_toTopOf="@+id/filtersButton"
+            app:layout_constraintBottom_toTopOf="@id/filtersButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            tools:background="#00ff00"
+            tools:layout_height="75dp"
             tools:visibility="visible" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline20"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.2" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline80"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.8" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
