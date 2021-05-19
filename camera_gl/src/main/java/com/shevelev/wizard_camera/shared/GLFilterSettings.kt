@@ -1,9 +1,9 @@
 package com.shevelev.wizard_camera.shared
 
-import com.shevelev.wizard_camera.common_entities.filter_settings.FilterSettings
+import com.shevelev.wizard_camera.common_entities.filter_settings.gl.GlFilterSettings
 
 /**
- * An interface for passing [FilterSettings] params into OGL program
+ * An interface for passing [GlFilterSettings] params into OGL program
  */
 interface GLFilterSettings {
     /**

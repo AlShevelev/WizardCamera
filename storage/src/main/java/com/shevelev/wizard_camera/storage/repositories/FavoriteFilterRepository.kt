@@ -1,11 +1,11 @@
 package com.shevelev.wizard_camera.storage.repositories
 
-import com.shevelev.wizard_camera.common_entities.enums.FilterCode
+import com.shevelev.wizard_camera.common_entities.enums.GlFilterCode
 
 interface FavoriteFilterRepository {
-    fun create(code: FilterCode)
+    fun create(code: GlFilterCode)
 
-    fun read(): List<FilterCode>
+    fun read(): List<GlFilterCode>
 
-    fun delete(code: FilterCode)
+    fun delete(code: GlFilterCode)
 }

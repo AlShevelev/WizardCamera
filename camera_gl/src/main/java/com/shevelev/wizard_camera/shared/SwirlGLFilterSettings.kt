@@ -1,7 +1,7 @@
 package com.shevelev.wizard_camera.shared
 
 import android.opengl.GLES31
-import com.shevelev.wizard_camera.common_entities.filter_settings.SwirlFilterSettings
+import com.shevelev.wizard_camera.common_entities.filter_settings.gl.SwirlFilterSettings
 
 /**
  * A class for passing [SwirlFilterSettings] into an OGL filter

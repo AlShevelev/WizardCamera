@@ -1,7 +1,7 @@
 package com.shevelev.wizard_camera.activity_main.fragment_camera.model.dto
 
 import androidx.annotation.StringRes
-import com.shevelev.wizard_camera.common_entities.filter_settings.FilterSettings
+import com.shevelev.wizard_camera.common_entities.filter_settings.gl.GlFilterSettings
 import com.shevelev.wizard_camera.shared.mvvm.view_commands.ViewCommand
 import java.io.File
 
@@ -24,5 +24,5 @@ class NavigateToGalleryCommand: ViewCommand
 
 class ExitCommand(@StringRes val messageResId: Int): ViewCommand
 
-class ShowFilterSettingsCommand(val settings: FilterSettings): ViewCommand
+class ShowFilterSettingsCommand(val settings: GlFilterSettings): ViewCommand
 class HideFilterSettingsCommand : ViewCommand

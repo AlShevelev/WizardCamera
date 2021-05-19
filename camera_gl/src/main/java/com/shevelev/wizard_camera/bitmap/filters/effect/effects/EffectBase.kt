@@ -6,15 +6,15 @@ import android.util.Range
 import com.shevelev.wizard_camera.utils.useful_ext.reduceToRange
 
 abstract class EffectBase(
-    private val sourceFactorRange: Range<Float>,
-    sourceFactorStartValue: Float,
+    private val displayFactorRange: Range<Float>,
+    displayFactorStartValue: Float,
     private val effectFactorRange: Range<Float>,
     protected var effectFactor: Float
 ) {
-    var sourceFactor: Float = sourceFactorStartValue
+    var displayFactor: Float = displayFactorStartValue
         set(value) {
             field = value
-            this.effectFactor = value.reduceToRange(sourceFactorRange, effectFactorRange)
+            this.effectFactor = value.reduceToRange(displayFactorRange, effectFactorRange)
         }
 
 

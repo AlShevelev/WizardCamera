@@ -4,7 +4,7 @@ import android.content.Context
 import android.opengl.GLES31
 import com.shevelev.wizard_camera.camera.R
 import com.shevelev.wizard_camera.camera.renderer.utils.TextureUtils
-import com.shevelev.wizard_camera.common_entities.filter_settings.EmptyFilterSettings
+import com.shevelev.wizard_camera.common_entities.filter_settings.gl.EmptyFilterSettings
 
 /**
  * A class for passing parameters into the Refraction OGL filter

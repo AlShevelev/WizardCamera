@@ -1,16 +1,15 @@
 package com.shevelev.wizard_camera.storage.type_converters
 
 import androidx.room.TypeConverter
-import com.shevelev.wizard_camera.common_entities.enums.FilterCode
-import java.lang.UnsupportedOperationException
+import com.shevelev.wizard_camera.common_entities.enums.GlFilterCode
 
 class FilterCodeConverter {
     @TypeConverter
-    fun toDb(sourceData: FilterCode?): Int? = sourceData?.value
+    fun toDb(sourceData: GlFilterCode?): Int? = sourceData?.value
 
     @TypeConverter
-    fun fromDb(sourceData: Int?): FilterCode? =
+    fun fromDb(sourceData: Int?): GlFilterCode? =
         sourceData?.let {
-            FilterCode.values().first { code -> code.value == it }
+            GlFilterCode.values().first { code -> code.value == it }
         }
 }

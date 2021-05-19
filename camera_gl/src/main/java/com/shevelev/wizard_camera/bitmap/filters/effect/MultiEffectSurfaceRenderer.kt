@@ -17,12 +17,12 @@ class MultiEffectSurfaceRenderer(
 ): GLSurfaceEffectFilterBase(context, bitmap, screenSize) {
 
     val sourceFactor: Float
-        get() = effects[effectIndex].sourceFactor
+        get() = effects[effectIndex].displayFactor
 
     override fun createEffect(factory: EffectFactory): Effect = effects[effectIndex].createEffect(factory)
 
     fun update(factor: Float) {
-        effects[effectIndex].sourceFactor = factor
+        effects[effectIndex].displayFactor = factor
         surface.requestRender()
     }
 
@@ -34,5 +34,5 @@ class MultiEffectSurfaceRenderer(
     fun clone(context: Context, bitmap: Bitmap, effectIndex: Int) =
         MultiEffectSurfaceRenderer(context, bitmap, effects, effectIndex, screenSize)
 
-    fun getSourceFactor(index: Int) = effects[index].sourceFactor
+    fun getSourceFactor(index: Int) = effects[index].displayFactor
 }

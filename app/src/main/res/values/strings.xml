@@ -38,6 +38,11 @@
     <string name="filterCartoon">Cartoon</string>
     <string name="filterWaterReflection">Water reflection</string>
 
+    <string name="standardFilterBrightness">Brightness</string>
+    <string name="standardFilterContrast">Contrast</string>
+    <string name="standardFilterSaturation">Saturation</string>
+    <string name="standardFilterTemperature">Temperature</string>
+
     <string name="needCameraPermissionExit">You need to grant Camera permission  to use this application</string>
     <string name="photoSaved">A photo has been saved</string>
 
@@ -86,6 +91,11 @@
     <string name="filterTripleSettings">Triple settings</string>
     <string name="filterNewspaperSettings">Newspaper settings</string>
     <string name="filterMappingSettings">Mapping settings</string>
+
+    <string name="filterBrightnessSettings">Brightness settings</string>
+    <string name="filterContrastSettings">Contrast settings</string>
+    <string name="filterSaturationSettings">Saturation settings</string>
+    <string name="filterTemperatureSettings">Temperature settings</string>
 
     <string name="camera_2_warning">This device does not support Camera 2 API completely. You can\'t use this application on it, sorry</string>
 

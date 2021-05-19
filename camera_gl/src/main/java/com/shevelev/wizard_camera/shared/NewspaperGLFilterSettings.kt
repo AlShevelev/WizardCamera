@@ -1,7 +1,7 @@
 package com.shevelev.wizard_camera.shared
 
 import android.opengl.GLES31
-import com.shevelev.wizard_camera.common_entities.filter_settings.NewspaperFilterSettings
+import com.shevelev.wizard_camera.common_entities.filter_settings.gl.NewspaperFilterSettings
 
 /**
  * A class for passing [NewspaperFilterSettings] into an OGL filter

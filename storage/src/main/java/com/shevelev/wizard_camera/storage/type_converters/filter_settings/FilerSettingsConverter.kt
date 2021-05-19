@@ -1,10 +1,10 @@
 package com.shevelev.wizard_camera.storage.type_converters.filter_settings
 
-import com.shevelev.wizard_camera.common_entities.enums.FilterCode
-import com.shevelev.wizard_camera.common_entities.filter_settings.FilterSettings
+import com.shevelev.wizard_camera.common_entities.enums.GlFilterCode
+import com.shevelev.wizard_camera.common_entities.filter_settings.gl.GlFilterSettings
 
 interface FilerSettingsConverter {
-    fun toString(settings: FilterSettings): String
+    fun toString(settings: GlFilterSettings): String
 
-    fun fromString(code: FilterCode, settings: String): FilterSettings
+    fun fromString(code: GlFilterCode, settings: String): GlFilterSettings
 }

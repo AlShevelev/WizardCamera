@@ -1,9 +1,9 @@
 package com.shevelev.wizard_camera.storage.repositories
 
-import com.shevelev.wizard_camera.common_entities.filter_settings.FilterSettings
+import com.shevelev.wizard_camera.common_entities.filter_settings.gl.GlFilterSettings
 
 interface FilterSettingsRepository {
-    fun read(): List<FilterSettings>
+    fun read(): List<GlFilterSettings>
 
-    fun update(settings: FilterSettings)
+    fun update(settings: GlFilterSettings)
 }

@@ -1,7 +1,7 @@
 package com.shevelev.wizard_camera.shared
 
 import android.opengl.GLES31
-import com.shevelev.wizard_camera.common_entities.filter_settings.TileMosaicFilterSettings
+import com.shevelev.wizard_camera.common_entities.filter_settings.gl.TileMosaicFilterSettings
 
 /**
  * A class for passing [TrianglesMosaicGLFilterSettings] into an OGL filter

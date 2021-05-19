@@ -1,6 +1,6 @@
 package com.shevelev.wizard_camera.shared
 
-import com.shevelev.wizard_camera.common_entities.filter_settings.EmptyFilterSettings
+import com.shevelev.wizard_camera.common_entities.filter_settings.gl.EmptyFilterSettings
 
 /**
  * A class for passing [EmptyFilterSettings] into an OGL filter

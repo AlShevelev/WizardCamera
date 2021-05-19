@@ -16,12 +16,12 @@ class OneEffectSurfaceRenderer(
 ): GLSurfaceEffectFilterBase(context, bitmap, screenSize) {
 
     val sourceFactor: Float
-        get() = effect.sourceFactor
+        get() = effect.displayFactor
 
     override fun createEffect(factory: EffectFactory): Effect = effect.createEffect(factory)
 
     fun update(factor: Float) {
-        effect.sourceFactor = factor
+        effect.displayFactor = factor
         surface.requestRender()
     }
 }

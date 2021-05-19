@@ -1,6 +1,6 @@
 package com.shevelev.wizard_camera.storage.repositories
 
-import com.shevelev.wizard_camera.common_entities.filter_settings.FilterSettings
+import com.shevelev.wizard_camera.common_entities.filter_settings.gl.GlFilterSettings
 import com.shevelev.wizard_camera.storage.core.DbCore
 import com.shevelev.wizard_camera.storage.entities.FilterSettingsDb
 import com.shevelev.wizard_camera.storage.type_converters.filter_settings.FilerSettingsConverter
@@ -13,9 +13,9 @@ constructor(
     private val db: DbCore,
     private val filerSettingsConverter: FilerSettingsConverter
 ) : FilterSettingsRepository {
-    override fun read(): List<FilterSettings> = db.filterSettings.read().map { it.map() }
+    override fun read(): List<GlFilterSettings> = db.filterSettings.read().map { it.map() }
 
-    override fun update(settings: FilterSettings) {
+    override fun update(settings: GlFilterSettings) {
         db.runConsistent {
             val dbRecord = db.filterSettings.read(settings.code)
 
@@ -27,8 +27,8 @@ constructor(
         }
     }
 
-    private fun FilterSettingsDb.map(): FilterSettings = filerSettingsConverter.fromString(code, settings)
+    private fun FilterSettingsDb.map(): GlFilterSettings = filerSettingsConverter.fromString(code, settings)
 
-    private fun FilterSettings.map(id: Long): FilterSettingsDb =
+    private fun GlFilterSettings.map(id: Long): FilterSettingsDb =
         FilterSettingsDb(id, code, filerSettingsConverter.toString(this))
 }

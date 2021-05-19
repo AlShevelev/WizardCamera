@@ -2,9 +2,9 @@ package com.shevelev.wizard_camera.activity_main.fragment_camera.model.filters_f
 
 import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.common_entities.entities.LastUsedFilter
-import com.shevelev.wizard_camera.common_entities.enums.FilterCode
-import com.shevelev.wizard_camera.common_entities.filter_settings.EmptyFilterSettings
-import com.shevelev.wizard_camera.common_entities.filter_settings.FilterSettings
+import com.shevelev.wizard_camera.common_entities.enums.GlFilterCode
+import com.shevelev.wizard_camera.common_entities.filter_settings.gl.EmptyFilterSettings
+import com.shevelev.wizard_camera.common_entities.filter_settings.gl.GlFilterSettings
 import com.shevelev.wizard_camera.activity_main.fragment_camera.model.dto.FilterFavoriteType
 import com.shevelev.wizard_camera.activity_main.fragment_camera.model.dto.FilterListItem
 import com.shevelev.wizard_camera.activity_main.fragment_camera.model.dto.FiltersListData
@@ -27,16 +27,16 @@ constructor(
     private val filterSettings: FilterSettingsFacade
 ) : FiltersFacade {
 
-    private lateinit var favoritesList: MutableList<FilterCode>
+    private lateinit var favoritesList: MutableList<GlFilterCode>
 
-    private var selectedFilter = displayData[0].code
-    private var selectedFavoriteFilter = FilterCode.ORIGINAL
+    private var selectedFilter = displayData[0].id.filterCode
+    private var selectedFavoriteFilter = GlFilterCode.ORIGINAL
 
     private var priorFavoritesListData: FiltersListData? = null
 
-    override val displayFilter: FilterSettings
+    override val displayFilter: GlFilterSettings
         get() = when(filtersMode) {
-            FiltersMode.NO_FILTERS -> filterSettings[FilterCode.ORIGINAL]
+            FiltersMode.NO_FILTERS -> filterSettings[GlFilterCode.ORIGINAL]
             FiltersMode.ALL-> filterSettings[selectedFilter]
             FiltersMode.FAVORITE -> filterSettings[selectedFavoriteFilter]
         }
@@ -45,7 +45,7 @@ constructor(
         get() = when(filtersMode) {
             FiltersMode.NO_FILTERS -> R.string.filterOriginal
             FiltersMode.ALL-> displayData[selectedFilter].title
-            FiltersMode.FAVORITE -> if(selectedFavoriteFilter == FilterCode.ORIGINAL) {
+            FiltersMode.FAVORITE -> if(selectedFavoriteFilter == GlFilterCode.ORIGINAL) {
                 R.string.filterOriginal
             } else {
                 displayData[selectedFavoriteFilter].title
@@ -65,15 +65,15 @@ constructor(
             favoriteFilterRepository.read()
         }.toMutableList()
 
-        selectedFilter = lastUsedFilters.firstOrNull { !it.isFavorite }?.code ?: displayData[0].code
+        selectedFilter = lastUsedFilters.firstOrNull { !it.isFavorite }?.code ?: displayData[0].id.filterCode
 
         selectedFavoriteFilter =
             lastUsedFilters.firstOrNull { it.isFavorite }?.code
             ?: favoritesList.firstOrNull()
-            ?: FilterCode.ORIGINAL
+            ?: GlFilterCode.ORIGINAL
     }
 
-    override suspend fun selectFilter(code: FilterCode) {
+    override suspend fun selectFilter(code: GlFilterCode) {
         withContext(dispatchersProvider.ioDispatcher) {
             lastUsedFilterRepository.update(LastUsedFilter(code, false))
         }
@@ -81,7 +81,7 @@ constructor(
         selectedFilter = code
     }
 
-    override suspend fun selectFavoriteFilter(code: FilterCode) {
+    override suspend fun selectFavoriteFilter(code: GlFilterCode) {
         withContext(dispatchersProvider.ioDispatcher) {
             lastUsedFilterRepository.update(LastUsedFilter(code, true))
         }
@@ -91,8 +91,14 @@ constructor(
 
     override suspend fun getAllFiltersListData(): FiltersListData {
         val startItems = displayData.map {
-            val isFavorite = if(favoritesList.contains(it.code)) FilterFavoriteType.FAVORITE else FilterFavoriteType.NOT_FAVORITE
-            FilterListItem(it, isFavorite, filterSettings[it.code] !is EmptyFilterSettings)
+            val isFavorite = if(favoritesList.contains(it.id.filterCode)) {
+                FilterFavoriteType.FAVORITE
+            }
+            else {
+                FilterFavoriteType.NOT_FAVORITE
+            }
+
+            FilterListItem(it, isFavorite, filterSettings[it.id.filterCode] !is EmptyFilterSettings)
         }
 
         return FiltersListData(displayData.getIndex(selectedFilter), startItems)
@@ -107,7 +113,7 @@ constructor(
 
         if(items.isNotEmpty() && startIndex == -1) {
             startIndex = 0
-            selectedFavoriteFilter = items[0].displayData.code
+            selectedFavoriteFilter = items[0].displayData.id.filterCode
         }
 
         val newFavoritesListData = FiltersListData(startIndex, items)
@@ -120,7 +126,7 @@ constructor(
         }
     }
 
-    override suspend fun addToFavorite(code: FilterCode) {
+    override suspend fun addToFavorite(code: GlFilterCode) {
         withContext(dispatchersProvider.ioDispatcher) {
             favoriteFilterRepository.create(code)
         }
@@ -129,12 +135,12 @@ constructor(
             favoritesList.add(code)
         }
 
-        if(selectedFavoriteFilter == FilterCode.ORIGINAL) {
+        if(selectedFavoriteFilter == GlFilterCode.ORIGINAL) {
             selectedFavoriteFilter = code
         }
     }
 
-    override suspend fun removeFromFavorite(code: FilterCode) {
+    override suspend fun removeFromFavorite(code: GlFilterCode) {
         withContext(dispatchersProvider.ioDispatcher) {
             favoriteFilterRepository.delete(code)
         }
@@ -142,7 +148,7 @@ constructor(
         favoritesList.remove(code)
 
         if(favoritesList.isEmpty()) {
-            selectedFavoriteFilter = FilterCode.ORIGINAL
+            selectedFavoriteFilter = GlFilterCode.ORIGINAL
 
             withContext(dispatchersProvider.ioDispatcher) {
                 lastUsedFilterRepository.remove(LastUsedFilter(code, true))
@@ -158,7 +164,7 @@ constructor(
         }
     }
 
-    override fun getSettings(code: FilterCode) = filterSettings[code]
+    override fun getSettings(code: GlFilterCode) = filterSettings[code]
 
-    override suspend fun updateSettings(settings: FilterSettings) = filterSettings.update(settings)
+    override suspend fun updateSettings(settings: GlFilterSettings) = filterSettings.update(settings)
 }

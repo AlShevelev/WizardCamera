@@ -1,7 +1,8 @@
 package com.shevelev.wizard_camera.common_entities.filter_settings
 
-import com.shevelev.wizard_camera.common_entities.enums.FilterCode
-
-interface FilterSettings {
-    val code: FilterCode
+/**
+ * Base interface for all filters
+ */
+interface FilterSettings<T: Enum<T>> {
+    val code: T
 }

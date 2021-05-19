@@ -9,10 +9,11 @@ import androidx.lifecycle.MutableLiveData
 import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.activity_main.fragment_camera.model.CameraFragmentInteractor
 import com.shevelev.wizard_camera.activity_main.fragment_camera.model.dto.*
-import com.shevelev.wizard_camera.common_entities.enums.FilterCode
-import com.shevelev.wizard_camera.common_entities.filter_settings.FilterSettings
+import com.shevelev.wizard_camera.common_entities.enums.GlFilterCode
+import com.shevelev.wizard_camera.common_entities.filter_settings.gl.GlFilterSettings
 import com.shevelev.wizard_camera.activity_main.fragment_camera.view.gestures.*
 import com.shevelev.wizard_camera.shared.coroutines.DispatchersProvider
+import com.shevelev.wizard_camera.shared.filters_ui.dto.FilterDisplayId
 import com.shevelev.wizard_camera.shared.mvvm.view_commands.ShowMessageResCommand
 import com.shevelev.wizard_camera.shared.mvvm.view_model.ViewModelBase
 import com.shevelev.wizard_camera.utils.useful_ext.format
@@ -30,7 +31,7 @@ constructor(
     FilterEventsProcessor {
 
     private val _selectedFilter = MutableLiveData(interactor.filters.displayFilter)
-    val selectedFilter: LiveData<FilterSettings> = _selectedFilter
+    val selectedFilter: LiveData<GlFilterSettings> = _selectedFilter
 
     private val _screenTitle = MutableLiveData(appContext.getString(interactor.filters.displayFilterTitle))
     val screenTitle: LiveData<String> = _screenTitle
@@ -200,11 +201,11 @@ constructor(
         _command.value = ExitCommand(R.string.needCameraPermissionExit)
     }
 
-    fun onFilterSelected(filterCode: FilterCode) {
+    fun onFilterSelected(id: FilterDisplayId) {
         launch {
             hideSettings()
 
-            interactor.filters.selectFilter(filterCode)
+            interactor.filters.selectFilter(id.filterCode)
 
             if(interactor.filters.filtersMode == FiltersMode.ALL) {
                 _selectedFilter.value = interactor.filters.displayFilter
@@ -213,11 +214,11 @@ constructor(
         }
     }
 
-    fun onFavoriteFilterSelected(filterCode: FilterCode) {
+    fun onFavoriteFilterSelected(id: FilterDisplayId) {
         launch {
             hideSettings()
 
-            interactor.filters.selectFavoriteFilter(filterCode)
+            interactor.filters.selectFavoriteFilter(id.filterCode)
 
             if(interactor.filters.filtersMode == FiltersMode.FAVORITE) {
                 _selectedFilter.value = interactor.filters.displayFilter
@@ -234,32 +235,32 @@ constructor(
             true
         }
 
-    fun onFilterSettingsChange(settings: FilterSettings) {
+    fun onFilterSettingsChange(settings: GlFilterSettings) {
         launch {
             interactor.filters.updateSettings(settings)
             _selectedFilter.value = interactor.filters.displayFilter
         }
     }
 
-    override fun onFavoriteFilterClick(code: FilterCode, isSelected: Boolean) {
+    override fun onFavoriteFilterClick(id: FilterDisplayId, isSelected: Boolean) {
         launch {
             hideSettings()
 
             if(isSelected) {
-                interactor.filters.addToFavorite(code)
+                interactor.filters.addToFavorite(id.filterCode)
             } else {
-                interactor.filters.removeFromFavorite(code)
+                interactor.filters.removeFromFavorite(id.filterCode)
             }
         }
     }
 
-    override fun onSettingsClick(code: FilterCode) = showSettings(code)
+    override fun onSettingsClick(id: FilterDisplayId) = showSettings(id.filterCode)
 
     private fun zoom(touchDistance: Float) {
         _command.value = ZoomCommand(touchDistance)
     }
 
-    private fun showSettings(code: FilterCode) {
+    private fun showSettings(code: GlFilterCode) {
         isAllFiltersWereVisible = _allFiltersVisibility.value == View.VISIBLE
         isFavoriteFiltersWereVisible = _favoritesFiltersVisibility.value == View.VISIBLE
 

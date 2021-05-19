@@ -1,7 +1,7 @@
 package com.shevelev.wizard_camera.storage.type_converters.filter_settings
 
-import com.shevelev.wizard_camera.common_entities.enums.FilterCode
-import com.shevelev.wizard_camera.common_entities.filter_settings.*
+import com.shevelev.wizard_camera.common_entities.enums.GlFilterCode
+import com.shevelev.wizard_camera.common_entities.filter_settings.gl.*
 import com.squareup.moshi.Moshi
 import javax.inject.Inject
 
@@ -10,40 +10,40 @@ class FilerSettingsConverterImpl
 constructor(
     private val moshi: Moshi
 ) : FilerSettingsConverter {
-    override fun toString(settings: FilterSettings): String =
+    override fun toString(settings: GlFilterSettings): String =
         when (settings.code) {
-            FilterCode.EDGE_DETECTION -> toJson(EdgeDetectionFilterSettings::class.java, settings)
-            FilterCode.BLACK_AND_WHITE -> toJson(BlackAndWhiteFilterSettings::class.java, settings)
-            FilterCode.LEGOFIED -> toJson(LegofiedFilterSettings::class.java, settings)
-            FilterCode.TRIANGLES_MOSAIC -> toJson(TrianglesMosaicFilterSettings::class.java, settings)
-            FilterCode.HEXAGON_MOSAIC -> toJson(HexagonMosaicFilterSettings::class.java, settings)
-            FilterCode.CRACKED -> toJson(CrackedFilterSettings::class.java, settings)
-            FilterCode.SWIRL -> toJson(SwirlFilterSettings::class.java, settings)
-            FilterCode.TILE_MOSAIC -> toJson(TileMosaicFilterSettings::class.java, settings)
-            FilterCode.TRIPLE -> toJson(TripleFilterSettings::class.java, settings)
-            FilterCode.NEWSPAPER -> toJson(NewspaperFilterSettings::class.java, settings)
-            FilterCode.MAPPING -> toJson(MappingFilterSettings::class.java, settings)
+            GlFilterCode.EDGE_DETECTION -> toJson(EdgeDetectionFilterSettings::class.java, settings)
+            GlFilterCode.BLACK_AND_WHITE -> toJson(BlackAndWhiteFilterSettings::class.java, settings)
+            GlFilterCode.LEGOFIED -> toJson(LegofiedFilterSettings::class.java, settings)
+            GlFilterCode.TRIANGLES_MOSAIC -> toJson(TrianglesMosaicFilterSettings::class.java, settings)
+            GlFilterCode.HEXAGON_MOSAIC -> toJson(HexagonMosaicFilterSettings::class.java, settings)
+            GlFilterCode.CRACKED -> toJson(CrackedFilterSettings::class.java, settings)
+            GlFilterCode.SWIRL -> toJson(SwirlFilterSettings::class.java, settings)
+            GlFilterCode.TILE_MOSAIC -> toJson(TileMosaicFilterSettings::class.java, settings)
+            GlFilterCode.TRIPLE -> toJson(TripleFilterSettings::class.java, settings)
+            GlFilterCode.NEWSPAPER -> toJson(NewspaperFilterSettings::class.java, settings)
+            GlFilterCode.MAPPING -> toJson(MappingFilterSettings::class.java, settings)
             else -> toJson(EmptyFilterSettings::class.java, settings)
         }
 
-    override fun fromString(code: FilterCode, settings: String): FilterSettings =
+    override fun fromString(code: GlFilterCode, settings: String): GlFilterSettings =
         when (code) {
-            FilterCode.EDGE_DETECTION -> fromJson(EdgeDetectionFilterSettings::class.java, settings)
-            FilterCode.BLACK_AND_WHITE -> fromJson(BlackAndWhiteFilterSettings::class.java, settings)
-            FilterCode.LEGOFIED -> fromJson(LegofiedFilterSettings::class.java, settings)
-            FilterCode.TRIANGLES_MOSAIC -> fromJson(TrianglesMosaicFilterSettings::class.java, settings)
-            FilterCode.HEXAGON_MOSAIC -> fromJson(HexagonMosaicFilterSettings::class.java, settings)
-            FilterCode.CRACKED -> fromJson(CrackedFilterSettings::class.java, settings)
-            FilterCode.SWIRL -> fromJson(SwirlFilterSettings::class.java, settings)
-            FilterCode.TILE_MOSAIC -> fromJson(TileMosaicFilterSettings::class.java, settings)
-            FilterCode.TRIPLE -> fromJson(TripleFilterSettings::class.java, settings)
-            FilterCode.NEWSPAPER -> fromJson(NewspaperFilterSettings::class.java, settings)
-            FilterCode.MAPPING -> fromJson(MappingFilterSettings::class.java, settings)
+            GlFilterCode.EDGE_DETECTION -> fromJson(EdgeDetectionFilterSettings::class.java, settings)
+            GlFilterCode.BLACK_AND_WHITE -> fromJson(BlackAndWhiteFilterSettings::class.java, settings)
+            GlFilterCode.LEGOFIED -> fromJson(LegofiedFilterSettings::class.java, settings)
+            GlFilterCode.TRIANGLES_MOSAIC -> fromJson(TrianglesMosaicFilterSettings::class.java, settings)
+            GlFilterCode.HEXAGON_MOSAIC -> fromJson(HexagonMosaicFilterSettings::class.java, settings)
+            GlFilterCode.CRACKED -> fromJson(CrackedFilterSettings::class.java, settings)
+            GlFilterCode.SWIRL -> fromJson(SwirlFilterSettings::class.java, settings)
+            GlFilterCode.TILE_MOSAIC -> fromJson(TileMosaicFilterSettings::class.java, settings)
+            GlFilterCode.TRIPLE -> fromJson(TripleFilterSettings::class.java, settings)
+            GlFilterCode.NEWSPAPER -> fromJson(NewspaperFilterSettings::class.java, settings)
+            GlFilterCode.MAPPING -> fromJson(MappingFilterSettings::class.java, settings)
             else -> fromJson(EmptyFilterSettings::class.java, settings)
         }
 
     private fun <T>fromJson(cls: Class<T>, settings: String) = moshi.adapter(cls).fromJson(settings)!!
 
     @Suppress("UNCHECKED_CAST")
-    private fun <T>toJson(cls: Class<T>, settings: FilterSettings) = moshi.adapter(cls).toJson(settings as T)
+    private fun <T>toJson(cls: Class<T>, settings: GlFilterSettings) = moshi.adapter(cls).toJson(settings as T)
 }

@@ -1,7 +1,7 @@
 package com.shevelev.wizard_camera.shared
 
 import android.opengl.GLES31
-import com.shevelev.wizard_camera.common_entities.filter_settings.BlackAndWhiteFilterSettings
+import com.shevelev.wizard_camera.common_entities.filter_settings.gl.BlackAndWhiteFilterSettings
 
 /**
  * A class for passing [BlackAndWhiteFilterSettings] into an OGL filter
