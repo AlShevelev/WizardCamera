@@ -12,8 +12,8 @@ buildscript {
 
         java_version = JavaVersion.VERSION_1_8
 
-        kotlin_version = "1.4.31"
-        kotlin_coroutines_version = "1.4.2"
+        kotlin_version = "1.5.0"
+        kotlin_coroutines_version = "1.5.0"
 
         app_version_code = 1
         app_version_name = "1.0"
@@ -40,7 +40,7 @@ buildscript {
 
         timber_version = "4.7.1"
         permissionsdispatcher_version = "4.7.0"
-        dagger_version = "2.31.2"
+        dagger_version = "2.36"
         three_ten_abp_version = "1.2.4"
         glide_version = "4.11.0"
 

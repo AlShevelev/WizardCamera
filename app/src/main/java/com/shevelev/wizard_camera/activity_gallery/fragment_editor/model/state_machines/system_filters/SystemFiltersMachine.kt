@@ -1,0 +1,68 @@
+package com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_machines.system_filters
+
+import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_machines.*
+import com.shevelev.wizard_camera.shared.coroutines.DispatchersProvider
+import kotlinx.coroutines.flow.MutableSharedFlow
+
+class SystemFiltersMachine(
+    outputCommands: MutableSharedFlow<OutputCommand>,
+    dispatchersProvider: DispatchersProvider
+) : EditorMachineBase(outputCommands, dispatchersProvider) {
+
+    override suspend fun processEvent(event: InputEvent, state: State): State =
+        when {
+            state == State.INITIAL && event is Init -> {
+                outputCommands.emit(SelectButton(ModeButtonCode.SYSTEM_FILTERS))
+                outputCommands.emit(ShowSystemFilterCarousel)
+                // todo Scroll to the last selected filter (or the first one)
+                // todo Show the settings in a last position (or a neutral one)
+                // todo Use the filter on an original image
+                State.MAIN
+            }
+
+            state == State.MAIN && event is ModeButtonClicked && event.code == ModeButtonCode.NO_FILTERS -> {
+                outputCommands.emit(UnSelectButton(ModeButtonCode.SYSTEM_FILTERS))
+                outputCommands.emit(HideSystemFilterCarousel)
+                outputCommands.emit(HideSystemFilterSettings)
+                State.NO_FILTERS
+            }
+
+            state == State.MAIN && event is ModeButtonClicked && event.code == ModeButtonCode.GL_FILTERS -> {
+                outputCommands.emit(UnSelectButton(ModeButtonCode.SYSTEM_FILTERS))
+                outputCommands.emit(HideSystemFilterCarousel)
+                outputCommands.emit(HideSystemFilterSettings)
+                State.GL_FILTERS
+            }
+
+            state == State.MAIN && event is ModeButtonClicked && event.code == ModeButtonCode.CUT -> {
+                outputCommands.emit(UnSelectButton(ModeButtonCode.SYSTEM_FILTERS))
+                outputCommands.emit(HideSystemFilterCarousel)
+                outputCommands.emit(HideSystemFilterSettings)
+                State.CUT
+            }
+
+            state == State.MAIN && event is CancelClicked -> {
+                State.CANCELING
+            }
+
+            state == State.MAIN && event is AcceptClicked -> {
+                // todo Update image in a storage (if necessary)
+                outputCommands.emit(CloseEditor)
+                State.FINAL
+            }
+
+            state == State.MAIN && event is SystemFilterSettingsUpdated -> {
+                // todo Memorize the settings
+                // todo Use new filter to an image
+                state
+            }
+
+            state == State.MAIN && event is SystemFilterSwitched -> {
+                // todo Memorize the filter
+                // todo Use new filter to an image
+                state
+            }
+
+            else -> state
+        }
+}
