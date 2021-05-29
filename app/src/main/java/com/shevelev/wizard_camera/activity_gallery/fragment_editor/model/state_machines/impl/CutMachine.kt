@@ -1,10 +1,12 @@
-package com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_machines.cutting
+package com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_machines.impl
 
-import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_machines.*
+import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_machines.api.*
+import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_machines.impl.EditorMachineBase
+import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_machines.impl.State
 import com.shevelev.wizard_camera.shared.coroutines.DispatchersProvider
 import kotlinx.coroutines.flow.MutableSharedFlow
 
-class CutFilterMachine(
+class CutMachine(
     outputCommands: MutableSharedFlow<OutputCommand>,
     dispatchersProvider: DispatchersProvider
 ) : EditorMachineBase(outputCommands, dispatchersProvider) {

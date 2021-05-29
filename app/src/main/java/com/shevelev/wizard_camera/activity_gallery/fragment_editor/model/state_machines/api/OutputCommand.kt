@@ -1,4 +1,4 @@
-package com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_machines
+package com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_machines.api
 
 import com.shevelev.wizard_camera.common_entities.filter_settings.gl.GlFilterSettings
 import com.shevelev.wizard_camera.common_entities.filter_settings.system.SystemFilterSettings

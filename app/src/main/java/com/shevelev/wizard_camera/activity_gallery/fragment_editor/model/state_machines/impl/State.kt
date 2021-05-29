@@ -1,4 +1,4 @@
-package com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_machines
+package com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_machines.impl
 
 /**
  * Shared list of states

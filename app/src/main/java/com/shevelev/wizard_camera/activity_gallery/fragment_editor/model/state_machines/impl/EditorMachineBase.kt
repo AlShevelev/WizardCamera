@@ -1,5 +1,8 @@
-package com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_machines
+package com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_machines.impl
 
+import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_machines.api.InputEvent
+import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_machines.api.OutputCommand
+import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_machines.impl.State
 import com.shevelev.wizard_camera.shared.coroutines.DispatchersProvider
 import kotlinx.coroutines.flow.MutableSharedFlow
 
