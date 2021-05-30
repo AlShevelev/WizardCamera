@@ -44,11 +44,9 @@ data class ShowSystemFilterSettings(val settings: SystemFilterSettings) : Output
 object HideSystemFilterSettings : OutputCommand()
 // endregion
 
-// region Cut
-object ShowOriginalImage : OutputCommand()
-object HideOriginalImage : OutputCommand()
-object ShowCuttingGrid : OutputCommand()
-object HideCuttingGrid : OutputCommand()
+// region Crop
+object ShowCroppingImage : OutputCommand()
+object HideCroppingImage : OutputCommand()
 // endregion
 
 // region Saving

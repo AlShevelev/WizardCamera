@@ -42,7 +42,7 @@ enum class State {
     /**
      * A final state - we must move to "Cut" SM
      */
-    CUT,
+    CROP,
 
     /**
      * A final state - we must move to "Canceling" SM

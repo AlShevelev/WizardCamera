@@ -7,5 +7,5 @@ enum class ModeButtonCode {
     NO_FILTERS,
     GL_FILTERS,
     SYSTEM_FILTERS,
-    CUT
+    CROP
 }

@@ -1,8 +1,6 @@
 package com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_machines.impl
 
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_machines.api.*
-import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_machines.impl.EditorMachineBase
-import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_machines.impl.State
 import com.shevelev.wizard_camera.shared.coroutines.DispatchersProvider
 import kotlinx.coroutines.flow.MutableSharedFlow
 
@@ -33,10 +31,10 @@ class GlFiltersMachine(
                 State.SYSTEM_FILTERS
             }
 
-            state == State.MAIN && event is ModeButtonClicked && event.code == ModeButtonCode.CUT -> {
+            state == State.MAIN && event is ModeButtonClicked && event.code == ModeButtonCode.CROP -> {
                 outputCommands.emit(UnSelectButton(ModeButtonCode.GL_FILTERS))
                 outputCommands.emit(HideGlFilterCarousel)
-                State.CUT
+                State.CROP
             }
 
             state == State.MAIN && event is CancelClicked -> {
@@ -73,10 +71,10 @@ class GlFiltersMachine(
                 State.SYSTEM_FILTERS
             }
 
-            state == State.SETTINGS_VISIBLE && event is ModeButtonClicked && event.code == ModeButtonCode.CUT -> {
+            state == State.SETTINGS_VISIBLE && event is ModeButtonClicked && event.code == ModeButtonCode.CROP -> {
                 outputCommands.emit(UnSelectButton(ModeButtonCode.GL_FILTERS))
                 outputCommands.emit(HideGlFilterSettings)
-                State.CUT
+                State.CROP
             }
 
             state == State.SETTINGS_VISIBLE && event is GlFilterSettingsEnded -> {

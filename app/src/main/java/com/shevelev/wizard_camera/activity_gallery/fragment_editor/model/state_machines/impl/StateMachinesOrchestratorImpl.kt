@@ -20,7 +20,7 @@ constructor(
     private val noFilterMachine by lazy { NoFiltersMachine(_commands, dispatchersProvider) }
     private val glFilterMachine by lazy { GlFiltersMachine(_commands, dispatchersProvider) }
     private val systemFilterMachine by lazy { SystemFiltersMachine(_commands, dispatchersProvider) }
-    private val cutMachine by lazy { CutMachine(_commands, dispatchersProvider) }
+    private val cropcMachine by lazy { CropMachine(_commands, dispatchersProvider) }
     private val cancelingMachine by lazy { CancelingMachine(_commands, dispatchersProvider) }
 
     private var previousMachine: EditorMachineBase? = null
@@ -32,7 +32,7 @@ constructor(
             State.NO_FILTERS -> switchToMachine(noFilterMachine)
             State.GL_FILTERS -> switchToMachine(glFilterMachine)
             State.SYSTEM_FILTERS -> switchToMachine(systemFilterMachine)
-            State.CUT -> switchToMachine(cutMachine)
+            State.CROP -> switchToMachine(cropcMachine)
             State.CANCELING -> switchToMachine(cancelingMachine)
             State.PREVIOUS_MODE -> switchToMachine(previousMachine!!)
             else -> {}

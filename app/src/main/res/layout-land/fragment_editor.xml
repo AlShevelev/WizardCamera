@@ -15,9 +15,20 @@
         tools:context=".activity_gallery.GalleryActivity">
 
         <FrameLayout
-            android:id="@+id/imageContainer"
+            android:id="@+id/surfaceContainer"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+
+        <com.takusemba.cropme.CropLayout
+            android:id="@+id/cropView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:cropme_background_alpha="80%"
+            app:cropme_frame_height_percent="80%"
+            app:cropme_frame_width_percent="80%"
+            app:cropme_max_scale="3.0"
+            app:cropme_overlay_shape="rectangle"
+            app:cropme_with_border="true" />
 
         <com.shevelev.wizard_camera.activity_main.fragment_camera.view.widgets.TitleWidget
             android:id="@+id/screenTitle"
@@ -42,7 +53,7 @@
             tools:visibility="visible" />
 
         <ImageButton
-            android:id="@+id/standardFiltersButton"
+            android:id="@+id/systemFiltersButton"
             style="@style/WizCam.RoundButton"
             android:layout_marginEnd="@dimen/marginSmall"
             android:src="@drawable/ic_gallery_brightness"
@@ -52,12 +63,22 @@
             tools:visibility="visible" />
 
         <ImageButton
-            android:id="@+id/filtersButton"
+            android:id="@+id/glFiltersButton"
             style="@style/WizCam.RoundButton"
             android:layout_marginEnd="@dimen/marginSmall"
             android:src="@drawable/ic_gallery_filter"
             app:layout_constraintBottom_toBottomOf="@id/cropButton"
-            app:layout_constraintEnd_toStartOf="@id/standardFiltersButton"
+            app:layout_constraintEnd_toStartOf="@id/systemFiltersButton"
+            tools:ignore="ContentDescription"
+            tools:visibility="visible" />
+
+        <ImageButton
+            android:id="@+id/noFiltersButton"
+            style="@style/WizCam.RoundButton"
+            android:layout_marginEnd="@dimen/marginSmall"
+            android:src="@drawable/ic_gallery_no_filters"
+            app:layout_constraintBottom_toBottomOf="@id/cropButton"
+            app:layout_constraintEnd_toStartOf="@id/glFiltersButton"
             tools:ignore="ContentDescription"
             tools:visibility="visible" />
 
@@ -81,32 +102,56 @@
             tools:ignore="ContentDescription"
             tools:visibility="visible" />
 
-        <!-- FiltersCarouselWidget'll be here -->
-        <FrameLayout
-            android:id="@+id/favoritesFiltersCarousel"
+        <com.shevelev.wizard_camera.shared.filters_ui.filters_carousel.FiltersCarouselWidget
+            android:id="@+id/glFiltersCarousel"
             android:layout_width="0dp"
             android:layout_height="@dimen/mainFilterCarouselHeight"
             android:layout_marginBottom="@dimen/marginNormal"
-            app:layout_constraintBottom_toTopOf="@id/filtersButton"
-            app:layout_constraintEnd_toEndOf="@id/guideline80"
+            app:layout_constraintBottom_toTopOf="@id/glFiltersButton"
+            app:layout_constraintEnd_toStartOf="@id/guideline80"
             app:layout_constraintStart_toEndOf="@id/guideline20"
             tools:background="#0000ff"
             tools:visibility="visible" />
 
-        <!-- FilterSettingsHost'll be here -->
-        <FrameLayout
-            android:id="@+id/settings"
+        <com.shevelev.wizard_camera.shared.filters_ui.filters_carousel.FiltersCarouselWidget
+            android:id="@+id/systemFiltersCarousel"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/mainFilterCarouselHeight"
+            android:layout_marginBottom="@dimen/marginNormal"
+            app:layout_constraintBottom_toTopOf="@id/glFiltersButton"
+            app:layout_constraintEnd_toStartOf="@id/guideline80"
+            app:layout_constraintStart_toEndOf="@id/guideline20"
+            tools:background="#0000ff"
+            tools:visibility="visible" />
+
+        <com.shevelev.wizard_camera.shared.filters_ui.filters_settings.gl.host.GlFilterSettingsHost
+            android:id="@+id/glFiltersSettings"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/marginNormal"
             android:layout_marginEnd="@dimen/marginNormal"
             android:layout_marginBottom="@dimen/marginNormal"
             android:visibility="invisible"
-            app:layout_constraintBottom_toTopOf="@id/filtersButton"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/glFiltersButton"
+            app:layout_constraintEnd_toStartOf="@id/guideline80"
+            app:layout_constraintStart_toEndOf="@id/guideline20"
             tools:background="#00ff00"
             tools:layout_height="75dp"
+            tools:visibility="visible" />
+
+        <com.shevelev.wizard_camera.shared.filters_ui.filters_settings.system.host.SystemFilterSettingsHost
+            android:id="@+id/systemsFiltersSettings"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            tools:layout_height="50dp"
+            android:layout_marginStart="@dimen/marginNormal"
+            android:layout_marginEnd="@dimen/marginNormal"
+            android:layout_marginBottom="@dimen/marginNormal"
+            android:visibility="invisible"
+            tools:background="#00ff00"
+            app:layout_constraintBottom_toTopOf="@id/systemFiltersCarousel"
+            app:layout_constraintEnd_toStartOf="@id/guideline80"
+            app:layout_constraintStart_toEndOf="@id/guideline20"
             tools:visibility="visible" />
 
         <androidx.constraintlayout.widget.Guideline
@@ -122,5 +167,15 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.8" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
