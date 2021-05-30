@@ -6,10 +6,12 @@ import com.shevelev.wizard_camera.application.di.AppModule
 import com.shevelev.wizard_camera.application.di.DaggerAppComponent
 import com.shevelev.wizard_camera.activity_gallery.di.GalleryActivityComponent
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.di.EditorFragmentComponent
+import com.shevelev.wizard_camera.activity_gallery.fragment_editor.di.EditorFragmentModule
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.di.GalleryFragmentComponent
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery_page.di.GalleryPageFragmentComponent
 import com.shevelev.wizard_camera.activity_main.di.MainActivityComponent
 import com.shevelev.wizard_camera.activity_main.fragment_camera.di.CameraFragmentComponent
+import com.shevelev.wizard_camera.common_entities.entities.PhotoShot
 import kotlin.reflect.KClass
 
 /** Storage for Dagger components on application level  */
@@ -50,7 +52,11 @@ class DependencyInjectionStorage(private val app: Application) {
             GalleryActivityComponent::class -> get<AppComponent>().galleryActivity.build()
             GalleryFragmentComponent::class -> get<GalleryActivityComponent>().galleryFragment.build()
             GalleryPageFragmentComponent::class -> get<GalleryActivityComponent>().galleryPageFragment.build()
-            EditorFragmentComponent::class -> get<GalleryActivityComponent>().editorFragment.build()
+
+            EditorFragmentComponent::class ->
+                get<GalleryActivityComponent>().editorFragment
+                    .init(EditorFragmentModule(args[0] as PhotoShot))
+                    .build()
 
             else -> throw UnsupportedOperationException("This component is not supported: ${type.simpleName}")
         } as T

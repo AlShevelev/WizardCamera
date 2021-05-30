@@ -8,4 +8,8 @@ interface FilesHelper {
     fun getShotFileByName(fileName: String): File
 
     fun removeShotFileByName(fileName: String): File
+
+    fun copyToTempFile(source: File): File
+
+    fun removeFIle(fileToRemove: File)
 }

@@ -12,16 +12,21 @@ class FilesHelperImpl
 constructor(
     private val appContext: Context
 ) : FilesHelper {
-    override fun createFileForShot(): File {
-        val name = IdUtil.generateLongId().absoluteValue
-        val dir = getShotsDirectory()
-
-        return File(dir, "$name.jpg")
-    }
+    override fun createFileForShot(): File = createFileForShot(getShotsDirectory())
 
     override fun getShotFileByName(fileName: String): File = File(getShotsDirectory(), fileName)
 
     override fun removeShotFileByName(fileName: String) = getShotFileByName(fileName).apply { delete() }
+
+    override fun copyToTempFile(source: File): File {
+        val destinationFile = createFileForShot(appContext.cacheDir)
+        source.copyTo(destinationFile, overwrite = true)
+        return destinationFile
+    }
+
+    override fun removeFIle(fileToRemove: File) {
+        fileToRemove.delete()
+    }
 
     private fun getShotsDirectory(): File {
         val dir = File(appContext.externalMediaDirs[0], appContext.getString(R.string.appName))
@@ -31,4 +36,6 @@ constructor(
 
         return dir
     }
+
+    private fun createFileForShot(dir: File): File = File(dir, "${IdUtil.generateLongId().absoluteValue}.jpg")
 }

@@ -9,6 +9,7 @@ import dagger.Subcomponent
 interface EditorFragmentComponent {
     @Subcomponent.Builder
     interface Builder {
+        fun init(module: EditorFragmentModule): Builder
         fun build(): EditorFragmentComponent
     }
 

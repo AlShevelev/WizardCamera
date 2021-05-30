@@ -6,6 +6,7 @@ import android.view.View
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.shevelev.wizard_camera.R
+import com.shevelev.wizard_camera.activity_gallery.fragment_editor.view.EditorFragment
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.di.GalleryFragmentComponent
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.model.dto.EditShotCommand
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.model.dto.ShareShotCommand
@@ -66,7 +67,12 @@ class GalleryFragment : FragmentBaseMVVM<FragmentGalleryBinding, GalleryFragment
     override fun processViewCommand(command: ViewCommand) {
         when(command) {
             is ShareShotCommand -> shareShot(command.shot)
-            is EditShotCommand -> findNavController().navigate(R.id.action_galleryFragment_to_editorFragment)
+
+            is EditShotCommand ->
+                findNavController().navigate(
+                    R.id.action_galleryFragment_to_editorFragment,
+                    EditorFragment.createParameters(command.shot)
+                )
         }
     }
 

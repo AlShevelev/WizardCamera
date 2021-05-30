@@ -6,6 +6,7 @@ import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.di.EditorFragmentComponent
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.view_model.EditorFragmentViewModel
 import com.shevelev.wizard_camera.application.App
+import com.shevelev.wizard_camera.common_entities.entities.PhotoShot
 import com.shevelev.wizard_camera.databinding.FragmentEditorBinding
 import com.shevelev.wizard_camera.shared.mvvm.view.FragmentBaseMVVM
 import com.shevelev.wizard_camera.shared.mvvm.view_commands.ViewCommand
@@ -20,7 +21,8 @@ class EditorFragment : FragmentBaseMVVM<FragmentEditorBinding, EditorFragmentVie
     }
 
     override fun inject() {
-        App.injections.get<EditorFragmentComponent>().inject(this)
+        val photoSettings = requireArguments().getParcelable<PhotoShot>(ARG_PHOTO)!!
+        App.injections.get<EditorFragmentComponent>(photoSettings).inject(this)
 
     }
 
@@ -39,5 +41,14 @@ class EditorFragment : FragmentBaseMVVM<FragmentEditorBinding, EditorFragmentVie
 //            is ShareShotCommand -> shareShot(command.shot)
 //            is EditShotCommand -> findNavController().navigate(R.id.action_galleryFragment_to_editorFragment)
 //        }
+    }
+
+    companion object {
+        private const val ARG_PHOTO = "PHOTO"
+
+        fun createParameters(shot: PhotoShot): Bundle =
+            Bundle().apply {
+                putParcelable(ARG_PHOTO, shot)
+            }
     }
 }
