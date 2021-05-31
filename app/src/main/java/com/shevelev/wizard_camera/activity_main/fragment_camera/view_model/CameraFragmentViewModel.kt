@@ -12,6 +12,7 @@ import com.shevelev.wizard_camera.activity_main.fragment_camera.model.dto.*
 import com.shevelev.wizard_camera.common_entities.enums.GlFilterCode
 import com.shevelev.wizard_camera.common_entities.filter_settings.gl.GlFilterSettings
 import com.shevelev.wizard_camera.activity_main.fragment_camera.view.gestures.*
+import com.shevelev.wizard_camera.shared.binding_adapters.ButtonState
 import com.shevelev.wizard_camera.shared.coroutines.DispatchersProvider
 import com.shevelev.wizard_camera.shared.filters_ui.dto.FilterDisplayId
 import com.shevelev.wizard_camera.shared.mvvm.view_commands.ShowMessageResCommand

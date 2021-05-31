@@ -3,6 +3,8 @@ package com.shevelev.wizard_camera.activity_gallery.fragment_editor.di
 import androidx.lifecycle.ViewModel
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.EditorFragmentInteractor
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.EditorFragmentInteractorImpl
+import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_machines.api.StateMachinesOrchestrator
+import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_machines.impl.StateMachinesOrchestratorImpl
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.storage.EditorStorage
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.storage.EditorStorageImpl
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.view_model.EditorFragmentViewModel
@@ -30,6 +32,9 @@ class EditorFragmentModule(private val photoShot: PhotoShot) {
         @Binds
         @FragmentScope
         abstract fun provideInteractor(interactor: EditorFragmentInteractorImpl): EditorFragmentInteractor
+
+        @Binds
+        abstract fun provideStateMachinesOrchestrator(orchestrator: StateMachinesOrchestratorImpl): StateMachinesOrchestrator
 
         @Binds
         @IntoMap
