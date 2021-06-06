@@ -23,21 +23,18 @@ class SystemFiltersMachine(
             state == State.MAIN && event is ModeButtonClicked && event.code == ModeButtonCode.NO_FILTERS -> {
                 outputCommands.emit(UnSelectButton(ModeButtonCode.SYSTEM_FILTERS))
                 outputCommands.emit(HideSystemFilterCarousel)
-                outputCommands.emit(HideSystemFilterSettings)
                 State.NO_FILTERS
             }
 
             state == State.MAIN && event is ModeButtonClicked && event.code == ModeButtonCode.GL_FILTERS -> {
                 outputCommands.emit(UnSelectButton(ModeButtonCode.SYSTEM_FILTERS))
                 outputCommands.emit(HideSystemFilterCarousel)
-                outputCommands.emit(HideSystemFilterSettings)
                 State.GL_FILTERS
             }
 
             state == State.MAIN && event is ModeButtonClicked && event.code == ModeButtonCode.CROP -> {
                 outputCommands.emit(UnSelectButton(ModeButtonCode.SYSTEM_FILTERS))
                 outputCommands.emit(HideSystemFilterCarousel)
-                outputCommands.emit(HideSystemFilterSettings)
                 State.CROP
             }
 

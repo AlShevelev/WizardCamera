@@ -4,10 +4,11 @@ import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.EditorFragmentInteractor
+import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_machines.api.*
 import com.shevelev.wizard_camera.shared.binding_adapters.ButtonState
 import com.shevelev.wizard_camera.shared.coroutines.DispatchersProvider
 import com.shevelev.wizard_camera.shared.mvvm.view_model.ViewModelBase
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -56,9 +57,65 @@ constructor(
 
     init {
         launch {
+            interactor.commands.collect { processOutputCommand(it) }
+        }
+
+        launch {
             _progressVisibility.value = View.VISIBLE
             interactor.init()
             _progressVisibility.value = View.GONE
         }
+    }
+
+    fun onModeButtonClick(code: ModeButtonCode) {
+        launch { interactor.processEvent(ModeButtonClicked(code)) }
+    }
+
+    fun onAcceptClick() {
+        launch { interactor.processEvent(AcceptClicked) }
+    }
+
+    fun onCancelClick() {
+        launch { interactor.processEvent(CancelClicked) }
+    }
+
+    private fun processOutputCommand(command: OutputCommand) {
+        when(command) {
+            is SetImage -> { }
+
+            is SelectButton -> setButtonState(command.code, ButtonState.SELECTED)
+            is UnSelectButton -> setButtonState(command.code, ButtonState.ENABLED)
+
+            is SetGlFilter -> { }
+            is SetSystemFilter -> { }
+
+            is ShowGlFilterCarousel -> _glFiltersVisibility.value = View.VISIBLE
+            is ScrollGlFilterCarousel -> { }
+            is HideGlFilterCarousel -> _glFiltersVisibility.value = View.GONE
+
+            is ShowGlFilterSettings -> _glSettingsVisibility.value = View.VISIBLE
+            is HideGlFilterSettings -> _glSettingsVisibility.value = View.GONE
+
+            is ShowSystemFilterCarousel -> _systemFiltersVisibility.value = View.VISIBLE
+            is ScrollSystemFilterCarousel -> { }
+            is HideSystemFilterCarousel -> _systemFiltersVisibility.value = View.GONE
+
+            is ShowCroppingImage -> _croppingVisibility.value = View.VISIBLE
+            is HideCroppingImage -> _croppingVisibility.value = View.GONE
+
+            is ShowSaveDialog -> { }
+
+            is CloseEditor -> { }
+        }
+    }
+
+    private fun setButtonState(button: ModeButtonCode, state: ButtonState) {
+        when(button) {
+            ModeButtonCode.NO_FILTERS -> _noFiltersButtonState
+            ModeButtonCode.GL_FILTERS -> _glFiltersButtonState
+            ModeButtonCode.SYSTEM_FILTERS -> _systemFiltersButtonState
+            ModeButtonCode.CROP -> _cropButtonState
+        }
+            .let { it.value = state }
     }
 }

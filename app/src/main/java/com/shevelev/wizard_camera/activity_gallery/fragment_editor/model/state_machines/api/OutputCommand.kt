@@ -39,11 +39,6 @@ data class ScrollSystemFilterCarousel(val filter: SystemFilterSettings) : Output
 object HideSystemFilterCarousel : OutputCommand()
 // endregion
 
-// region Commands for system filter settings
-data class ShowSystemFilterSettings(val settings: SystemFilterSettings) : OutputCommand()
-object HideSystemFilterSettings : OutputCommand()
-// endregion
-
 // region Crop
 object ShowCroppingImage : OutputCommand()
 object HideCroppingImage : OutputCommand()
