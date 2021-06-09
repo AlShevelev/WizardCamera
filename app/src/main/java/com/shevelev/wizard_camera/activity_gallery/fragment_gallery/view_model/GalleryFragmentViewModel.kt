@@ -43,6 +43,9 @@ constructor(
     private val _isShotWidgetsVisible = MutableLiveData(View.INVISIBLE)
     val isShotWidgetsVisible: LiveData<Int> = _isShotWidgetsVisible
 
+    var currentPageIndex: Int? = null
+        private set
+
     init {
         launch {
             interactor.loadingResult.collect {
@@ -98,6 +101,8 @@ constructor(
 
         _shotDateTime.value = shot.created.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT))
         _isShareButtonVisible.value = shot.contentUri?.let { View.VISIBLE } ?: View.INVISIBLE
+
+        currentPageIndex = position
     }
 
     fun onEditShotClick(position: Int) {

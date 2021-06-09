@@ -41,6 +41,12 @@ class GalleryFragment : FragmentBaseMVVM<FragmentGalleryBinding, GalleryFragment
         super.onViewCreated(view, savedInstanceState)
 
         binding.galleryPager.adapter = GalleryAdapter(this, viewModel.pageSize, viewModel)
+        viewModel.currentPageIndex?.let { pageIndex ->
+            binding.galleryPager.post {
+                binding.galleryPager.setCurrentItem(pageIndex, false)
+            }
+        }
+
         viewModel.photos.observe(
             {viewLifecycleOwner.lifecycle},
             { (binding.galleryPager.adapter as GalleryAdapter).updateItems(it) })
