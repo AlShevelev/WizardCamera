@@ -1,6 +1,8 @@
 package com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_machines.impl
 
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_machines.api.*
+import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.storage.EditorStorage
+import com.shevelev.wizard_camera.common_entities.enums.GlFilterCode
 import com.shevelev.wizard_camera.shared.coroutines.DispatchersProvider
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -9,16 +11,17 @@ import javax.inject.Inject
 class StateMachinesOrchestratorImpl
 @Inject
 constructor(
-    dispatchersProvider: DispatchersProvider
+    dispatchersProvider: DispatchersProvider,
+    private val editorStorage: EditorStorage
 ) : StateMachinesOrchestrator {
     private val _commands = MutableSharedFlow<OutputCommand>()
     override val commands = _commands.asSharedFlow()
 
-    private val noFilterMachine by lazy { NoFiltersMachine(_commands, dispatchersProvider) }
-    private val glFilterMachine by lazy { GlFiltersMachine(_commands, dispatchersProvider) }
-    private val systemFilterMachine by lazy { SystemFiltersMachine(_commands, dispatchersProvider) }
-    private val cropMachine by lazy { CropMachine(_commands, dispatchersProvider) }
-    private val cancelingMachine by lazy { CancelingMachine(_commands, dispatchersProvider) }
+    private val noFilterMachine by lazy { NoFiltersMachine(_commands, dispatchersProvider, editorStorage) }
+    private val glFilterMachine by lazy { GlFiltersMachine(_commands, dispatchersProvider, editorStorage) }
+    private val systemFilterMachine by lazy { SystemFiltersMachine(_commands, dispatchersProvider, editorStorage) }
+    private val cropMachine by lazy { CropMachine(_commands, dispatchersProvider, editorStorage) }
+    private val cancelingMachine by lazy { CancelingMachine(_commands, dispatchersProvider, editorStorage) }
 
     private var previousMachine: EditorMachineBase? = null
     
@@ -38,11 +41,20 @@ constructor(
         activeMachine.processEvent(event)
     }
 
-    override suspend fun start(initialMachine: InitialMachine) =
-        when(initialMachine) {
+    override suspend fun start() {
+        val initialMachine = if(editorStorage.sourceShot.filter.code == GlFilterCode.ORIGINAL) {
+            InitialMachine.NO_FILTERS
+        } else {
+            InitialMachine.GL_FILTERS
+        }
+
+        editorStorage.decodeBitmap()
+
+        when (initialMachine) {
             InitialMachine.NO_FILTERS -> switchToMachine(noFilterMachine)
             InitialMachine.GL_FILTERS -> switchToMachine(glFilterMachine)
         }
+    }
 
     private suspend fun switchToMachine(machine: EditorMachineBase) {
         if(::activeMachine.isInitialized) {

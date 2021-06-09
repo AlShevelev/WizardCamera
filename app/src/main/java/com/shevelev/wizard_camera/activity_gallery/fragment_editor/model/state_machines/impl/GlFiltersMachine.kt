@@ -1,13 +1,15 @@
 package com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_machines.impl
 
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_machines.api.*
+import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.storage.EditorStorage
 import com.shevelev.wizard_camera.shared.coroutines.DispatchersProvider
 import kotlinx.coroutines.flow.MutableSharedFlow
 
 class GlFiltersMachine(
     outputCommands: MutableSharedFlow<OutputCommand>,
-    dispatchersProvider: DispatchersProvider
-) : EditorMachineBase(outputCommands, dispatchersProvider) {
+    dispatchersProvider: DispatchersProvider,
+    editorStorage: EditorStorage
+) : EditorMachineBase(outputCommands, dispatchersProvider, editorStorage) {
 
     override suspend fun processEvent(event: InputEvent, state: State): State =
         when {
@@ -15,7 +17,7 @@ class GlFiltersMachine(
                 outputCommands.emit(SelectButton(ModeButtonCode.GL_FILTERS))
                 outputCommands.emit(ShowGlFilterCarousel)
                 // todo Scroll the carousel to a last selected filter
-                // todo Use the filter on an image
+                outputCommands.emit(SetInitialImage(editorStorage.image,  editorStorage.sourceShot.filter))
                 State.MAIN
             }
 

@@ -37,8 +37,13 @@ class EditorFragmentModule(private val photoShot: PhotoShot) {
         abstract fun provideStateMachinesOrchestrator(orchestrator: StateMachinesOrchestratorImpl): StateMachinesOrchestrator
 
         @Binds
+        abstract fun provideEditorStorage(storage: EditorStorageImpl): EditorStorage
+
+        @Binds
         @IntoMap
         @ViewModelKey(EditorFragmentViewModel::class)
         abstract fun provideViewModel(model: EditorFragmentViewModel): ViewModel
+
+
     }
 }

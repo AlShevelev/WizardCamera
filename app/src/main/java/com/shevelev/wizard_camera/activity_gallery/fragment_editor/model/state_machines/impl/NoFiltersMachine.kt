@@ -1,19 +1,21 @@
 package com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_machines.impl
 
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_machines.api.*
+import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.storage.EditorStorage
 import com.shevelev.wizard_camera.shared.coroutines.DispatchersProvider
 import kotlinx.coroutines.flow.MutableSharedFlow
 
 class NoFiltersMachine(
     outputCommands: MutableSharedFlow<OutputCommand>,
-    dispatchersProvider: DispatchersProvider
-) : EditorMachineBase(outputCommands, dispatchersProvider) {
+    dispatchersProvider: DispatchersProvider,
+    editorStorage: EditorStorage
+) : EditorMachineBase(outputCommands, dispatchersProvider, editorStorage) {
 
     override suspend fun processEvent(event: InputEvent, state: State): State =
         when {
             state == State.INITIAL && event is Init -> {
                 outputCommands.emit(SelectButton(ModeButtonCode.NO_FILTERS))
-                // todo Set the Original filter to an image (FilterSettingsFacadeImpl)
+                outputCommands.emit(SetInitialImage(editorStorage.image,  editorStorage.sourceShot.filter))
                 State.MAIN
             }
 

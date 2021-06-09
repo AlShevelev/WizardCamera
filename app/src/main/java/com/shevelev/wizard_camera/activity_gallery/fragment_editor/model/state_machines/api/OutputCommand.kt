@@ -1,5 +1,6 @@
 package com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_machines.api
 
+import android.graphics.Bitmap
 import com.shevelev.wizard_camera.common_entities.filter_settings.gl.GlFilterSettings
 import com.shevelev.wizard_camera.common_entities.filter_settings.system.SystemFilterSettings
 
@@ -9,7 +10,7 @@ import com.shevelev.wizard_camera.common_entities.filter_settings.system.SystemF
 sealed class OutputCommand
 
 // region Setting image to the editor
-data class SetImage(val image: Any) : OutputCommand()
+data class SetInitialImage(val image: Bitmap, val settings: GlFilterSettings) : OutputCommand()
 // endregion
 
 // region Adding and removing selection from a button
@@ -18,8 +19,8 @@ data class UnSelectButton(val code: ModeButtonCode) : OutputCommand()
 // endregion
 
 // region Setting a filter
-data class SetGlFilter(val settings: GlFilterSettings) : OutputCommand()
-data class SetSystemFilter(val settings: SystemFilterSettings) : OutputCommand()
+data class UpdateGlFilter(val settings: GlFilterSettings) : OutputCommand()
+data class UpdateSystemFilter(val settings: SystemFilterSettings) : OutputCommand()
 // endregion
 
 // region Commands for the GL filter carousel

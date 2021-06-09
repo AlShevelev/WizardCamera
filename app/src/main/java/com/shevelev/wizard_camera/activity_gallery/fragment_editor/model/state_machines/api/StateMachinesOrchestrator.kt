@@ -7,5 +7,5 @@ interface StateMachinesOrchestrator {
 
     suspend fun processEvent(event: InputEvent)
 
-    suspend fun start(initialMachine: InitialMachine)
+    suspend fun start()
 }

@@ -4,6 +4,7 @@ import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.EditorFragmentInteractor
+import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.dto.ImageWithFilter
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_machines.api.*
 import com.shevelev.wizard_camera.shared.binding_adapters.ButtonState
 import com.shevelev.wizard_camera.shared.coroutines.DispatchersProvider
@@ -55,6 +56,9 @@ constructor(
     private val _cropButtonState = MutableLiveData(ButtonState.ENABLED)
     val cropButtonState: LiveData<ButtonState> = _cropButtonState
 
+    private val _initialImage = MutableLiveData<ImageWithFilter>(null)
+    val initialImage: LiveData<ImageWithFilter> = _initialImage
+
     init {
         launch {
             interactor.commands.collect { processOutputCommand(it) }
@@ -81,13 +85,16 @@ constructor(
 
     private fun processOutputCommand(command: OutputCommand) {
         when(command) {
-            is SetImage -> { }
+            is SetInitialImage -> {
+                _initialImage.value = ImageWithFilter(command.image, command.settings)
+                _surfaceVisibility.value = View.VISIBLE
+            }
 
             is SelectButton -> setButtonState(command.code, ButtonState.SELECTED)
             is UnSelectButton -> setButtonState(command.code, ButtonState.ENABLED)
 
-            is SetGlFilter -> { }
-            is SetSystemFilter -> { }
+            is UpdateGlFilter -> { }
+            is UpdateSystemFilter -> { }
 
             is ShowGlFilterCarousel -> _glFiltersVisibility.value = View.VISIBLE
             is ScrollGlFilterCarousel -> { }

@@ -6,6 +6,7 @@
 
     <data>
         <variable name="viewModel" type="com.shevelev.wizard_camera.activity_gallery.fragment_editor.view_model.EditorFragmentViewModel" />
+        <import type="com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_machines.api.ModeButtonCode" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -57,6 +58,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             tools:ignore="ContentDescription"
             tools:visibility="visible"
+            android:onClick="@{() -> viewModel.onModeButtonClick(ModeButtonCode.CROP)}"
             app:button_state="@{viewModel.cropButtonState}" />
 
         <ImageButton
@@ -68,6 +70,7 @@
             app:layout_constraintEnd_toStartOf="@id/cropButton"
             tools:ignore="ContentDescription"
             tools:visibility="visible"
+            android:onClick="@{() -> viewModel.onModeButtonClick(ModeButtonCode.SYSTEM_FILTERS)}"
             app:button_state="@{viewModel.systemFiltersButtonState}" />
 
         <ImageButton
@@ -79,6 +82,7 @@
             app:layout_constraintEnd_toStartOf="@id/systemFiltersButton"
             tools:ignore="ContentDescription"
             tools:visibility="visible"
+            android:onClick="@{() -> viewModel.onModeButtonClick(ModeButtonCode.GL_FILTERS)}"
             app:button_state="@{viewModel.glFiltersButtonState}" />
 
         <ImageButton
@@ -90,6 +94,7 @@
             app:layout_constraintEnd_toStartOf="@id/glFiltersButton"
             tools:ignore="ContentDescription"
             tools:visibility="visible"
+            android:onClick="@{() -> viewModel.onModeButtonClick(ModeButtonCode.NO_FILTERS)}"
             app:button_state="@{viewModel.noFiltersButtonState}" />
 
         <ImageButton
@@ -101,6 +106,7 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="ContentDescription"
             tools:visibility="visible"
+            android:onClick="@{() -> viewModel.onCancelClick()}"
             app:button_state="@{viewModel.cancelButtonState}" />
 
         <ImageButton
@@ -112,6 +118,7 @@
             app:layout_constraintTop_toTopOf="@id/cancelButton"
             tools:ignore="ContentDescription"
             tools:visibility="visible"
+            android:onClick="@{() -> viewModel.onAcceptClick()}"
             app:button_state="@{viewModel.acceptButtonState}" />
 
         <com.shevelev.wizard_camera.shared.filters_ui.filters_carousel.FiltersCarouselWidget
