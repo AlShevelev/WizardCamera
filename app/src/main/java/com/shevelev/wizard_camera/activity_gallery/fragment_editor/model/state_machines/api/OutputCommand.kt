@@ -3,6 +3,7 @@ package com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_
 import android.graphics.Bitmap
 import com.shevelev.wizard_camera.common_entities.filter_settings.gl.GlFilterSettings
 import com.shevelev.wizard_camera.common_entities.filter_settings.system.SystemFilterSettings
+import com.shevelev.wizard_camera.shared.filters_ui.filters_carousel.FiltersListData
 
 /**
  * Base class for all output commands
@@ -19,13 +20,12 @@ data class UnSelectButton(val code: ModeButtonCode) : OutputCommand()
 // endregion
 
 // region Setting a filter
-data class UpdateGlFilter(val settings: GlFilterSettings) : OutputCommand()
 data class UpdateSystemFilter(val settings: SystemFilterSettings) : OutputCommand()
 // endregion
 
 // region Commands for the GL filter carousel
 object ShowGlFilterCarousel : OutputCommand()
-data class ScrollGlFilterCarousel(val filter: GlFilterSettings) : OutputCommand()
+data class IntiGlFilterCarousel(val filterData: FiltersListData) : OutputCommand()
 object HideGlFilterCarousel : OutputCommand()
 // endregion
 

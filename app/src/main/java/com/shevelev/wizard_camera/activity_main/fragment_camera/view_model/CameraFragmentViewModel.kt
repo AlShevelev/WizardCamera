@@ -14,7 +14,9 @@ import com.shevelev.wizard_camera.common_entities.filter_settings.gl.GlFilterSet
 import com.shevelev.wizard_camera.activity_main.fragment_camera.view.gestures.*
 import com.shevelev.wizard_camera.shared.binding_adapters.ButtonState
 import com.shevelev.wizard_camera.shared.coroutines.DispatchersProvider
-import com.shevelev.wizard_camera.shared.filters_ui.dto.FilterDisplayId
+import com.shevelev.wizard_camera.shared.filters_ui.display_data.FilterDisplayId
+import com.shevelev.wizard_camera.shared.filters_ui.filters_carousel.FilterEventsProcessor
+import com.shevelev.wizard_camera.shared.filters_ui.filters_carousel.FiltersListData
 import com.shevelev.wizard_camera.shared.mvvm.view_commands.ShowMessageResCommand
 import com.shevelev.wizard_camera.shared.mvvm.view_model.ViewModelBase
 import com.shevelev.wizard_camera.utils.useful_ext.format

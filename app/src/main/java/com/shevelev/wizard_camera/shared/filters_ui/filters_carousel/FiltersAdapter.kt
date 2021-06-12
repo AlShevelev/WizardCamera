@@ -4,8 +4,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
-import com.shevelev.wizard_camera.activity_main.fragment_camera.model.dto.FilterListItem
-import com.shevelev.wizard_camera.activity_main.fragment_camera.view_model.FilterEventsProcessor
 import kotlin.random.Random
 
 class FiltersAdapter(

@@ -47,9 +47,9 @@ class GalleryFragment : FragmentBaseMVVM<FragmentGalleryBinding, GalleryFragment
             }
         }
 
-        viewModel.photos.observe(
-            {viewLifecycleOwner.lifecycle},
-            { (binding.galleryPager.adapter as GalleryAdapter).updateItems(it) })
+        viewModel.photos.observe(viewLifecycleOwner) {
+            (binding.galleryPager.adapter as GalleryAdapter).updateItems(it)
+        }
 
         binding.deleteButton.setOnClickListener {
             ConfirmationDialog.show(childFragmentManager, R.string.deletePhotoQuestion, R.string.delete, R.string.cancel) {

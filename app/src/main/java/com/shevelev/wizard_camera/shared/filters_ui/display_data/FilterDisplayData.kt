@@ -1,4 +1,4 @@
-package com.shevelev.wizard_camera.shared.filters_ui.dto
+package com.shevelev.wizard_camera.shared.filters_ui.display_data
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes

@@ -1,4 +1,4 @@
-package com.shevelev.wizard_camera.shared.filters_ui.dto
+package com.shevelev.wizard_camera.shared.filters_ui.display_data
 
 import com.shevelev.wizard_camera.common_entities.enums.GlFilterCode
 import com.shevelev.wizard_camera.common_entities.enums.SystemFilterCode
@@ -9,7 +9,7 @@ class FilterDisplayId private constructor(val id: Int) {
     val filterCode: GlFilterCode
         get () = GlFilterCode.values().first { it.value == id }
 
-    val standardFilterCode: SystemFilterCode
+    val systemFilterCode: SystemFilterCode
         get() = SystemFilterCode.values().first { it.value == id }
 
     companion object {

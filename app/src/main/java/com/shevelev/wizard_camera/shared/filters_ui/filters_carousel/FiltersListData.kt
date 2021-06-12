@@ -1,4 +1,4 @@
-package com.shevelev.wizard_camera.activity_main.fragment_camera.model.dto
+package com.shevelev.wizard_camera.shared.filters_ui.filters_carousel
 
 data class FiltersListData(
     val startPosition: Int,

@@ -2,22 +2,40 @@ package com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_
 
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_machines.api.*
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.storage.EditorStorage
+import com.shevelev.wizard_camera.activity_main.fragment_camera.model.filters_facade.settings.FilterSettingsFacade
+import com.shevelev.wizard_camera.common_entities.filter_settings.gl.EmptyFilterSettings
 import com.shevelev.wizard_camera.shared.coroutines.DispatchersProvider
+import com.shevelev.wizard_camera.shared.filters_ui.display_data.gl.FilterDisplayDataList
+import com.shevelev.wizard_camera.shared.filters_ui.filters_carousel.FilterFavoriteType
+import com.shevelev.wizard_camera.shared.filters_ui.filters_carousel.FilterListItem
+import com.shevelev.wizard_camera.shared.filters_ui.filters_carousel.FiltersListData
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 
 class GlFiltersMachine(
     outputCommands: MutableSharedFlow<OutputCommand>,
     dispatchersProvider: DispatchersProvider,
-    editorStorage: EditorStorage
+    editorStorage: EditorStorage,
+    private val filterDisplayData: FilterDisplayDataList,
+    private val filterSettings: FilterSettingsFacade
 ) : EditorMachineBase(outputCommands, dispatchersProvider, editorStorage) {
+
+    private var isFilterSettingsFacadeSetUp = false
 
     override suspend fun processEvent(event: InputEvent, state: State): State =
         when {
             state == State.INITIAL && event is Init -> {
+                if(!isFilterSettingsFacadeSetUp) {
+                    filterSettings.init()
+                    isFilterSettingsFacadeSetUp = true
+
+                    outputCommands.emit(IntiGlFilterCarousel(getFiltersListData()))
+                }
+
                 outputCommands.emit(SelectButton(ModeButtonCode.GL_FILTERS))
-                outputCommands.emit(ShowGlFilterCarousel)
-                // todo Scroll the carousel to a last selected filter
                 outputCommands.emit(SetInitialImage(editorStorage.image,  editorStorage.sourceShot.filter))
+                delay(150L)         // To avoid the carousel's flickering
+                outputCommands.emit(ShowGlFilterCarousel)
                 State.MAIN
             }
 
@@ -103,4 +121,12 @@ class GlFiltersMachine(
 
             else -> state
         }
+
+    private fun getFiltersListData() : FiltersListData {
+        val startItems = filterDisplayData.map {
+            FilterListItem(it, FilterFavoriteType.HIDDEN, filterSettings[it.id.filterCode] !is EmptyFilterSettings)
+        }
+
+        return FiltersListData(filterDisplayData.getIndex(editorStorage.sourceShot.filter.code), startItems)
+    }
 }

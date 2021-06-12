@@ -5,11 +5,11 @@ import com.shevelev.wizard_camera.common_entities.entities.LastUsedFilter
 import com.shevelev.wizard_camera.common_entities.enums.GlFilterCode
 import com.shevelev.wizard_camera.common_entities.filter_settings.gl.EmptyFilterSettings
 import com.shevelev.wizard_camera.common_entities.filter_settings.gl.GlFilterSettings
-import com.shevelev.wizard_camera.activity_main.fragment_camera.model.dto.FilterFavoriteType
-import com.shevelev.wizard_camera.activity_main.fragment_camera.model.dto.FilterListItem
-import com.shevelev.wizard_camera.activity_main.fragment_camera.model.dto.FiltersListData
+import com.shevelev.wizard_camera.shared.filters_ui.filters_carousel.FilterFavoriteType
+import com.shevelev.wizard_camera.shared.filters_ui.filters_carousel.FilterListItem
+import com.shevelev.wizard_camera.shared.filters_ui.filters_carousel.FiltersListData
 import com.shevelev.wizard_camera.activity_main.fragment_camera.model.dto.FiltersMode
-import com.shevelev.wizard_camera.activity_main.fragment_camera.model.filters_facade.display_data.FilterDisplayDataList
+import com.shevelev.wizard_camera.shared.filters_ui.display_data.gl.FilterDisplayDataList
 import com.shevelev.wizard_camera.activity_main.fragment_camera.model.filters_facade.settings.FilterSettingsFacade
 import com.shevelev.wizard_camera.shared.coroutines.DispatchersProvider
 import com.shevelev.wizard_camera.storage.repositories.FavoriteFilterRepository

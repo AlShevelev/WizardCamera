@@ -56,17 +56,17 @@ class CameraFragment : FragmentBaseMVVM<FragmentCameraBinding, CameraFragmentVie
 
         gestureDetector = GesturesDetector(requireContext()).apply { setOnGestureListener { viewModel.processGesture(it) } }
 
-        viewModel.selectedFilter.observe(
-            {viewLifecycleOwner.lifecycle},
-            { renderer?.setFilter(it) })
+        viewModel.selectedFilter.observe(viewLifecycleOwner) {
+            renderer?.setFilter(it)
+        }
 
-        viewModel.allFiltersListData.observe(
-            {viewLifecycleOwner.lifecycle},
-            { binding.allFiltersCarousel.setStartData(it, viewModel) })
+        viewModel.allFiltersListData.observe(viewLifecycleOwner) {
+            binding.allFiltersCarousel.setStartData(it, viewModel)
+        }
 
-        viewModel.favoriteFiltersListData.observe(
-            {viewLifecycleOwner.lifecycle},
-            { binding.favoritesFiltersCarousel.setStartData(it, viewModel) })
+        viewModel.favoriteFiltersListData.observe(viewLifecycleOwner) {
+            binding.favoritesFiltersCarousel.setStartData(it, viewModel)
+        }
 
         binding.shootButton.setOnClickListener { textureView.let { viewModel.onCaptureClick() } }
         binding.flashButton.setOnClickListener { viewModel.onFlashClick() }

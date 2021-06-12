@@ -6,8 +6,11 @@ import androidx.lifecycle.MutableLiveData
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.EditorFragmentInteractor
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.dto.ImageWithFilter
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_machines.api.*
+import com.shevelev.wizard_camera.shared.filters_ui.filters_carousel.FilterEventsProcessor
 import com.shevelev.wizard_camera.shared.binding_adapters.ButtonState
 import com.shevelev.wizard_camera.shared.coroutines.DispatchersProvider
+import com.shevelev.wizard_camera.shared.filters_ui.display_data.FilterDisplayId
+import com.shevelev.wizard_camera.shared.filters_ui.filters_carousel.FiltersListData
 import com.shevelev.wizard_camera.shared.mvvm.view_model.ViewModelBase
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -18,7 +21,8 @@ class EditorFragmentViewModel
 constructor(
     dispatchersProvider: DispatchersProvider,
     interactor: EditorFragmentInteractor
-) : ViewModelBase<EditorFragmentInteractor>(dispatchersProvider, interactor) {
+) : ViewModelBase<EditorFragmentInteractor>(dispatchersProvider, interactor),
+    FilterEventsProcessor {
 
     private val _progressVisibility = MutableLiveData(View.GONE)
     val progressVisibility: LiveData<Int> = _progressVisibility
@@ -29,13 +33,13 @@ constructor(
     private val _surfaceVisibility = MutableLiveData(View.GONE)
     val surfaceVisibility: LiveData<Int> = _surfaceVisibility
 
-    private val _glFiltersVisibility = MutableLiveData(View.GONE)
+    private val _glFiltersVisibility = MutableLiveData(View.INVISIBLE)
     val glFiltersVisibility: LiveData<Int> = _glFiltersVisibility
 
-    private val _glSettingsVisibility = MutableLiveData(View.GONE)
+    private val _glSettingsVisibility = MutableLiveData(View.INVISIBLE)
     val glSettingsVisibility: LiveData<Int> = _glSettingsVisibility
 
-    private val _systemFiltersVisibility = MutableLiveData(View.GONE)
+    private val _systemFiltersVisibility = MutableLiveData(View.INVISIBLE)
     val systemFiltersVisibility: LiveData<Int> = _systemFiltersVisibility
 
     private val _acceptButtonState = MutableLiveData(ButtonState.ENABLED)
@@ -58,6 +62,9 @@ constructor(
 
     private val _initialImage = MutableLiveData<ImageWithFilter>(null)
     val initialImage: LiveData<ImageWithFilter> = _initialImage
+
+    private val _glFilters: MutableLiveData<FiltersListData> = MutableLiveData()
+    val glFilters: LiveData<FiltersListData> = _glFilters
 
     init {
         launch {
@@ -93,19 +100,18 @@ constructor(
             is SelectButton -> setButtonState(command.code, ButtonState.SELECTED)
             is UnSelectButton -> setButtonState(command.code, ButtonState.ENABLED)
 
-            is UpdateGlFilter -> { }
             is UpdateSystemFilter -> { }
 
             is ShowGlFilterCarousel -> _glFiltersVisibility.value = View.VISIBLE
-            is ScrollGlFilterCarousel -> { }
-            is HideGlFilterCarousel -> _glFiltersVisibility.value = View.GONE
+            is IntiGlFilterCarousel -> _glFilters.value = command.filterData
+            is HideGlFilterCarousel -> _glFiltersVisibility.value = View.INVISIBLE
 
             is ShowGlFilterSettings -> _glSettingsVisibility.value = View.VISIBLE
-            is HideGlFilterSettings -> _glSettingsVisibility.value = View.GONE
+            is HideGlFilterSettings -> _glSettingsVisibility.value = View.INVISIBLE
 
             is ShowSystemFilterCarousel -> _systemFiltersVisibility.value = View.VISIBLE
             is ScrollSystemFilterCarousel -> { }
-            is HideSystemFilterCarousel -> _systemFiltersVisibility.value = View.GONE
+            is HideSystemFilterCarousel -> _systemFiltersVisibility.value = View.INVISIBLE
 
             is ShowCroppingImage -> _croppingVisibility.value = View.VISIBLE
             is HideCroppingImage -> _croppingVisibility.value = View.GONE
@@ -124,5 +130,9 @@ constructor(
             ModeButtonCode.CROP -> _cropButtonState
         }
             .let { it.value = state }
+    }
+
+    override fun onSettingsClick(id: FilterDisplayId) {
+        TODO("Not yet implemented")
     }
 }

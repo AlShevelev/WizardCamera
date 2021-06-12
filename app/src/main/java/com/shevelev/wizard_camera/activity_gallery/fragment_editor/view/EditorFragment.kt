@@ -37,7 +37,11 @@ class EditorFragment : FragmentBaseMVVM<FragmentEditorBinding, EditorFragmentVie
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.initialImage.observe({viewLifecycleOwner.lifecycle}, { setInitialImage(it) })
+        viewModel.initialImage.observe(viewLifecycleOwner) { setInitialImage(it) }
+
+        viewModel.glFilters.observe(viewLifecycleOwner) {
+            binding.glFiltersCarousel.setStartData(it, viewModel)
+        }
     }
 
     private fun setInitialImage(image: ImageWithFilter?) {

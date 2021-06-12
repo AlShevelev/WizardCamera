@@ -6,9 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
 import com.shevelev.wizard_camera.R
-import com.shevelev.wizard_camera.activity_main.fragment_camera.model.dto.FiltersListData
-import com.shevelev.wizard_camera.activity_main.fragment_camera.view_model.FilterEventsProcessor
-import com.shevelev.wizard_camera.shared.filters_ui.dto.FilterDisplayId
+import com.shevelev.wizard_camera.shared.filters_ui.display_data.FilterDisplayId
 import kotlin.math.pow
 
 class FiltersRecyclerView(

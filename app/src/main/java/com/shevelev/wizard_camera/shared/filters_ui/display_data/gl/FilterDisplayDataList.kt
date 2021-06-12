@@ -1,7 +1,7 @@
-package com.shevelev.wizard_camera.activity_main.fragment_camera.model.filters_facade.display_data
+package com.shevelev.wizard_camera.shared.filters_ui.display_data.gl
 
 import com.shevelev.wizard_camera.common_entities.enums.GlFilterCode
-import com.shevelev.wizard_camera.shared.filters_ui.dto.FilterDisplayData
+import com.shevelev.wizard_camera.shared.filters_ui.display_data.FilterDisplayData
 
 interface FilterDisplayDataList {
     operator fun get(index: Int): FilterDisplayData

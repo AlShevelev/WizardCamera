@@ -5,11 +5,8 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.shevelev.wizard_camera.R
-import com.shevelev.wizard_camera.activity_main.fragment_camera.model.dto.FilterFavoriteType
-import com.shevelev.wizard_camera.activity_main.fragment_camera.model.dto.FilterListItem
 import com.shevelev.wizard_camera.activity_main.fragment_camera.view.widgets.pulse_image_button.PulseImageButton
 import com.shevelev.wizard_camera.activity_main.fragment_camera.view.widgets.pulse_image_button.PulseImageButtonStateless
-import com.shevelev.wizard_camera.activity_main.fragment_camera.view_model.FilterEventsProcessor
 import com.shevelev.wizard_camera.shared.glide.GlideTarget
 import com.shevelev.wizard_camera.shared.glide.clear
 import com.shevelev.wizard_camera.shared.glide.loadCircle

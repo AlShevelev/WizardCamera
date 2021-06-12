@@ -5,8 +5,8 @@ import com.shevelev.wizard_camera.activity_main.fragment_camera.model.CameraFrag
 import com.shevelev.wizard_camera.activity_main.fragment_camera.model.CameraFragmentInteractorImpl
 import com.shevelev.wizard_camera.activity_main.fragment_camera.model.filters_facade.FiltersFacade
 import com.shevelev.wizard_camera.activity_main.fragment_camera.model.filters_facade.FiltersFacadeImpl
-import com.shevelev.wizard_camera.activity_main.fragment_camera.model.filters_facade.display_data.FilterDisplayDataList
-import com.shevelev.wizard_camera.activity_main.fragment_camera.model.filters_facade.display_data.FilterDisplayDataListImpl
+import com.shevelev.wizard_camera.shared.filters_ui.display_data.gl.FilterDisplayDataList
+import com.shevelev.wizard_camera.shared.filters_ui.display_data.gl.FilterDisplayDataListImpl
 import com.shevelev.wizard_camera.activity_main.fragment_camera.model.filters_facade.settings.FilterSettingsFacade
 import com.shevelev.wizard_camera.activity_main.fragment_camera.model.filters_facade.settings.FilterSettingsFacadeImpl
 import com.shevelev.wizard_camera.activity_main.fragment_camera.model.image_capture.ImageCapture
@@ -14,7 +14,6 @@ import com.shevelev.wizard_camera.activity_main.fragment_camera.model.image_capt
 import com.shevelev.wizard_camera.activity_main.fragment_camera.model.orientation.OrientationManager
 import com.shevelev.wizard_camera.activity_main.fragment_camera.model.orientation.OrientationManagerImpl
 import com.shevelev.wizard_camera.activity_main.fragment_camera.view_model.CameraFragmentViewModel
-import com.shevelev.wizard_camera.common_entities.di_scopes.ActivityScope
 import com.shevelev.wizard_camera.common_entities.di_scopes.FragmentScope
 import com.shevelev.wizard_camera.shared.mvvm.view_model.*
 import com.shevelev.wizard_camera.shared.mvvm.view_model.ViewModelKey

@@ -37,7 +37,9 @@ abstract class FragmentBaseMVVM<VDB: ViewDataBinding, VM: ViewModelBase<out Inte
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        _viewModel.command.observe({viewLifecycleOwner.lifecycle}) { processViewCommandGeneral(it) }
+        _viewModel.command.observe(viewLifecycleOwner) {
+            processViewCommandGeneral(it)
+        }
 
         val resultView = super.onCreateView(inflater, container, savedInstanceState)
 
