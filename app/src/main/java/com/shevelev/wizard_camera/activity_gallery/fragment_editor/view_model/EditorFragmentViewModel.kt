@@ -60,8 +60,8 @@ constructor(
     private val _cropButtonState = MutableLiveData(ButtonState.ENABLED)
     val cropButtonState: LiveData<ButtonState> = _cropButtonState
 
-    private val _initialImage = MutableLiveData<ImageWithFilter>(null)
-    val initialImage: LiveData<ImageWithFilter> = _initialImage
+    private val _imageWithGlFilter = MutableLiveData<ImageWithFilter>(null)
+    val imageWithGlFilter: LiveData<ImageWithFilter> = _imageWithGlFilter
 
     private val _glFilters: MutableLiveData<FiltersListData> = MutableLiveData()
     val glFilters: LiveData<FiltersListData> = _glFilters
@@ -78,6 +78,10 @@ constructor(
         }
     }
 
+    override fun onSettingsClick(id: FilterDisplayId) {
+        TODO("Not yet implemented")
+    }
+
     fun onModeButtonClick(code: ModeButtonCode) {
         launch { interactor.processEvent(ModeButtonClicked(code)) }
     }
@@ -90,10 +94,14 @@ constructor(
         launch { interactor.processEvent(CancelClicked) }
     }
 
+    fun onGLFilterSelected(filterId: FilterDisplayId) {
+        launch { interactor.processEvent(GlFilterSwitched(filterId)) }
+    }
+
     private fun processOutputCommand(command: OutputCommand) {
         when(command) {
             is SetInitialImage -> {
-                _initialImage.value = ImageWithFilter(command.image, command.settings)
+                _imageWithGlFilter.value = ImageWithFilter(command.image, command.settings)
                 _surfaceVisibility.value = View.VISIBLE
             }
 
@@ -104,6 +112,11 @@ constructor(
 
             is ShowGlFilterCarousel -> _glFiltersVisibility.value = View.VISIBLE
             is IntiGlFilterCarousel -> _glFilters.value = command.filterData
+            is UpdateImageByGlFilter -> {
+                _imageWithGlFilter.value?.let { filter ->
+                    _imageWithGlFilter.value = filter.copy(settings = command.settings)
+                }
+            }
             is HideGlFilterCarousel -> _glFiltersVisibility.value = View.INVISIBLE
 
             is ShowGlFilterSettings -> _glSettingsVisibility.value = View.VISIBLE
@@ -130,9 +143,5 @@ constructor(
             ModeButtonCode.CROP -> _cropButtonState
         }
             .let { it.value = state }
-    }
-
-    override fun onSettingsClick(id: FilterDisplayId) {
-        TODO("Not yet implemented")
     }
 }

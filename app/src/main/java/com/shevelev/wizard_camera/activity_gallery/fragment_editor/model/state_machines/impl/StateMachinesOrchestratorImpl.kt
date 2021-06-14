@@ -57,7 +57,7 @@ constructor(
     }
 
     override suspend fun start() {
-        val initialMachine = if(editorStorage.sourceShot.filter.code == GlFilterCode.ORIGINAL) {
+        val initialMachine = if(editorStorage.currentFilter.code == GlFilterCode.ORIGINAL) {
             InitialMachine.NO_FILTERS
         } else {
             InitialMachine.GL_FILTERS

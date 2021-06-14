@@ -26,6 +26,7 @@ data class UpdateSystemFilter(val settings: SystemFilterSettings) : OutputComman
 // region Commands for the GL filter carousel
 object ShowGlFilterCarousel : OutputCommand()
 data class IntiGlFilterCarousel(val filterData: FiltersListData) : OutputCommand()
+data class UpdateImageByGlFilter(val settings: GlFilterSettings) : OutputCommand()
 object HideGlFilterCarousel : OutputCommand()
 // endregion
 

@@ -19,29 +19,6 @@ constructor(
 
     private lateinit var filter: GLSurfaceFilterBase
 
-    companion object {
-        fun createAndAddToView(context: Context, root: FrameLayout, bitmap: Bitmap, filter: GLSurfaceFilterBase): GLSurfaceViewBitmap {
-            val surfaceView = GLSurfaceViewBitmap(context)
-
-            surfaceView.setBitmapParameters(bitmap)
-
-            root.addView(surfaceView, 0)
-
-            val layoutParams = surfaceView.layoutParams as FrameLayout.LayoutParams
-            layoutParams.gravity = Gravity.CENTER
-            surfaceView.layoutParams = layoutParams
-
-            surfaceView.setEGLContextClientVersion(3)
-            surfaceView.setRenderer(filter)
-            surfaceView.renderMode = RENDERMODE_WHEN_DIRTY
-
-            filter.attachSurface(surfaceView)
-            surfaceView.filter = filter
-
-            return surfaceView
-        }
-    }
-
     private lateinit var bitmapSize: SizeF
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -65,5 +42,34 @@ constructor(
 
     private fun setBitmapParameters(bitmap: Bitmap) {
         bitmapSize = SizeF(bitmap.width.toFloat(), bitmap.height.toFloat())
+    }
+
+    companion object {
+        fun createAndAddToView(
+            context: Context,
+            root: FrameLayout,
+            bitmap: Bitmap,
+            filter: GLSurfaceFilterBase) {
+            val surfaceView = GLSurfaceViewBitmap(context)
+
+            surfaceView.setBitmapParameters(bitmap)
+
+            root.addView(surfaceView, 0)
+
+            val layoutParams = surfaceView.layoutParams as FrameLayout.LayoutParams
+            layoutParams.gravity = Gravity.CENTER
+            surfaceView.layoutParams = layoutParams
+
+            surfaceView.setEGLContextClientVersion(3)
+            surfaceView.setRenderer(filter)
+            surfaceView.renderMode = RENDERMODE_WHEN_DIRTY
+
+            filter.attachSurface(surfaceView)
+            surfaceView.filter = filter
+
+            if(root.childCount > 1) {
+                root.removeViewAt(1)
+            }
+        }
     }
 }

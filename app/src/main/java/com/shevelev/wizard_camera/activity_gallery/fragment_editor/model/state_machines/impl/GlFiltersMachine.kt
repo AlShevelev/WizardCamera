@@ -33,7 +33,7 @@ class GlFiltersMachine(
                 }
 
                 outputCommands.emit(SelectButton(ModeButtonCode.GL_FILTERS))
-                outputCommands.emit(SetInitialImage(editorStorage.image,  editorStorage.sourceShot.filter))
+                outputCommands.emit(SetInitialImage(editorStorage.image,  editorStorage.currentFilter))
                 delay(150L)         // To avoid the carousel's flickering
                 outputCommands.emit(ShowGlFilterCarousel)
                 State.MAIN
@@ -61,7 +61,7 @@ class GlFiltersMachine(
                 State.CANCELING
             }
 
-            state == State.MAIN && event is GlFilterSettingsStarted -> {
+            state == State.MAIN && event is GlFilterSettingsShown -> {
                 outputCommands.emit(HideGlFilterCarousel)
                 // todo outputCommands.emit(ShowGlFilterSettings(...))      // Show settings
                 State.SETTINGS_VISIBLE
@@ -74,8 +74,11 @@ class GlFiltersMachine(
             }
 
             state == State.MAIN && event is GlFilterSwitched -> {
-                // todo Memorize the filter
-                // todo Use new filter to an image
+                val filter = filterSettings[event.filterId.filterCode]
+
+                editorStorage.currentFilter = filter
+                outputCommands.emit(UpdateImageByGlFilter(filter))
+
                 state
             }
 
@@ -97,7 +100,7 @@ class GlFiltersMachine(
                 State.CROP
             }
 
-            state == State.SETTINGS_VISIBLE && event is GlFilterSettingsEnded -> {
+            state == State.SETTINGS_VISIBLE && event is GlFilterSettingsHided -> {
                 outputCommands.emit(HideGlFilterSettings)
                 outputCommands.emit(ShowGlFilterCarousel)
                 State.MAIN
@@ -127,6 +130,6 @@ class GlFiltersMachine(
             FilterListItem(it, FilterFavoriteType.HIDDEN, filterSettings[it.id.filterCode] !is EmptyFilterSettings)
         }
 
-        return FiltersListData(filterDisplayData.getIndex(editorStorage.sourceShot.filter.code), startItems)
+        return FiltersListData(filterDisplayData.getIndex(editorStorage.currentFilter.code), startItems)
     }
 }

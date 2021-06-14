@@ -15,7 +15,7 @@ class NoFiltersMachine(
         when {
             state == State.INITIAL && event is Init -> {
                 outputCommands.emit(SelectButton(ModeButtonCode.NO_FILTERS))
-                outputCommands.emit(SetInitialImage(editorStorage.image,  editorStorage.sourceShot.filter))
+                outputCommands.emit(SetInitialImage(editorStorage.image,  editorStorage.currentFilter))
                 State.MAIN
             }
 

@@ -3,6 +3,7 @@ package com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.storag
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import com.shevelev.wizard_camera.common_entities.entities.PhotoShot
+import com.shevelev.wizard_camera.common_entities.filter_settings.gl.GlFilterSettings
 import com.shevelev.wizard_camera.shared.coroutines.DispatchersProvider
 import com.shevelev.wizard_camera.shared.files.FilesHelper
 import kotlinx.coroutines.withContext
@@ -15,10 +16,12 @@ class EditorStorageImpl
 @Inject
 constructor(
     private val dispatchersProvider: DispatchersProvider,
-    override val sourceShot: PhotoShot,
+    private val sourceShot: PhotoShot,
     private val filesHelper: FilesHelper,
 ) : EditorStorage {
     override lateinit var image: Bitmap
+
+    override var currentFilter: GlFilterSettings = sourceShot.filter
 
     override suspend fun decodeBitmap() {
         image = withContext(dispatchersProvider.ioDispatcher) {
