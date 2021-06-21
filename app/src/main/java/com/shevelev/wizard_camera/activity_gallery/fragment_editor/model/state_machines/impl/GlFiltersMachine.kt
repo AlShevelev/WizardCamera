@@ -74,7 +74,7 @@ class GlFiltersMachine(
             }
 
             state == State.MAIN && event is GlFilterSwitched -> {
-                val filter = filterSettings[event.filterId.filterCode]
+                val filter = editorStorage.getUsedFilter(event.filterId.filterCode) ?: filterSettings[event.filterId.filterCode]
 
                 editorStorage.currentFilter = filter
                 outputCommands.emit(UpdateImageByGlFilter(filter))

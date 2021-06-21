@@ -3,6 +3,7 @@ package com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.storag
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import com.shevelev.wizard_camera.common_entities.entities.PhotoShot
+import com.shevelev.wizard_camera.common_entities.enums.GlFilterCode
 import com.shevelev.wizard_camera.common_entities.filter_settings.gl.GlFilterSettings
 import com.shevelev.wizard_camera.shared.coroutines.DispatchersProvider
 import com.shevelev.wizard_camera.shared.files.FilesHelper
@@ -19,13 +20,30 @@ constructor(
     private val sourceShot: PhotoShot,
     private val filesHelper: FilesHelper,
 ) : EditorStorage {
+
+    private val usedFilters = mutableMapOf<GlFilterCode, GlFilterSettings>()
+
     override lateinit var image: Bitmap
 
     override var currentFilter: GlFilterSettings = sourceShot.filter
+        set(value) {
+            field = value
+            memorizeUsedFilter(value)
+        }
+
+    init {
+        memorizeUsedFilter(sourceShot.filter)
+    }
 
     override suspend fun decodeBitmap() {
         image = withContext(dispatchersProvider.ioDispatcher) {
             BitmapFactory.decodeFile(filesHelper.getShotFileByName(sourceShot.fileName).absolutePath)
         }
+    }
+
+    override fun getUsedFilter(code: GlFilterCode): GlFilterSettings? = usedFilters[code]
+
+    override fun memorizeUsedFilter(filter: GlFilterSettings) {
+        usedFilters[filter.code] = filter
     }
 }

@@ -95,7 +95,9 @@ constructor(
     }
 
     fun onGLFilterSelected(filterId: FilterDisplayId) {
-        launch { interactor.processEvent(GlFilterSwitched(filterId)) }
+        launch {
+            interactor.processEvent(GlFilterSwitched(filterId))
+        }
     }
 
     private fun processOutputCommand(command: OutputCommand) {

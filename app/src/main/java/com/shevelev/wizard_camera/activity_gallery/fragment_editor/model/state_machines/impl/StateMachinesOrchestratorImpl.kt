@@ -52,8 +52,6 @@ constructor(
             State.PREVIOUS_MODE -> switchToMachine(previousMachine!!)
             else -> {}
         }
-
-        activeMachine.processEvent(event)
     }
 
     override suspend fun start() {

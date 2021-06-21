@@ -54,7 +54,7 @@ constructor(
 
             surfaceView.setBitmapParameters(bitmap)
 
-            root.addView(surfaceView, 0)
+            root.addView(surfaceView)
 
             val layoutParams = surfaceView.layoutParams as FrameLayout.LayoutParams
             layoutParams.gravity = Gravity.CENTER
@@ -62,13 +62,13 @@ constructor(
 
             surfaceView.setEGLContextClientVersion(3)
             surfaceView.setRenderer(filter)
-            surfaceView.renderMode = RENDERMODE_WHEN_DIRTY
+            surfaceView.renderMode = RENDERMODE_CONTINUOUSLY
 
             filter.attachSurface(surfaceView)
             surfaceView.filter = filter
 
-            if(root.childCount > 1) {
-                root.removeViewAt(1)
+            if(root.childCount > 1) {           // To avoid an image flashing
+                root.postDelayed({ root.removeViewAt(0) }, 250L)
             }
         }
     }
