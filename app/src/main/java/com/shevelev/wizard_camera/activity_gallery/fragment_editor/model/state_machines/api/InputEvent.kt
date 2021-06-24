@@ -15,25 +15,52 @@ sealed class InputEvent
  */
 object Init : InputEvent()
 
-// Click to the buttons
+/**
+ * The editor mode has been switched by user
+ */
 data class ModeButtonClicked(val code: ModeButtonCode) : InputEvent()
 
-// Actions
+/**
+ * Accept action
+ */
 object AcceptClicked : InputEvent()
+
+/**
+ * Cancel action
+ */
 object CancelClicked : InputEvent()
 
-// GL Filters
 /**
  * A new filter has been selected in the carousel
  */
 data class GlFilterSwitched(val filterId: FilterDisplayId) : InputEvent()
+
+/**
+ * A user show current filter settings
+ */
 object GlFilterSettingsShown : InputEvent()
+
+/**
+ * The current settings have been update by a user
+ */
 data class GlFilterSettingsUpdated(val settings: GlFilterSettings) : InputEvent()
+
+/**
+ * A user hided current filter settings
+ */
 object GlFilterSettingsHided : InputEvent()
 
-// System filters
+/**
+ * A user selected a new system filter
+ */
 data class SystemFilterSwitched(val settings: SystemFilterSettings) : InputEvent()
+
+/**
+ * The current system settings have been updated by a user
+ */
 data class SystemFilterSettingsUpdated(val settings: SystemFilterSettings) : InputEvent()
 
-// Cutting
-data class CuttingGridUpdated(val gridRect: Rect) : InputEvent()
+/**
+ * The cropping area has been updated by a user
+ */
+data class CroppingGridUpdated(val gridRect: Rect) : InputEvent()

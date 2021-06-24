@@ -127,7 +127,12 @@ class GlFiltersMachine(
 
     private fun getFiltersListData() : FiltersListData {
         val startItems = filterDisplayData.map {
-            FilterListItem(it, FilterFavoriteType.HIDDEN, filterSettings[it.id.filterCode] !is EmptyFilterSettings)
+            FilterListItem(
+                displayData = it,
+                favorite = FilterFavoriteType.HIDDEN,
+                hasSettings = filterSettings[it.id.filterCode] !is EmptyFilterSettings,
+                isSelected = false
+            )
         }
 
         return FiltersListData(filterDisplayData.getIndex(editorStorage.currentFilter.code), startItems)

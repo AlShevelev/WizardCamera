@@ -30,6 +30,8 @@ class FiltersRecyclerView(
 
     private var startId: FilterDisplayId? = null
 
+    private var lastSelectedPosition: Int? = null
+
     private lateinit var filtersAdapter: FiltersAdapter
 
     fun setStartData(data: FiltersListData, eventsProcessor: FilterEventsProcessor) {
@@ -40,7 +42,7 @@ class FiltersRecyclerView(
             addAdapter(filtersAdapter)
         }
 
-        filtersAdapter.setItems(data.items)
+        filtersAdapter.setItems(data.items, data.startPosition)
         setUp(data.startPosition)
     }
 
@@ -95,7 +97,7 @@ class FiltersRecyclerView(
                                     scrollToAbsolutePosition(it.position)
 
                                     if(currentScrollState == SCROLLING_FAST || currentScrollState == SCROLL_START) {
-                                        postOnItemSelectedEvent(it.id)
+                                        postOnItemSelectedEvent(it.id, it.position)
                                     }
                                 }
                             }
@@ -144,7 +146,9 @@ class FiltersRecyclerView(
                 lastItemTag = maxScaleChildTag
 
                 if(currentScrollState != SCROLLING_FAST) {
-                    postOnItemSelectedEvent(maxScaleChildTag!!.id)
+                    maxScaleChildTag?.let {
+                        postOnItemSelectedEvent(it.id, it.position)
+                    }
                 }
             }
         }
@@ -161,7 +165,7 @@ class FiltersRecyclerView(
         ) * scaleFactor + minScaleOffset).toFloat()
     }
 
-    private fun postOnItemSelectedEvent(id: FilterDisplayId) {
+    private fun postOnItemSelectedEvent(id: FilterDisplayId, position: Int) {
         if(lastPostId == id) {
             return
         }
@@ -171,6 +175,13 @@ class FiltersRecyclerView(
         if(startId == id) {
             startId = null
         } else {
+            lastSelectedPosition?.let {
+                filtersAdapter.setItemSelectionState(it, false)
+            }
+
+            lastSelectedPosition = position
+            filtersAdapter.setItemSelectionState(position, true)
+
             onItemSelectedListener?.invoke(id)
         }
     }

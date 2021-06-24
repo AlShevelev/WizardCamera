@@ -98,7 +98,12 @@ constructor(
                 FilterFavoriteType.NOT_FAVORITE
             }
 
-            FilterListItem(it, isFavorite, filterSettings[it.id.filterCode] !is EmptyFilterSettings)
+            FilterListItem(
+                displayData = it,
+                favorite = isFavorite,
+                hasSettings = filterSettings[it.id.filterCode] !is EmptyFilterSettings,
+                isSelected = false
+            )
         }
 
         return FiltersListData(displayData.getIndex(selectedFilter), startItems)
@@ -108,7 +113,12 @@ constructor(
         var startIndex = favoritesList.indexOf(selectedFavoriteFilter)
 
         val items = favoritesList.map {
-            FilterListItem(displayData[it], FilterFavoriteType.HIDDEN, filterSettings[it] !is EmptyFilterSettings)
+            FilterListItem(
+                displayData = displayData[it],
+                favorite = FilterFavoriteType.HIDDEN,
+                hasSettings = filterSettings[it] !is EmptyFilterSettings,
+                isSelected = false
+            )
         }
 
         if(items.isNotEmpty() && startIndex == -1) {

@@ -10,46 +10,88 @@ import com.shevelev.wizard_camera.shared.filters_ui.filters_carousel.FiltersList
  */
 sealed class OutputCommand
 
-// region Setting image to the editor
+/**
+ * Sets initial image and its filter
+ */
 data class SetInitialImage(val image: Bitmap, val settings: GlFilterSettings) : OutputCommand()
-// endregion
 
-// region Adding and removing selection from a button
+/**
+ * Moves a button to selected state
+ */
 data class SelectButton(val code: ModeButtonCode) : OutputCommand()
+
+/**
+ * Moves a button to unselected state
+ */
 data class UnSelectButton(val code: ModeButtonCode) : OutputCommand()
-// endregion
 
-// region Setting a filter
+/**
+ * Updates system filter settings
+ */
 data class UpdateSystemFilter(val settings: SystemFilterSettings) : OutputCommand()
-// endregion
 
-// region Commands for the GL filter carousel
+/**
+ * Shows the carousel for GL filters
+ */
 object ShowGlFilterCarousel : OutputCommand()
+
+/**
+ * Sets initial value to the carousel of GL filters
+ */
 data class IntiGlFilterCarousel(val filterData: FiltersListData) : OutputCommand()
+
+/**
+ * Sets new GL filter to an image
+ */
 data class UpdateImageByGlFilter(val settings: GlFilterSettings) : OutputCommand()
+
+/**
+ * Hides the carousel for GL filters
+ */
 object HideGlFilterCarousel : OutputCommand()
-// endregion
 
-// region Commands for GL filter settings
+/**
+ * Shows settings for GL filters
+ */
 data class ShowGlFilterSettings(val settings: GlFilterSettings) : OutputCommand()
+
+/**
+ * Hides settings for GL filters
+ */
 object HideGlFilterSettings : OutputCommand()
-// endregion
 
-// region Commands for the system filter carousel
+/**
+ * Shows the carousel for system filters
+ */
 object ShowSystemFilterCarousel : OutputCommand()
-data class ScrollSystemFilterCarousel(val filter: SystemFilterSettings) : OutputCommand()
-object HideSystemFilterCarousel : OutputCommand()
-// endregion
 
-// region Crop
+/**
+ * Scrolls the carousel for system filters to some filter
+ */
+data class ScrollSystemFilterCarousel(val filter: SystemFilterSettings) : OutputCommand()
+
+/**
+ * Hides the carousel for system filters
+ */
+object HideSystemFilterCarousel : OutputCommand()
+
+/**
+ * Shows cropping image
+ */
 object ShowCroppingImage : OutputCommand()
+
+/**
+ * Hides cropping image
+ */
 object HideCroppingImage : OutputCommand()
 // endregion
 
-// region Saving
+/**
+ * Shows saving dialog
+ */
 object ShowSaveDialog : OutputCommand()
-// endregion
 
-// region Shared
+/**
+ * Closes the editor
+ */
 object CloseEditor : OutputCommand()
-// endregion

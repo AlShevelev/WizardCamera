@@ -12,7 +12,7 @@ class FiltersAdapter(
     private val eventsProcessor: FilterEventsProcessor
 ) : RecyclerView.Adapter<FiltersItemViewHolder>() {
 
-    private var items: List<FilterListItem> = listOf()
+    private var items: MutableList<FilterListItem> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FiltersItemViewHolder =
         FiltersItemViewHolder(LayoutInflater.from(parent.context).inflate(layoutId, parent, false))
@@ -27,9 +27,19 @@ class FiltersAdapter(
 
     override fun getItemCount() = Int.MAX_VALUE
 
-    fun setItems(newItems: List<FilterListItem>) {
-        items = newItems
+    fun setItems(newItems: List<FilterListItem>, startPosition: Int) {
+        items = newItems.toMutableList()
+            .also {
+                it[startPosition] = it[startPosition].copy(isSelected = true)
+            }
         notifyDataSetChanged()
+    }
+
+    fun setItemSelectionState(position: Int, isSelected: Boolean) {
+        val positionInList = getItemIndexByPosition(position)
+
+        items[positionInList] = items[positionInList].copy(isSelected = isSelected)
+        notifyItemChanged(position)
     }
 
     /**

@@ -23,21 +23,29 @@ class FiltersItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         iconGlideTarget = listItemIcon.loadCircle(item.displayData.icon)
         root.tag = FiltersItemTag(id = item.displayData.id, position = position)
 
-        when(item.favorite) {
-            FilterFavoriteType.FAVORITE -> {
-                favoriteButton.visibility = View.VISIBLE
-                favoriteButton.isActive = true
-            }
-            FilterFavoriteType.NOT_FAVORITE -> {
-                favoriteButton.visibility = View.VISIBLE
-                favoriteButton.isActive = false
-            }
-            FilterFavoriteType.HIDDEN -> {
-                favoriteButton.visibility = View.INVISIBLE
+        if(!item.isSelected) {
+            favoriteButton.visibility = View.INVISIBLE
+        } else {
+            when(item.favorite) {
+                FilterFavoriteType.FAVORITE -> {
+                    favoriteButton.visibility = View.VISIBLE
+                    favoriteButton.isActive = true
+                }
+                FilterFavoriteType.NOT_FAVORITE -> {
+                    favoriteButton.visibility = View.VISIBLE
+                    favoriteButton.isActive = false
+                }
+                FilterFavoriteType.HIDDEN -> {
+                    favoriteButton.visibility = View.INVISIBLE
+                }
             }
         }
 
-        settingsButton.visibility = if(item.hasSettings) View.VISIBLE else View.INVISIBLE
+        if(item.isSelected) {
+            settingsButton.visibility = if (item.hasSettings) View.VISIBLE else View.INVISIBLE
+        } else {
+            settingsButton.visibility = View.INVISIBLE
+        }
 
         favoriteButton.setOnPulseButtonClickListener { isActive ->
             eventsProcessor.onFavoriteFilterClick(item.displayData.id, isActive)

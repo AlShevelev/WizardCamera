@@ -5,5 +5,6 @@ import com.shevelev.wizard_camera.shared.filters_ui.display_data.FilterDisplayDa
 data class FilterListItem(
     val displayData: FilterDisplayData,
     val favorite: FilterFavoriteType,
-    val hasSettings: Boolean
+    val hasSettings: Boolean,
+    val isSelected: Boolean
 )

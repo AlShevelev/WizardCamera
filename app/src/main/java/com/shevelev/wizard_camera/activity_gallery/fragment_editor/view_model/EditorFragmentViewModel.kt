@@ -79,7 +79,7 @@ constructor(
     }
 
     override fun onSettingsClick(id: FilterDisplayId) {
-        TODO("Not yet implemented")
+        //interactor.processEvent()
     }
 
     fun onModeButtonClick(code: ModeButtonCode) {
