@@ -3,7 +3,6 @@ package com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_machines.api.*
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.storage.EditorStorage
 import com.shevelev.wizard_camera.activity_main.fragment_camera.model.filters_facade.settings.FilterSettingsFacade
-import com.shevelev.wizard_camera.common_entities.enums.GlFilterCode
 import com.shevelev.wizard_camera.shared.coroutines.DispatchersProvider
 import com.shevelev.wizard_camera.shared.filters_ui.display_data.gl.FilterDisplayDataList
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -21,7 +20,14 @@ constructor(
     private val _commands = MutableSharedFlow<OutputCommand>()
     override val commands = _commands.asSharedFlow()
 
-    private val noFilterMachine by lazy { NoFiltersMachine(_commands, dispatchersProvider, editorStorage) }
+    private val noFilterMachine by lazy {
+        NoFiltersMachine(
+            _commands,
+            dispatchersProvider,
+            editorStorage,
+            filterSettings
+        )
+    }
 
     private val glFilterMachine by lazy {
         GlFiltersMachine(
@@ -29,7 +35,8 @@ constructor(
             dispatchersProvider,
             editorStorage,
             filterDisplayData,
-            filterSettings)
+            filterSettings
+        )
     }
 
     private val systemFilterMachine by lazy { SystemFiltersMachine(_commands, dispatchersProvider, editorStorage) }
@@ -55,7 +62,7 @@ constructor(
     }
 
     override suspend fun start() {
-        val initialMachine = if(editorStorage.currentFilter.code == GlFilterCode.ORIGINAL) {
+        val initialMachine = if(editorStorage.lastUsedGlFilter == null) {
             InitialMachine.NO_FILTERS
         } else {
             InitialMachine.GL_FILTERS

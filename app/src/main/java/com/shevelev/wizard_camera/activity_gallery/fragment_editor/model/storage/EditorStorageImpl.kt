@@ -25,10 +25,12 @@ constructor(
 
     override lateinit var image: Bitmap
 
-    override var currentFilter: GlFilterSettings = sourceShot.filter
+    override var lastUsedGlFilter: GlFilterSettings? = sourceShot.filter.takeIf { it.code != GlFilterCode.ORIGINAL }
         set(value) {
-            field = value
-            memorizeUsedFilter(value)
+            value?.let {
+                field = it
+                memorizeUsedFilter(it)
+            }
         }
 
     init {

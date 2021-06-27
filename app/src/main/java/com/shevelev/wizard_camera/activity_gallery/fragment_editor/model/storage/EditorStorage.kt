@@ -8,7 +8,7 @@ import com.shevelev.wizard_camera.common_entities.filter_settings.gl.GlFilterSet
 interface EditorStorage {
     val image: Bitmap
 
-    var currentFilter: GlFilterSettings
+    var lastUsedGlFilter: GlFilterSettings?
 
     suspend fun decodeBitmap()
 

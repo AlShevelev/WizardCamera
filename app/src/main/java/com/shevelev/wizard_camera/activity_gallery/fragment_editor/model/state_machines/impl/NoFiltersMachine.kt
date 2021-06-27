@@ -2,20 +2,23 @@ package com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_
 
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_machines.api.*
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.storage.EditorStorage
+import com.shevelev.wizard_camera.activity_main.fragment_camera.model.filters_facade.settings.FilterSettingsFacade
+import com.shevelev.wizard_camera.common_entities.enums.GlFilterCode
 import com.shevelev.wizard_camera.shared.coroutines.DispatchersProvider
 import kotlinx.coroutines.flow.MutableSharedFlow
 
 class NoFiltersMachine(
     outputCommands: MutableSharedFlow<OutputCommand>,
     dispatchersProvider: DispatchersProvider,
-    editorStorage: EditorStorage
+    editorStorage: EditorStorage,
+    private val filterSettings: FilterSettingsFacade
 ) : EditorMachineBase(outputCommands, dispatchersProvider, editorStorage) {
 
     override suspend fun processEvent(event: InputEvent, state: State): State =
         when {
             state == State.INITIAL && event is Init -> {
                 outputCommands.emit(SelectButton(ModeButtonCode.NO_FILTERS))
-                outputCommands.emit(SetInitialImage(editorStorage.image,  editorStorage.currentFilter))
+                outputCommands.emit(SetInitialImage(editorStorage.image, filterSettings[GlFilterCode.ORIGINAL]))
                 State.MAIN
             }
 
