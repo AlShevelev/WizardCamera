@@ -46,6 +46,7 @@
             app:layout_constraintTop_toTopOf="@id/cancelButton"
             tools:text="Original"
             tools:visibility="visible"
+            app:title_text="@{viewModel.screenTitle}"
             android:visibility="@{viewModel.surfaceVisibility}" />
 
         <ImageButton
@@ -158,7 +159,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             tools:visibility="visible"
-            android:visibility="@{viewModel.glSettingsVisibility}" />
+            android:visibility="invisible" />
 
         <com.shevelev.wizard_camera.shared.filters_ui.filters_settings.system.host.SystemFilterSettingsHost
             android:id="@+id/systemsFiltersSettings"
@@ -173,7 +174,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             tools:visibility="visible"
-            android:visibility="@{viewModel.systemFiltersVisibility}" />
+            android:visibility="invisible" />
 
         <include layout="@layout/view_editor_progress"
             app:viewModel = "@{viewModel}"/>

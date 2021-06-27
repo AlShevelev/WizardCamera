@@ -47,24 +47,45 @@ class EditorFragment : FragmentBaseMVVM<FragmentEditorBinding, EditorFragmentVie
             binding.glFiltersCarousel.setStartData(it, viewModel)
         }
         binding.glFiltersCarousel.setOnItemSelectedListener(viewModel::onGLFilterSelected)
+
+        viewModel.glSettings.observe(viewLifecycleOwner) {
+            if(it == null) {
+                binding.glFiltersSettings.hide()
+            } else {
+                binding.glFiltersSettings.show(it)
+            }
+        }
+        binding.glFiltersSettings.setOnSettingsChangeListener(viewModel::onGLFilterSettingsUpdated)
+
+        viewModel.systemSettings.observe(viewLifecycleOwner) {
+            if(it == null) {
+                binding.systemsFiltersSettings.hide()
+            } else {
+                binding.systemsFiltersSettings.show(it)
+            }
+        }
+
+        binding.surfaceContainer.setOnClickListener { viewModel.onGlSurfaceClick() }
     }
 
     private fun setImageWithGlFilter(image: ImageWithFilter?) {
         image?.let {
-            val filter =  GLSurfaceShaderFilter(
-                requireContext(),
-                it.image,
-                FiltersFactory.getFilterRes(it.settings.code),
-                requireContext().getScreenSize(),
-                FiltersFactory.createGLFilterSettings(it.settings, requireContext())
-            )
+            if(glFilter == null || glFilter!!.code != it.settings.code) {
+                val filter =  GLSurfaceShaderFilter(
+                    requireContext(),
+                    it.image,
+                    FiltersFactory.getFilterRes(it.settings.code),
+                    requireContext().getScreenSize(),
+                    FiltersFactory.createGLFilterSettings(it.settings, requireContext())
+                )
 
-            glFilter = filter
+                glFilter = filter
 
-            GLSurfaceViewBitmap.createAndAddToView(requireContext(), binding.surfaceContainer, it.image, filter)
-//--------------------------------------
-//                val filter = FiltersFactory.createGLFilterSettings(it.settings, requireContext())
-//                glFilter!!.updateSettings(filter)
+                GLSurfaceViewBitmap.createAndAddToView(requireContext(), binding.surfaceContainer, it.image, filter)
+            } else {
+                val filter = FiltersFactory.createGLFilterSettings(it.settings, requireContext())
+                glFilter!!.updateSettings(filter)
+            }
         }
     }
 

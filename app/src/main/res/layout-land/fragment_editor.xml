@@ -46,6 +46,7 @@
             app:layout_constraintTop_toTopOf="@id/cancelButton"
             tools:text="Original"
             tools:visibility="visible"
+            app:title_text="@{viewModel.screenTitle}"
             android:visibility="@{viewModel.surfaceVisibility}" />
 
         <ImageButton
@@ -158,7 +159,7 @@
             tools:background="#00ff00"
             tools:layout_height="75dp"
             tools:visibility="visible"
-            android:visibility="@{viewModel.glSettingsVisibility}" />
+            android:visibility="invisible" />
 
         <com.shevelev.wizard_camera.shared.filters_ui.filters_settings.system.host.SystemFilterSettingsHost
             android:id="@+id/systemsFiltersSettings"
@@ -173,7 +174,7 @@
             app:layout_constraintEnd_toStartOf="@id/guideline80"
             app:layout_constraintStart_toEndOf="@id/guideline20"
             tools:visibility="visible"
-            android:visibility="@{viewModel.systemFiltersVisibility}" />
+            android:visibility="invisible" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline20"
@@ -191,18 +192,5 @@
 
         <include layout="@layout/view_editor_progress"
             app:viewModel = "@{viewModel}"/>
-<!--
-        <ProgressBar
-            android:id="@+id/progressBar"
-            style="?android:attr/progressBarStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            tools:visibility="visible"
-            android:visibility="@{viewModel.progressVisibility}" />
--->
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -6,6 +6,8 @@ import androidx.lifecycle.MutableLiveData
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.EditorFragmentInteractor
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.dto.ImageWithFilter
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_machines.api.*
+import com.shevelev.wizard_camera.common_entities.filter_settings.gl.GlFilterSettings
+import com.shevelev.wizard_camera.common_entities.filter_settings.system.SystemFilterSettings
 import com.shevelev.wizard_camera.shared.filters_ui.filters_carousel.FilterEventsProcessor
 import com.shevelev.wizard_camera.shared.binding_adapters.ButtonState
 import com.shevelev.wizard_camera.shared.coroutines.DispatchersProvider
@@ -24,6 +26,9 @@ constructor(
 ) : ViewModelBase<EditorFragmentInteractor>(dispatchersProvider, interactor),
     FilterEventsProcessor {
 
+    private val _screenTitle = MutableLiveData("")
+    val screenTitle: LiveData<String> = _screenTitle
+
     private val _progressVisibility = MutableLiveData(View.GONE)
     val progressVisibility: LiveData<Int> = _progressVisibility
 
@@ -36,11 +41,14 @@ constructor(
     private val _glFiltersVisibility = MutableLiveData(View.INVISIBLE)
     val glFiltersVisibility: LiveData<Int> = _glFiltersVisibility
 
-    private val _glSettingsVisibility = MutableLiveData(View.INVISIBLE)
-    val glSettingsVisibility: LiveData<Int> = _glSettingsVisibility
+    private val _glSettings = MutableLiveData<GlFilterSettings>(null)
+    val glSettings: LiveData<GlFilterSettings> = _glSettings
 
     private val _systemFiltersVisibility = MutableLiveData(View.INVISIBLE)
     val systemFiltersVisibility: LiveData<Int> = _systemFiltersVisibility
+
+    private val _systemSettings = MutableLiveData<SystemFilterSettings>(null)
+    val systemSettings: LiveData<SystemFilterSettings> = _systemSettings
 
     private val _acceptButtonState = MutableLiveData(ButtonState.ENABLED)
     val acceptButtonState: LiveData<ButtonState> = _acceptButtonState
@@ -79,7 +87,7 @@ constructor(
     }
 
     override fun onSettingsClick(id: FilterDisplayId) {
-        //interactor.processEvent()
+        launch { interactor.processEvent(GlFilterSettingsShown) }
     }
 
     fun onModeButtonClick(code: ModeButtonCode) {
@@ -98,6 +106,14 @@ constructor(
         launch {
             interactor.processEvent(GlFilterSwitched(filterId))
         }
+    }
+
+    fun onGLFilterSettingsUpdated(setting: GlFilterSettings) {
+        launch { interactor.processEvent(GlFilterSettingsUpdated(setting)) }
+    }
+
+    fun onGlSurfaceClick() {
+        launch { interactor.processEvent(GlFilterSettingsHided) }
     }
 
     private fun processOutputCommand(command: OutputCommand) {
@@ -121,12 +137,20 @@ constructor(
             }
             is HideGlFilterCarousel -> _glFiltersVisibility.value = View.INVISIBLE
 
-            is ShowGlFilterSettings -> _glSettingsVisibility.value = View.VISIBLE
-            is HideGlFilterSettings -> _glSettingsVisibility.value = View.INVISIBLE
+            is ShowGlFilterSettings -> {
+                _glSettings.value = command.settings
+            }
+
+            is HideGlFilterSettings -> _glSettings.value = null
 
             is ShowSystemFilterCarousel -> _systemFiltersVisibility.value = View.VISIBLE
+
             is ScrollSystemFilterCarousel -> { }
-            is HideSystemFilterCarousel -> _systemFiltersVisibility.value = View.INVISIBLE
+
+            is HideSystemFilterCarousel -> {
+                _systemFiltersVisibility.value = View.INVISIBLE
+                _systemSettings.value = null
+            }
 
             is ShowCroppingImage -> _croppingVisibility.value = View.VISIBLE
             is HideCroppingImage -> _croppingVisibility.value = View.GONE

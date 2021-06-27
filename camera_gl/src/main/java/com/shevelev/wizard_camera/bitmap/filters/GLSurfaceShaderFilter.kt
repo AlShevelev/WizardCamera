@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import android.opengl.GLES31
 import android.util.Size
 import androidx.annotation.RawRes
+import com.shevelev.wizard_camera.common_entities.enums.GlFilterCode
 import com.shevelev.wizard_camera.shared.GLFilterSettings
 import javax.microedition.khronos.opengles.GL10
 
@@ -19,6 +20,11 @@ class GLSurfaceShaderFilter(
     screenSize: Size,
     private var settings: GLFilterSettings
 ) : GLSurfaceFilterBase(context, bitmap, fragmentShaderResId, screenSize) {
+
+    /**
+     * A filter's code
+     */
+    val code: GlFilterCode = settings.code
 
     override fun onDrawFrame(gl: GL10) {
         draw(textures[0])

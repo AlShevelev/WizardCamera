@@ -63,7 +63,7 @@ class GlFiltersMachine(
 
             state == State.MAIN && event is GlFilterSettingsShown -> {
                 outputCommands.emit(HideGlFilterCarousel)
-                // todo outputCommands.emit(ShowGlFilterSettings(...))      // Show settings
+                outputCommands.emit(ShowGlFilterSettings(editorStorage.currentFilter))
                 State.SETTINGS_VISIBLE
             }
 
@@ -84,41 +84,42 @@ class GlFiltersMachine(
 
             state == State.SETTINGS_VISIBLE && event is ModeButtonClicked && event.code == ModeButtonCode.NO_FILTERS -> {
                 outputCommands.emit(UnSelectButton(ModeButtonCode.GL_FILTERS))
-                outputCommands.emit(HideGlFilterSettings)
+                hideFilterSettings()
                 State.NO_FILTERS
             }
 
             state == State.SETTINGS_VISIBLE && event is ModeButtonClicked && event.code == ModeButtonCode.SYSTEM_FILTERS -> {
                 outputCommands.emit(UnSelectButton(ModeButtonCode.GL_FILTERS))
-                outputCommands.emit(HideGlFilterSettings)
+                hideFilterSettings()
                 State.SYSTEM_FILTERS
             }
 
             state == State.SETTINGS_VISIBLE && event is ModeButtonClicked && event.code == ModeButtonCode.CROP -> {
                 outputCommands.emit(UnSelectButton(ModeButtonCode.GL_FILTERS))
-                outputCommands.emit(HideGlFilterSettings)
+                hideFilterSettings()
                 State.CROP
             }
 
             state == State.SETTINGS_VISIBLE && event is GlFilterSettingsHided -> {
-                outputCommands.emit(HideGlFilterSettings)
-                outputCommands.emit(ShowGlFilterCarousel)
+                hideFilterSettings()
                 State.MAIN
             }
 
             state == State.SETTINGS_VISIBLE && event is AcceptClicked -> {
                 // todo Update image in a storage (if necessary)
+                hideFilterSettings()
                 outputCommands.emit(CloseEditor)
                 State.FINAL
             }
 
             state == State.SETTINGS_VISIBLE && event is CancelClicked -> {
+                hideFilterSettings()
                 State.CANCELING
             }
 
             state == State.SETTINGS_VISIBLE && event is GlFilterSettingsUpdated -> {
-                // todo Memorize the settings
-                // todo Update an image
+                editorStorage.currentFilter = event.settings
+                outputCommands.emit(UpdateImageByGlFilter(event.settings))
                 state
             }
 
@@ -136,5 +137,10 @@ class GlFiltersMachine(
         }
 
         return FiltersListData(filterDisplayData.getIndex(editorStorage.currentFilter.code), startItems)
+    }
+
+    private suspend fun hideFilterSettings() {
+        outputCommands.emit(HideGlFilterSettings)
+        outputCommands.emit(ShowGlFilterCarousel)
     }
 }
