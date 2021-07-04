@@ -1,3 +1,4 @@
+include ':catalano'
 include ':app'
 include ':camera_gl'
 include ':utils'
