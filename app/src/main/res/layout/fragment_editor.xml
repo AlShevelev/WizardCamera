@@ -63,25 +63,13 @@
             app:button_state="@{viewModel.cropButtonState}" />
 
         <ImageButton
-            android:id="@+id/systemFiltersButton"
-            style = "@style/WizCam.RoundButton"
-            android:src="@drawable/ic_gallery_brightness"
-            tools:visibility="visible"
-            android:layout_marginEnd="@dimen/marginSmall"
-            app:layout_constraintBottom_toBottomOf="@id/cropButton"
-            app:layout_constraintEnd_toStartOf="@id/cropButton"
-            tools:ignore="ContentDescription"
-            android:onClick="@{() -> viewModel.onModeButtonClick(ModeButtonCode.SYSTEM_FILTERS)}"
-            app:button_state="@{viewModel.systemFiltersButtonState}" />
-
-        <ImageButton
             android:id="@+id/glFiltersButton"
             style = "@style/WizCam.RoundButton"
             android:src="@drawable/ic_gallery_filter"
             tools:visibility="visible"
             android:layout_marginEnd="@dimen/marginSmall"
             app:layout_constraintBottom_toBottomOf="@id/cropButton"
-            app:layout_constraintEnd_toStartOf="@id/systemFiltersButton"
+            app:layout_constraintEnd_toStartOf="@id/cropButton"
             tools:ignore="ContentDescription"
             android:onClick="@{() -> viewModel.onModeButtonClick(ModeButtonCode.GL_FILTERS)}"
             app:button_state="@{viewModel.glFiltersButtonState}" />
@@ -134,18 +122,6 @@
             tools:visibility="visible"
             android:visibility="@{viewModel.glFiltersVisibility}" />
 
-        <com.shevelev.wizard_camera.shared.filters_ui.filters_carousel.FiltersCarouselWidget
-            android:id="@+id/systemFiltersCarousel"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/mainFilterCarouselHeight"
-            android:layout_marginBottom="@dimen/marginNormal"
-            app:layout_constraintBottom_toTopOf="@id/glFiltersButton"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:background="#0000ff"
-            tools:visibility="visible"
-            android:visibility="@{viewModel.systemFiltersVisibility}" />
-
         <com.shevelev.wizard_camera.shared.filters_ui.filters_settings.gl.host.GlFilterSettingsHost
             android:id="@+id/glFiltersSettings"
             android:layout_width="0dp"
@@ -156,21 +132,6 @@
             android:layout_marginBottom="@dimen/marginNormal"
             tools:background="#00ff00"
             app:layout_constraintBottom_toTopOf="@id/glFiltersButton"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:visibility="visible"
-            android:visibility="invisible" />
-
-        <com.shevelev.wizard_camera.shared.filters_ui.filters_settings.system.host.SystemFilterSettingsHost
-            android:id="@+id/systemsFiltersSettings"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            tools:layout_height="50dp"
-            android:layout_marginStart="@dimen/marginNormal"
-            android:layout_marginEnd="@dimen/marginNormal"
-            android:layout_marginBottom="@dimen/marginNormal"
-            tools:background="#00ff00"
-            app:layout_constraintBottom_toTopOf="@id/systemFiltersCarousel"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             tools:visibility="visible"

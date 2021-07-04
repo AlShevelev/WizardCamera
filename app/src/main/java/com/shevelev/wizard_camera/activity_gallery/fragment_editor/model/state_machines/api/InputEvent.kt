@@ -2,7 +2,6 @@ package com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_
 
 import android.graphics.Rect
 import com.shevelev.wizard_camera.common_entities.filter_settings.gl.GlFilterSettings
-import com.shevelev.wizard_camera.common_entities.filter_settings.system.SystemFilterSettings
 import com.shevelev.wizard_camera.shared.filters_ui.display_data.FilterDisplayId
 
 /**
@@ -49,16 +48,6 @@ data class GlFilterSettingsUpdated(val settings: GlFilterSettings) : InputEvent(
  * A user hided current filter settings
  */
 object GlFilterSettingsHided : InputEvent()
-
-/**
- * A user selected a new system filter
- */
-data class SystemFilterSwitched(val settings: SystemFilterSettings) : InputEvent()
-
-/**
- * The current system settings have been updated by a user
- */
-data class SystemFilterSettingsUpdated(val settings: SystemFilterSettings) : InputEvent()
 
 /**
  * The cropping area has been updated by a user

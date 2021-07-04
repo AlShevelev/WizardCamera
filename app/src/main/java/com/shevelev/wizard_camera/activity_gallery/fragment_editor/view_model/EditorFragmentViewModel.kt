@@ -7,11 +7,10 @@ import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.EditorF
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.dto.ImageWithFilter
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_machines.api.*
 import com.shevelev.wizard_camera.common_entities.filter_settings.gl.GlFilterSettings
-import com.shevelev.wizard_camera.common_entities.filter_settings.system.SystemFilterSettings
-import com.shevelev.wizard_camera.shared.filters_ui.filters_carousel.FilterEventsProcessor
 import com.shevelev.wizard_camera.shared.binding_adapters.ButtonState
 import com.shevelev.wizard_camera.shared.coroutines.DispatchersProvider
 import com.shevelev.wizard_camera.shared.filters_ui.display_data.FilterDisplayId
+import com.shevelev.wizard_camera.shared.filters_ui.filters_carousel.FilterEventsProcessor
 import com.shevelev.wizard_camera.shared.filters_ui.filters_carousel.FiltersListData
 import com.shevelev.wizard_camera.shared.mvvm.view_model.ViewModelBase
 import kotlinx.coroutines.flow.collect
@@ -44,12 +43,6 @@ constructor(
     private val _glSettings = MutableLiveData<GlFilterSettings>(null)
     val glSettings: LiveData<GlFilterSettings> = _glSettings
 
-    private val _systemFiltersVisibility = MutableLiveData(View.INVISIBLE)
-    val systemFiltersVisibility: LiveData<Int> = _systemFiltersVisibility
-
-    private val _systemSettings = MutableLiveData<SystemFilterSettings>(null)
-    val systemSettings: LiveData<SystemFilterSettings> = _systemSettings
-
     private val _acceptButtonState = MutableLiveData(ButtonState.ENABLED)
     val acceptButtonState: LiveData<ButtonState> = _acceptButtonState
 
@@ -61,9 +54,6 @@ constructor(
 
     private val _glFiltersButtonState = MutableLiveData(ButtonState.ENABLED)
     val glFiltersButtonState: LiveData<ButtonState> = _glFiltersButtonState
-
-    private val _systemFiltersButtonState = MutableLiveData(ButtonState.ENABLED)
-    val systemFiltersButtonState: LiveData<ButtonState> = _systemFiltersButtonState
 
     private val _cropButtonState = MutableLiveData(ButtonState.ENABLED)
     val cropButtonState: LiveData<ButtonState> = _cropButtonState
@@ -126,8 +116,6 @@ constructor(
             is SelectButton -> setButtonState(command.code, ButtonState.SELECTED)
             is UnSelectButton -> setButtonState(command.code, ButtonState.ENABLED)
 
-            is UpdateSystemFilter -> { }
-
             is ShowGlFilterCarousel -> _glFiltersVisibility.value = View.VISIBLE
             is IntiGlFilterCarousel -> _glFilters.value = command.filterData
             is UpdateImageByGlFilter -> {
@@ -143,15 +131,6 @@ constructor(
 
             is HideGlFilterSettings -> _glSettings.value = null
 
-            is ShowSystemFilterCarousel -> _systemFiltersVisibility.value = View.VISIBLE
-
-            is ScrollSystemFilterCarousel -> { }
-
-            is HideSystemFilterCarousel -> {
-                _systemFiltersVisibility.value = View.INVISIBLE
-                _systemSettings.value = null
-            }
-
             is ShowCroppingImage -> _croppingVisibility.value = View.VISIBLE
             is HideCroppingImage -> _croppingVisibility.value = View.GONE
 
@@ -165,7 +144,6 @@ constructor(
         when(button) {
             ModeButtonCode.NO_FILTERS -> _noFiltersButtonState
             ModeButtonCode.GL_FILTERS -> _glFiltersButtonState
-            ModeButtonCode.SYSTEM_FILTERS -> _systemFiltersButtonState
             ModeButtonCode.CROP -> _cropButtonState
         }
             .let { it.value = state }

@@ -57,14 +57,6 @@ class EditorFragment : FragmentBaseMVVM<FragmentEditorBinding, EditorFragmentVie
         }
         binding.glFiltersSettings.setOnSettingsChangeListener(viewModel::onGLFilterSettingsUpdated)
 
-        viewModel.systemSettings.observe(viewLifecycleOwner) {
-            if(it == null) {
-                binding.systemsFiltersSettings.hide()
-            } else {
-                binding.systemsFiltersSettings.show(it)
-            }
-        }
-
         binding.surfaceContainer.setOnClickListener { viewModel.onGlSurfaceClick() }
     }
 

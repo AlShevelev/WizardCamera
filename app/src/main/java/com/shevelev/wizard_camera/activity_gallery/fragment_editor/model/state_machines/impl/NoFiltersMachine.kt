@@ -32,11 +32,6 @@ class NoFiltersMachine(
                 State.CROP
             }
 
-            state == State.MAIN && event is ModeButtonClicked && event.code == ModeButtonCode.SYSTEM_FILTERS -> {
-                outputCommands.emit(UnSelectButton(ModeButtonCode.NO_FILTERS))
-                State.SYSTEM_FILTERS
-            }
-
             state == State.MAIN && event is AcceptClicked -> {
                 // todo Update image in a storage (if necessary)
                 outputCommands.emit(CloseEditor)

@@ -35,11 +35,6 @@ enum class State {
     GL_FILTERS,
 
     /**
-     * A final state - we must move to "System filters" SM
-     */
-    SYSTEM_FILTERS,
-
-    /**
      * A final state - we must move to "Cut" SM
      */
     CROP,

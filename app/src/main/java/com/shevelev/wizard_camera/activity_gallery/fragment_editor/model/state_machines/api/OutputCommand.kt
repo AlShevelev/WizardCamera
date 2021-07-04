@@ -2,7 +2,6 @@ package com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_
 
 import android.graphics.Bitmap
 import com.shevelev.wizard_camera.common_entities.filter_settings.gl.GlFilterSettings
-import com.shevelev.wizard_camera.common_entities.filter_settings.system.SystemFilterSettings
 import com.shevelev.wizard_camera.shared.filters_ui.filters_carousel.FiltersListData
 
 /**
@@ -24,11 +23,6 @@ data class SelectButton(val code: ModeButtonCode) : OutputCommand()
  * Moves a button to unselected state
  */
 data class UnSelectButton(val code: ModeButtonCode) : OutputCommand()
-
-/**
- * Updates system filter settings
- */
-data class UpdateSystemFilter(val settings: SystemFilterSettings) : OutputCommand()
 
 /**
  * Shows the carousel for GL filters
@@ -59,21 +53,6 @@ data class ShowGlFilterSettings(val settings: GlFilterSettings) : OutputCommand(
  * Hides settings for GL filters
  */
 object HideGlFilterSettings : OutputCommand()
-
-/**
- * Shows the carousel for system filters
- */
-object ShowSystemFilterCarousel : OutputCommand()
-
-/**
- * Scrolls the carousel for system filters to some filter
- */
-data class ScrollSystemFilterCarousel(val filter: SystemFilterSettings) : OutputCommand()
-
-/**
- * Hides the carousel for system filters
- */
-object HideSystemFilterCarousel : OutputCommand()
 
 /**
  * Shows cropping image
