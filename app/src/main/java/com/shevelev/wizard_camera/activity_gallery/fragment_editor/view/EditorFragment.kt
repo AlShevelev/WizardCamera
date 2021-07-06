@@ -1,5 +1,6 @@
 package com.shevelev.wizard_camera.activity_gallery.fragment_editor.view
 
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.View
 import com.shevelev.wizard_camera.R
@@ -17,6 +18,8 @@ import com.shevelev.wizard_camera.utils.resources.getScreenSize
 
 class EditorFragment : FragmentBaseMVVM<FragmentEditorBinding, EditorFragmentViewModel>() {
     private var glFilter: GLSurfaceShaderFilter? = null
+
+    private var displayedImage: Bitmap? = null
 
     override fun provideViewModelType(): Class<EditorFragmentViewModel> = EditorFragmentViewModel::class.java
 
@@ -62,7 +65,7 @@ class EditorFragment : FragmentBaseMVVM<FragmentEditorBinding, EditorFragmentVie
 
     private fun setImageWithGlFilter(image: ImageWithFilter?) {
         image?.let {
-            if(glFilter == null || glFilter!!.code != it.settings.code) {
+            if(glFilter?.code != it.settings.code || displayedImage != image.image) {
                 val filter =  GLSurfaceShaderFilter(
                     requireContext(),
                     it.image,
@@ -74,6 +77,8 @@ class EditorFragment : FragmentBaseMVVM<FragmentEditorBinding, EditorFragmentVie
                 glFilter = filter
 
                 GLSurfaceViewBitmap.createAndAddToView(requireContext(), binding.surfaceContainer, it.image, filter)
+
+                displayedImage = image.image
             } else {
                 val filter = FiltersFactory.createGLFilterSettings(it.settings, requireContext())
                 glFilter!!.updateSettings(filter)

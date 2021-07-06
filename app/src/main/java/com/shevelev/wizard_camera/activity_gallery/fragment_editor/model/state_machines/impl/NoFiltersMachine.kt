@@ -17,19 +17,34 @@ class NoFiltersMachine(
     override suspend fun processEvent(event: InputEvent, state: State): State =
         when {
             state == State.INITIAL && event is Init -> {
-                outputCommands.emit(SelectButton(ModeButtonCode.NO_FILTERS))
-                outputCommands.emit(SetInitialImage(editorStorage.image, filterSettings[GlFilterCode.ORIGINAL]))
+                outputCommands.emit(SetButtonSelection(ModeButtonCode.NO_FILTERS, true))
+                outputCommands.emit(SetInitialImage(editorStorage.displayedImage, filterSettings[GlFilterCode.ORIGINAL]))
                 State.MAIN
             }
 
             state == State.MAIN && event is ModeButtonClicked && event.code == ModeButtonCode.GL_FILTERS -> {
-                outputCommands.emit(UnSelectButton(ModeButtonCode.NO_FILTERS))
+                outputCommands.emit(SetButtonSelection(ModeButtonCode.NO_FILTERS, false))
                 State.GL_FILTERS
             }
 
             state == State.MAIN && event is ModeButtonClicked && event.code == ModeButtonCode.CROP -> {
-                outputCommands.emit(UnSelectButton(ModeButtonCode.NO_FILTERS))
+                outputCommands.emit(SetButtonSelection(ModeButtonCode.NO_FILTERS, false))
                 State.CROP
+            }
+
+            state == State.MAIN && event is ModeButtonClicked && event.code == ModeButtonCode.MAGIC -> {
+                if(editorStorage.isSourceImageDisplayed) {
+                    outputCommands.emit(SetButtonSelection(ModeButtonCode.MAGIC, true))
+                    outputCommands.emit(SetProgressVisibility(true))
+                    editorStorage.switchToHistogramEqualizedImage()
+                    outputCommands.emit(SetProgressVisibility(false))
+                    outputCommands.emit(SetInitialImage(editorStorage.displayedImage, filterSettings[GlFilterCode.ORIGINAL]))
+                } else {
+                    outputCommands.emit(SetButtonSelection(ModeButtonCode.MAGIC, false))
+                    editorStorage.switchToSourceImage()
+                    outputCommands.emit(SetInitialImage(editorStorage.displayedImage, filterSettings[GlFilterCode.ORIGINAL]))
+                }
+                State.MAIN
             }
 
             state == State.MAIN && event is AcceptClicked -> {

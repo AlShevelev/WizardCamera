@@ -14,36 +14,36 @@ class CropMachine(
     override suspend fun processEvent(event: InputEvent, state: State): State =
         when {
             state == State.INITIAL && event is Init -> {
-                outputCommands.emit(SelectButton(ModeButtonCode.CROP))
-                outputCommands.emit(ShowCroppingImage)
+                outputCommands.emit(SetButtonSelection(ModeButtonCode.CROP, true))
+                outputCommands.emit(SetCroppingImageVisibility(true))
                 State.MAIN
             }
 
             state == State.MAIN && event is ModeButtonClicked && event.code == ModeButtonCode.NO_FILTERS -> {
-                outputCommands.emit(UnSelectButton(ModeButtonCode.CROP))
-                outputCommands.emit(HideCroppingImage)
+                outputCommands.emit(SetButtonSelection(ModeButtonCode.CROP, false))
+                outputCommands.emit(SetCroppingImageVisibility(false))
                 State.NO_FILTERS
             }
 
             state == State.MAIN && event is ModeButtonClicked && event.code == ModeButtonCode.GL_FILTERS -> {
-                outputCommands.emit(UnSelectButton(ModeButtonCode.CROP))
-                outputCommands.emit(HideCroppingImage)
+                outputCommands.emit(SetButtonSelection(ModeButtonCode.CROP, false))
+                outputCommands.emit(SetCroppingImageVisibility(false))
                 State.GL_FILTERS
             }
 
             state == State.MAIN && event is ModeButtonClicked && event.code == ModeButtonCode.CROP -> {
-                outputCommands.emit(UnSelectButton(ModeButtonCode.CROP))
-                outputCommands.emit(HideCroppingImage)
+                outputCommands.emit(SetButtonSelection(ModeButtonCode.CROP, false))
+                outputCommands.emit(SetCroppingImageVisibility(false))
                 State.CROP
             }
 
             state == State.MAIN && event is CancelClicked -> {
-                outputCommands.emit(HideCroppingImage)
+                outputCommands.emit(SetCroppingImageVisibility(false))
                 State.PREVIOUS_MODE
             }
 
             state == State.MAIN && event is AcceptClicked -> {
-                outputCommands.emit(HideCroppingImage)
+                outputCommands.emit(SetCroppingImageVisibility(false))
                 // todo update an original image
                 State.PREVIOUS_MODE
             }

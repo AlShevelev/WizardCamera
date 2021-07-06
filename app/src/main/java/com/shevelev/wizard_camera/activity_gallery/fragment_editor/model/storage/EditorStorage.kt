@@ -6,11 +6,17 @@ import com.shevelev.wizard_camera.common_entities.enums.GlFilterCode
 import com.shevelev.wizard_camera.common_entities.filter_settings.gl.GlFilterSettings
 
 interface EditorStorage {
-    val image: Bitmap
+    val displayedImage: Bitmap
 
     var lastUsedGlFilter: GlFilterSettings?
 
-    suspend fun decodeBitmap()
+    val isSourceImageDisplayed: Boolean
+
+    suspend fun initImage()
+
+    fun switchToSourceImage()
+
+    suspend fun switchToHistogramEqualizedImage()
 
     fun getUsedFilter(code: GlFilterCode): GlFilterSettings?
 

@@ -58,6 +58,9 @@ constructor(
     private val _cropButtonState = MutableLiveData(ButtonState.ENABLED)
     val cropButtonState: LiveData<ButtonState> = _cropButtonState
 
+    private val _magicButtonState = MutableLiveData(ButtonState.ENABLED)
+    val magicButtonState: LiveData<ButtonState> = _magicButtonState
+
     private val _imageWithGlFilter = MutableLiveData<ImageWithFilter>(null)
     val imageWithGlFilter: LiveData<ImageWithFilter> = _imageWithGlFilter
 
@@ -113,17 +116,23 @@ constructor(
                 _surfaceVisibility.value = View.VISIBLE
             }
 
-            is SelectButton -> setButtonState(command.code, ButtonState.SELECTED)
-            is UnSelectButton -> setButtonState(command.code, ButtonState.ENABLED)
+            is SetButtonSelection -> if(command.isSelected) {
+                setButtonState(command.code, ButtonState.SELECTED)
+            } else {
+                setButtonState(command.code, ButtonState.ENABLED)
+            }
 
-            is ShowGlFilterCarousel -> _glFiltersVisibility.value = View.VISIBLE
+            is SetGlFilterCarouselVisibility -> if(command.isVisible) {
+                _glFiltersVisibility.value = View.VISIBLE
+            } else {
+                _glFiltersVisibility.value = View.INVISIBLE
+            }
             is IntiGlFilterCarousel -> _glFilters.value = command.filterData
             is UpdateImageByGlFilter -> {
                 _imageWithGlFilter.value?.let { filter ->
                     _imageWithGlFilter.value = filter.copy(settings = command.settings)
                 }
             }
-            is HideGlFilterCarousel -> _glFiltersVisibility.value = View.INVISIBLE
 
             is ShowGlFilterSettings -> {
                 _glSettings.value = command.settings
@@ -131,12 +140,17 @@ constructor(
 
             is HideGlFilterSettings -> _glSettings.value = null
 
-            is ShowCroppingImage -> _croppingVisibility.value = View.VISIBLE
-            is HideCroppingImage -> _croppingVisibility.value = View.GONE
+            is SetCroppingImageVisibility -> if(command.isVisible) {
+                _croppingVisibility.value = View.VISIBLE
+            } else {
+                _croppingVisibility.value = View.GONE
+            }
 
             is ShowSaveDialog -> { }
 
             is CloseEditor -> { }
+
+            is SetProgressVisibility -> _progressVisibility.value = if(command.isVisible) View.VISIBLE else View.GONE
         }
     }
 
@@ -145,6 +159,7 @@ constructor(
             ModeButtonCode.NO_FILTERS -> _noFiltersButtonState
             ModeButtonCode.GL_FILTERS -> _glFiltersButtonState
             ModeButtonCode.CROP -> _cropButtonState
+            ModeButtonCode.MAGIC -> _magicButtonState
         }
             .let { it.value = state }
     }

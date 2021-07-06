@@ -50,6 +50,19 @@
             android:visibility="@{viewModel.surfaceVisibility}" />
 
         <ImageButton
+            android:id="@+id/magicButton"
+            style = "@style/WizCam.RoundButton"
+            android:layout_marginBottom="@dimen/navigationBarButtonsMargin"
+            android:src="@drawable/ic_magic"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="@dimen/marginNormal"
+            tools:visibility="visible"
+            tools:ignore="ContentDescription"
+            android:onClick="@{() -> viewModel.onModeButtonClick(ModeButtonCode.MAGIC)}"
+            app:button_state="@{viewModel.magicButtonState}" />
+
+        <ImageButton
             android:id="@+id/cropButton"
             style = "@style/WizCam.RoundButton"
             android:layout_marginBottom="@dimen/navigationBarButtonsMargin"

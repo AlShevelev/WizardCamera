@@ -65,7 +65,7 @@ constructor(
             InitialMachine.GL_FILTERS
         }
 
-        editorStorage.decodeBitmap()
+        editorStorage.initImage()
 
         when (initialMachine) {
             InitialMachine.NO_FILTERS -> switchToMachine(noFilterMachine)

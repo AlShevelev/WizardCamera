@@ -15,19 +15,14 @@ sealed class OutputCommand
 data class SetInitialImage(val image: Bitmap, val settings: GlFilterSettings) : OutputCommand()
 
 /**
- * Moves a button to selected state
+ * Selects and removes selection from a button
  */
-data class SelectButton(val code: ModeButtonCode) : OutputCommand()
+class SetButtonSelection(val code: ModeButtonCode, val isSelected: Boolean) : OutputCommand()
 
 /**
- * Moves a button to unselected state
+ * Shows and hides the carousel for GL filters
  */
-data class UnSelectButton(val code: ModeButtonCode) : OutputCommand()
-
-/**
- * Shows the carousel for GL filters
- */
-object ShowGlFilterCarousel : OutputCommand()
+class SetGlFilterCarouselVisibility(val isVisible: Boolean) : OutputCommand()
 
 /**
  * Sets initial value to the carousel of GL filters
@@ -40,11 +35,6 @@ data class IntiGlFilterCarousel(val filterData: FiltersListData) : OutputCommand
 data class UpdateImageByGlFilter(val settings: GlFilterSettings) : OutputCommand()
 
 /**
- * Hides the carousel for GL filters
- */
-object HideGlFilterCarousel : OutputCommand()
-
-/**
  * Shows settings for GL filters
  */
 data class ShowGlFilterSettings(val settings: GlFilterSettings) : OutputCommand()
@@ -55,15 +45,9 @@ data class ShowGlFilterSettings(val settings: GlFilterSettings) : OutputCommand(
 object HideGlFilterSettings : OutputCommand()
 
 /**
- * Shows cropping image
+ * Shows and hides cropping image
  */
-object ShowCroppingImage : OutputCommand()
-
-/**
- * Hides cropping image
- */
-object HideCroppingImage : OutputCommand()
-// endregion
+class SetCroppingImageVisibility(val isVisible: Boolean) : OutputCommand()
 
 /**
  * Shows saving dialog
@@ -74,3 +58,8 @@ object ShowSaveDialog : OutputCommand()
  * Closes the editor
  */
 object CloseEditor : OutputCommand()
+
+/**
+ * Shows and hides
+ */
+class SetProgressVisibility(val isVisible: Boolean) : OutputCommand()

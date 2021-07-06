@@ -22,8 +22,8 @@
 
 package com.shevelev.catalano.filters;
 
-import com.shevelev.catalano.core.ImageStatistics;
 import com.shevelev.catalano.fast_bitmap.FastBitmap;
+import com.shevelev.catalano.core.ImageStatistics;
 
 import java.util.ArrayList;
 
