@@ -88,6 +88,21 @@ class GlFiltersMachine(
                 state
             }
 
+            state == State.MAIN && event is ModeButtonClicked && event.code == ModeButtonCode.MAGIC -> {
+                if(editorStorage.isSourceImageDisplayed) {
+                    outputCommands.emit(SetButtonSelection(ModeButtonCode.MAGIC, true))
+                    outputCommands.emit(SetProgressVisibility(true))
+                    editorStorage.switchToHistogramEqualizedImage()
+                    outputCommands.emit(SetProgressVisibility(false))
+                    outputCommands.emit(SetInitialImage(editorStorage.displayedImage, editorStorage.lastUsedGlFilter!!))
+                } else {
+                    outputCommands.emit(SetButtonSelection(ModeButtonCode.MAGIC, false))
+                    editorStorage.switchToSourceImage()
+                    outputCommands.emit(SetInitialImage(editorStorage.displayedImage, editorStorage.lastUsedGlFilter!!))
+                }
+                State.MAIN
+            }
+
             state == State.SETTINGS_VISIBLE && event is ModeButtonClicked && event.code == ModeButtonCode.NO_FILTERS -> {
                 outputCommands.emit(SetButtonSelection(ModeButtonCode.GL_FILTERS, false))
                 hideFilterSettings()
