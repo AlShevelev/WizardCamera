@@ -99,6 +99,9 @@
 
     <string name="camera_2_warning">This device does not support Camera 2 API completely. You can\'t use this application on it, sorry</string>
 
-    <string name="camera_flash_on">Camera flash on</string>
-    <string name="camera_flash_off">Camera flash off</string>
+    <string name="camera_flash_on">Camera flash: On</string>
+    <string name="camera_flash_off">Camera flash: Off</string>
+
+    <string name="magic_mode_on">Magic mode: On</string>
+    <string name="magic_mode_off">Magic mode: Off</string>
 </resources>

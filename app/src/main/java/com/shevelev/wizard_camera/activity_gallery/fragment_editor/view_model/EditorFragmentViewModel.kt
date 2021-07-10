@@ -1,8 +1,11 @@
 package com.shevelev.wizard_camera.activity_gallery.fragment_editor.view_model
 
+import android.annotation.SuppressLint
+import android.content.Context
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.EditorFragmentInteractor
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.dto.ImageWithFilter
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_machines.api.*
@@ -17,16 +20,18 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@SuppressLint("StaticFieldLeak")
 class EditorFragmentViewModel
 @Inject
 constructor(
+    private val appContext: Context,
     dispatchersProvider: DispatchersProvider,
     interactor: EditorFragmentInteractor
 ) : ViewModelBase<EditorFragmentInteractor>(dispatchersProvider, interactor),
     FilterEventsProcessor {
 
-    private val _screenTitle = MutableLiveData("")
-    val screenTitle: LiveData<String> = _screenTitle
+    private val _screenTitle = MutableLiveData<String?>(null)
+    val screenTitle: LiveData<String?> = _screenTitle
 
     private val _progressVisibility = MutableLiveData(View.GONE)
     val progressVisibility: LiveData<Int> = _progressVisibility
@@ -108,6 +113,10 @@ constructor(
             is SetInitialImage -> {
                 _imageWithGlFilter.value = ImageWithFilter(command.image, command.settings)
                 _surfaceVisibility.value = View.VISIBLE
+
+                if(!command.isMagicMode) {
+                    _screenTitle.value = appContext.getString(command.filterTitle)
+                }
             }
 
             is SetButtonSelection -> if(command.isSelected) {
@@ -121,11 +130,14 @@ constructor(
             } else {
                 _glFiltersVisibility.value = View.INVISIBLE
             }
+
             is IntiGlFilterCarousel -> _glFilters.value = command.filterData
+
             is UpdateImageByGlFilter -> {
                 _imageWithGlFilter.value?.let { filter ->
                     _imageWithGlFilter.value = filter.copy(settings = command.settings)
                 }
+                command.filterTitle?.let { _screenTitle.value = appContext.getString(it) }
             }
 
             is ShowGlFilterSettings -> {
@@ -149,5 +161,13 @@ constructor(
             ModeButtonCode.MAGIC -> _magicButtonState
         }
             .let { it.value = state }
+
+        if(button == ModeButtonCode.MAGIC) {
+            _screenTitle.value = if(state == ButtonState.SELECTED) {
+                appContext.getString(R.string.magic_mode_on)
+            } else {
+                appContext.getString(R.string.magic_mode_off)
+            }
+        }
     }
 }

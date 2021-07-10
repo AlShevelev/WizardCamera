@@ -1,6 +1,7 @@
 package com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_machines.api
 
 import android.graphics.Bitmap
+import androidx.annotation.StringRes
 import com.shevelev.wizard_camera.common_entities.filter_settings.gl.GlFilterSettings
 import com.shevelev.wizard_camera.shared.filters_ui.filters_carousel.FiltersListData
 
@@ -12,7 +13,13 @@ sealed class OutputCommand
 /**
  * Sets initial image and its filter
  */
-data class SetInitialImage(val image: Bitmap, val settings: GlFilterSettings) : OutputCommand()
+data class SetInitialImage(
+    val image: Bitmap,
+    val settings: GlFilterSettings,
+    @StringRes
+    val filterTitle: Int,
+    val isMagicMode: Boolean
+) : OutputCommand()
 
 /**
  * Selects and removes selection from a button
@@ -32,7 +39,11 @@ data class IntiGlFilterCarousel(val filterData: FiltersListData) : OutputCommand
 /**
  * Sets new GL filter to an image
  */
-data class UpdateImageByGlFilter(val settings: GlFilterSettings) : OutputCommand()
+data class UpdateImageByGlFilter(
+    val settings: GlFilterSettings,
+    @StringRes
+    val filterTitle: Int?
+) : OutputCommand()
 
 /**
  * Shows settings for GL filters

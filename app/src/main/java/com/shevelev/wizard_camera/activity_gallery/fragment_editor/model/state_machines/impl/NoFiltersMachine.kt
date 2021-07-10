@@ -1,5 +1,7 @@
 package com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_machines.impl
 
+import androidx.annotation.StringRes
+import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_machines.api.*
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.storage.EditorStorage
 import com.shevelev.wizard_camera.activity_main.fragment_camera.model.filters_facade.settings.FilterSettingsFacade
@@ -18,7 +20,13 @@ class NoFiltersMachine(
         when {
             state == State.INITIAL && event is Init -> {
                 outputCommands.emit(SetButtonSelection(ModeButtonCode.NO_FILTERS, true))
-                outputCommands.emit(SetInitialImage(editorStorage.displayedImage, filterSettings[GlFilterCode.ORIGINAL]))
+                outputCommands.emit(
+                    SetInitialImage(
+                        editorStorage.displayedImage,
+                        filterSettings[GlFilterCode.ORIGINAL],
+                        getFilterTitle(),
+                        isMagicMode = false
+                    ))
                 State.MAIN
             }
 
@@ -33,11 +41,24 @@ class NoFiltersMachine(
                     outputCommands.emit(SetProgressVisibility(true))
                     editorStorage.switchToHistogramEqualizedImage()
                     outputCommands.emit(SetProgressVisibility(false))
-                    outputCommands.emit(SetInitialImage(editorStorage.displayedImage, filterSettings[GlFilterCode.ORIGINAL]))
+
+                    outputCommands.emit(
+                        SetInitialImage(
+                            editorStorage.displayedImage,
+                            filterSettings[GlFilterCode.ORIGINAL],
+                            getFilterTitle(),
+                            isMagicMode = true
+                        ))
                 } else {
                     outputCommands.emit(SetButtonSelection(ModeButtonCode.MAGIC, false))
                     editorStorage.switchToSourceImage()
-                    outputCommands.emit(SetInitialImage(editorStorage.displayedImage, filterSettings[GlFilterCode.ORIGINAL]))
+                    outputCommands.emit(
+                        SetInitialImage(
+                            editorStorage.displayedImage,
+                            filterSettings[GlFilterCode.ORIGINAL],
+                            getFilterTitle(),
+                            isMagicMode = true
+                        ))
                 }
                 State.MAIN
             }
@@ -54,4 +75,7 @@ class NoFiltersMachine(
 
             else -> state
         }
+
+    @StringRes
+    private fun getFilterTitle() = R.string.filterOriginal
 }

@@ -32,9 +32,7 @@
             app:layout_constraintStart_toEndOf="@id/acceptButton"
             app:layout_constraintTop_toTopOf="@id/cancelButton"
             tools:text="Original"
-            tools:visibility="visible"
-            app:title_text="@{viewModel.screenTitle}"
-            android:visibility="@{viewModel.surfaceVisibility}" />
+            app:title_text="@{viewModel.screenTitle}" />
 
         <ImageButton
             android:id="@+id/magicButton"

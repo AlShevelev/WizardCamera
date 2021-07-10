@@ -1,10 +1,12 @@
 package com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_machines.impl
 
+import androidx.annotation.StringRes
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_machines.api.*
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.storage.EditorStorage
 import com.shevelev.wizard_camera.activity_main.fragment_camera.model.filters_facade.settings.FilterSettingsFacade
 import com.shevelev.wizard_camera.common_entities.enums.GlFilterCode
 import com.shevelev.wizard_camera.common_entities.filter_settings.gl.EmptyFilterSettings
+import com.shevelev.wizard_camera.common_entities.filter_settings.gl.GlFilterSettings
 import com.shevelev.wizard_camera.shared.coroutines.DispatchersProvider
 import com.shevelev.wizard_camera.shared.filters_ui.display_data.gl.FilterDisplayDataList
 import com.shevelev.wizard_camera.shared.filters_ui.filters_carousel.FilterFavoriteType
@@ -45,7 +47,15 @@ class GlFiltersMachine(
                 }
 
                 outputCommands.emit(SetButtonSelection(ModeButtonCode.GL_FILTERS, true))
-                outputCommands.emit(SetInitialImage(editorStorage.displayedImage,  lastUsedGlFilter))
+
+                outputCommands.emit(
+                    SetInitialImage(
+                        editorStorage.displayedImage,
+                        lastUsedGlFilter,
+                        getFilterTitle(lastUsedGlFilter),
+                        isMagicMode = false
+                    ))
+
                 delay(150L)         // To avoid the carousel's flickering
                 outputCommands.emit(SetGlFilterCarouselVisibility(true))
                 State.MAIN
@@ -77,22 +87,37 @@ class GlFiltersMachine(
                 val filter = editorStorage.getUsedFilter(event.filterId.filterCode) ?: filterSettings[event.filterId.filterCode]
 
                 editorStorage.lastUsedGlFilter = filter
-                outputCommands.emit(UpdateImageByGlFilter(filter))
+                outputCommands.emit(UpdateImageByGlFilter(filter, getFilterTitle(filter)))
 
                 state
             }
 
             state == State.MAIN && event is ModeButtonClicked && event.code == ModeButtonCode.MAGIC -> {
+                val filter = editorStorage.lastUsedGlFilter!!
+
                 if(editorStorage.isSourceImageDisplayed) {
                     outputCommands.emit(SetButtonSelection(ModeButtonCode.MAGIC, true))
                     outputCommands.emit(SetProgressVisibility(true))
                     editorStorage.switchToHistogramEqualizedImage()
                     outputCommands.emit(SetProgressVisibility(false))
-                    outputCommands.emit(SetInitialImage(editorStorage.displayedImage, editorStorage.lastUsedGlFilter!!))
+
+                    outputCommands.emit(
+                        SetInitialImage(
+                            editorStorage.displayedImage,
+                            filter,
+                            getFilterTitle(filter),
+                            isMagicMode = true
+                        ))
                 } else {
                     outputCommands.emit(SetButtonSelection(ModeButtonCode.MAGIC, false))
                     editorStorage.switchToSourceImage()
-                    outputCommands.emit(SetInitialImage(editorStorage.displayedImage, editorStorage.lastUsedGlFilter!!))
+                    outputCommands.emit(
+                        SetInitialImage(
+                            editorStorage.displayedImage,
+                            filter,
+                            getFilterTitle(filter),
+                            isMagicMode = true
+                        ))
                 }
                 State.MAIN
             }
@@ -122,7 +147,7 @@ class GlFiltersMachine(
 
             state == State.SETTINGS_VISIBLE && event is GlFilterSettingsUpdated -> {
                 editorStorage.lastUsedGlFilter = event.settings
-                outputCommands.emit(UpdateImageByGlFilter(event.settings))
+                outputCommands.emit(UpdateImageByGlFilter(event.settings, null))
                 state
             }
 
@@ -146,4 +171,7 @@ class GlFiltersMachine(
         outputCommands.emit(HideGlFilterSettings)
         outputCommands.emit(SetGlFilterCarouselVisibility(true))
     }
+
+    @StringRes
+    private fun getFilterTitle(filter: GlFilterSettings): Int = filterDisplayData[filter.code].title
 }

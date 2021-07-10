@@ -16,7 +16,11 @@ constructor(
 
     private var animator: ValueAnimator? = null
 
-    fun show(titleText: String) {
+    fun show(titleText: String?) {
+        if(titleText == null) {
+            return
+        }
+
         animator?.cancel()
 
         text = titleText
