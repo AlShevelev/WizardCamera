@@ -22,19 +22,6 @@
             tools:visibility="visible"
             android:visibility="@{viewModel.surfaceVisibility}" />
 
-        <com.takusemba.cropme.CropLayout
-            android:id="@+id/cropView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:cropme_background_alpha="80%"
-            app:cropme_frame_height_percent="80%"
-            app:cropme_frame_width_percent="80%"
-            app:cropme_max_scale="3.0"
-            app:cropme_overlay_shape="rectangle"
-            app:cropme_with_border="true"
-            tools:visibility="visible"
-            android:visibility="@{viewModel.croppingVisibility}" />
-
         <com.shevelev.wizard_camera.activity_main.fragment_camera.view.widgets.TitleWidget
             android:id="@+id/screenTitle"
             style="@style/WizCam.TextStyle.SingleLine.Normal.Camera"
@@ -63,27 +50,15 @@
             app:button_state="@{viewModel.magicButtonState}" />
 
         <ImageButton
-            android:id="@+id/cropButton"
-            style = "@style/WizCam.RoundButton"
-            android:layout_marginBottom="@dimen/navigationBarButtonsMargin"
-            android:src="@drawable/ic_crop"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="@dimen/marginNormal"
-            tools:visibility="visible"
-            tools:ignore="ContentDescription"
-            android:onClick="@{() -> viewModel.onModeButtonClick(ModeButtonCode.CROP)}"
-            app:button_state="@{viewModel.cropButtonState}" />
-
-        <ImageButton
             android:id="@+id/glFiltersButton"
             style = "@style/WizCam.RoundButton"
             android:src="@drawable/ic_gallery_filter"
             tools:visibility="visible"
-            android:layout_marginEnd="@dimen/marginSmall"
-            app:layout_constraintBottom_toBottomOf="@id/cropButton"
-            app:layout_constraintEnd_toStartOf="@id/cropButton"
             tools:ignore="ContentDescription"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="@dimen/marginNormal"
+            android:layout_marginBottom="@dimen/navigationBarButtonsMargin"
             android:onClick="@{() -> viewModel.onModeButtonClick(ModeButtonCode.GL_FILTERS)}"
             app:button_state="@{viewModel.glFiltersButtonState}" />
 
@@ -93,7 +68,7 @@
             android:src="@drawable/ic_gallery_no_filters"
             tools:visibility="visible"
             android:layout_marginEnd="@dimen/marginSmall"
-            app:layout_constraintBottom_toBottomOf="@id/cropButton"
+            app:layout_constraintBottom_toBottomOf="@id/glFiltersButton"
             app:layout_constraintEnd_toStartOf="@id/glFiltersButton"
             tools:ignore="ContentDescription"
             android:onClick="@{() -> viewModel.onModeButtonClick(ModeButtonCode.NO_FILTERS)}"
@@ -105,7 +80,7 @@
             android:src="@drawable/ic_cancel"
             tools:visibility="visible"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="@id/cropButton"
+            app:layout_constraintEnd_toEndOf="@id/glFiltersButton"
             android:layout_marginTop="@dimen/marginNormal"
             tools:ignore="ContentDescription"
             android:onClick="@{() -> viewModel.onCancelClick()}"

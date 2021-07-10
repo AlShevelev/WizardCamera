@@ -45,11 +45,6 @@ data class ShowGlFilterSettings(val settings: GlFilterSettings) : OutputCommand(
 object HideGlFilterSettings : OutputCommand()
 
 /**
- * Shows and hides cropping image
- */
-class SetCroppingImageVisibility(val isVisible: Boolean) : OutputCommand()
-
-/**
  * Shows saving dialog
  */
 object ShowSaveDialog : OutputCommand()

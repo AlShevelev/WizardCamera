@@ -39,8 +39,6 @@ constructor(
         )
     }
 
-    private val cropMachine by lazy { CropMachine(_commands, dispatchersProvider, editorStorage) }
-
     private val cancelingMachine by lazy { CancelingMachine(_commands, dispatchersProvider, editorStorage) }
 
     private var previousMachine: EditorMachineBase? = null
@@ -51,7 +49,6 @@ constructor(
         when(activeMachine.processEvent(event)) {
             State.NO_FILTERS -> switchToMachine(noFilterMachine)
             State.GL_FILTERS -> switchToMachine(glFilterMachine)
-            State.CROP -> switchToMachine(cropMachine)
             State.CANCELING -> switchToMachine(cancelingMachine)
             State.PREVIOUS_MODE -> switchToMachine(previousMachine!!)
             else -> {}

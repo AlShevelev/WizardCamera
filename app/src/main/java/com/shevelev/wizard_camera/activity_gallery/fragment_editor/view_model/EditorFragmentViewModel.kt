@@ -31,9 +31,6 @@ constructor(
     private val _progressVisibility = MutableLiveData(View.GONE)
     val progressVisibility: LiveData<Int> = _progressVisibility
 
-    private val _croppingVisibility = MutableLiveData(View.GONE)
-    val croppingVisibility: LiveData<Int> = _croppingVisibility
-
     private val _surfaceVisibility = MutableLiveData(View.GONE)
     val surfaceVisibility: LiveData<Int> = _surfaceVisibility
 
@@ -54,9 +51,6 @@ constructor(
 
     private val _glFiltersButtonState = MutableLiveData(ButtonState.ENABLED)
     val glFiltersButtonState: LiveData<ButtonState> = _glFiltersButtonState
-
-    private val _cropButtonState = MutableLiveData(ButtonState.ENABLED)
-    val cropButtonState: LiveData<ButtonState> = _cropButtonState
 
     private val _magicButtonState = MutableLiveData(ButtonState.ENABLED)
     val magicButtonState: LiveData<ButtonState> = _magicButtonState
@@ -140,12 +134,6 @@ constructor(
 
             is HideGlFilterSettings -> _glSettings.value = null
 
-            is SetCroppingImageVisibility -> if(command.isVisible) {
-                _croppingVisibility.value = View.VISIBLE
-            } else {
-                _croppingVisibility.value = View.GONE
-            }
-
             is ShowSaveDialog -> { }
 
             is CloseEditor -> { }
@@ -158,7 +146,6 @@ constructor(
         when(button) {
             ModeButtonCode.NO_FILTERS -> _noFiltersButtonState
             ModeButtonCode.GL_FILTERS -> _glFiltersButtonState
-            ModeButtonCode.CROP -> _cropButtonState
             ModeButtonCode.MAGIC -> _magicButtonState
         }
             .let { it.value = state }

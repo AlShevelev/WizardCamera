@@ -41,7 +41,6 @@ buildscript {
         three_ten_abp_version = "1.2.4"
         glide_version = "4.11.0"
         moshi_version = "1.9.2"
-        cropme_version = "2.0.8"
     }
 
     dependencies {

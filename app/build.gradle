@@ -100,8 +100,6 @@ dependencies {
     kapt "com.squareup.moshi:moshi-kotlin-codegen:$moshi_version"
 
     implementation "com.google.firebase:firebase-crashlytics:$google_crashlytics_version"
-
-    implementation "com.github.takusemba:cropme:$cropme_version"
 }
 repositories {
     google()

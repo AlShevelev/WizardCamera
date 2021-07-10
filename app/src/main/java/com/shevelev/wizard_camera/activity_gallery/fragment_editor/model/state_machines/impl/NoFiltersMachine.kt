@@ -27,11 +27,6 @@ class NoFiltersMachine(
                 State.GL_FILTERS
             }
 
-            state == State.MAIN && event is ModeButtonClicked && event.code == ModeButtonCode.CROP -> {
-                outputCommands.emit(SetButtonSelection(ModeButtonCode.NO_FILTERS, false))
-                State.CROP
-            }
-
             state == State.MAIN && event is ModeButtonClicked && event.code == ModeButtonCode.MAGIC -> {
                 if(editorStorage.isSourceImageDisplayed) {
                     outputCommands.emit(SetButtonSelection(ModeButtonCode.MAGIC, true))

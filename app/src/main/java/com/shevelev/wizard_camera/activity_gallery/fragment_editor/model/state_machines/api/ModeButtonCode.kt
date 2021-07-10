@@ -6,6 +6,5 @@ package com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_
 enum class ModeButtonCode {
     NO_FILTERS,
     GL_FILTERS,
-    CROP,
     MAGIC
 }

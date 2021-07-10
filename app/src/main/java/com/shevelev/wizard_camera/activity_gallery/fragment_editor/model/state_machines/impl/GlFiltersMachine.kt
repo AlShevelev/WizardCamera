@@ -57,12 +57,6 @@ class GlFiltersMachine(
                 State.NO_FILTERS
             }
 
-            state == State.MAIN && event is ModeButtonClicked && event.code == ModeButtonCode.CROP -> {
-                outputCommands.emit(SetButtonSelection(ModeButtonCode.GL_FILTERS, false))
-                outputCommands.emit(SetGlFilterCarouselVisibility(false))
-                State.CROP
-            }
-
             state == State.MAIN && event is CancelClicked -> {
                 State.CANCELING
             }
@@ -107,12 +101,6 @@ class GlFiltersMachine(
                 outputCommands.emit(SetButtonSelection(ModeButtonCode.GL_FILTERS, false))
                 hideFilterSettings()
                 State.NO_FILTERS
-            }
-
-            state == State.SETTINGS_VISIBLE && event is ModeButtonClicked && event.code == ModeButtonCode.CROP -> {
-                outputCommands.emit(SetButtonSelection(ModeButtonCode.GL_FILTERS, false))
-                hideFilterSettings()
-                State.CROP
             }
 
             state == State.SETTINGS_VISIBLE && event is GlFilterSettingsHided -> {
