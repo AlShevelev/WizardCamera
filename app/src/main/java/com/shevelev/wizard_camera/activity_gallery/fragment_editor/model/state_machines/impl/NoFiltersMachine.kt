@@ -31,11 +31,14 @@ class NoFiltersMachine(
             }
 
             state == State.MAIN && event is ModeButtonClicked && event.code == ModeButtonCode.GL_FILTERS -> {
+                editorStorage.onUpdate()
                 outputCommands.emit(SetButtonSelection(ModeButtonCode.NO_FILTERS, false))
                 State.GL_FILTERS
             }
 
             state == State.MAIN && event is ModeButtonClicked && event.code == ModeButtonCode.MAGIC -> {
+                editorStorage.onUpdate()
+
                 if(editorStorage.isSourceImageDisplayed) {
                     outputCommands.emit(SetButtonSelection(ModeButtonCode.MAGIC, true))
                     outputCommands.emit(SetProgressVisibility(true))

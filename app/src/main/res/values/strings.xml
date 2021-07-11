@@ -104,4 +104,8 @@
 
     <string name="magic_mode_on">Magic mode: On</string>
     <string name="magic_mode_off">Magic mode: Off</string>
+
+    <string name="savePhotoQuestion">The photo has been updated. Would you like to save it?</string>
+    <string name="savePhotoSave">Save</string>
+    <string name="savePhotoCancel">Exit without saving</string>
 </resources>

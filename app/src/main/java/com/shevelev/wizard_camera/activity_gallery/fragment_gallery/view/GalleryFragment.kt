@@ -52,11 +52,13 @@ class GalleryFragment : FragmentBaseMVVM<FragmentGalleryBinding, GalleryFragment
         }
 
         binding.deleteButton.setOnClickListener {
-            ConfirmationDialog.show(childFragmentManager, R.string.deletePhotoQuestion, R.string.delete, R.string.cancel) {
-                if(it) {
-                    viewModel.onDeleteShotClick(binding.galleryPager.currentItem)
-                }
-            }
+            ConfirmationDialog.show(
+                DELETE_DIALOG_REQUEST,
+                this,
+                R.string.deletePhotoQuestion,
+                R.string.delete,
+                R.string.cancel
+            )
         }
 
         binding.shareButton.setOnClickListener { viewModel.onShareShotClick(binding.galleryPager.currentItem) }
@@ -82,6 +84,14 @@ class GalleryFragment : FragmentBaseMVVM<FragmentGalleryBinding, GalleryFragment
         }
     }
 
+    override fun onDialogResult(isCanceled: Boolean, requestCode: Int, data: Any?) {
+        when(requestCode) {
+            DELETE_DIALOG_REQUEST -> if(!isCanceled) {
+                viewModel.onDeleteShotClick(binding.galleryPager.currentItem)
+            }
+        }
+    }
+
     private fun shareShot(shot: PhotoShot) {
         val shareIntent = Intent().apply {
             action = Intent.ACTION_SEND
@@ -89,5 +99,9 @@ class GalleryFragment : FragmentBaseMVVM<FragmentGalleryBinding, GalleryFragment
             type = "image/jpeg"
         }
         startActivity(Intent.createChooser(shareIntent, resources.getText(R.string.sendTo)))
+    }
+
+    companion object {
+        private const val DELETE_DIALOG_REQUEST = 14109
     }
 }

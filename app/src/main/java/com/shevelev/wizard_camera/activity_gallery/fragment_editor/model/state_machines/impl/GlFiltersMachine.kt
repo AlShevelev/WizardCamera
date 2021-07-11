@@ -62,6 +62,7 @@ class GlFiltersMachine(
             }
 
             state == State.MAIN && event is ModeButtonClicked && event.code == ModeButtonCode.NO_FILTERS -> {
+                editorStorage.onUpdate()
                 outputCommands.emit(SetButtonSelection(ModeButtonCode.GL_FILTERS, false))
                 outputCommands.emit(SetGlFilterCarouselVisibility(false))
                 State.NO_FILTERS
@@ -84,6 +85,7 @@ class GlFiltersMachine(
             }
 
             state == State.MAIN && event is GlFilterSwitched -> {
+                editorStorage.onUpdate()
                 val filter = editorStorage.getUsedFilter(event.filterId.filterCode) ?: filterSettings[event.filterId.filterCode]
 
                 editorStorage.lastUsedGlFilter = filter
@@ -93,6 +95,7 @@ class GlFiltersMachine(
             }
 
             state == State.MAIN && event is ModeButtonClicked && event.code == ModeButtonCode.MAGIC -> {
+                editorStorage.onUpdate()
                 val filter = editorStorage.lastUsedGlFilter!!
 
                 if(editorStorage.isSourceImageDisplayed) {
@@ -123,6 +126,7 @@ class GlFiltersMachine(
             }
 
             state == State.SETTINGS_VISIBLE && event is ModeButtonClicked && event.code == ModeButtonCode.NO_FILTERS -> {
+                editorStorage.onUpdate()
                 outputCommands.emit(SetButtonSelection(ModeButtonCode.GL_FILTERS, false))
                 hideFilterSettings()
                 State.NO_FILTERS
@@ -146,6 +150,7 @@ class GlFiltersMachine(
             }
 
             state == State.SETTINGS_VISIBLE && event is GlFilterSettingsUpdated -> {
+                editorStorage.onUpdate()
                 editorStorage.lastUsedGlFilter = event.settings
                 outputCommands.emit(UpdateImageByGlFilter(event.settings, null))
                 state

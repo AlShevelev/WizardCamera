@@ -64,6 +64,8 @@ abstract class FragmentBase<VB: ViewBinding>: Fragment() {
         }
     }
 
+    open fun onDialogResult(isCanceled: Boolean, requestCode: Int, data: Any?) {}
+
     protected open fun inject() {}
 
     protected open fun releaseInjection() {}

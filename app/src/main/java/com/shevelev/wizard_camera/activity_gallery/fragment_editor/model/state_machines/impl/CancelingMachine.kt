@@ -16,13 +16,13 @@ class CancelingMachine(
     override suspend fun processEvent(event: InputEvent, state: State): State =
         when {
             state == State.INITIAL && event is Init -> {
-                // If the image is updated {
-                outputCommands.emit(ShowSaveDialog)
-                 State.SAVE_DIALOG_IS_SHOWN
-                // } else {
-                outputCommands.emit(CloseEditor)
-                State.FINAL
-                // }
+                if(editorStorage.isUpdated) {
+                    outputCommands.emit(ShowSaveDialog)
+                    State.SAVE_DIALOG_IS_SHOWN
+                } else {
+                    outputCommands.emit(CloseEditor)
+                    State.FINAL
+                }
             }
 
             state == State.SAVE_DIALOG_IS_SHOWN && event is CancelClicked -> {

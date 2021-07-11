@@ -43,6 +43,9 @@ constructor(
     override val isSourceImageDisplayed: Boolean
         get() = displayedImage == sourceImage
 
+    override var isUpdated: Boolean = false
+        private set
+
     init {
         memorizeUsedFilter(sourceShot.filter)
     }
@@ -79,5 +82,9 @@ constructor(
 
     override fun memorizeUsedFilter(filter: GlFilterSettings) {
         usedFilters[filter.code] = filter
+    }
+
+    override fun onUpdate() {
+        isUpdated = true
     }
 }

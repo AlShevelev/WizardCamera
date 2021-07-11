@@ -12,6 +12,8 @@ interface EditorStorage {
 
     val isSourceImageDisplayed: Boolean
 
+    val isUpdated: Boolean
+
     suspend fun initImage()
 
     fun switchToSourceImage()
@@ -21,4 +23,6 @@ interface EditorStorage {
     fun getUsedFilter(code: GlFilterCode): GlFilterSettings?
 
     fun memorizeUsedFilter(filter: GlFilterSettings)
+
+    fun onUpdate()
 }

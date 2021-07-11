@@ -15,6 +15,8 @@ import com.shevelev.wizard_camera.shared.coroutines.DispatchersProvider
 import com.shevelev.wizard_camera.shared.filters_ui.display_data.FilterDisplayId
 import com.shevelev.wizard_camera.shared.filters_ui.filters_carousel.FilterEventsProcessor
 import com.shevelev.wizard_camera.shared.filters_ui.filters_carousel.FiltersListData
+import com.shevelev.wizard_camera.shared.mvvm.view_commands.CloseEditorCommand
+import com.shevelev.wizard_camera.shared.mvvm.view_commands.ShowEditorSaveDialogCommand
 import com.shevelev.wizard_camera.shared.mvvm.view_model.ViewModelBase
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -146,9 +148,9 @@ constructor(
 
             is HideGlFilterSettings -> _glSettings.value = null
 
-            is ShowSaveDialog -> { }
+            is ShowSaveDialog -> _command.value = ShowEditorSaveDialogCommand
 
-            is CloseEditor -> { }
+            is CloseEditor -> _command.value = CloseEditorCommand
 
             is SetProgressVisibility -> _progressVisibility.value = if(command.isVisible) View.VISIBLE else View.GONE
         }

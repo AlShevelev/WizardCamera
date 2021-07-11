@@ -39,12 +39,6 @@ constructor(
     val command: LiveData<ViewCommand>
         get() = _command
 
-    /**
-     * On configuration change we need to show dialog if it wasn't closed.
-     * That's why we can't use [_command]
-     */
-    val dialogCommands: MutableLiveData<ViewCommand> = MutableLiveData()
-
     @CallSuper
     override fun onCleared() {
         scopeJob.cancel()
