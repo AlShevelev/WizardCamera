@@ -79,7 +79,7 @@ class GlFiltersMachine(
             }
 
             state == State.MAIN && event is AcceptClicked -> {
-                // todo Update image in a storage (if necessary)
+                saveImage()
                 outputCommands.emit(CloseEditor)
                 State.FINAL
             }
@@ -138,8 +138,8 @@ class GlFiltersMachine(
             }
 
             state == State.SETTINGS_VISIBLE && event is AcceptClicked -> {
-                // todo Update image in a storage (if necessary)
                 hideFilterSettings()
+                saveImage()
                 outputCommands.emit(CloseEditor)
                 State.FINAL
             }

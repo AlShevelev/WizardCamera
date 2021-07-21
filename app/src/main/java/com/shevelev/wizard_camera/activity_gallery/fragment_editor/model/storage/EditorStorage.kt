@@ -25,4 +25,9 @@ interface EditorStorage {
     fun memorizeUsedFilter(filter: GlFilterSettings)
 
     fun onUpdate()
+
+    /**
+     * Saves result of the editing (to a file and the database)
+     */
+    suspend fun saveResult()
 }

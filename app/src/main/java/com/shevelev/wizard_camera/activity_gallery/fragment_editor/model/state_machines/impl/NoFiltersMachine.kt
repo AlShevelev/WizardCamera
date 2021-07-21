@@ -67,7 +67,7 @@ class NoFiltersMachine(
             }
 
             state == State.MAIN && event is AcceptClicked -> {
-                // todo Update image in a storage (if necessary)
+                saveImage()
                 outputCommands.emit(CloseEditor)
                 State.FINAL
             }

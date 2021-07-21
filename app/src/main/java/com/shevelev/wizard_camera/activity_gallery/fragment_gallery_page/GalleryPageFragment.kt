@@ -5,11 +5,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.dto.GalleryItem
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery_page.di.GalleryPageFragmentComponent
 import com.shevelev.wizard_camera.application.App
 import com.shevelev.wizard_camera.bitmap.GLSurfaceViewBitmap
 import com.shevelev.wizard_camera.bitmap.filters.GLSurfaceShaderFilter
-import com.shevelev.wizard_camera.common_entities.entities.PhotoShot
 import com.shevelev.wizard_camera.databinding.FragmentGalleryPageBinding
 import com.shevelev.wizard_camera.shared.coroutines.DispatchersProvider
 import com.shevelev.wizard_camera.shared.factory.FiltersFactory
@@ -45,9 +45,9 @@ class GalleryPageFragment : FragmentBase<FragmentGalleryPageBinding>(), Coroutin
         scopeJob = SupervisorJob()
         coroutineContext = scopeJob + dispatchersProvider.uiDispatcher + errorHandler
 
-        val photoSettings = requireArguments().getParcelable<PhotoShot>(ARG_PHOTO)!!
+        val item = requireArguments().getParcelable<GalleryItem>(ARG_PHOTO)!!
 
-        loadPhoto(photoSettings)
+        loadPhoto(item)
     }
 
     override fun onDestroyView() {
@@ -59,19 +59,19 @@ class GalleryPageFragment : FragmentBase<FragmentGalleryPageBinding>(), Coroutin
     override fun createBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentGalleryPageBinding =
         FragmentGalleryPageBinding.inflate(inflater, container, false)
 
-    private fun loadPhoto(photoSettings: PhotoShot) {
+    private fun loadPhoto(item: GalleryItem) {
         launch {
             val photoBitmap = withContext(dispatchersProvider.ioDispatcher) {
-                BitmapFactory.decodeFile(filesHelper.getShotFileByName(photoSettings.fileName).absolutePath)
+                BitmapFactory.decodeFile(filesHelper.getShotFileByName(item.item.fileName).absolutePath)
             }
 
             //GrayscaleSurfaceRenderer(requireContext(), photoBitmap)
             val filter =  GLSurfaceShaderFilter(
                 requireContext(),
                 photoBitmap,
-                FiltersFactory.getFilterRes(photoSettings.filter.code),
+                FiltersFactory.getFilterRes(item.item.filter.code),
                 requireContext().getScreenSize(),
-                FiltersFactory.createGLFilterSettings(photoSettings.filter, requireContext())
+                FiltersFactory.createGLFilterSettings(item.item.filter, requireContext())
             )
 
             GLSurfaceViewBitmap.createAndAddToView(requireContext(), binding.imageContainer, photoBitmap, filter)
@@ -81,7 +81,7 @@ class GalleryPageFragment : FragmentBase<FragmentGalleryPageBinding>(), Coroutin
     companion object {
         private const val ARG_PHOTO = "PHOTO"
 
-        fun newInstance(item: PhotoShot): GalleryPageFragment =
+        fun newInstance(item: GalleryItem): GalleryPageFragment =
             GalleryPageFragment().apply {
                 arguments = Bundle().apply {
                     putParcelable(ARG_PHOTO, item)

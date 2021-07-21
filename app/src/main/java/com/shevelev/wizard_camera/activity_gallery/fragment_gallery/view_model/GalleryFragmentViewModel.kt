@@ -4,19 +4,19 @@ import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.shevelev.wizard_camera.R
-import com.shevelev.wizard_camera.common_entities.entities.PhotoShot
-import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.model.dto.ShareShotCommand
-import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.model.dto.ShotsLoadingResult
+import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.dto.EditShotCommand
+import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.dto.GalleryItem
+import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.dto.ShareShotCommand
+import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.dto.ShotsLoadingResult
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.model.GalleryFragmentInteractor
-import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.model.dto.EditShotCommand
 import com.shevelev.wizard_camera.shared.coroutines.DispatchersProvider
 import com.shevelev.wizard_camera.shared.mvvm.view_commands.ShowMessageResCommand
 import com.shevelev.wizard_camera.shared.mvvm.view_model.ViewModelBase
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.threeten.bp.format.DateTimeFormatter
 import org.threeten.bp.format.FormatStyle
 import javax.inject.Inject
-import kotlinx.coroutines.flow.collect
 
 class GalleryFragmentViewModel
 @Inject
@@ -26,8 +26,8 @@ constructor(
 ) : ViewModelBase<GalleryFragmentInteractor>(dispatchersProvider, interactor),
     GalleryPagingActions {
 
-    private val _photos = MutableLiveData<List<PhotoShot>>()
-    val photos: LiveData<List<PhotoShot>> = _photos
+    private val _photos = MutableLiveData<List<GalleryItem>>()
+    val photos: LiveData<List<GalleryItem>> = _photos
 
     val pageSize: Int = interactor.pageSize
 
@@ -65,32 +65,13 @@ constructor(
                 }
             }
         }
-
-        launch {
-            interactor.setUp()
-            loadPage()
-        }
     }
 
-    override fun loadPage() {
-        launch {
-            try {
-                interactor.loadPage()
-            } catch(ex: Exception) {
-                _command.value = ShowMessageResCommand(R.string.generalError)
-            }
-        }
-    }
+    override fun loadNextPage() = processAction { interactor.loadNextPage() }
 
-    fun onDeleteShotClick(position: Int) {
-        launch {
-            try {
-                interactor.delete(position)
-            } catch(ex: Exception) {
-                _command.value = ShowMessageResCommand(R.string.generalError)
-            }
-        }
-    }
+    fun initPhotos() = processAction { interactor.initPhotos() }
+
+    fun onDeleteShotClick(position: Int) = processAction { interactor.delete(position) }
 
     fun onShareShotClick(position: Int) {
         _command.value = ShareShotCommand(interactor.getShot(position))
@@ -112,5 +93,15 @@ constructor(
     override fun onCleared() {
         super.onCleared()
         interactor.clear()
+    }
+
+    private fun processAction(action: suspend () -> Unit) {
+        launch {
+            try {
+                action()
+            } catch(ex: Exception) {
+                _command.value = ShowMessageResCommand(R.string.generalError)
+            }
+        }
     }
 }

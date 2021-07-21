@@ -2,7 +2,6 @@ package com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_
 
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_machines.api.InputEvent
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_machines.api.OutputCommand
-import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_machines.impl.State
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.storage.EditorStorage
 import com.shevelev.wizard_camera.shared.coroutines.DispatchersProvider
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -35,4 +34,9 @@ abstract class EditorMachineBase(
     }
 
     protected abstract suspend fun processEvent(event: InputEvent, state: State): State
+
+    /**
+     * Final update of the image in the database
+     */
+    protected suspend fun saveImage() = editorStorage.saveResult()
 }

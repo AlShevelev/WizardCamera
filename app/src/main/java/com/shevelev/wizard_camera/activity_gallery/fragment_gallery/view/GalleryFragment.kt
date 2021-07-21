@@ -8,8 +8,8 @@ import androidx.viewpager2.widget.ViewPager2
 import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.view.EditorFragment
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.di.GalleryFragmentComponent
-import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.model.dto.EditShotCommand
-import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.model.dto.ShareShotCommand
+import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.dto.EditShotCommand
+import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.dto.ShareShotCommand
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.view.adapter.GalleryAdapter
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.view_model.GalleryFragmentViewModel
 import com.shevelev.wizard_camera.application.App
@@ -70,6 +70,8 @@ class GalleryFragment : FragmentBaseMVVM<FragmentGalleryBinding, GalleryFragment
                 viewModel.onShotSelected(position)
             }
         })
+
+        viewModel.initPhotos()
     }
 
     override fun processViewCommand(command: ViewCommand) {

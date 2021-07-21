@@ -4,6 +4,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView.NO_ID
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.dto.GalleryItem
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.view_model.GalleryPagingActions
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery_page.GalleryPageFragment
 import com.shevelev.wizard_camera.common_entities.entities.PhotoShot
@@ -13,9 +14,9 @@ class GalleryAdapter(
     private val pageSize: Int,
     private val galleryPaging: GalleryPagingActions
 ) : FragmentStateAdapter(fragment) {
-    private var items = listOf<PhotoShot>()
+    private var items = listOf<GalleryItem>()
 
-    fun updateItems(newItems: List<PhotoShot>) {
+    fun updateItems(newItems: List<GalleryItem>) {
         val diffCallback = GalleryDiffAlg(items, newItems)
         val diffResult = DiffUtil.calculateDiff(diffCallback)
 
@@ -25,7 +26,7 @@ class GalleryAdapter(
 
     override fun createFragment(position: Int): Fragment {
         if (position > items.size - pageSize / 2) {
-            galleryPaging.loadPage()
+            galleryPaging.loadNextPage()
         }
 
         return GalleryPageFragment.newInstance(items[position])

@@ -31,7 +31,7 @@ class CancelingMachine(
             }
 
             state == State.SAVE_DIALOG_IS_SHOWN && event is AcceptClicked -> {
-                // Update an image in the storage
+                saveImage()
                 outputCommands.emit(CloseEditor)
                 State.FINAL
             }

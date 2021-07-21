@@ -15,6 +15,8 @@ constructor(
 ): PhotoShotRepository {
     override fun create(shot: PhotoShot) = db.photoShot.create(shot.map())
 
+    override fun update(shot: PhotoShot) = db.photoShot.update(shot.map())
+
     override fun readPaged(limit: Int, offset: Int): List<PhotoShot> = db.photoShot.readPaged(limit, offset).map { it.map() }
 
     override fun deleteById(id: Long) = db.photoShot.deleteById(id)

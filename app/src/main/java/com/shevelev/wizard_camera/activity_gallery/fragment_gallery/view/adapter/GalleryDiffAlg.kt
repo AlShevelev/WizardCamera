@@ -1,11 +1,12 @@
 package com.shevelev.wizard_camera.activity_gallery.fragment_gallery.view.adapter
 
 import androidx.recyclerview.widget.DiffUtil
+import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.dto.GalleryItem
 import com.shevelev.wizard_camera.common_entities.entities.PhotoShot
 
 class GalleryDiffAlg(
-    private val oldList: List<PhotoShot>,
-    private val newList: List<PhotoShot>
+    private val oldList: List<GalleryItem>,
+    private val newList: List<GalleryItem>
 ) : DiffUtil.Callback() {
 
     override fun getOldListSize(): Int = oldList.size
@@ -16,5 +17,6 @@ class GalleryDiffAlg(
         oldList[oldItemPosition].id == newList[newItemPosition].id
 
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
-        oldList[oldItemPosition].id == newList[newItemPosition].id
+        oldList[oldItemPosition].id == newList[newItemPosition].id &&
+            oldList[oldItemPosition].version == newList[newItemPosition].version
 }

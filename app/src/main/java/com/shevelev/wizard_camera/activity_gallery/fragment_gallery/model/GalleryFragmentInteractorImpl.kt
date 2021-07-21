@@ -1,7 +1,9 @@
 package com.shevelev.wizard_camera.activity_gallery.fragment_gallery.model
 
+import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.dto.GalleryItem
 import com.shevelev.wizard_camera.common_entities.entities.PhotoShot
-import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.model.dto.ShotsLoadingResult
+import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.dto.ShotsLoadingResult
+import com.shevelev.wizard_camera.activity_gallery.shared.FragmentsDataPass
 import com.shevelev.wizard_camera.shared.coroutines.DispatchersProvider
 import com.shevelev.wizard_camera.shared.files.FilesHelper
 import com.shevelev.wizard_camera.shared.media_scanner.MediaScanner
@@ -23,7 +25,8 @@ constructor(
     private val dispatchersProvider: DispatchersProvider,
     private val photoShotRepository: PhotoShotRepository,
     private val filesHelper: FilesHelper,
-    private val mediaScanner: MediaScanner
+    private val mediaScanner: MediaScanner,
+    private val fragmentsDataPass: FragmentsDataPass
 ) : GalleryFragmentInteractor {
 
     companion object {
@@ -32,7 +35,7 @@ constructor(
 
     private var offset = 0
 
-    private val photosList = mutableListOf<PhotoShot>()
+    private val photosList = mutableListOf<GalleryItem>()
 
     private var updateInProgress = false
 
@@ -41,63 +44,80 @@ constructor(
 
     override val pageSize: Int = PAGE_SIZE
 
-    override suspend fun setUp() {
-        loadingResultChannel.send(ShotsLoadingResult.PreLoading)
-    }
+    override suspend fun initPhotos() =
+        processAction {
+            if(photosList.isEmpty()) {
+                loadingResultChannel.send(ShotsLoadingResult.PreLoading)
 
-    override suspend fun loadPage() {
-        if(updateInProgress) {
-            return
-        }
+                loadNextPageInternal()
+            } else {
+                fragmentsDataPass.extractPhotoShot()?.let { editedPhotoShot ->
+                    val itemIndex = photosList.indexOfFirst { it.item.id == editedPhotoShot.id }
+                    if(itemIndex != -1) {
+                        photosList[itemIndex] =
+                            photosList[itemIndex]
+                                .copy(
+                                    version = photosList[itemIndex].version + 1,
+                                    item = editedPhotoShot
+                                )
 
-        try {
-            updateInProgress = true
-
-            val dbData = withContext(dispatchersProvider.ioDispatcher) {
-                photoShotRepository.readPaged(PAGE_SIZE, offset)
+                        loadingResultChannel.send(ShotsLoadingResult.DataUpdated(photosList))
+                    }
+                }
             }
-
-            photosList.addAll(dbData)
-            offset += PAGE_SIZE
-            loadingResultChannel.send(ShotsLoadingResult.DataUpdated(photosList))
-        } catch (ex: Exception) {
-            Timber.e(ex)
-            throw ex
-        } finally {
-            updateInProgress = false
-        }
-    }
-
-    override suspend fun delete(position: Int) {
-        if(updateInProgress) {
-            return
         }
 
-        try {
-            updateInProgress = true
+    override suspend fun loadNextPage() =
+        processAction {
+            loadNextPageInternal()
+        }
 
+    override suspend fun delete(position: Int) =
+        processAction {
             val shotItem = photosList[position]
 
             val deletedFile = withContext(dispatchersProvider.ioDispatcher) {
-                photoShotRepository.deleteById(shotItem.id)
-                filesHelper.removeShotFileByName(shotItem.fileName)
+                photoShotRepository.deleteById(shotItem.item.id)
+                filesHelper.removeShotFileByName(shotItem.item.fileName)
             }
 
             mediaScanner.processDeletedShot(deletedFile)
 
             photosList.removeAt(position)
             loadingResultChannel.send(ShotsLoadingResult.DataUpdated(photosList))
+        }
+
+    override fun getShot(position: Int): PhotoShot = photosList[position].item
+
+    override fun clear() {
+        loadingResultChannel.close()
+    }
+
+    private suspend fun loadNextPageInternal() {
+        val dbData = withContext(dispatchersProvider.ioDispatcher) {
+            photoShotRepository.readPaged(PAGE_SIZE, offset)
+        }
+            .map { GalleryItem(id = it.id, version = 0, item = it) }
+
+        photosList.addAll(dbData)
+        offset += PAGE_SIZE
+        loadingResultChannel.send(ShotsLoadingResult.DataUpdated(photosList))
+    }
+
+    private suspend fun processAction(action: suspend () -> Unit) {
+        if(updateInProgress) {
+            return
+        }
+
+        try {
+            updateInProgress = true
+
+            action()
         } catch (ex: Exception) {
             Timber.e(ex)
             throw ex
         } finally {
             updateInProgress = false
         }
-    }
-
-    override fun getShot(position: Int): PhotoShot = photosList[position]
-
-    override fun clear() {
-        loadingResultChannel.close()
     }
 }

@@ -4,13 +4,13 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import com.shevelev.catalano.fast_bitmap.FastBitmap
 import com.shevelev.catalano.filters.HistogramEqualization
-import com.shevelev.wizard_camera.R
-import com.shevelev.wizard_camera.application.App
+import com.shevelev.wizard_camera.activity_gallery.shared.FragmentsDataPass
 import com.shevelev.wizard_camera.common_entities.entities.PhotoShot
 import com.shevelev.wizard_camera.common_entities.enums.GlFilterCode
 import com.shevelev.wizard_camera.common_entities.filter_settings.gl.GlFilterSettings
 import com.shevelev.wizard_camera.shared.coroutines.DispatchersProvider
 import com.shevelev.wizard_camera.shared.files.FilesHelper
+import com.shevelev.wizard_camera.storage.repositories.PhotoShotRepository
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -22,7 +22,9 @@ class EditorStorageImpl
 constructor(
     private val dispatchersProvider: DispatchersProvider,
     private val sourceShot: PhotoShot,
-    private val filesHelper: FilesHelper
+    private val filesHelper: FilesHelper,
+    private val photoShotRepository: PhotoShotRepository,
+    private val fragmentsDataPass: FragmentsDataPass
 ) : EditorStorage {
     override lateinit var displayedImage: Bitmap
 
@@ -86,5 +88,29 @@ constructor(
 
     override fun onUpdate() {
         isUpdated = true
+    }
+
+    /**
+     * Saves result of the editing
+     */
+    override suspend fun saveResult() {
+        if(!isUpdated) {
+            return
+        }
+
+        withContext(dispatchersProvider.ioDispatcher) {
+            // File with image
+            // Jpeg format with "95" quality value is used - as same as ImageCapture settings
+            // See [CameraManager.bindCameraUseCases]
+            filesHelper.getShotFileByName(sourceShot.fileName).outputStream().use {
+                displayedImage.compress(Bitmap.CompressFormat.JPEG, 95, it)
+            }
+
+            // Metadata in the database
+            val shotToSave = sourceShot.copy(filter = lastUsedGlFilter ?: sourceShot.filter)
+            photoShotRepository.update(shotToSave)
+
+            fragmentsDataPass.putPhotoShot(shotToSave)
+        }
     }
 }
