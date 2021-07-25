@@ -30,6 +30,8 @@ class GlFiltersMachine(
     override suspend fun processEvent(event: InputEvent, state: State): State =
         when {
             state == State.INITIAL && event is Init -> {
+                editorStorage.isInNoFiltersMode = false
+
                 if(!isFilterSettingsFacadeSetUp) {
                     filterSettings.init()
                     isFilterSettingsFacadeSetUp = true

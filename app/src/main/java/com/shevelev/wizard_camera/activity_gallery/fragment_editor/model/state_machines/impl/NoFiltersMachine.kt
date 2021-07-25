@@ -19,6 +19,8 @@ class NoFiltersMachine(
     override suspend fun processEvent(event: InputEvent, state: State): State =
         when {
             state == State.INITIAL && event is Init -> {
+                editorStorage.isInNoFiltersMode = true
+
                 outputCommands.emit(SetButtonSelection(ModeButtonCode.NO_FILTERS, true))
                 outputCommands.emit(
                     SetInitialImage(

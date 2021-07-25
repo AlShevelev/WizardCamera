@@ -14,6 +14,8 @@ interface EditorStorage {
 
     val isUpdated: Boolean
 
+    var isInNoFiltersMode: Boolean
+
     suspend fun initImage()
 
     fun switchToSourceImage()

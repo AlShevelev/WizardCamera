@@ -19,4 +19,6 @@ class GalleryDiffAlg(
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
         oldList[oldItemPosition].id == newList[newItemPosition].id &&
             oldList[oldItemPosition].version == newList[newItemPosition].version
+
+    override fun getChangePayload(oldItemPosition: Int, newItemPosition: Int): Any = newList[newItemPosition].item
 }

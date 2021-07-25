@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory
 import com.shevelev.catalano.fast_bitmap.FastBitmap
 import com.shevelev.catalano.filters.HistogramEqualization
 import com.shevelev.wizard_camera.activity_gallery.shared.FragmentsDataPass
+import com.shevelev.wizard_camera.activity_main.fragment_camera.model.filters_facade.settings.FilterSettingsFacade
 import com.shevelev.wizard_camera.common_entities.entities.PhotoShot
 import com.shevelev.wizard_camera.common_entities.enums.GlFilterCode
 import com.shevelev.wizard_camera.common_entities.filter_settings.gl.GlFilterSettings
@@ -24,7 +25,8 @@ constructor(
     private val sourceShot: PhotoShot,
     private val filesHelper: FilesHelper,
     private val photoShotRepository: PhotoShotRepository,
-    private val fragmentsDataPass: FragmentsDataPass
+    private val fragmentsDataPass: FragmentsDataPass,
+    private val filterSettings: FilterSettingsFacade
 ) : EditorStorage {
     override lateinit var displayedImage: Bitmap
 
@@ -47,6 +49,8 @@ constructor(
 
     override var isUpdated: Boolean = false
         private set
+
+    override var isInNoFiltersMode: Boolean = false
 
     init {
         memorizeUsedFilter(sourceShot.filter)
@@ -107,7 +111,13 @@ constructor(
             }
 
             // Metadata in the database
-            val shotToSave = sourceShot.copy(filter = lastUsedGlFilter ?: sourceShot.filter)
+            val filter = if(isInNoFiltersMode) {
+                filterSettings[GlFilterCode.ORIGINAL]
+            } else {
+                lastUsedGlFilter ?: sourceShot.filter
+            }
+
+            val shotToSave = sourceShot.copy(filter = filter)
             photoShotRepository.update(shotToSave)
 
             fragmentsDataPass.putPhotoShot(shotToSave)

@@ -59,7 +59,7 @@ class GalleryPageFragment : FragmentBase<FragmentGalleryPageBinding>(), Coroutin
     override fun createBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentGalleryPageBinding =
         FragmentGalleryPageBinding.inflate(inflater, container, false)
 
-    private fun loadPhoto(item: GalleryItem) {
+    fun loadPhoto(item: GalleryItem) {
         launch {
             val photoBitmap = withContext(dispatchersProvider.ioDispatcher) {
                 BitmapFactory.decodeFile(filesHelper.getShotFileByName(item.item.fileName).absolutePath)
