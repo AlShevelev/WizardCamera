@@ -3,6 +3,8 @@ package com.shevelev.wizard_camera.activity_main.fragment_camera.model.orientati
 import android.content.Context
 import android.hardware.SensorManager
 import android.view.OrientationEventListener
+import android.view.Surface.*
+import androidx.camera.core.impl.ImageOutputConfig
 import com.shevelev.wizard_camera.activity_main.fragment_camera.model.dto.ScreenOrientation
 import javax.inject.Inject
 
@@ -14,6 +16,10 @@ constructor(
     OrientationManager {
 
     override var screenOrientation: ScreenOrientation = ScreenOrientation.PORTRAIT
+        private set
+
+    @ImageOutputConfig.RotationValue
+    override var surfaceRotation: Int = ROTATION_0
         private set
 
     override fun start() = enable()
@@ -34,6 +40,17 @@ constructor(
 
         if(newOrientation != screenOrientation){
             screenOrientation = newOrientation
+        }
+
+        val newRotation = when(orientation) {
+            in 225 until 315 -> ROTATION_90
+            in 135 until 225 -> ROTATION_180
+            in 45 until 135 -> ROTATION_270
+            else -> ROTATION_0
+        }
+
+        if(newRotation != surfaceRotation) {
+            surfaceRotation = newRotation
         }
     }
 }

@@ -100,8 +100,10 @@ class CameraManager(private val cameraSettingsRepository: CameraSettingsReposito
      * @param useFlashLight if the value is "true" a flash light will be used, otherwise not
      * @param saveCompleted a callback which is called when a saving is completed (a value "true" is passed in case of success)
      */
-    fun capture(imageFile: File, useFlashLight: Boolean, saveCompleted: (Boolean) -> Unit) {
+    fun capture(imageFile: File, useFlashLight: Boolean, rotation: Int, saveCompleted: (Boolean) -> Unit) {
         imageCapture?.let { imageCapture ->
+            imageCapture.targetRotation = rotation
+
             val metadata = ImageCapture.Metadata().apply {
                 isReversedHorizontal = false
             }

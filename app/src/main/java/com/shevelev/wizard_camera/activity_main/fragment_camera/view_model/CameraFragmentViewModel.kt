@@ -106,7 +106,7 @@ constructor(
             if(targetFile == null) {
                 ShowMessageResCommand(R.string.generalError)
             } else {
-                _command.value = StartCaptureCommand(targetFile, isFlashActive)
+                _command.value = StartCaptureCommand(targetFile, isFlashActive, interactor.orientation.surfaceRotation)
             }
         }
     }
