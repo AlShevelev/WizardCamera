@@ -1,9 +1,15 @@
 package com.shevelev.wizard_camera.activity_gallery.fragment_gallery.model
 
+import android.content.Context
+import android.graphics.Bitmap
+import android.net.Uri
+import androidx.core.content.FileProvider
+import com.shevelev.wizard_camera.BuildConfig
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.dto.GalleryItem
 import com.shevelev.wizard_camera.common_entities.entities.PhotoShot
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.dto.ShotsLoadingResult
 import com.shevelev.wizard_camera.activity_gallery.shared.FragmentsDataPass
+import com.shevelev.wizard_camera.shared.bitmap.BitmapHelper
 import com.shevelev.wizard_camera.shared.coroutines.DispatchersProvider
 import com.shevelev.wizard_camera.shared.files.FilesHelper
 import com.shevelev.wizard_camera.shared.media_scanner.MediaScanner
@@ -22,11 +28,13 @@ import javax.inject.Inject
 class GalleryFragmentInteractorImpl
 @Inject
 constructor(
+    private val appContext: Context,
     private val dispatchersProvider: DispatchersProvider,
     private val photoShotRepository: PhotoShotRepository,
     private val filesHelper: FilesHelper,
     private val mediaScanner: MediaScanner,
-    private val fragmentsDataPass: FragmentsDataPass
+    private val fragmentsDataPass: FragmentsDataPass,
+    private val bitmapHelper: BitmapHelper
 ) : GalleryFragmentInteractor {
 
     companion object {
@@ -91,6 +99,19 @@ constructor(
 
     override fun clear() {
         loadingResultChannel.close()
+    }
+
+    /**
+     * Saves a bitmap into a temporary file and returns content Uri for sharing
+     */
+    override suspend fun startBitmapSharing(bitmap: Bitmap): Uri {
+        val file = withContext(dispatchersProvider.ioDispatcher) {
+            filesHelper.createTempFileForShot().also {
+                bitmapHelper.saveBitmap(it, bitmap)
+            }
+        }
+
+        return FileProvider.getUriForFile(appContext, "${BuildConfig.APPLICATION_ID}.file_provider", file)
     }
 
     private suspend fun loadNextPageInternal() {

@@ -1,5 +1,6 @@
 package com.shevelev.wizard_camera.activity_gallery.fragment_gallery_page
 
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -25,6 +26,8 @@ class GalleryPageFragment : FragmentBase<FragmentGalleryPageBinding>(), Coroutin
     private lateinit var scopeJob: Job
 
     private val errorHandler = CoroutineExceptionHandler { _, exception -> Timber.e(exception) }
+
+    private lateinit var surfaceView: GLSurfaceViewBitmap
 
     /**
      * Context of this scope.
@@ -74,9 +77,15 @@ class GalleryPageFragment : FragmentBase<FragmentGalleryPageBinding>(), Coroutin
                 FiltersFactory.createGLFilterSettings(item.item.filter, requireContext())
             )
 
-            GLSurfaceViewBitmap.createAndAddToView(requireContext(), binding.imageContainer, photoBitmap, filter)
+            surfaceView = GLSurfaceViewBitmap.createAndAddToView(
+                requireContext(),
+                binding.imageContainer,
+                photoBitmap,
+                filter)
         }
     }
+
+    fun getBitmap(callback: (Bitmap?) -> Unit) = surfaceView.getBitmap(callback)
 
     companion object {
         private const val ARG_PHOTO = "PHOTO"

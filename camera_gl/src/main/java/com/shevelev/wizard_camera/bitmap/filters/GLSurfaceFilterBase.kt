@@ -3,6 +3,7 @@ package com.shevelev.wizard_camera.bitmap.filters
 import android.content.Context
 import android.graphics.Bitmap
 import android.opengl.GLES31
+import android.opengl.GLException
 import android.opengl.GLSurfaceView
 import android.opengl.GLUtils
 import android.os.Handler
@@ -12,6 +13,7 @@ import androidx.annotation.RawRes
 import com.shevelev.wizard_camera.camera.R
 import com.shevelev.wizard_camera.camera.renderer.utils.BufferUtils
 import com.shevelev.wizard_camera.camera.renderer.utils.ShaderUtils
+import java.nio.IntBuffer
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
 
@@ -77,7 +79,25 @@ abstract class GLSurfaceFilterBase(
         // do nothing
     }
 
+    fun startGetFrameAsBitmap(handler: Handler, callback: (Bitmap?) -> Unit) {
+        getFrameAsBitmapHandler = handler
+        getFrameAsBitmapCallback = callback
+    }
+
     abstract fun release()
+
+    protected fun tryToGetFrameAsBitmap(gl: GL10) {
+        getFrameAsBitmapHandler?.let { handler ->
+            val bitmap = extractBitmapFromFrame(gl)
+
+            handler.post {
+                getFrameAsBitmapCallback?.invoke(bitmap)
+
+                getFrameAsBitmapHandler = null
+                getFrameAsBitmapCallback = null
+            }
+        }
+    }
 
     @CallSuper
     protected open fun createTextures() {
@@ -105,7 +125,7 @@ abstract class GLSurfaceFilterBase(
         GLES31.glClear(GLES31.GL_COLOR_BUFFER_BIT)
         GLES31.glDrawArrays(GLES31.GL_TRIANGLE_STRIP, 0, 4)
     }
-
+    
     @CallSuper
     protected open fun setFragmentShaderParameters(texture: Int) {
         GLES31.glBindFramebuffer(GLES31.GL_FRAMEBUFFER, 0)
@@ -131,5 +151,40 @@ abstract class GLSurfaceFilterBase(
         val positionHandle = GLES31.glGetAttribLocation(program, "vPosition")
         GLES31.glVertexAttribPointer(positionHandle, 2, GLES31.GL_FLOAT, false, 0, verticesBuffer)
         GLES31.glEnableVertexAttribArray(positionHandle)
+    }
+
+    private fun extractBitmapFromFrame(gl: GL10): Bitmap? {
+        val x = 0
+        val y = 0
+        val width = surfaceSize.width
+        val height = surfaceSize.height
+
+        val bitmapBuffer = IntArray(width * height)
+        val bitmapSource = IntArray(width * height)
+
+        val intBuffer = IntBuffer.wrap(bitmapBuffer)
+        intBuffer.position(0)
+
+        try {
+            gl.glReadPixels(x, y, width, height, GL10.GL_RGBA, GL10.GL_UNSIGNED_BYTE, intBuffer)
+            var offset1: Int
+            var offset2: Int
+            for (i in 0 until height) {
+                offset1 = i * width
+                offset2 = (height - i - 1) * width
+                for (j in 0 until width) {
+                    val texturePixel = bitmapBuffer[offset1 + j]
+                    val blue = (texturePixel shr 16) and 0xff
+                    val red = (texturePixel shl 16) and 0x00ff0000
+                    val pixel = (texturePixel and 0xff00ff00.toInt()) or red or blue
+
+                    bitmapSource[offset2 + j] = pixel
+                }
+            }
+        } catch (ex: GLException) {
+            ex.printStackTrace()
+            return null
+        }
+        return Bitmap.createBitmap(bitmapSource, width, height, Bitmap.Config.ARGB_8888)
     }
 }

@@ -28,6 +28,8 @@ class GLSurfaceShaderFilter(
 
     override fun onDrawFrame(gl: GL10) {
         draw(textures[0])
+
+        tryToGetFrameAsBitmap(gl)
     }
 
     override fun release() {

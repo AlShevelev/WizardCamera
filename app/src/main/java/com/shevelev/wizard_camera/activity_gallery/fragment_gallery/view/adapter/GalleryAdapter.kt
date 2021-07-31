@@ -34,8 +34,7 @@ class GalleryAdapter(
 
     override fun onBindViewHolder(holder: FragmentViewHolder, position: Int, payloads: MutableList<Any>) {
         if(payloads.isNotEmpty()) {
-            // It's a dirty hack, I know. But I'm afraid there is no other way
-            (fragment.childFragmentManager.findFragmentByTag("f${holder.itemId}") as? GalleryPageFragment)?.apply {
+            getFragment (holder.itemId)?.apply {
                 loadPhoto(items[position])
             }
         } else {
@@ -48,4 +47,10 @@ class GalleryAdapter(
     override fun containsItem(itemId: Long): Boolean = items.any { it.id == itemId }
 
     override fun getItemCount(): Int = items.size
+
+    fun getFragment(position: Int): GalleryPageFragment? = getFragment(getItemId(position))
+
+    private fun getFragment(id: Long): GalleryPageFragment? =
+        // It's a dirty hack, I know. But I'm afraid there is no other way
+        fragment.childFragmentManager.findFragmentByTag("f$id") as? GalleryPageFragment
 }

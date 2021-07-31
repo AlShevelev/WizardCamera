@@ -9,6 +9,7 @@ import com.shevelev.wizard_camera.activity_main.fragment_camera.model.filters_fa
 import com.shevelev.wizard_camera.common_entities.entities.PhotoShot
 import com.shevelev.wizard_camera.common_entities.enums.GlFilterCode
 import com.shevelev.wizard_camera.common_entities.filter_settings.gl.GlFilterSettings
+import com.shevelev.wizard_camera.shared.bitmap.BitmapHelper
 import com.shevelev.wizard_camera.shared.coroutines.DispatchersProvider
 import com.shevelev.wizard_camera.shared.files.FilesHelper
 import com.shevelev.wizard_camera.storage.repositories.PhotoShotRepository
@@ -26,7 +27,8 @@ constructor(
     private val filesHelper: FilesHelper,
     private val photoShotRepository: PhotoShotRepository,
     private val fragmentsDataPass: FragmentsDataPass,
-    private val filterSettings: FilterSettingsFacade
+    private val filterSettings: FilterSettingsFacade,
+    private val bitmapHelper: BitmapHelper
 ) : EditorStorage {
     override lateinit var displayedImage: Bitmap
 
@@ -104,11 +106,7 @@ constructor(
 
         withContext(dispatchersProvider.ioDispatcher) {
             // File with image
-            // Jpeg format with "95" quality value is used - as same as ImageCapture settings
-            // See [CameraManager.bindCameraUseCases]
-            filesHelper.getShotFileByName(sourceShot.fileName).outputStream().use {
-                displayedImage.compress(Bitmap.CompressFormat.JPEG, 95, it)
-            }
+            bitmapHelper.saveBitmap(filesHelper.getShotFileByName(sourceShot.fileName), displayedImage)
 
             // Metadata in the database
             val filter = if(isInNoFiltersMode) {

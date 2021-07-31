@@ -3,6 +3,7 @@ package com.shevelev.wizard_camera.bitmap
 import android.content.Context
 import android.graphics.Bitmap
 import android.opengl.GLSurfaceView
+import android.os.Handler
 import android.util.AttributeSet
 import android.util.SizeF
 import android.view.Gravity
@@ -40,6 +41,8 @@ constructor(
         filter.release()
     }
 
+    fun getBitmap(callback: (Bitmap?) -> Unit) = filter.startGetFrameAsBitmap(handler, callback)
+
     private fun setBitmapParameters(bitmap: Bitmap) {
         bitmapSize = SizeF(bitmap.width.toFloat(), bitmap.height.toFloat())
     }
@@ -49,7 +52,7 @@ constructor(
             context: Context,
             root: FrameLayout,
             bitmap: Bitmap,
-            filter: GLSurfaceFilterBase) {
+            filter: GLSurfaceFilterBase): GLSurfaceViewBitmap {
             val surfaceView = GLSurfaceViewBitmap(context)
 
             surfaceView.setBitmapParameters(bitmap)
@@ -70,6 +73,8 @@ constructor(
             if(root.childCount > 1) {           // To avoid an image flashing
                 root.postDelayed({ root.removeViewAt(0) }, 250L)
             }
+
+            return surfaceView
         }
     }
 }

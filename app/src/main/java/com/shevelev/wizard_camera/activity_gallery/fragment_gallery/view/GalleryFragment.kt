@@ -1,6 +1,7 @@
 package com.shevelev.wizard_camera.activity_gallery.fragment_gallery.view
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.navigation.fragment.findNavController
@@ -13,7 +14,6 @@ import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.dto.ShareSho
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.view.adapter.GalleryAdapter
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.view_model.GalleryFragmentViewModel
 import com.shevelev.wizard_camera.application.App
-import com.shevelev.wizard_camera.common_entities.entities.PhotoShot
 import com.shevelev.wizard_camera.databinding.FragmentGalleryBinding
 import com.shevelev.wizard_camera.shared.dialogs.ConfirmationDialog
 import com.shevelev.wizard_camera.shared.mvvm.view.FragmentBaseMVVM
@@ -61,7 +61,17 @@ class GalleryFragment : FragmentBaseMVVM<FragmentGalleryBinding, GalleryFragment
             )
         }
 
-        binding.shareButton.setOnClickListener { viewModel.onShareShotClick(binding.galleryPager.currentItem) }
+        binding.shareButton.setOnClickListener {
+            with(binding.galleryPager) {
+                (adapter as GalleryAdapter).getFragment(currentItem)?.let { fragment ->
+                    fragment.getBitmap { bitmap ->
+                        bitmap?.let {
+                            viewModel.onShareShotClick(bitmap)
+                        }
+                    }
+                }
+            }
+        }
 
         binding.editButton.setOnClickListener { viewModel.onEditShotClick(binding.galleryPager.currentItem) }
 
@@ -76,7 +86,7 @@ class GalleryFragment : FragmentBaseMVVM<FragmentGalleryBinding, GalleryFragment
 
     override fun processViewCommand(command: ViewCommand) {
         when(command) {
-            is ShareShotCommand -> shareShot(command.shot)
+            is ShareShotCommand -> shareShot(command.contentUri)
 
             is EditShotCommand ->
                 findNavController().navigate(
@@ -94,10 +104,10 @@ class GalleryFragment : FragmentBaseMVVM<FragmentGalleryBinding, GalleryFragment
         }
     }
 
-    private fun shareShot(shot: PhotoShot) {
+    private fun shareShot(contentUri: Uri) {
         val shareIntent = Intent().apply {
             action = Intent.ACTION_SEND
-            putExtra(Intent.EXTRA_STREAM, shot.contentUri)
+            putExtra(Intent.EXTRA_STREAM, contentUri)
             type = "image/jpeg"
         }
         startActivity(Intent.createChooser(shareIntent, resources.getText(R.string.sendTo)))

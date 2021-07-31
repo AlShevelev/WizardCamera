@@ -14,17 +14,19 @@ constructor(
 ) : FilesHelper {
     override fun createFileForShot(): File = createFileForShot(getShotsDirectory())
 
+    override fun createTempFileForShot(): File = createFileForShot(appContext.cacheDir)
+
     override fun getShotFileByName(fileName: String): File = File(getShotsDirectory(), fileName)
 
     override fun removeShotFileByName(fileName: String) = getShotFileByName(fileName).apply { delete() }
 
     override fun copyToTempFile(source: File): File {
-        val destinationFile = createFileForShot(appContext.cacheDir)
+        val destinationFile = createTempFileForShot()
         source.copyTo(destinationFile, overwrite = true)
         return destinationFile
     }
 
-    override fun removeFIle(fileToRemove: File) {
+    override fun removeFile(fileToRemove: File) {
         fileToRemove.delete()
     }
 

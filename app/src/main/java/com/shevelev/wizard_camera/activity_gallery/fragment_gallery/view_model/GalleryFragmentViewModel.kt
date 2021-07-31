@@ -1,5 +1,6 @@
 package com.shevelev.wizard_camera.activity_gallery.fragment_gallery.view_model
 
+import android.graphics.Bitmap
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -73,8 +74,12 @@ constructor(
 
     fun onDeleteShotClick(position: Int) = processAction { interactor.delete(position) }
 
-    fun onShareShotClick(position: Int) {
-        _command.value = ShareShotCommand(interactor.getShot(position))
+    fun onShareShotClick(filteredImage: Bitmap) {
+        launch {
+            interactor.startBitmapSharing(filteredImage).also {
+                _command.value = ShareShotCommand(it)
+            }
+        }
     }
 
     fun onShotSelected(position: Int) {
