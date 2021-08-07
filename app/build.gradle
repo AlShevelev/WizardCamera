@@ -56,6 +56,7 @@ dependencies {
     implementation project(":common_entities")
     implementation project(":storage")
     implementation project(":catalano")
+    implementation project(":bitmap_images")
 
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "androidx.appcompat:appcompat:$appcompat_version"

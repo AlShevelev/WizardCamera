@@ -75,6 +75,17 @@
             app:layout_constraintEnd_toStartOf="@id/editButton"
             tools:ignore="ContentDescription" />
 
+        <ImageButton
+            android:id="@+id/importButton"
+            style = "@style/WizCam.RoundButton"
+            android:src="@drawable/ic_import_photo"
+            android:visibility="@{viewModel.isShareButtonVisible}"
+            tools:visibility="visible"
+            android:layout_marginEnd="@dimen/marginSmall"
+            app:layout_constraintBottom_toBottomOf="@id/deleteButton"
+            app:layout_constraintEnd_toStartOf="@id/shareButton"
+            tools:ignore="ContentDescription" />
+
         <ImageView
             android:id="@+id/noDataStubIcon"
             android:layout_width="@dimen/toolButtonSizeLarge"

@@ -26,4 +26,6 @@ interface GalleryFragmentInteractor : InteractorBase {
      * Saves a bitmap into a temporary file and returns content Uri for sharing
      */
     suspend fun startBitmapSharing(bitmap: Bitmap): Uri
+
+    suspend fun importBitmap(sourceUri: Uri, currentPosition: Int): Boolean
 }

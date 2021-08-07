@@ -1,6 +1,7 @@
 package com.shevelev.wizard_camera.activity_gallery.fragment_gallery.view_model
 
 import android.graphics.Bitmap
+import android.net.Uri
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -11,6 +12,7 @@ import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.dto.ShareSho
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.dto.ShotsLoadingResult
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.model.GalleryFragmentInteractor
 import com.shevelev.wizard_camera.shared.coroutines.DispatchersProvider
+import com.shevelev.wizard_camera.shared.mvvm.view_commands.ScrollGalleryToPosition
 import com.shevelev.wizard_camera.shared.mvvm.view_commands.ShowMessageResCommand
 import com.shevelev.wizard_camera.shared.mvvm.view_model.ViewModelBase
 import kotlinx.coroutines.flow.collect
@@ -93,6 +95,16 @@ constructor(
 
     fun onEditShotClick(position: Int) {
         _command.value = EditShotCommand(interactor.getShot(position))
+    }
+
+    fun startImageImport(uri: Uri, currentPosition: Int) {
+        launch {
+            if(!interactor.importBitmap(uri, currentPosition)) {
+                _command.value = ShowMessageResCommand(R.string.generalError)
+            } else {
+                _command.value = ScrollGalleryToPosition(currentPosition)
+            }
+        }
     }
 
     override fun onCleared() {

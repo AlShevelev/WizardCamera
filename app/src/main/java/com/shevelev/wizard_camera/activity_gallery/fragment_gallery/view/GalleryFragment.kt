@@ -1,7 +1,6 @@
 package com.shevelev.wizard_camera.activity_gallery.fragment_gallery.view
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.navigation.fragment.findNavController
@@ -12,14 +11,25 @@ import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.di.GalleryFr
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.dto.EditShotCommand
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.dto.ShareShotCommand
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.view.adapter.GalleryAdapter
+import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.view.external_actions.GalleryHelper
+import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.view.external_actions.SharingHelper
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.view_model.GalleryFragmentViewModel
 import com.shevelev.wizard_camera.application.App
 import com.shevelev.wizard_camera.databinding.FragmentGalleryBinding
 import com.shevelev.wizard_camera.shared.dialogs.ConfirmationDialog
 import com.shevelev.wizard_camera.shared.mvvm.view.FragmentBaseMVVM
+import com.shevelev.wizard_camera.shared.mvvm.view_commands.ScrollGalleryToPosition
 import com.shevelev.wizard_camera.shared.mvvm.view_commands.ViewCommand
+import dagger.Lazy
+import javax.inject.Inject
 
 class GalleryFragment : FragmentBaseMVVM<FragmentGalleryBinding, GalleryFragmentViewModel>() {
+    @Inject
+    internal lateinit var galleryHelper: Lazy<GalleryHelper>
+
+    @Inject
+    internal lateinit var sharingHelper: Lazy<SharingHelper>
+
     override fun provideViewModelType(): Class<GalleryFragmentViewModel> = GalleryFragmentViewModel::class.java
 
     override fun layoutResId(): Int = R.layout.fragment_gallery
@@ -75,6 +85,8 @@ class GalleryFragment : FragmentBaseMVVM<FragmentGalleryBinding, GalleryFragment
 
         binding.editButton.setOnClickListener { viewModel.onEditShotClick(binding.galleryPager.currentItem) }
 
+        binding.importButton.setOnClickListener { startImageImport() }
+
         binding.galleryPager.registerOnPageChangeCallback(object: ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 viewModel.onShotSelected(position)
@@ -86,13 +98,17 @@ class GalleryFragment : FragmentBaseMVVM<FragmentGalleryBinding, GalleryFragment
 
     override fun processViewCommand(command: ViewCommand) {
         when(command) {
-            is ShareShotCommand -> shareShot(command.contentUri)
+            is ShareShotCommand -> sharingHelper.get().startSharing(command.contentUri, this)
 
             is EditShotCommand ->
                 findNavController().navigate(
                     R.id.action_galleryFragment_to_editorFragment,
                     EditorFragment.createParameters(command.shot)
                 )
+
+            is ScrollGalleryToPosition -> binding.galleryPager.postDelayed({
+                binding.galleryPager.setCurrentItem(command.position, true)
+            }, 250L)
         }
     }
 
@@ -104,13 +120,15 @@ class GalleryFragment : FragmentBaseMVVM<FragmentGalleryBinding, GalleryFragment
         }
     }
 
-    private fun shareShot(contentUri: Uri) {
-        val shareIntent = Intent().apply {
-            action = Intent.ACTION_SEND
-            putExtra(Intent.EXTRA_STREAM, contentUri)
-            type = "image/jpeg"
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        galleryHelper.get().processTakingPhotoResult(requestCode, resultCode, data) { uri ->
+            viewModel.startImageImport(uri, binding.galleryPager.currentItem)
         }
-        startActivity(Intent.createChooser(shareIntent, resources.getText(R.string.sendTo)))
+    }
+
+    private fun startImageImport() {
+        galleryHelper.get().startTakingPhoto(this)
     }
 
     companion object {

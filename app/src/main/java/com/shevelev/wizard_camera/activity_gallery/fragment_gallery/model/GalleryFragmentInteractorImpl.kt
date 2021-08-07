@@ -8,12 +8,13 @@ import com.shevelev.wizard_camera.BuildConfig
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.dto.GalleryItem
 import com.shevelev.wizard_camera.common_entities.entities.PhotoShot
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.dto.ShotsLoadingResult
+import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.model.image_importer.ImageImporter
 import com.shevelev.wizard_camera.activity_gallery.shared.FragmentsDataPass
-import com.shevelev.wizard_camera.shared.bitmap.BitmapHelper
 import com.shevelev.wizard_camera.shared.coroutines.DispatchersProvider
 import com.shevelev.wizard_camera.shared.files.FilesHelper
 import com.shevelev.wizard_camera.shared.media_scanner.MediaScanner
 import com.shevelev.wizard_camera.storage.repositories.PhotoShotRepository
+import com.shevelev.wizard_camera.bitmap_images.bitmap_utils.BitmapHelper
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.BroadcastChannel
@@ -34,7 +35,8 @@ constructor(
     private val filesHelper: FilesHelper,
     private val mediaScanner: MediaScanner,
     private val fragmentsDataPass: FragmentsDataPass,
-    private val bitmapHelper: BitmapHelper
+    private val bitmapHelper: BitmapHelper,
+    private val imageImporter: ImageImporter
 ) : GalleryFragmentInteractor {
 
     companion object {
@@ -112,6 +114,22 @@ constructor(
         }
 
         return FileProvider.getUriForFile(appContext, "${BuildConfig.APPLICATION_ID}.file_provider", file)
+    }
+
+    override suspend fun importBitmap(sourceUri: Uri, currentPosition: Int): Boolean {
+        val shot = withContext(dispatchersProvider.ioDispatcher) {
+            try {
+                imageImporter.import(sourceUri)
+            } catch (ex: Exception) {
+                Timber.e(ex)
+                null
+            }
+        } ?: return false
+
+        photosList.add(currentPosition, GalleryItem(shot.id, 0, shot))
+        loadingResultChannel.send(ShotsLoadingResult.DataUpdated(photosList))
+
+        return true
     }
 
     private suspend fun loadNextPageInternal() {

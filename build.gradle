@@ -41,6 +41,11 @@ buildscript {
         three_ten_abp_version = "1.2.4"
         glide_version = "4.11.0"
         moshi_version = "1.9.2"
+
+        // Testing
+        junit_version = "4.13.1"
+        junit_test_ext_version = "1.1.2"
+        espresso_version = "3.3.0"
     }
 
     dependencies {

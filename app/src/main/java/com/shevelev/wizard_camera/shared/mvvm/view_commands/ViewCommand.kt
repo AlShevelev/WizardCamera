@@ -9,3 +9,6 @@ class ShowMessageTextCommand(val text: String, val isError: Boolean = true): Vie
 
 object ShowEditorSaveDialogCommand: ViewCommand
 object CloseEditorCommand: ViewCommand
+
+class ScrollGalleryToPosition(val position: Int): ViewCommand
+

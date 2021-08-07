@@ -1,3 +1,4 @@
+include ':bitmap_images'
 include ':catalano'
 include ':app'
 include ':camera_gl'
