@@ -5,13 +5,10 @@ plugins {
 
 android {
     compileSdkVersion target_sdk_version
-    buildToolsVersion "$build_tools_version"
 
     defaultConfig {
         minSdkVersion min_sdk_version
         targetSdkVersion target_sdk_version
-        versionCode app_version_code
-        versionName "$app_version_name"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
