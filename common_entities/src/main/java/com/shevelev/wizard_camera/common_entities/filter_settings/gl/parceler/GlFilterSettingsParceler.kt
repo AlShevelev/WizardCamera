@@ -3,7 +3,7 @@ package com.shevelev.wizard_camera.common_entities.filter_settings.gl.parceler
 import android.os.Parcel
 import com.shevelev.wizard_camera.common_entities.enums.GlFilterCode
 import com.shevelev.wizard_camera.common_entities.filter_settings.gl.*
-import kotlinx.android.parcel.Parceler
+import kotlinx.parcelize.Parceler
 
 object GlFilterSettingsParceler : Parceler<GlFilterSettings> {
     /**

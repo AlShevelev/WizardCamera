@@ -4,8 +4,8 @@ import android.net.Uri
 import android.os.Parcelable
 import com.shevelev.wizard_camera.common_entities.filter_settings.gl.GlFilterSettings
 import com.shevelev.wizard_camera.common_entities.filter_settings.gl.parceler.GlFilterSettingsParceler
-import kotlinx.android.parcel.Parcelize
-import kotlinx.android.parcel.TypeParceler
+import kotlinx.parcelize.Parcelize
+import kotlinx.parcelize.TypeParceler
 import org.threeten.bp.ZonedDateTime
 
 /**
