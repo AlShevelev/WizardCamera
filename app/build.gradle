@@ -84,8 +84,8 @@ dependencies {
     implementation "com.jakewharton.timber:timber:$timber_version"
     implementation "com.jakewharton.threetenabp:threetenabp:$three_ten_abp_version"
 
-    implementation "org.permissionsdispatcher:permissionsdispatcher:$permissionsdispatcher_version"
-    kapt "org.permissionsdispatcher:permissionsdispatcher-processor:$permissionsdispatcher_version"
+    implementation "com.github.permissions-dispatcher:permissionsdispatcher:$permissionsdispatcher_version"
+    kapt "com.github.permissions-dispatcher:permissionsdispatcher-processor:$permissionsdispatcher_version"
 
     implementation "androidx.exifinterface:exifinterface:$exif_version"
 
