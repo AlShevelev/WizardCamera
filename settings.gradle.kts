@@ -1,0 +1,7 @@
+include(":bitmap_images")
+include(":catalano")
+include(":app")
+include(":camera_gl")
+include(":utils")
+include(":storage")
+include(":common_entities")
