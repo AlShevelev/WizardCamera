@@ -3,6 +3,7 @@ package com.shevelev.wizard_camera.activity_gallery.fragment_gallery.view
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.shevelev.wizard_camera.R
@@ -23,6 +24,8 @@ import com.shevelev.wizard_camera.shared.mvvm.view_commands.ViewCommand
 import dagger.Lazy
 import javax.inject.Inject
 
+private const val DELETE_DIALOG_REQUEST = 14109
+
 class GalleryFragment : FragmentBaseMVVM<FragmentGalleryBinding, GalleryFragmentViewModel>() {
     @Inject
     internal lateinit var galleryHelper: Lazy<GalleryHelper>
@@ -30,7 +33,7 @@ class GalleryFragment : FragmentBaseMVVM<FragmentGalleryBinding, GalleryFragment
     @Inject
     internal lateinit var sharingHelper: Lazy<SharingHelper>
 
-    override fun provideViewModelType(): Class<GalleryFragmentViewModel> = GalleryFragmentViewModel::class.java
+    override val viewModel: GalleryFragmentViewModel by viewModels { viewModelFactory }
 
     override fun layoutResId(): Int = R.layout.fragment_gallery
 
@@ -129,9 +132,5 @@ class GalleryFragment : FragmentBaseMVVM<FragmentGalleryBinding, GalleryFragment
 
     private fun startImageImport() {
         galleryHelper.get().startTakingPhoto(this)
-    }
-
-    companion object {
-        private const val DELETE_DIALOG_REQUEST = 14109
     }
 }

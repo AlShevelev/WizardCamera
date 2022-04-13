@@ -8,7 +8,6 @@ import android.widget.Toast
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import androidx.lifecycle.ViewModelProviders
 import com.shevelev.wizard_camera.shared.mvvm.model.InteractorBase
 import com.shevelev.wizard_camera.shared.mvvm.view_commands.ShowMessageResCommand
 import com.shevelev.wizard_camera.shared.mvvm.view_commands.ShowMessageTextCommand
@@ -21,33 +20,22 @@ import javax.inject.Inject
  * Base class for all fragments
  */
 abstract class FragmentBaseMVVM<VDB: ViewDataBinding, VM: ViewModelBase<out InteractorBase>> : FragmentBase<VDB>() {
-    private lateinit var _viewModel: VM
 
-    protected val viewModel: VM
-        get() = _viewModel
+    protected abstract val viewModel: VM
 
     @Inject
     internal lateinit var viewModelFactory: FragmentViewModelFactory
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        val viewModel = ViewModelProviders.of(this, viewModelFactory)[provideViewModelType()]
-        _viewModel = viewModel
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        _viewModel.command.observe(viewLifecycleOwner) {
+        viewModel.command.observe(viewLifecycleOwner) {
             processViewCommandGeneral(it)
         }
 
         val resultView = super.onCreateView(inflater, container, savedInstanceState)
 
-        linkViewModel(binding, _viewModel)
+        linkViewModel(binding, viewModel)
         return resultView
     }
-
-    abstract fun provideViewModelType(): Class<VM>
 
     @LayoutRes
     protected abstract fun layoutResId(): Int

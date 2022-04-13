@@ -7,6 +7,7 @@ import android.graphics.SurfaceTexture
 import android.os.Bundle
 import android.view.TextureView
 import android.view.View
+import androidx.fragment.app.viewModels
 import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.activity_gallery.GalleryActivity
 import com.shevelev.wizard_camera.activity_main.fragment_camera.di.CameraFragmentComponent
@@ -14,10 +15,10 @@ import com.shevelev.wizard_camera.activity_main.fragment_camera.model.dto.*
 import com.shevelev.wizard_camera.activity_main.fragment_camera.view.gestures.GesturesDetector
 import com.shevelev.wizard_camera.activity_main.fragment_camera.view_model.CameraFragmentViewModel
 import com.shevelev.wizard_camera.application.App
+import com.shevelev.wizard_camera.camera.filter.CameraFilter
 import com.shevelev.wizard_camera.camera.manager.CameraManager
 import com.shevelev.wizard_camera.camera.renderer.GLRenderer
 import com.shevelev.wizard_camera.camera.settings_repository.CameraSettingsRepository
-import com.shevelev.wizard_camera.camera.filter.CameraFilter
 import com.shevelev.wizard_camera.databinding.FragmentCameraBinding
 import com.shevelev.wizard_camera.shared.mvvm.view.FragmentBaseMVVM
 import com.shevelev.wizard_camera.shared.mvvm.view_commands.ViewCommand
@@ -39,7 +40,7 @@ class CameraFragment : FragmentBaseMVVM<FragmentCameraBinding, CameraFragmentVie
     @Inject
     internal lateinit var cameraSettingsRepository: CameraSettingsRepository
 
-    override fun provideViewModelType(): Class<CameraFragmentViewModel> = CameraFragmentViewModel::class.java
+    override val viewModel: CameraFragmentViewModel by viewModels { viewModelFactory }
 
     override fun layoutResId(): Int = R.layout.fragment_camera
 

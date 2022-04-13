@@ -72,6 +72,7 @@ dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
 
     implementation(Dependencies.appcompat)
+
     implementation(Dependencies.coreKtx)
 
     implementation(Dependencies.lifecycleRuntimeKtx)

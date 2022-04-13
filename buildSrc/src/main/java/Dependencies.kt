@@ -1,5 +1,11 @@
 object Dependencies {
+    const val kotlinStdlib = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlin}"
+    const val kotlinReflect = "org.jetbrains.kotlin:kotlin-reflect:${Versions.kotlin}"
+    const val kotlinxCoroutinesCore = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.kotlinCoroutines}"
+    const val kotlinxCoroutinesAndroid = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.kotlinCoroutines}"
+
     const val  appcompat = "androidx.appcompat:appcompat:${Versions.appcompat}"
+
     const val  coreKtx = "androidx.core:core-ktx:${Versions.coreKtx}"
 
     const val lifecycleRuntimeKtx = "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.lifecycle}"
@@ -16,11 +22,6 @@ object Dependencies {
 
     const val viewPager = "androidx.viewpager2:viewpager2:${Versions.viewPager}"
     const val constraintLayout = "androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}"
-
-    const val kotlinStdlib = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlin}"
-    const val kotlinReflect = "org.jetbrains.kotlin:kotlin-reflect:${Versions.kotlin}"
-    const val kotlinxCoroutinesCore = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.kotlinCoroutines}"
-    const val kotlinxCoroutinesAndroid = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.kotlinCoroutines}"
 
     const val timber = "com.jakewharton.timber:timber:${Versions.timber}"
 

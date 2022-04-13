@@ -3,6 +3,7 @@ package com.shevelev.wizard_camera.activity_gallery.fragment_editor.view
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.di.EditorFragmentComponent
@@ -29,7 +30,7 @@ class EditorFragment : FragmentBaseMVVM<FragmentEditorBinding, EditorFragmentVie
     override val isBackHandlerEnabled: Boolean
         get() = true
 
-    override fun provideViewModelType(): Class<EditorFragmentViewModel> = EditorFragmentViewModel::class.java
+    override val viewModel: EditorFragmentViewModel by viewModels { viewModelFactory }
 
     override fun layoutResId(): Int = R.layout.fragment_editor
 
