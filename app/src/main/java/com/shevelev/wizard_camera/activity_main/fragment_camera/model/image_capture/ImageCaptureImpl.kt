@@ -7,8 +7,8 @@ import com.shevelev.wizard_camera.common_entities.filter_settings.gl.GlFilterSet
 import com.shevelev.wizard_camera.shared.coroutines.DispatchersProvider
 import com.shevelev.wizard_camera.shared.files.FilesHelper
 import com.shevelev.wizard_camera.shared.media_scanner.MediaScanner
-import com.shevelev.wizard_camera.storage.repositories.PhotoShotRepository
 import com.shevelev.wizard_camera.bitmap_images.bitmap_utils.BitmapHelper
+import com.shevelev.wizard_camera.database.api.repositories.PhotoShotRepository
 import com.shevelev.wizard_camera.utils.id.IdUtil
 import kotlinx.coroutines.withContext
 import org.threeten.bp.ZonedDateTime

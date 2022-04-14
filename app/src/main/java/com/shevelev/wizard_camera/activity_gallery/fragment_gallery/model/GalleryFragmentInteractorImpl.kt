@@ -13,8 +13,8 @@ import com.shevelev.wizard_camera.activity_gallery.shared.FragmentsDataPass
 import com.shevelev.wizard_camera.shared.coroutines.DispatchersProvider
 import com.shevelev.wizard_camera.shared.files.FilesHelper
 import com.shevelev.wizard_camera.shared.media_scanner.MediaScanner
-import com.shevelev.wizard_camera.storage.repositories.PhotoShotRepository
 import com.shevelev.wizard_camera.bitmap_images.bitmap_utils.BitmapHelper
+import com.shevelev.wizard_camera.database.api.repositories.PhotoShotRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.BroadcastChannel

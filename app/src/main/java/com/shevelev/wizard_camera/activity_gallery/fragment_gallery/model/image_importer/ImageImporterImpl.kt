@@ -7,10 +7,10 @@ import com.shevelev.wizard_camera.bitmap_images.image_type_detector.ImageTypeDet
 import com.shevelev.wizard_camera.common_entities.entities.PhotoShot
 import com.shevelev.wizard_camera.common_entities.enums.GlFilterCode
 import com.shevelev.wizard_camera.common_entities.filter_settings.gl.EmptyFilterSettings
+import com.shevelev.wizard_camera.database.api.repositories.PhotoShotRepository
 import com.shevelev.wizard_camera.shared.coroutines.DispatchersProvider
 import com.shevelev.wizard_camera.shared.files.FilesHelper
 import com.shevelev.wizard_camera.shared.media_scanner.MediaScanner
-import com.shevelev.wizard_camera.storage.repositories.PhotoShotRepository
 import com.shevelev.wizard_camera.utils.id.IdUtil
 import kotlinx.coroutines.withContext
 import org.threeten.bp.ZonedDateTime

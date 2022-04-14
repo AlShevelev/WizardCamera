@@ -11,9 +11,9 @@ import com.shevelev.wizard_camera.shared.filters_ui.filters_carousel.FiltersList
 import com.shevelev.wizard_camera.activity_main.fragment_camera.model.dto.FiltersMode
 import com.shevelev.wizard_camera.shared.filters_ui.display_data.gl.FilterDisplayDataList
 import com.shevelev.wizard_camera.activity_main.fragment_camera.model.filters_facade.settings.FilterSettingsFacade
+import com.shevelev.wizard_camera.database.api.repositories.FavoriteFilterRepository
+import com.shevelev.wizard_camera.database.api.repositories.LastUsedFilterRepository
 import com.shevelev.wizard_camera.shared.coroutines.DispatchersProvider
-import com.shevelev.wizard_camera.storage.repositories.FavoriteFilterRepository
-import com.shevelev.wizard_camera.storage.repositories.LastUsedFilterRepository
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 

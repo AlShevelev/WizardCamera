@@ -4,8 +4,8 @@ import com.shevelev.wizard_camera.common_entities.enums.GlFilterCode
 import com.shevelev.wizard_camera.common_entities.enums.MappingFilterTexture
 import com.shevelev.wizard_camera.common_entities.enums.Size
 import com.shevelev.wizard_camera.common_entities.filter_settings.gl.*
+import com.shevelev.wizard_camera.database.api.repositories.FilterSettingsRepository
 import com.shevelev.wizard_camera.shared.coroutines.DispatchersProvider
-import com.shevelev.wizard_camera.storage.repositories.FilterSettingsRepository
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import kotlin.random.Random

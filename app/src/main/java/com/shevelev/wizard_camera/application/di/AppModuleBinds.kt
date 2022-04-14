@@ -10,14 +10,21 @@ import com.shevelev.wizard_camera.shared.files.FilesHelper
 import com.shevelev.wizard_camera.shared.files.FilesHelperImpl
 import com.shevelev.wizard_camera.shared.media_scanner.MediaScanner
 import com.shevelev.wizard_camera.shared.media_scanner.MediaScannerImpl
-import com.shevelev.wizard_camera.storage.repositories.*
-import com.shevelev.wizard_camera.storage.type_converters.filter_settings.FilerSettingsConverter
-import com.shevelev.wizard_camera.storage.type_converters.filter_settings.FilerSettingsConverterImpl
 import com.shevelev.wizard_camera.bitmap_images.bitmap_utils.BitmapHelper
 import com.shevelev.wizard_camera.bitmap_images.bitmap_utils.BitmapHelperImpl
+import com.shevelev.wizard_camera.database.api.repositories.FavoriteFilterRepository
+import com.shevelev.wizard_camera.database.api.repositories.FilterSettingsRepository
+import com.shevelev.wizard_camera.database.api.repositories.LastUsedFilterRepository
+import com.shevelev.wizard_camera.database.api.repositories.PhotoShotRepository
+import com.shevelev.wizard_camera.database.impl.repositories.FavoriteFilterRepositoryImpl
+import com.shevelev.wizard_camera.database.impl.repositories.FilterSettingsRepositoryImpl
+import com.shevelev.wizard_camera.database.impl.repositories.LastUsedFilterRepositoryImpl
+import com.shevelev.wizard_camera.database.impl.repositories.PhotoShotRepositoryImpl
+import com.shevelev.wizard_camera.database.impl.type_converters.filter_settings.FilerSettingsConverterImpl
 import com.shevelev.wizard_camera.utils.crashlytics.CrashlyticsFacade
 import dagger.Binds
 import dagger.Module
+import com.shevelev.wizard_camera.database.impl.type_converters.filter_settings.FilerSettingsConverter as FilerSettingsConverter1
 
 @Module
 abstract class AppModuleBinds {
@@ -28,7 +35,7 @@ abstract class AppModuleBinds {
     abstract fun provideMediaScanner(scanner: MediaScannerImpl): MediaScanner
 
     @Binds
-    abstract fun provideFilerSettingsConverter(converter: FilerSettingsConverterImpl): FilerSettingsConverter
+    abstract fun provideFilerSettingsConverter(converter: FilerSettingsConverterImpl): FilerSettingsConverter1
 
     @Binds
     abstract fun providePhotoShotRepository(repository: PhotoShotRepositoryImpl): PhotoShotRepository

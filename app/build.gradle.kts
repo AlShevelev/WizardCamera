@@ -65,9 +65,11 @@ dependencies {
     implementation(project(":camera_gl"))
     implementation(project(":utils"))
     implementation(project(":common_entities"))
-    implementation(project(":storage"))
     implementation(project(":catalano"))
     implementation(project(":bitmap_images"))
+
+    implementation(project(":core:database:impl"))
+    implementation(project(":core:database:api"))
 
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
 
