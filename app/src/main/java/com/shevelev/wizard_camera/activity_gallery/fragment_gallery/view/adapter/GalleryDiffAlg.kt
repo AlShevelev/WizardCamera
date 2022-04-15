@@ -2,7 +2,6 @@ package com.shevelev.wizard_camera.activity_gallery.fragment_gallery.view.adapte
 
 import androidx.recyclerview.widget.DiffUtil
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.dto.GalleryItem
-import com.shevelev.wizard_camera.common_entities.entities.PhotoShot
 
 class GalleryDiffAlg(
     private val oldList: List<GalleryItem>,

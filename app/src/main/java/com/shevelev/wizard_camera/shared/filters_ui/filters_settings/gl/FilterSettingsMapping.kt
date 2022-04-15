@@ -10,9 +10,9 @@ import android.widget.SeekBar
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.shared.filters_ui.filters_settings.FilterSettingsWidget
-import com.shevelev.wizard_camera.common_entities.enums.MappingFilterTexture
-import com.shevelev.wizard_camera.common_entities.filter_settings.gl.GlFilterSettings
-import com.shevelev.wizard_camera.common_entities.filter_settings.gl.MappingFilterSettings
+import com.shevelev.wizard_camera.core.common_entities.enums.MappingFilterTexture
+import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.GlFilterSettings
+import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.MappingFilterSettings
 
 @Suppress("MapGetWithNotNullAssertionOperator")
 class FilterSettingsMapping

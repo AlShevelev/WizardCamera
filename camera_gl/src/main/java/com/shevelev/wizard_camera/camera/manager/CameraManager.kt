@@ -11,8 +11,8 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import com.shevelev.wizard_camera.camera.settings_repository.CameraSettingsRepository
-import com.shevelev.wizard_camera.utils.useful_ext.fitInRange
-import com.shevelev.wizard_camera.utils.useful_ext.reduceToRange
+import com.shevelev.wizard_camera.core.utils.useful_ext.fitInRange
+import com.shevelev.wizard_camera.core.utils.useful_ext.reduceToRange
 import timber.log.Timber
 import java.io.File
 import java.util.*

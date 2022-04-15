@@ -5,13 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
-import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
-import com.shevelev.wizard_camera.databinding.FragmentGalleryPageBinding
-import com.shevelev.wizard_camera.shared.glide.clear
-import com.shevelev.wizard_camera.utils.id.IdUtil
-import com.shevelev.wizard_camera.utils.useful_ext.ifNotNull
 
 abstract class FragmentBase<VB: ViewBinding>: Fragment() {
     protected open val isBackHandlerEnabled = false

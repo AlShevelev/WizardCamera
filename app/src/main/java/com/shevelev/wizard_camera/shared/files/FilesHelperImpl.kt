@@ -2,7 +2,7 @@ package com.shevelev.wizard_camera.shared.files
 
 import android.content.Context
 import com.shevelev.wizard_camera.R
-import com.shevelev.wizard_camera.utils.id.IdUtil
+import com.shevelev.wizard_camera.core.utils.id.IdUtil
 import java.io.File
 import javax.inject.Inject
 import kotlin.math.absoluteValue

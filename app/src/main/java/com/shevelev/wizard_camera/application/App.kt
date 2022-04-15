@@ -2,11 +2,10 @@ package com.shevelev.wizard_camera.application
 
 import android.annotation.SuppressLint
 import android.app.Application
-import android.content.Context
 import com.jakewharton.threetenabp.AndroidThreeTen
 import com.shevelev.wizard_camera.application.di.AppComponent
 import com.shevelev.wizard_camera.application.di_storage.DependencyInjectionStorage
-import com.shevelev.wizard_camera.utils.id.IdUtil
+import com.shevelev.wizard_camera.core.utils.id.IdUtil
 import timber.log.Timber
 import javax.inject.Inject
 

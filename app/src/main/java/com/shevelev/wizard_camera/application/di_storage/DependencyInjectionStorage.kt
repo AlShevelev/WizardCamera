@@ -11,7 +11,7 @@ import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.di.GalleryFr
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery_page.di.GalleryPageFragmentComponent
 import com.shevelev.wizard_camera.activity_main.di.MainActivityComponent
 import com.shevelev.wizard_camera.activity_main.fragment_camera.di.CameraFragmentComponent
-import com.shevelev.wizard_camera.common_entities.entities.PhotoShot
+import com.shevelev.wizard_camera.core.common_entities.entities.PhotoShot
 import kotlin.reflect.KClass
 
 /** Storage for Dagger components on application level  */

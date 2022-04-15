@@ -5,7 +5,7 @@ import android.graphics.Bitmap
 import android.opengl.GLES31
 import android.util.Size
 import androidx.annotation.RawRes
-import com.shevelev.wizard_camera.common_entities.enums.GlFilterCode
+import com.shevelev.wizard_camera.core.common_entities.enums.GlFilterCode
 import com.shevelev.wizard_camera.shared.GLFilterSettings
 import javax.microedition.khronos.opengles.GL10
 

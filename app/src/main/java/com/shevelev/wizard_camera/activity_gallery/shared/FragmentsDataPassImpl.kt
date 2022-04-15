@@ -1,7 +1,7 @@
 package com.shevelev.wizard_camera.activity_gallery.shared
 
-import com.shevelev.wizard_camera.common_entities.di_scopes.ActivityScope
-import com.shevelev.wizard_camera.common_entities.entities.PhotoShot
+import com.shevelev.wizard_camera.core.common_entities.di_scopes.ActivityScope
+import com.shevelev.wizard_camera.core.common_entities.entities.PhotoShot
 import com.shevelev.wizard_camera.shared.fragment_data_pass.FragmentsDataPushBase
 import javax.inject.Inject
 

@@ -7,7 +7,7 @@ import android.opengl.GLES11Ext
 import android.opengl.GLES31
 import com.shevelev.wizard_camera.camera.filter.CameraFilter
 import com.shevelev.wizard_camera.camera.renderer.utils.TextureUtils
-import com.shevelev.wizard_camera.common_entities.filter_settings.gl.GlFilterSettings
+import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.GlFilterSettings
 import com.shevelev.wizard_camera.shared.factory.FiltersFactory
 import javax.microedition.khronos.egl.*
 

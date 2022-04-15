@@ -4,8 +4,8 @@ import android.content.Context
 import android.opengl.GLES31
 import com.shevelev.wizard_camera.camera.R
 import com.shevelev.wizard_camera.camera.renderer.utils.TextureUtils
-import com.shevelev.wizard_camera.common_entities.enums.MappingFilterTexture
-import com.shevelev.wizard_camera.common_entities.filter_settings.gl.MappingFilterSettings
+import com.shevelev.wizard_camera.core.common_entities.enums.MappingFilterTexture
+import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.MappingFilterSettings
 
 /**
  * A class for passing [MappingFilterSettings] into an OGL filter

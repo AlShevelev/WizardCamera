@@ -10,8 +10,8 @@ import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.storage
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.view_model.EditorFragmentViewModel
 import com.shevelev.wizard_camera.activity_main.fragment_camera.model.filters_facade.settings.FilterSettingsFacade
 import com.shevelev.wizard_camera.activity_main.fragment_camera.model.filters_facade.settings.FilterSettingsFacadeImpl
-import com.shevelev.wizard_camera.common_entities.di_scopes.FragmentScope
-import com.shevelev.wizard_camera.common_entities.entities.PhotoShot
+import com.shevelev.wizard_camera.core.common_entities.di_scopes.FragmentScope
+import com.shevelev.wizard_camera.core.common_entities.entities.PhotoShot
 import com.shevelev.wizard_camera.shared.filters_ui.display_data.gl.FilterDisplayDataList
 import com.shevelev.wizard_camera.shared.filters_ui.display_data.gl.FilterDisplayDataListImpl
 import com.shevelev.wizard_camera.shared.mvvm.view_model.FragmentViewModelFactory

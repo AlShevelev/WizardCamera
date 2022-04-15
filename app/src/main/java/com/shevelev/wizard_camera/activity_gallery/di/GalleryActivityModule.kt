@@ -5,7 +5,7 @@ import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.di.GalleryFr
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery_page.di.GalleryPageFragmentComponent
 import com.shevelev.wizard_camera.activity_gallery.shared.FragmentsDataPass
 import com.shevelev.wizard_camera.activity_gallery.shared.FragmentsDataPassImpl
-import com.shevelev.wizard_camera.common_entities.di_scopes.ActivityScope
+import com.shevelev.wizard_camera.core.common_entities.di_scopes.ActivityScope
 import dagger.Binds
 import dagger.Module
 

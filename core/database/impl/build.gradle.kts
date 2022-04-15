@@ -20,8 +20,8 @@ android {
 }
 
 dependencies {
-    implementation(project(":common_entities"))
-    implementation(project(":utils"))
+    implementation(project(":core:common_entities"))
+    implementation(project(":core:utils"))
     implementation(project(":core:database:api"))
 
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))

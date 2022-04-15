@@ -13,8 +13,8 @@ import android.view.MotionEvent
 import android.view.View
 import androidx.annotation.ColorInt
 import com.shevelev.wizard_camera.R
-import com.shevelev.wizard_camera.utils.useful_ext.fitInRange
-import com.shevelev.wizard_camera.utils.useful_ext.reduceToRange
+import com.shevelev.wizard_camera.core.utils.useful_ext.fitInRange
+import com.shevelev.wizard_camera.core.utils.useful_ext.reduceToRange
 
 class ExposureBarWidget
 @JvmOverloads

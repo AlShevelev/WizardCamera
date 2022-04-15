@@ -16,7 +16,7 @@ import com.shevelev.wizard_camera.shared.coroutines.DispatchersProvider
 import com.shevelev.wizard_camera.shared.factory.FiltersFactory
 import com.shevelev.wizard_camera.shared.files.FilesHelper
 import com.shevelev.wizard_camera.shared.mvvm.view.FragmentBase
-import com.shevelev.wizard_camera.utils.resources.getScreenSize
+import com.shevelev.wizard_camera.core.utils.resources.getScreenSize
 import kotlinx.coroutines.*
 import timber.log.Timber
 import javax.inject.Inject

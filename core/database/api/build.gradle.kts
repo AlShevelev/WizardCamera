@@ -13,5 +13,5 @@ android {
 }
 
 dependencies {
-    implementation(project(":common_entities"))
+    implementation(project(":core:common_entities"))
 }

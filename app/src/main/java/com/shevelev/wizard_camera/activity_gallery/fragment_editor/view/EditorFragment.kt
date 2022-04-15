@@ -12,7 +12,7 @@ import com.shevelev.wizard_camera.activity_gallery.fragment_editor.view_model.Ed
 import com.shevelev.wizard_camera.application.App
 import com.shevelev.wizard_camera.bitmap.GLSurfaceViewBitmap
 import com.shevelev.wizard_camera.bitmap.filters.GLSurfaceShaderFilter
-import com.shevelev.wizard_camera.common_entities.entities.PhotoShot
+import com.shevelev.wizard_camera.core.common_entities.entities.PhotoShot
 import com.shevelev.wizard_camera.databinding.FragmentEditorBinding
 import com.shevelev.wizard_camera.shared.dialogs.ConfirmationDialog
 import com.shevelev.wizard_camera.shared.factory.FiltersFactory
@@ -20,7 +20,7 @@ import com.shevelev.wizard_camera.shared.mvvm.view.FragmentBaseMVVM
 import com.shevelev.wizard_camera.shared.mvvm.view_commands.CloseEditorCommand
 import com.shevelev.wizard_camera.shared.mvvm.view_commands.ShowEditorSaveDialogCommand
 import com.shevelev.wizard_camera.shared.mvvm.view_commands.ViewCommand
-import com.shevelev.wizard_camera.utils.resources.getScreenSize
+import com.shevelev.wizard_camera.core.utils.resources.getScreenSize
 
 class EditorFragment : FragmentBaseMVVM<FragmentEditorBinding, EditorFragmentViewModel>() {
     private var glFilter: GLSurfaceShaderFilter? = null

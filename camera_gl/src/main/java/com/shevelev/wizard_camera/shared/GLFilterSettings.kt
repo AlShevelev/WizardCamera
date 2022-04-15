@@ -1,7 +1,7 @@
 package com.shevelev.wizard_camera.shared
 
-import com.shevelev.wizard_camera.common_entities.enums.GlFilterCode
-import com.shevelev.wizard_camera.common_entities.filter_settings.gl.GlFilterSettings
+import com.shevelev.wizard_camera.core.common_entities.enums.GlFilterCode
+import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.GlFilterSettings
 
 /**
  * An interface for passing [GlFilterSettings] params into OGL program

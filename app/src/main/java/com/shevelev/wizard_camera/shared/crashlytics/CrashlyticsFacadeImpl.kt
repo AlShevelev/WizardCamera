@@ -4,8 +4,8 @@ import android.content.Context
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.shevelev.wizard_camera.BuildConfig
 import com.shevelev.wizard_camera.R
-import com.shevelev.wizard_camera.utils.crashlytics.CrashlyticsFacade
-import com.shevelev.wizard_camera.utils.device_info.DeviceInfoProvider
+import com.shevelev.wizard_camera.core.utils.crashlytics.CrashlyticsFacade
+import com.shevelev.wizard_camera.core.utils.device_info.DeviceInfoProvider
 import javax.inject.Inject
 
 class CrashlyticsFacadeImpl

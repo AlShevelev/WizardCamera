@@ -3,8 +3,8 @@ package com.shevelev.wizard_camera.shared.factory
 import android.content.Context
 import androidx.annotation.RawRes
 import com.shevelev.wizard_camera.camera.R
-import com.shevelev.wizard_camera.common_entities.enums.GlFilterCode
-import com.shevelev.wizard_camera.common_entities.filter_settings.gl.*
+import com.shevelev.wizard_camera.core.common_entities.enums.GlFilterCode
+import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.*
 import com.shevelev.wizard_camera.shared.*
 
 /**

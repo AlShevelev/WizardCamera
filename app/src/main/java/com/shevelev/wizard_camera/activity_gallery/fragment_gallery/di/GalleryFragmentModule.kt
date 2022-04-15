@@ -14,7 +14,7 @@ import com.shevelev.wizard_camera.bitmap_images.image_type_detector.ImageTypeDet
 import com.shevelev.wizard_camera.bitmap_images.image_type_detector.ImageTypeDetectorImpl
 import com.shevelev.wizard_camera.bitmap_images.image_type_detector.signatures.ImageSignature
 import com.shevelev.wizard_camera.bitmap_images.image_type_detector.signatures.ImageSignatureFactory
-import com.shevelev.wizard_camera.common_entities.di_scopes.FragmentScope
+import com.shevelev.wizard_camera.core.common_entities.di_scopes.FragmentScope
 import com.shevelev.wizard_camera.shared.mvvm.view_model.FragmentViewModelFactory
 import com.shevelev.wizard_camera.shared.mvvm.view_model.FragmentViewModelFactoryImpl
 import com.shevelev.wizard_camera.shared.mvvm.view_model.ViewModelKey

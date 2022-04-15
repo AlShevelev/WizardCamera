@@ -7,7 +7,7 @@ import android.hardware.camera2.CameraCharacteristics
 import android.hardware.camera2.CameraManager
 import android.util.Size
 import android.view.WindowManager
-import com.shevelev.wizard_camera.common_entities.di_scopes.ApplicationScope
+import com.shevelev.wizard_camera.core.common_entities.di_scopes.ApplicationScope
 import javax.inject.Inject
 import kotlin.math.abs
 

@@ -8,7 +8,7 @@ import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.shevelev.wizard_camera.R
-import com.shevelev.wizard_camera.common_entities.filter_settings.FilterSettings
+import com.shevelev.wizard_camera.core.common_entities.filter_settings.FilterSettings
 
 /**
  * Base class for all filer setting hosts

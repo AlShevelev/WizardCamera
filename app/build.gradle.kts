@@ -63,8 +63,8 @@ android {
 
 dependencies {
     implementation(project(":camera_gl"))
-    implementation(project(":utils"))
-    implementation(project(":common_entities"))
+    implementation(project(":core:utils"))
+    implementation(project(":core:common_entities"))
     implementation(project(":catalano"))
     implementation(project(":bitmap_images"))
 

@@ -1,7 +1,7 @@
 package com.shevelev.wizard_camera.shared.filters_ui.display_data.gl
 
 import com.shevelev.wizard_camera.R
-import com.shevelev.wizard_camera.common_entities.enums.GlFilterCode
+import com.shevelev.wizard_camera.core.common_entities.enums.GlFilterCode
 import com.shevelev.wizard_camera.shared.filters_ui.display_data.FilterDisplayData
 import com.shevelev.wizard_camera.shared.filters_ui.display_data.FilterDisplayId
 import javax.inject.Inject

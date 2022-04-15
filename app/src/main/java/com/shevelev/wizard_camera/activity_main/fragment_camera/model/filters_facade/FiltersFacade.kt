@@ -1,7 +1,7 @@
 package com.shevelev.wizard_camera.activity_main.fragment_camera.model.filters_facade
 
-import com.shevelev.wizard_camera.common_entities.enums.GlFilterCode
-import com.shevelev.wizard_camera.common_entities.filter_settings.gl.GlFilterSettings
+import com.shevelev.wizard_camera.core.common_entities.enums.GlFilterCode
+import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.GlFilterSettings
 import com.shevelev.wizard_camera.shared.filters_ui.filters_carousel.FiltersListData
 import com.shevelev.wizard_camera.activity_main.fragment_camera.model.dto.FiltersMode
 

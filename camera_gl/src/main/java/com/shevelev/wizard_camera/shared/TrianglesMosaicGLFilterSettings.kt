@@ -1,8 +1,8 @@
 package com.shevelev.wizard_camera.shared
 
 import android.opengl.GLES31
-import com.shevelev.wizard_camera.common_entities.enums.Size
-import com.shevelev.wizard_camera.common_entities.filter_settings.gl.TrianglesMosaicFilterSettings
+import com.shevelev.wizard_camera.core.common_entities.enums.Size
+import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.TrianglesMosaicFilterSettings
 import java.nio.FloatBuffer
 
 /**

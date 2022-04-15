@@ -1,6 +1,6 @@
 package com.shevelev.wizard_camera.activity_main.di
 
-import com.shevelev.wizard_camera.common_entities.di_scopes.ActivityScope
+import com.shevelev.wizard_camera.core.common_entities.di_scopes.ActivityScope
 import com.shevelev.wizard_camera.activity_main.MainActivity
 import com.shevelev.wizard_camera.activity_main.fragment_camera.di.CameraFragmentComponent
 import dagger.Subcomponent

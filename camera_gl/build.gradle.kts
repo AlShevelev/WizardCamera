@@ -31,8 +31,8 @@ android {
 }
 
 dependencies {
-    implementation(project(":utils"))
-    implementation(project(":common_entities"))
+    implementation(project(":core:utils"))
+    implementation(project(":core:common_entities"))
     implementation(project(":catalano"))
 
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))

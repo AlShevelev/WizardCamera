@@ -2,29 +2,29 @@ package com.shevelev.wizard_camera.application.di
 
 import com.shevelev.wizard_camera.camera.settings_repository.CameraSettingsRepository
 import com.shevelev.wizard_camera.camera.settings_repository.CameraSettingsRepositoryImpl
-import com.shevelev.wizard_camera.common_entities.di_scopes.ApplicationScope
+import com.shevelev.wizard_camera.core.common_entities.di_scopes.ApplicationScope
 import com.shevelev.wizard_camera.shared.crashlytics.CrashlyticsFacadeImpl
-import com.shevelev.wizard_camera.utils.device_info.DeviceInfoProvider
-import com.shevelev.wizard_camera.utils.device_info.DeviceInfoProviderImpl
+import com.shevelev.wizard_camera.core.utils.device_info.DeviceInfoProvider
+import com.shevelev.wizard_camera.core.utils.device_info.DeviceInfoProviderImpl
 import com.shevelev.wizard_camera.shared.files.FilesHelper
 import com.shevelev.wizard_camera.shared.files.FilesHelperImpl
 import com.shevelev.wizard_camera.shared.media_scanner.MediaScanner
 import com.shevelev.wizard_camera.shared.media_scanner.MediaScannerImpl
 import com.shevelev.wizard_camera.bitmap_images.bitmap_utils.BitmapHelper
 import com.shevelev.wizard_camera.bitmap_images.bitmap_utils.BitmapHelperImpl
-import com.shevelev.wizard_camera.database.api.repositories.FavoriteFilterRepository
-import com.shevelev.wizard_camera.database.api.repositories.FilterSettingsRepository
-import com.shevelev.wizard_camera.database.api.repositories.LastUsedFilterRepository
-import com.shevelev.wizard_camera.database.api.repositories.PhotoShotRepository
-import com.shevelev.wizard_camera.database.impl.repositories.FavoriteFilterRepositoryImpl
-import com.shevelev.wizard_camera.database.impl.repositories.FilterSettingsRepositoryImpl
-import com.shevelev.wizard_camera.database.impl.repositories.LastUsedFilterRepositoryImpl
-import com.shevelev.wizard_camera.database.impl.repositories.PhotoShotRepositoryImpl
-import com.shevelev.wizard_camera.database.impl.type_converters.filter_settings.FilerSettingsConverterImpl
-import com.shevelev.wizard_camera.utils.crashlytics.CrashlyticsFacade
+import com.shevelev.wizard_camera.core.database.api.repositories.FavoriteFilterRepository
+import com.shevelev.wizard_camera.core.database.api.repositories.FilterSettingsRepository
+import com.shevelev.wizard_camera.core.database.api.repositories.LastUsedFilterRepository
+import com.shevelev.wizard_camera.core.database.api.repositories.PhotoShotRepository
+import com.shevelev.wizard_camera.core.database.impl.repositories.FavoriteFilterRepositoryImpl
+import com.shevelev.wizard_camera.core.database.impl.repositories.FilterSettingsRepositoryImpl
+import com.shevelev.wizard_camera.core.database.impl.repositories.LastUsedFilterRepositoryImpl
+import com.shevelev.wizard_camera.core.database.impl.repositories.PhotoShotRepositoryImpl
+import com.shevelev.wizard_camera.core.database.impl.type_converters.filter_settings.FilerSettingsConverterImpl
+import com.shevelev.wizard_camera.core.utils.crashlytics.CrashlyticsFacade
 import dagger.Binds
 import dagger.Module
-import com.shevelev.wizard_camera.database.impl.type_converters.filter_settings.FilerSettingsConverter as FilerSettingsConverter1
+import com.shevelev.wizard_camera.core.database.impl.type_converters.filter_settings.FilerSettingsConverter as FilerSettingsConverter1
 
 @Module
 abstract class AppModuleBinds {

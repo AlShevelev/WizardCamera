@@ -1,10 +1,10 @@
 package com.shevelev.wizard_camera.activity_main.fragment_camera.model.filters_facade.settings
 
-import com.shevelev.wizard_camera.common_entities.enums.GlFilterCode
-import com.shevelev.wizard_camera.common_entities.enums.MappingFilterTexture
-import com.shevelev.wizard_camera.common_entities.enums.Size
-import com.shevelev.wizard_camera.common_entities.filter_settings.gl.*
-import com.shevelev.wizard_camera.database.api.repositories.FilterSettingsRepository
+import com.shevelev.wizard_camera.core.common_entities.enums.GlFilterCode
+import com.shevelev.wizard_camera.core.common_entities.enums.MappingFilterTexture
+import com.shevelev.wizard_camera.core.common_entities.enums.Size
+import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.*
+import com.shevelev.wizard_camera.core.database.api.repositories.FilterSettingsRepository
 import com.shevelev.wizard_camera.shared.coroutines.DispatchersProvider
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
