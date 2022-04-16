@@ -4,8 +4,8 @@ import android.os.Bundle
 import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.activity_gallery.di.GalleryActivityComponent
 import com.shevelev.wizard_camera.application.App
-import com.shevelev.wizard_camera.shared.mvvm.view.ActivityBase
-import com.shevelev.wizard_camera.shared.ui_utils.hideSystemUI
+import com.shevelev.wizard_camera.core.camera_gl.shared.mvvm.view.ActivityBase
+import com.shevelev.wizard_camera.core.camera_gl.shared.ui_utils.hideSystemUI
 
 class GalleryActivity : ActivityBase() {
     override fun inject() = App.injections.get<GalleryActivityComponent>().inject(this)

@@ -12,9 +12,9 @@ import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.view.externa
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.view_model.GalleryFragmentViewModel
 import com.shevelev.wizard_camera.core.bitmaps.api.type_detector.ImageTypeDetector
 import com.shevelev.wizard_camera.core.common_entities.di_scopes.FragmentScope
-import com.shevelev.wizard_camera.shared.mvvm.view_model.FragmentViewModelFactory
-import com.shevelev.wizard_camera.shared.mvvm.view_model.FragmentViewModelFactoryImpl
-import com.shevelev.wizard_camera.shared.mvvm.view_model.ViewModelKey
+import com.shevelev.wizard_camera.core.camera_gl.shared.mvvm.view_model.FragmentViewModelFactory
+import com.shevelev.wizard_camera.core.camera_gl.shared.mvvm.view_model.FragmentViewModelFactoryImpl
+import com.shevelev.wizard_camera.core.camera_gl.shared.mvvm.view_model.ViewModelKey
 import dagger.Binds
 import dagger.Module
 import dagger.Provides

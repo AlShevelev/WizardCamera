@@ -98,7 +98,7 @@
             android:onClick="@{() -> viewModel.onAcceptClick()}"
             app:button_state="@{viewModel.acceptButtonState}" />
 
-        <com.shevelev.wizard_camera.shared.filters_ui.filters_carousel.FiltersCarouselWidget
+        <com.shevelev.wizard_camera.core.camera_gl.shared.filters_ui.filters_carousel.FiltersCarouselWidget
             android:id="@+id/glFiltersCarousel"
             android:layout_width="0dp"
             android:layout_height="@dimen/mainFilterCarouselHeight"
@@ -110,7 +110,7 @@
             tools:visibility="visible"
             android:visibility="@{viewModel.glFiltersVisibility}" />
 
-        <com.shevelev.wizard_camera.shared.filters_ui.filters_settings.gl.host.GlFilterSettingsHost
+        <com.shevelev.wizard_camera.core.camera_gl.shared.filters_ui.filters_settings.gl.host.GlFilterSettingsHost
             android:id="@+id/glFiltersSettings"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

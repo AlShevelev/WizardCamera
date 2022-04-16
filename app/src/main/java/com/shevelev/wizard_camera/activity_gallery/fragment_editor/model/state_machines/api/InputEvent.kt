@@ -1,7 +1,7 @@
 package com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_machines.api
 
 import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.GlFilterSettings
-import com.shevelev.wizard_camera.shared.filters_ui.display_data.FilterDisplayId
+import com.shevelev.wizard_camera.core.camera_gl.shared.filters_ui.display_data.FilterDisplayId
 
 /**
  * Base class for all user's actions

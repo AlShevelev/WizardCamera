@@ -7,7 +7,7 @@ import android.graphics.drawable.VectorDrawable
 import android.util.AttributeSet
 import android.widget.ImageView
 import com.shevelev.wizard_camera.R
-import com.shevelev.wizard_camera.shared.animation.AnimationUtils
+import com.shevelev.wizard_camera.core.camera_gl.shared.animation.AnimationUtils
 
 @SuppressLint("AppCompatCustomView")
 class PulseImageButton

@@ -10,16 +10,16 @@ import com.shevelev.wizard_camera.activity_gallery.fragment_editor.di.EditorFrag
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.dto.ImageWithFilter
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.view_model.EditorFragmentViewModel
 import com.shevelev.wizard_camera.application.App
-import com.shevelev.wizard_camera.bitmap.GLSurfaceViewBitmap
-import com.shevelev.wizard_camera.bitmap.filters.GLSurfaceShaderFilter
+import com.shevelev.wizard_camera.core.camera_gl.bitmap.GLSurfaceViewBitmap
+import com.shevelev.wizard_camera.core.camera_gl.bitmap.filters.GLSurfaceShaderFilter
 import com.shevelev.wizard_camera.core.common_entities.entities.PhotoShot
 import com.shevelev.wizard_camera.databinding.FragmentEditorBinding
-import com.shevelev.wizard_camera.shared.dialogs.ConfirmationDialog
-import com.shevelev.wizard_camera.shared.factory.FiltersFactory
-import com.shevelev.wizard_camera.shared.mvvm.view.FragmentBaseMVVM
-import com.shevelev.wizard_camera.shared.mvvm.view_commands.CloseEditorCommand
-import com.shevelev.wizard_camera.shared.mvvm.view_commands.ShowEditorSaveDialogCommand
-import com.shevelev.wizard_camera.shared.mvvm.view_commands.ViewCommand
+import com.shevelev.wizard_camera.core.camera_gl.shared.dialogs.ConfirmationDialog
+import com.shevelev.wizard_camera.core.camera_gl.shared.factory.FiltersFactory
+import com.shevelev.wizard_camera.core.camera_gl.shared.mvvm.view.FragmentBaseMVVM
+import com.shevelev.wizard_camera.core.camera_gl.shared.mvvm.view_commands.CloseEditorCommand
+import com.shevelev.wizard_camera.core.camera_gl.shared.mvvm.view_commands.ShowEditorSaveDialogCommand
+import com.shevelev.wizard_camera.core.camera_gl.shared.mvvm.view_commands.ViewCommand
 import com.shevelev.wizard_camera.core.utils.resources.getScreenSize
 
 class EditorFragment : FragmentBaseMVVM<FragmentEditorBinding, EditorFragmentViewModel>() {

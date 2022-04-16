@@ -62,7 +62,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":camera_gl"))
+    implementation(project(":core:camera_gl"))
     implementation(project(":core:utils"))
     implementation(project(":core:common_entities"))
 

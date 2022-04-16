@@ -6,7 +6,7 @@ import com.shevelev.wizard_camera.BuildConfig
 import com.shevelev.wizard_camera.core.common_entities.di_scopes.ApplicationScope
 import com.shevelev.wizard_camera.core.database.impl.builder.DatabaseBuilder
 import com.shevelev.wizard_camera.core.database.impl.core.DbCore
-import com.shevelev.wizard_camera.shared.coroutines.DispatchersProvider
+import com.shevelev.wizard_camera.core.camera_gl.shared.coroutines.DispatchersProvider
 import com.shevelev.wizard_camera.core.utils.crashlytics.CrashlyticsFacade
 import com.shevelev.wizard_camera.core.utils.logging.TimberTreeDebug
 import com.shevelev.wizard_camera.core.utils.logging.TimberTreeRelease

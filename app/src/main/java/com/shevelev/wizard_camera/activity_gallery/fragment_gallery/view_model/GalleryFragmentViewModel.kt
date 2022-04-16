@@ -11,11 +11,10 @@ import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.dto.GalleryI
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.dto.ShareShotCommand
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.dto.ShotsLoadingResult
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.model.GalleryFragmentInteractor
-import com.shevelev.wizard_camera.shared.coroutines.DispatchersProvider
-import com.shevelev.wizard_camera.shared.mvvm.view_commands.ScrollGalleryToPosition
-import com.shevelev.wizard_camera.shared.mvvm.view_commands.ShowMessageResCommand
-import com.shevelev.wizard_camera.shared.mvvm.view_model.ViewModelBase
-import kotlinx.coroutines.flow.collect
+import com.shevelev.wizard_camera.core.camera_gl.shared.coroutines.DispatchersProvider
+import com.shevelev.wizard_camera.core.camera_gl.shared.mvvm.view_commands.ScrollGalleryToPosition
+import com.shevelev.wizard_camera.core.camera_gl.shared.mvvm.view_commands.ShowMessageResCommand
+import com.shevelev.wizard_camera.core.camera_gl.shared.mvvm.view_model.ViewModelBase
 import kotlinx.coroutines.launch
 import org.threeten.bp.format.DateTimeFormatter
 import org.threeten.bp.format.FormatStyle

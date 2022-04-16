@@ -10,8 +10,8 @@ import com.shevelev.wizard_camera.core.common_entities.entities.PhotoShot
 import com.shevelev.wizard_camera.core.common_entities.enums.GlFilterCode
 import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.GlFilterSettings
 import com.shevelev.wizard_camera.core.database.api.repositories.PhotoShotRepository
-import com.shevelev.wizard_camera.shared.coroutines.DispatchersProvider
-import com.shevelev.wizard_camera.shared.files.FilesHelper
+import com.shevelev.wizard_camera.core.camera_gl.shared.coroutines.DispatchersProvider
+import com.shevelev.wizard_camera.core.camera_gl.shared.files.FilesHelper
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 

@@ -10,14 +10,14 @@ import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.EditorF
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.dto.ImageWithFilter
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_machines.api.*
 import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.GlFilterSettings
-import com.shevelev.wizard_camera.shared.binding_adapters.ButtonState
-import com.shevelev.wizard_camera.shared.coroutines.DispatchersProvider
-import com.shevelev.wizard_camera.shared.filters_ui.display_data.FilterDisplayId
-import com.shevelev.wizard_camera.shared.filters_ui.filters_carousel.FilterEventsProcessor
-import com.shevelev.wizard_camera.shared.filters_ui.filters_carousel.FiltersListData
-import com.shevelev.wizard_camera.shared.mvvm.view_commands.CloseEditorCommand
-import com.shevelev.wizard_camera.shared.mvvm.view_commands.ShowEditorSaveDialogCommand
-import com.shevelev.wizard_camera.shared.mvvm.view_model.ViewModelBase
+import com.shevelev.wizard_camera.core.camera_gl.shared.binding_adapters.ButtonState
+import com.shevelev.wizard_camera.core.camera_gl.shared.coroutines.DispatchersProvider
+import com.shevelev.wizard_camera.core.camera_gl.shared.filters_ui.display_data.FilterDisplayId
+import com.shevelev.wizard_camera.core.camera_gl.shared.filters_ui.filters_carousel.FilterEventsProcessor
+import com.shevelev.wizard_camera.core.camera_gl.shared.filters_ui.filters_carousel.FiltersListData
+import com.shevelev.wizard_camera.core.camera_gl.shared.mvvm.view_commands.CloseEditorCommand
+import com.shevelev.wizard_camera.core.camera_gl.shared.mvvm.view_commands.ShowEditorSaveDialogCommand
+import com.shevelev.wizard_camera.core.camera_gl.shared.mvvm.view_model.ViewModelBase
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

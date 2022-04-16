@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <com.shevelev.wizard_camera.shared.filters_ui.filters_carousel.FiltersRecyclerView
+    <com.shevelev.wizard_camera.core.camera_gl.shared.filters_ui.filters_carousel.FiltersRecyclerView
         android:id="@+id/filtersList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -4,7 +4,7 @@ import android.graphics.Bitmap
 import android.net.Uri
 import com.shevelev.wizard_camera.core.common_entities.entities.PhotoShot
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.dto.ShotsLoadingResult
-import com.shevelev.wizard_camera.shared.mvvm.model.InteractorBase
+import com.shevelev.wizard_camera.core.camera_gl.shared.mvvm.model.InteractorBase
 import kotlinx.coroutines.flow.Flow
 
 interface GalleryFragmentInteractor : InteractorBase {

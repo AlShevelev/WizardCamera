@@ -3,7 +3,7 @@ package com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_
 import android.graphics.Bitmap
 import androidx.annotation.StringRes
 import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.GlFilterSettings
-import com.shevelev.wizard_camera.shared.filters_ui.filters_carousel.FiltersListData
+import com.shevelev.wizard_camera.core.camera_gl.shared.filters_ui.filters_carousel.FiltersListData
 
 /**
  * Base class for all output commands
