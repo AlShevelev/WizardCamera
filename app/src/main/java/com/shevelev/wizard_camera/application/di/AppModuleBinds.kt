@@ -2,6 +2,7 @@ package com.shevelev.wizard_camera.application.di
 
 import com.shevelev.wizard_camera.camera.settings_repository.CameraSettingsRepository
 import com.shevelev.wizard_camera.camera.settings_repository.CameraSettingsRepositoryImpl
+import com.shevelev.wizard_camera.core.bitmaps.api.utils.BitmapHelper
 import com.shevelev.wizard_camera.core.common_entities.di_scopes.ApplicationScope
 import com.shevelev.wizard_camera.shared.crashlytics.CrashlyticsFacadeImpl
 import com.shevelev.wizard_camera.core.utils.device_info.DeviceInfoProvider
@@ -10,8 +11,6 @@ import com.shevelev.wizard_camera.shared.files.FilesHelper
 import com.shevelev.wizard_camera.shared.files.FilesHelperImpl
 import com.shevelev.wizard_camera.shared.media_scanner.MediaScanner
 import com.shevelev.wizard_camera.shared.media_scanner.MediaScannerImpl
-import com.shevelev.wizard_camera.bitmap_images.bitmap_utils.BitmapHelper
-import com.shevelev.wizard_camera.bitmap_images.bitmap_utils.BitmapHelperImpl
 import com.shevelev.wizard_camera.core.database.api.repositories.FavoriteFilterRepository
 import com.shevelev.wizard_camera.core.database.api.repositories.FilterSettingsRepository
 import com.shevelev.wizard_camera.core.database.api.repositories.LastUsedFilterRepository
@@ -60,5 +59,5 @@ abstract class AppModuleBinds {
     abstract fun provideCameraSettingsRepository(repository: CameraSettingsRepositoryImpl): CameraSettingsRepository
 
     @Binds
-    abstract fun provideBitmapHelper(helper: BitmapHelperImpl): BitmapHelper
+    abstract fun provideBitmapHelper(helper: com.shevelev.wizard_camera.core.bitmaps.impl.utils.BitmapHelperImpl): BitmapHelper
 }

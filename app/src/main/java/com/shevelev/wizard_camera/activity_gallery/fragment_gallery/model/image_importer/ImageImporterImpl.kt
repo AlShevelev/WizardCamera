@@ -1,9 +1,9 @@
 package com.shevelev.wizard_camera.activity_gallery.fragment_gallery.model.image_importer
 
 import android.net.Uri
-import com.shevelev.wizard_camera.bitmap_images.bitmap_utils.BitmapHelper
-import com.shevelev.wizard_camera.bitmap_images.image_type_detector.ImageType
-import com.shevelev.wizard_camera.bitmap_images.image_type_detector.ImageTypeDetector
+import com.shevelev.wizard_camera.core.bitmaps.api.type_detector.ImageType
+import com.shevelev.wizard_camera.core.bitmaps.api.type_detector.ImageTypeDetector
+import com.shevelev.wizard_camera.core.bitmaps.api.utils.BitmapHelper
 import com.shevelev.wizard_camera.core.common_entities.entities.PhotoShot
 import com.shevelev.wizard_camera.core.common_entities.enums.GlFilterCode
 import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.EmptyFilterSettings

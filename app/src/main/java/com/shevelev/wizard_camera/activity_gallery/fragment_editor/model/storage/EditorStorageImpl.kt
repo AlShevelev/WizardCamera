@@ -4,7 +4,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import com.shevelev.wizard_camera.activity_gallery.shared.FragmentsDataPass
 import com.shevelev.wizard_camera.activity_main.fragment_camera.model.filters_facade.settings.FilterSettingsFacade
-import com.shevelev.wizard_camera.bitmap_images.bitmap_utils.BitmapHelper
+import com.shevelev.wizard_camera.core.bitmaps.api.utils.BitmapHelper
 import com.shevelev.wizard_camera.core.catalano.impl.facade.ImageProcessorImpl
 import com.shevelev.wizard_camera.core.common_entities.entities.PhotoShot
 import com.shevelev.wizard_camera.core.common_entities.enums.GlFilterCode

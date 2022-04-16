@@ -65,7 +65,9 @@ dependencies {
     implementation(project(":camera_gl"))
     implementation(project(":core:utils"))
     implementation(project(":core:common_entities"))
-    implementation(project(":bitmap_images"))
+
+    implementation(project(":core:bitmaps:api"))
+    implementation(project(":core:bitmaps:impl"))
 
     implementation(project(":core:database:impl"))
     implementation(project(":core:database:api"))
