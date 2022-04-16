@@ -2,17 +2,16 @@ package com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.storag
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import com.shevelev.catalano.fast_bitmap.FastBitmap
-import com.shevelev.catalano.filters.HistogramEqualization
 import com.shevelev.wizard_camera.activity_gallery.shared.FragmentsDataPass
 import com.shevelev.wizard_camera.activity_main.fragment_camera.model.filters_facade.settings.FilterSettingsFacade
+import com.shevelev.wizard_camera.bitmap_images.bitmap_utils.BitmapHelper
+import com.shevelev.wizard_camera.core.catalano.impl.facade.ImageProcessorImpl
 import com.shevelev.wizard_camera.core.common_entities.entities.PhotoShot
 import com.shevelev.wizard_camera.core.common_entities.enums.GlFilterCode
 import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.GlFilterSettings
+import com.shevelev.wizard_camera.core.database.api.repositories.PhotoShotRepository
 import com.shevelev.wizard_camera.shared.coroutines.DispatchersProvider
 import com.shevelev.wizard_camera.shared.files.FilesHelper
-import com.shevelev.wizard_camera.bitmap_images.bitmap_utils.BitmapHelper
-import com.shevelev.wizard_camera.core.database.api.repositories.PhotoShotRepository
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -73,13 +72,7 @@ constructor(
     override suspend fun switchToHistogramEqualizedImage() {
         if(histogramEqualizedImage == null) {
             histogramEqualizedImage = withContext(dispatchersProvider.calculationsDispatcher) {
-                val sourceCopy = sourceImage.copy(sourceImage.config, true)
-                val fastBitmap = FastBitmap(sourceCopy)
-
-                val histogramEqualization = HistogramEqualization()
-                histogramEqualization.applyInPlace(fastBitmap)
-
-                fastBitmap.toBitmap()
+                ImageProcessorImpl().processHistogramEqualization(sourceImage)
             }
         }
 
