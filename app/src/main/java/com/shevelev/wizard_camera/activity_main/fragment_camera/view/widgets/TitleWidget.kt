@@ -4,7 +4,7 @@ import android.animation.ValueAnimator
 import android.content.Context
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatTextView
-import com.shevelev.wizard_camera.core.camera_gl.shared.animation.AnimationUtils
+import com.shevelev.wizard_camera.core.ui_utils.animation.AnimationUtils
 
 class TitleWidget
 @JvmOverloads

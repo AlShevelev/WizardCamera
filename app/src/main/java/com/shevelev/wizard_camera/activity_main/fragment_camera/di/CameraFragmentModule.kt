@@ -15,8 +15,8 @@ import com.shevelev.wizard_camera.activity_main.fragment_camera.model.orientatio
 import com.shevelev.wizard_camera.activity_main.fragment_camera.model.orientation.OrientationManagerImpl
 import com.shevelev.wizard_camera.activity_main.fragment_camera.view_model.CameraFragmentViewModel
 import com.shevelev.wizard_camera.core.common_entities.di_scopes.FragmentScope
-import com.shevelev.wizard_camera.core.camera_gl.shared.mvvm.view_model.*
-import com.shevelev.wizard_camera.core.camera_gl.shared.mvvm.view_model.ViewModelKey
+import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_model.*
+import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_model.ViewModelKey
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap

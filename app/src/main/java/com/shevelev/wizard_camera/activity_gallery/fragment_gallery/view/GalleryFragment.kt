@@ -17,16 +17,16 @@ import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.view.externa
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.view_model.GalleryFragmentViewModel
 import com.shevelev.wizard_camera.application.App
 import com.shevelev.wizard_camera.databinding.FragmentGalleryBinding
-import com.shevelev.wizard_camera.core.camera_gl.shared.dialogs.ConfirmationDialog
-import com.shevelev.wizard_camera.core.camera_gl.shared.mvvm.view.FragmentBaseMVVM
-import com.shevelev.wizard_camera.core.camera_gl.shared.mvvm.view_commands.ScrollGalleryToPosition
-import com.shevelev.wizard_camera.core.camera_gl.shared.mvvm.view_commands.ViewCommand
+import com.shevelev.wizard_camera.core.ui_utils.dialogs.ConfirmationDialog
+import com.shevelev.wizard_camera.core.ui_utils.mvvm.view.FragmentBaseMVVM
+import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_commands.ScrollGalleryToPosition
+import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_commands.ViewCommand
 import dagger.Lazy
 import javax.inject.Inject
 
 private const val DELETE_DIALOG_REQUEST = 14109
 
-class GalleryFragment : FragmentBaseMVVM<FragmentGalleryBinding, GalleryFragmentViewModel>() {
+class GalleryFragment : com.shevelev.wizard_camera.core.ui_utils.mvvm.view.FragmentBaseMVVM<FragmentGalleryBinding, GalleryFragmentViewModel>() {
     @Inject
     internal lateinit var galleryHelper: Lazy<GalleryHelper>
 

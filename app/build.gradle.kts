@@ -82,6 +82,8 @@ dependencies {
 
     implementation(project(":core:logger"))
 
+    implementation(project(":core:ui_utils"))
+
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
 
     implementation(Dependencies.appcompat)

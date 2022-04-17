@@ -14,12 +14,12 @@ import com.shevelev.wizard_camera.core.camera_gl.bitmap.GLSurfaceViewBitmap
 import com.shevelev.wizard_camera.core.camera_gl.bitmap.filters.GLSurfaceShaderFilter
 import com.shevelev.wizard_camera.core.common_entities.entities.PhotoShot
 import com.shevelev.wizard_camera.databinding.FragmentEditorBinding
-import com.shevelev.wizard_camera.core.camera_gl.shared.dialogs.ConfirmationDialog
+import com.shevelev.wizard_camera.core.ui_utils.dialogs.ConfirmationDialog
 import com.shevelev.wizard_camera.core.camera_gl.shared.factory.FiltersFactory
-import com.shevelev.wizard_camera.core.camera_gl.shared.mvvm.view.FragmentBaseMVVM
-import com.shevelev.wizard_camera.core.camera_gl.shared.mvvm.view_commands.CloseEditorCommand
-import com.shevelev.wizard_camera.core.camera_gl.shared.mvvm.view_commands.ShowEditorSaveDialogCommand
-import com.shevelev.wizard_camera.core.camera_gl.shared.mvvm.view_commands.ViewCommand
+import com.shevelev.wizard_camera.core.ui_utils.mvvm.view.FragmentBaseMVVM
+import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_commands.CloseEditorCommand
+import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_commands.ShowEditorSaveDialogCommand
+import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_commands.ViewCommand
 import com.shevelev.wizard_camera.core.utils.resources.getScreenSize
 
 class EditorFragment : FragmentBaseMVVM<FragmentEditorBinding, EditorFragmentViewModel>() {

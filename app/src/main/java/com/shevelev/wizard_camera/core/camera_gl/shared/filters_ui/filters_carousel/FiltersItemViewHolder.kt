@@ -7,9 +7,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.activity_main.fragment_camera.view.widgets.pulse_image_button.PulseImageButton
 import com.shevelev.wizard_camera.activity_main.fragment_camera.view.widgets.pulse_image_button.PulseImageButtonStateless
-import com.shevelev.wizard_camera.core.camera_gl.shared.glide.GlideTarget
-import com.shevelev.wizard_camera.core.camera_gl.shared.glide.clear
-import com.shevelev.wizard_camera.core.camera_gl.shared.glide.loadCircle
+import com.shevelev.wizard_camera.core.ui_utils.glide.GlideTarget
+import com.shevelev.wizard_camera.core.ui_utils.glide.clear
+import com.shevelev.wizard_camera.core.ui_utils.glide.loadCircle
 
 class FiltersItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     private var iconGlideTarget: GlideTarget? = null

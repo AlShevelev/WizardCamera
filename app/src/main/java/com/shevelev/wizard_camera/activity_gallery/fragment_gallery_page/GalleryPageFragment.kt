@@ -14,14 +14,14 @@ import com.shevelev.wizard_camera.core.camera_gl.bitmap.filters.GLSurfaceShaderF
 import com.shevelev.wizard_camera.databinding.FragmentGalleryPageBinding
 import com.shevelev.wizard_camera.core.camera_gl.shared.factory.FiltersFactory
 import com.shevelev.wizard_camera.core.camera_gl.shared.files.FilesHelper
-import com.shevelev.wizard_camera.core.camera_gl.shared.mvvm.view.FragmentBase
+import com.shevelev.wizard_camera.core.ui_utils.mvvm.view.FragmentBase
 import com.shevelev.wizard_camera.core.utils.resources.getScreenSize
 import kotlinx.coroutines.*
 import timber.log.Timber
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
-class GalleryPageFragment : FragmentBase<FragmentGalleryPageBinding>(), CoroutineScope {
+class GalleryPageFragment : com.shevelev.wizard_camera.core.ui_utils.mvvm.view.FragmentBase<FragmentGalleryPageBinding>(), CoroutineScope {
     private lateinit var scopeJob: Job
 
     private val errorHandler = CoroutineExceptionHandler { _, exception -> Timber.e(exception) }

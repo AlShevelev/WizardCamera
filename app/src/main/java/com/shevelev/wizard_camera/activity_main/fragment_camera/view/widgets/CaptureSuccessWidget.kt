@@ -6,7 +6,7 @@ import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatImageView
 import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.activity_main.fragment_camera.model.dto.ScreenOrientation
-import com.shevelev.wizard_camera.core.camera_gl.shared.animation.AnimationUtils
+import com.shevelev.wizard_camera.core.ui_utils.animation.AnimationUtils
 import timber.log.Timber
 import kotlin.random.Random
 

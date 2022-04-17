@@ -20,15 +20,15 @@ import com.shevelev.wizard_camera.core.camera_gl.camera.manager.CameraManager
 import com.shevelev.wizard_camera.core.camera_gl.camera.renderer.GLRenderer
 import com.shevelev.wizard_camera.core.camera_gl.camera.settings_repository.CameraSettingsRepository
 import com.shevelev.wizard_camera.databinding.FragmentCameraBinding
-import com.shevelev.wizard_camera.core.camera_gl.shared.mvvm.view.FragmentBaseMVVM
-import com.shevelev.wizard_camera.core.camera_gl.shared.mvvm.view_commands.ViewCommand
+import com.shevelev.wizard_camera.core.ui_utils.mvvm.view.FragmentBaseMVVM
+import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_commands.ViewCommand
 import permissions.dispatcher.NeedsPermission
 import permissions.dispatcher.OnPermissionDenied
 import permissions.dispatcher.RuntimePermissions
 import javax.inject.Inject
 
 @RuntimePermissions
-class CameraFragment : FragmentBaseMVVM<FragmentCameraBinding, CameraFragmentViewModel>(), TextureView.SurfaceTextureListener {
+class CameraFragment : com.shevelev.wizard_camera.core.ui_utils.mvvm.view.FragmentBaseMVVM<FragmentCameraBinding, CameraFragmentViewModel>(), TextureView.SurfaceTextureListener {
     private lateinit var textureView: TextureView
 
     private var renderer: GLRenderer? = null

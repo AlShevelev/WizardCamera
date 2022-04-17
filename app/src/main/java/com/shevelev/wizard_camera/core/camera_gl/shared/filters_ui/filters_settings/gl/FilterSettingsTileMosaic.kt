@@ -8,7 +8,7 @@ import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.core.camera_gl.shared.filters_ui.filters_settings.FilterSettingsWidget
 import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.GlFilterSettings
 import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.TileMosaicFilterSettings
-import com.shevelev.wizard_camera.core.camera_gl.shared.ui_utils.setOnChangeListener
+import com.shevelev.wizard_camera.core.ui_utils.ext.setOnChangeListener
 
 class FilterSettingsTileMosaic
 @JvmOverloads

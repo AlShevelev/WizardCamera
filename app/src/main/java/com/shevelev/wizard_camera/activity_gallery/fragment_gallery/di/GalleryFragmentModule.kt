@@ -11,10 +11,11 @@ import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.view.externa
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.view.external_actions.SharingHelperImpl
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.view_model.GalleryFragmentViewModel
 import com.shevelev.wizard_camera.core.bitmaps.api.type_detector.ImageTypeDetector
+import com.shevelev.wizard_camera.core.bitmaps.impl.type_detector.ImageTypeDetectorImpl
+import com.shevelev.wizard_camera.core.bitmaps.impl.type_detector.signatures.ImageSignatureFactory
 import com.shevelev.wizard_camera.core.common_entities.di_scopes.FragmentScope
-import com.shevelev.wizard_camera.core.camera_gl.shared.mvvm.view_model.FragmentViewModelFactory
-import com.shevelev.wizard_camera.core.camera_gl.shared.mvvm.view_model.FragmentViewModelFactoryImpl
-import com.shevelev.wizard_camera.core.camera_gl.shared.mvvm.view_model.ViewModelKey
+import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_model.FragmentViewModelFactory
+import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_model.FragmentViewModelFactoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -34,7 +35,7 @@ class GalleryFragmentModule {
 
         @Binds
         @IntoMap
-        @ViewModelKey(GalleryFragmentViewModel::class)
+        @com.shevelev.wizard_camera.core.ui_utils.mvvm.view_model.ViewModelKey(GalleryFragmentViewModel::class)
         abstract fun provideViewModel(model: GalleryFragmentViewModel): ViewModel
 
         @Binds
@@ -44,7 +45,7 @@ class GalleryFragmentModule {
         abstract fun provideSharingHelper(helper: SharingHelperImpl): SharingHelper
 
         @Binds
-        abstract fun provideImageTypeDetector(detector: com.shevelev.wizard_camera.core.bitmaps.impl.type_detector.ImageTypeDetectorImpl): ImageTypeDetector
+        abstract fun provideImageTypeDetector(detector: ImageTypeDetectorImpl): ImageTypeDetector
 
         @Binds
         abstract fun provideImageImporter(importer: ImageImporterImpl): ImageImporter
@@ -53,7 +54,7 @@ class GalleryFragmentModule {
     @Provides
     fun provideImageSignaturesList() : List<com.shevelev.wizard_camera.core.bitmaps.impl.type_detector.signatures.ImageSignature> =
         listOf(
-            com.shevelev.wizard_camera.core.bitmaps.impl.type_detector.signatures.ImageSignatureFactory.getJpegSignature(),
-            com.shevelev.wizard_camera.core.bitmaps.impl.type_detector.signatures.ImageSignatureFactory.getPngSignature()
+            ImageSignatureFactory.getJpegSignature(),
+            ImageSignatureFactory.getPngSignature()
         )
 }

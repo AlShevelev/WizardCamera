@@ -1,0 +1,5 @@
+<resources>
+    <string name="ok">OK</string>
+
+    <string name="generalError">Unfortunately, an error was encountered during the operation.</string>
+</resources>
