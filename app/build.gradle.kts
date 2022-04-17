@@ -80,6 +80,8 @@ dependencies {
 
     implementation(project(":core:build_info:api"))
 
+    implementation(project(":core:logger"))
+
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
 
     implementation(Dependencies.appcompat)

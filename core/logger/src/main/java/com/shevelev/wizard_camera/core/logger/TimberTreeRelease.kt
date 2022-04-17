@@ -1,4 +1,4 @@
-package com.shevelev.wizard_camera.core.utils.logging
+package com.shevelev.wizard_camera.core.logger
 
 import android.util.Log
 import com.shevelev.wizard_camera.core.crashlytics.api.CrashlyticsFacade
