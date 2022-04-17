@@ -7,7 +7,6 @@ import com.shevelev.wizard_camera.activity_main.fragment_camera.model.filters_fa
 import com.shevelev.wizard_camera.core.common_entities.enums.GlFilterCode
 import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.EmptyFilterSettings
 import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.GlFilterSettings
-import com.shevelev.wizard_camera.core.camera_gl.shared.coroutines.DispatchersProvider
 import com.shevelev.wizard_camera.core.camera_gl.shared.filters_ui.display_data.gl.FilterDisplayDataList
 import com.shevelev.wizard_camera.core.camera_gl.shared.filters_ui.filters_carousel.FilterFavoriteType
 import com.shevelev.wizard_camera.core.camera_gl.shared.filters_ui.filters_carousel.FilterListItem
@@ -17,11 +16,10 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 
 class GlFiltersMachine(
     outputCommands: MutableSharedFlow<OutputCommand>,
-    dispatchersProvider: DispatchersProvider,
     editorStorage: EditorStorage,
     private val filterDisplayData: FilterDisplayDataList,
     private val filterSettings: FilterSettingsFacade
-) : EditorMachineBase(outputCommands, dispatchersProvider, editorStorage) {
+) : EditorMachineBase(outputCommands, editorStorage) {
 
     private var isFilterSettingsFacadeSetUp = false
 

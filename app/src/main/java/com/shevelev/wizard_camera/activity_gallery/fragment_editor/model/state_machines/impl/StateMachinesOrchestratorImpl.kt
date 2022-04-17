@@ -3,7 +3,6 @@ package com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_machines.api.*
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.storage.EditorStorage
 import com.shevelev.wizard_camera.activity_main.fragment_camera.model.filters_facade.settings.FilterSettingsFacade
-import com.shevelev.wizard_camera.core.camera_gl.shared.coroutines.DispatchersProvider
 import com.shevelev.wizard_camera.core.camera_gl.shared.filters_ui.display_data.gl.FilterDisplayDataList
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -12,7 +11,6 @@ import javax.inject.Inject
 class StateMachinesOrchestratorImpl
 @Inject
 constructor(
-    dispatchersProvider: DispatchersProvider,
     private val editorStorage: EditorStorage,
     private val filterDisplayData: FilterDisplayDataList,
     private val filterSettings: FilterSettingsFacade
@@ -23,7 +21,6 @@ constructor(
     private val noFilterMachine by lazy {
         NoFiltersMachine(
             _commands,
-            dispatchersProvider,
             editorStorage,
             filterSettings
         )
@@ -32,14 +29,13 @@ constructor(
     private val glFilterMachine by lazy {
         GlFiltersMachine(
             _commands,
-            dispatchersProvider,
             editorStorage,
             filterDisplayData,
             filterSettings
         )
     }
 
-    private val cancelingMachine by lazy { CancelingMachine(_commands, dispatchersProvider, editorStorage) }
+    private val cancelingMachine by lazy { CancelingMachine(_commands, editorStorage) }
 
     private var previousMachine: EditorMachineBase? = null
     

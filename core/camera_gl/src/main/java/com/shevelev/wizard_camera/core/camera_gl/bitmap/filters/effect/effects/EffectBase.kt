@@ -3,7 +3,7 @@ package com.shevelev.wizard_camera.core.camera_gl.bitmap.filters.effect.effects
 import android.media.effect.Effect
 import android.media.effect.EffectFactory
 import android.util.Range
-import com.shevelev.wizard_camera.core.utils.useful_ext.reduceToRange
+import com.shevelev.wizard_camera.core.utils.ext.reduceToRange
 
 abstract class EffectBase(
     private val displayFactorRange: Range<Float>,

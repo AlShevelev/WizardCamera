@@ -8,10 +8,10 @@ import com.shevelev.wizard_camera.core.common_entities.entities.PhotoShot
 import com.shevelev.wizard_camera.core.common_entities.enums.GlFilterCode
 import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.EmptyFilterSettings
 import com.shevelev.wizard_camera.core.database.api.repositories.PhotoShotRepository
-import com.shevelev.wizard_camera.core.camera_gl.shared.coroutines.DispatchersProvider
 import com.shevelev.wizard_camera.core.camera_gl.shared.files.FilesHelper
 import com.shevelev.wizard_camera.core.camera_gl.shared.media_scanner.MediaScanner
 import com.shevelev.wizard_camera.core.utils.id.IdUtil
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.threeten.bp.ZonedDateTime
 import javax.inject.Inject
@@ -19,7 +19,6 @@ import javax.inject.Inject
 class ImageImporterImpl
 @Inject
 constructor(
-    private val dispatchersProvider: DispatchersProvider,
     private val photoShotRepository: PhotoShotRepository,
     private val filesHelper: FilesHelper,
     private val mediaScanner: MediaScanner,
@@ -28,7 +27,7 @@ constructor(
 ) : ImageImporter {
 
     override suspend fun import(uri: Uri): PhotoShot? {
-        val imageType = withContext(dispatchersProvider.ioDispatcher) {
+        val imageType = withContext(Dispatchers.IO) {
             imageTypeDetector.getImageType(uri)
         }
 
@@ -36,7 +35,7 @@ constructor(
             return null
         }
 
-        val imageFile = withContext(dispatchersProvider.ioDispatcher) {
+        val imageFile = withContext(Dispatchers.IO) {
             filesHelper.createFileForShot().also {
                 bitmapHelper.saveBitmap(it, uri)
                 bitmapHelper.checkAndCorrectOrientation(it)
@@ -45,7 +44,7 @@ constructor(
 
         val contentUri = mediaScanner.processNewShot(imageFile)
 
-        return withContext(dispatchersProvider.ioDispatcher) {
+        return withContext(Dispatchers.IO) {
             val shot = PhotoShot(
                 IdUtil.generateLongId(),
                 imageFile.name,

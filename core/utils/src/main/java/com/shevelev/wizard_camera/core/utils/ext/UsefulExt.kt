@@ -1,4 +1,4 @@
-package com.shevelev.wizard_camera.core.utils.useful_ext
+package com.shevelev.wizard_camera.core.utils.ext
 
 inline fun <A, B>ifNotNull(a: A?, b: B?, action: (A, B) -> Unit) {
     if(a!= null && b!=null) {

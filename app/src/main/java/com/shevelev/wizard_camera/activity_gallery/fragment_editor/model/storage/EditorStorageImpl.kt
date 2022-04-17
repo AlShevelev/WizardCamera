@@ -10,8 +10,8 @@ import com.shevelev.wizard_camera.core.common_entities.entities.PhotoShot
 import com.shevelev.wizard_camera.core.common_entities.enums.GlFilterCode
 import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.GlFilterSettings
 import com.shevelev.wizard_camera.core.database.api.repositories.PhotoShotRepository
-import com.shevelev.wizard_camera.core.camera_gl.shared.coroutines.DispatchersProvider
 import com.shevelev.wizard_camera.core.camera_gl.shared.files.FilesHelper
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -21,7 +21,6 @@ import javax.inject.Inject
 class EditorStorageImpl
 @Inject
 constructor(
-    private val dispatchersProvider: DispatchersProvider,
     private val sourceShot: PhotoShot,
     private val filesHelper: FilesHelper,
     private val photoShotRepository: PhotoShotRepository,
@@ -58,7 +57,7 @@ constructor(
     }
 
     override suspend fun initImage() {
-        sourceImage = withContext(dispatchersProvider.ioDispatcher) {
+        sourceImage = withContext(Dispatchers.IO) {
             BitmapFactory.decodeFile(filesHelper.getShotFileByName(sourceShot.fileName).absolutePath)
         }
 
@@ -71,7 +70,7 @@ constructor(
 
     override suspend fun switchToHistogramEqualizedImage() {
         if(histogramEqualizedImage == null) {
-            histogramEqualizedImage = withContext(dispatchersProvider.calculationsDispatcher) {
+            histogramEqualizedImage = withContext(Dispatchers.Default) {
                 ImageProcessorImpl().processHistogramEqualization(sourceImage)
             }
         }
@@ -97,7 +96,7 @@ constructor(
             return
         }
 
-        withContext(dispatchersProvider.ioDispatcher) {
+        withContext(Dispatchers.IO) {
             // File with image
             bitmapHelper.saveBitmap(filesHelper.getShotFileByName(sourceShot.fileName), displayedImage)
 

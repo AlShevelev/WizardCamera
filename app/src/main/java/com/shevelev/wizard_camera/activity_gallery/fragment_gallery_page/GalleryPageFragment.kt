@@ -12,7 +12,6 @@ import com.shevelev.wizard_camera.application.App
 import com.shevelev.wizard_camera.core.camera_gl.bitmap.GLSurfaceViewBitmap
 import com.shevelev.wizard_camera.core.camera_gl.bitmap.filters.GLSurfaceShaderFilter
 import com.shevelev.wizard_camera.databinding.FragmentGalleryPageBinding
-import com.shevelev.wizard_camera.core.camera_gl.shared.coroutines.DispatchersProvider
 import com.shevelev.wizard_camera.core.camera_gl.shared.factory.FiltersFactory
 import com.shevelev.wizard_camera.core.camera_gl.shared.files.FilesHelper
 import com.shevelev.wizard_camera.core.camera_gl.shared.mvvm.view.FragmentBase
@@ -37,16 +36,13 @@ class GalleryPageFragment : FragmentBase<FragmentGalleryPageBinding>(), Coroutin
     @Inject
     internal lateinit var filesHelper: FilesHelper
 
-    @Inject
-    internal lateinit var dispatchersProvider: DispatchersProvider
-
     override fun inject() = App.injections.get<GalleryPageFragmentComponent>().inject(this)
 
     override fun releaseInjection() = App.injections.release<GalleryPageFragmentComponent>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         scopeJob = SupervisorJob()
-        coroutineContext = scopeJob + dispatchersProvider.uiDispatcher + errorHandler
+        coroutineContext = scopeJob + Dispatchers.Main + errorHandler
 
         val item = requireArguments().getParcelable<GalleryItem>(ARG_PHOTO)!!
 
@@ -64,7 +60,7 @@ class GalleryPageFragment : FragmentBase<FragmentGalleryPageBinding>(), Coroutin
 
     fun loadPhoto(item: GalleryItem) {
         launch {
-            val photoBitmap = withContext(dispatchersProvider.ioDispatcher) {
+            val photoBitmap = withContext(Dispatchers.IO) {
                 BitmapFactory.decodeFile(filesHelper.getShotFileByName(item.item.fileName).absolutePath)
             }
 

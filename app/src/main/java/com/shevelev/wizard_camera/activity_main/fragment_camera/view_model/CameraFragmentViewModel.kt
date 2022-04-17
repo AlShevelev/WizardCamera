@@ -13,13 +13,12 @@ import com.shevelev.wizard_camera.core.common_entities.enums.GlFilterCode
 import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.GlFilterSettings
 import com.shevelev.wizard_camera.activity_main.fragment_camera.view.gestures.*
 import com.shevelev.wizard_camera.core.camera_gl.shared.binding_adapters.ButtonState
-import com.shevelev.wizard_camera.core.camera_gl.shared.coroutines.DispatchersProvider
 import com.shevelev.wizard_camera.core.camera_gl.shared.filters_ui.display_data.FilterDisplayId
 import com.shevelev.wizard_camera.core.camera_gl.shared.filters_ui.filters_carousel.FilterEventsProcessor
 import com.shevelev.wizard_camera.core.camera_gl.shared.filters_ui.filters_carousel.FiltersListData
 import com.shevelev.wizard_camera.core.camera_gl.shared.mvvm.view_commands.ShowMessageResCommand
 import com.shevelev.wizard_camera.core.camera_gl.shared.mvvm.view_model.ViewModelBase
-import com.shevelev.wizard_camera.core.utils.useful_ext.format
+import com.shevelev.wizard_camera.core.utils.ext.format
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -28,9 +27,8 @@ class CameraFragmentViewModel
 @Inject
 constructor(
     private val appContext: Context,
-    dispatchersProvider: DispatchersProvider,
     interactor: CameraFragmentInteractor
-) : ViewModelBase<CameraFragmentInteractor>(dispatchersProvider, interactor),
+) : ViewModelBase<CameraFragmentInteractor>(interactor),
     FilterEventsProcessor {
 
     private val _selectedFilter = MutableLiveData(interactor.filters.displayFilter)

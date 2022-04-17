@@ -1,4 +1,4 @@
-package com.shevelev.wizard_camera.core.utils.useful_ext
+package com.shevelev.wizard_camera.core.utils.ext
 
 import android.util.Range
 

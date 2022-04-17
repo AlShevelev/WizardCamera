@@ -11,10 +11,10 @@ import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.dto.ShotsLoa
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.model.image_importer.ImageImporter
 import com.shevelev.wizard_camera.activity_gallery.shared.FragmentsDataPass
 import com.shevelev.wizard_camera.core.bitmaps.api.utils.BitmapHelper
-import com.shevelev.wizard_camera.core.camera_gl.shared.coroutines.DispatchersProvider
 import com.shevelev.wizard_camera.core.camera_gl.shared.files.FilesHelper
 import com.shevelev.wizard_camera.core.camera_gl.shared.media_scanner.MediaScanner
 import com.shevelev.wizard_camera.core.database.api.repositories.PhotoShotRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.BroadcastChannel
@@ -30,7 +30,6 @@ class GalleryFragmentInteractorImpl
 @Inject
 constructor(
     private val appContext: Context,
-    private val dispatchersProvider: DispatchersProvider,
     private val photoShotRepository: PhotoShotRepository,
     private val filesHelper: FilesHelper,
     private val mediaScanner: MediaScanner,
@@ -86,7 +85,7 @@ constructor(
         processAction {
             val shotItem = photosList[position]
 
-            val deletedFile = withContext(dispatchersProvider.ioDispatcher) {
+            val deletedFile = withContext(Dispatchers.IO) {
                 photoShotRepository.deleteById(shotItem.item.id)
                 filesHelper.removeShotFileByName(shotItem.item.fileName)
             }
@@ -107,7 +106,7 @@ constructor(
      * Saves a bitmap into a temporary file and returns content Uri for sharing
      */
     override suspend fun startBitmapSharing(bitmap: Bitmap): Uri {
-        val file = withContext(dispatchersProvider.ioDispatcher) {
+        val file = withContext(Dispatchers.IO) {
             filesHelper.createTempFileForShot().also {
                 bitmapHelper.saveBitmap(it, bitmap)
             }
@@ -117,7 +116,7 @@ constructor(
     }
 
     override suspend fun importBitmap(sourceUri: Uri, currentPosition: Int): Boolean {
-        val shot = withContext(dispatchersProvider.ioDispatcher) {
+        val shot = withContext(Dispatchers.IO) {
             try {
                 imageImporter.import(sourceUri)
             } catch (ex: Exception) {
@@ -133,7 +132,7 @@ constructor(
     }
 
     private suspend fun loadNextPageInternal() {
-        val dbData = withContext(dispatchersProvider.ioDispatcher) {
+        val dbData = withContext(Dispatchers.IO) {
             photoShotRepository.readPaged(PAGE_SIZE, offset)
         }
             .map { GalleryItem(id = it.id, version = 0, item = it) }

@@ -6,7 +6,6 @@ import com.shevelev.wizard_camera.BuildConfig
 import com.shevelev.wizard_camera.core.common_entities.di_scopes.ApplicationScope
 import com.shevelev.wizard_camera.core.database.impl.builder.DatabaseBuilder
 import com.shevelev.wizard_camera.core.database.impl.core.DbCore
-import com.shevelev.wizard_camera.core.camera_gl.shared.coroutines.DispatchersProvider
 import com.shevelev.wizard_camera.core.crashlytics.api.CrashlyticsFacade
 import com.shevelev.wizard_camera.core.logger.TimberTreeDebug
 import com.shevelev.wizard_camera.core.logger.TimberTreeRelease
@@ -14,8 +13,6 @@ import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
 import dagger.Provides
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import timber.log.Timber
 
 @Module
@@ -25,16 +22,6 @@ class AppModule(
     @Provides
     @ApplicationScope
     internal fun provideContext(): Context = app.applicationContext
-
-    @Provides
-    internal fun provideDispatchersProvider(): DispatchersProvider = object : DispatchersProvider {
-        override val uiDispatcher: CoroutineDispatcher
-            get() = Dispatchers.Main
-        override val calculationsDispatcher: CoroutineDispatcher
-            get() = Dispatchers.Default
-        override val ioDispatcher: CoroutineDispatcher
-            get() = Dispatchers.IO
-    }
 
     @Provides
     internal fun provideTimberTree(crashlytics: CrashlyticsFacade): Timber.Tree =

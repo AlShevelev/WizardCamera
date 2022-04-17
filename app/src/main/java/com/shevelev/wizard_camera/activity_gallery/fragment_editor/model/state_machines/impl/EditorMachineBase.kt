@@ -3,7 +3,6 @@ package com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_machines.api.InputEvent
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_machines.api.OutputCommand
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.storage.EditorStorage
-import com.shevelev.wizard_camera.core.camera_gl.shared.coroutines.DispatchersProvider
 import kotlinx.coroutines.flow.MutableSharedFlow
 
 /**
@@ -11,7 +10,6 @@ import kotlinx.coroutines.flow.MutableSharedFlow
  */
 abstract class EditorMachineBase(
     protected val outputCommands: MutableSharedFlow<OutputCommand>,
-    protected val dispatchersProvider: DispatchersProvider,
     protected val editorStorage: EditorStorage
 ) {
     private var state = State.INITIAL

@@ -11,7 +11,6 @@ import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.dto.GalleryI
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.dto.ShareShotCommand
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.dto.ShotsLoadingResult
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.model.GalleryFragmentInteractor
-import com.shevelev.wizard_camera.core.camera_gl.shared.coroutines.DispatchersProvider
 import com.shevelev.wizard_camera.core.camera_gl.shared.mvvm.view_commands.ScrollGalleryToPosition
 import com.shevelev.wizard_camera.core.camera_gl.shared.mvvm.view_commands.ShowMessageResCommand
 import com.shevelev.wizard_camera.core.camera_gl.shared.mvvm.view_model.ViewModelBase
@@ -23,9 +22,8 @@ import javax.inject.Inject
 class GalleryFragmentViewModel
 @Inject
 constructor(
-    dispatchersProvider: DispatchersProvider,
     interactor: GalleryFragmentInteractor
-) : ViewModelBase<GalleryFragmentInteractor>(dispatchersProvider, interactor),
+) : ViewModelBase<GalleryFragmentInteractor>(interactor),
     GalleryPagingActions {
 
     private val _photos = MutableLiveData<List<GalleryItem>>()

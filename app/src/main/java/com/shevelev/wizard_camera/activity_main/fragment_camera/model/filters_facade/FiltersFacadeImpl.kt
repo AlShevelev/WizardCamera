@@ -13,14 +13,13 @@ import com.shevelev.wizard_camera.core.camera_gl.shared.filters_ui.display_data.
 import com.shevelev.wizard_camera.activity_main.fragment_camera.model.filters_facade.settings.FilterSettingsFacade
 import com.shevelev.wizard_camera.core.database.api.repositories.FavoriteFilterRepository
 import com.shevelev.wizard_camera.core.database.api.repositories.LastUsedFilterRepository
-import com.shevelev.wizard_camera.core.camera_gl.shared.coroutines.DispatchersProvider
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class FiltersFacadeImpl
 @Inject
 constructor(
-    private val dispatchersProvider: DispatchersProvider,
     private val lastUsedFilterRepository: LastUsedFilterRepository,
     private val favoriteFilterRepository: FavoriteFilterRepository,
     private val displayData: FilterDisplayDataList,
@@ -57,11 +56,11 @@ constructor(
     override suspend fun init() {
         filterSettings.init()
 
-        val lastUsedFilters = withContext(dispatchersProvider.ioDispatcher) {
+        val lastUsedFilters = withContext(Dispatchers.IO) {
             lastUsedFilterRepository.read()
         }
 
-        favoritesList = withContext(dispatchersProvider.ioDispatcher) {
+        favoritesList = withContext(Dispatchers.IO) {
             favoriteFilterRepository.read()
         }.toMutableList()
 
@@ -74,7 +73,7 @@ constructor(
     }
 
     override suspend fun selectFilter(code: GlFilterCode) {
-        withContext(dispatchersProvider.ioDispatcher) {
+        withContext(Dispatchers.IO) {
             lastUsedFilterRepository.update(LastUsedFilter(code, false))
         }
 
@@ -82,7 +81,7 @@ constructor(
     }
 
     override suspend fun selectFavoriteFilter(code: GlFilterCode) {
-        withContext(dispatchersProvider.ioDispatcher) {
+        withContext(Dispatchers.IO) {
             lastUsedFilterRepository.update(LastUsedFilter(code, true))
         }
 
@@ -137,7 +136,7 @@ constructor(
     }
 
     override suspend fun addToFavorite(code: GlFilterCode) {
-        withContext(dispatchersProvider.ioDispatcher) {
+        withContext(Dispatchers.IO) {
             favoriteFilterRepository.create(code)
         }
 
@@ -151,7 +150,7 @@ constructor(
     }
 
     override suspend fun removeFromFavorite(code: GlFilterCode) {
-        withContext(dispatchersProvider.ioDispatcher) {
+        withContext(Dispatchers.IO) {
             favoriteFilterRepository.delete(code)
         }
 
@@ -160,14 +159,14 @@ constructor(
         if(favoritesList.isEmpty()) {
             selectedFavoriteFilter = GlFilterCode.ORIGINAL
 
-            withContext(dispatchersProvider.ioDispatcher) {
+            withContext(Dispatchers.IO) {
                 lastUsedFilterRepository.remove(LastUsedFilter(code, true))
             }
         } else {
             if(selectedFavoriteFilter == code) {
                 selectedFavoriteFilter = favoritesList[0]
 
-                withContext(dispatchersProvider.ioDispatcher) {
+                withContext(Dispatchers.IO) {
                     lastUsedFilterRepository.update(LastUsedFilter(selectedFavoriteFilter, true))
                 }
             }

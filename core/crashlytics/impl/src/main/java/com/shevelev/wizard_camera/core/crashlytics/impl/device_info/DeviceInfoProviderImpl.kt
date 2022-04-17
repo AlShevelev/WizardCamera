@@ -5,7 +5,7 @@ import android.content.res.Configuration
 import android.telephony.TelephonyManager
 import android.util.DisplayMetrics
 import android.util.Size
-import com.shevelev.wizard_camera.core.utils.useful_ext.minIndexBy
+import com.shevelev.wizard_camera.core.utils.ext.minIndexBy
 import timber.log.Timber
 import java.util.*
 import javax.inject.Inject

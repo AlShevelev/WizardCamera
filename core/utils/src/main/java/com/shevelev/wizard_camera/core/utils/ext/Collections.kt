@@ -1,4 +1,4 @@
-package com.shevelev.wizard_camera.core.utils.useful_ext
+package com.shevelev.wizard_camera.core.utils.ext
 
 /**
  * Returns an index of the first element yielding the smallest value of the given function or `null` if there are no elements.

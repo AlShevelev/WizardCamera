@@ -2,14 +2,12 @@ package com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_
 
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_machines.api.*
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.storage.EditorStorage
-import com.shevelev.wizard_camera.core.camera_gl.shared.coroutines.DispatchersProvider
 import kotlinx.coroutines.flow.MutableSharedFlow
 
 class CancelingMachine(
     outputCommands: MutableSharedFlow<OutputCommand>,
-    dispatchersProvider: DispatchersProvider,
     editorStorage: EditorStorage
-) : EditorMachineBase(outputCommands, dispatchersProvider, editorStorage) {
+) : EditorMachineBase(outputCommands, editorStorage) {
 
     override suspend fun processEvent(event: InputEvent, state: State): State =
         when {

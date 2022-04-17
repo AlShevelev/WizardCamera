@@ -5,7 +5,7 @@ import com.shevelev.wizard_camera.core.common_entities.enums.MappingFilterTextur
 import com.shevelev.wizard_camera.core.common_entities.enums.Size
 import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.*
 import com.shevelev.wizard_camera.core.database.api.repositories.FilterSettingsRepository
-import com.shevelev.wizard_camera.core.camera_gl.shared.coroutines.DispatchersProvider
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import kotlin.random.Random
@@ -13,7 +13,6 @@ import kotlin.random.Random
 class FilterSettingsFacadeImpl
 @Inject
 constructor(
-    private val dispatchersProvider: DispatchersProvider,
     private val filterSettingsRepository: FilterSettingsRepository
 ) : FilterSettingsFacade {
 
@@ -41,7 +40,7 @@ constructor(
     )
 
     override suspend fun init() {
-        val dbSettings = withContext(dispatchersProvider.ioDispatcher) {
+        val dbSettings = withContext(Dispatchers.IO) {
             filterSettingsRepository.read()
         }
 
@@ -97,7 +96,7 @@ constructor(
     override fun get(code: GlFilterCode): GlFilterSettings = settingsMap[code]!!
 
     override suspend fun update(settings: GlFilterSettings) {
-        withContext(dispatchersProvider.ioDispatcher) {
+        withContext(Dispatchers.IO) {
             filterSettingsRepository.update(settings)
         }
 

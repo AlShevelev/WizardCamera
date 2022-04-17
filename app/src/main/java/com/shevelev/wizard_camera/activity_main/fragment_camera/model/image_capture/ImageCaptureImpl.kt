@@ -5,11 +5,11 @@ import com.shevelev.wizard_camera.activity_main.fragment_camera.model.dto.Screen
 import com.shevelev.wizard_camera.core.bitmaps.api.utils.BitmapHelper
 import com.shevelev.wizard_camera.core.common_entities.entities.PhotoShot
 import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.GlFilterSettings
-import com.shevelev.wizard_camera.core.camera_gl.shared.coroutines.DispatchersProvider
 import com.shevelev.wizard_camera.core.camera_gl.shared.files.FilesHelper
 import com.shevelev.wizard_camera.core.camera_gl.shared.media_scanner.MediaScanner
 import com.shevelev.wizard_camera.core.database.api.repositories.PhotoShotRepository
 import com.shevelev.wizard_camera.core.utils.id.IdUtil
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.threeten.bp.ZonedDateTime
 import timber.log.Timber
@@ -19,7 +19,6 @@ import javax.inject.Inject
 class ImageCaptureImpl
 @Inject
 constructor(
-    private val dispatchersProvider: DispatchersProvider,
     private val photoShotRepository: PhotoShotRepository,
     private val filesHelper: FilesHelper,
     private val mediaScanner: MediaScanner,
@@ -41,7 +40,7 @@ constructor(
         targetFile = try {
             this.activeFilter = activeFilter
 
-            withContext(dispatchersProvider.ioDispatcher) {
+            withContext(Dispatchers.IO) {
                 filesHelper.createFileForShot()
             }
         } catch (ex: Exception) {
@@ -53,7 +52,7 @@ constructor(
     }
 
     override suspend fun captureCompleted() {
-        withContext(dispatchersProvider.ioDispatcher) {
+        withContext(Dispatchers.IO) {
             targetFile?.let { targetFile ->
                 bitmapHelper.checkAndCorrectOrientation(targetFile)
 
