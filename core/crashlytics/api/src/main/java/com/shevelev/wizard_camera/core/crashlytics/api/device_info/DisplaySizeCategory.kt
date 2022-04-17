@@ -1,4 +1,4 @@
-package com.shevelev.wizard_camera.core.utils.device_info
+package com.shevelev.wizard_camera.core.crashlytics.api.device_info
 
 /** */
 enum class DisplaySizeCategory {

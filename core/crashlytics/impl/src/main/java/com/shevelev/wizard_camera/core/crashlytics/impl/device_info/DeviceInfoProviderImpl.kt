@@ -1,4 +1,4 @@
-package com.shevelev.wizard_camera.core.utils.device_info
+package com.shevelev.wizard_camera.core.crashlytics.impl.device_info
 
 import android.content.Context
 import android.content.res.Configuration
@@ -15,7 +15,7 @@ class DeviceInfoProviderImpl
 @Inject
 constructor(
     private val appContext: Context
-): DeviceInfoProvider {
+): com.shevelev.wizard_camera.core.crashlytics.api.device_info.DeviceInfoProvider {
     /**
      * Returns ISO 3166-1 code of country of null if the code can't be detected
      */
@@ -27,14 +27,14 @@ constructor(
 
             // SIM country code is available
             if (simCountry != null && simCountry.length == 2) {
-                return simCountry.toLowerCase(Locale.US)
+                return simCountry.lowercase(Locale.US)
             }
 
             // device is not 3G (would be unreliable)
             if (tm.phoneType != TelephonyManager.PHONE_TYPE_CDMA) {
                 val networkCountry = tm.networkCountryIso
                 if (networkCountry != null && networkCountry.length == 2) { // network country code is available
-                    return networkCountry.toLowerCase(Locale.US)
+                    return networkCountry.lowercase(Locale.US)
                 }
             }
         } catch (ex: Exception) {
@@ -53,19 +53,19 @@ constructor(
         }
 
     /** */
-    override fun getSizeCategory(): DisplaySizeCategory =
+    override fun getSizeCategory(): com.shevelev.wizard_camera.core.crashlytics.api.device_info.DisplaySizeCategory =
         appContext.resources.configuration.screenLayout.let {
             when(it and Configuration.SCREENLAYOUT_SIZE_MASK) {
-                Configuration.SCREENLAYOUT_SIZE_XLARGE -> DisplaySizeCategory.XLARGE
-                Configuration.SCREENLAYOUT_SIZE_LARGE -> DisplaySizeCategory.LARGE
-                Configuration.SCREENLAYOUT_SIZE_NORMAL -> DisplaySizeCategory.NORMAL
-                Configuration.SCREENLAYOUT_SIZE_SMALL -> DisplaySizeCategory.SMALL
-                else -> DisplaySizeCategory.UNDEFINED
+                Configuration.SCREENLAYOUT_SIZE_XLARGE -> com.shevelev.wizard_camera.core.crashlytics.api.device_info.DisplaySizeCategory.XLARGE
+                Configuration.SCREENLAYOUT_SIZE_LARGE -> com.shevelev.wizard_camera.core.crashlytics.api.device_info.DisplaySizeCategory.LARGE
+                Configuration.SCREENLAYOUT_SIZE_NORMAL -> com.shevelev.wizard_camera.core.crashlytics.api.device_info.DisplaySizeCategory.NORMAL
+                Configuration.SCREENLAYOUT_SIZE_SMALL -> com.shevelev.wizard_camera.core.crashlytics.api.device_info.DisplaySizeCategory.SMALL
+                else -> com.shevelev.wizard_camera.core.crashlytics.api.device_info.DisplaySizeCategory.UNDEFINED
             }
         }
 
     /** */
-    override fun getDensityCategory(): DisplayDensityCategory =
+    override fun getDensityCategory(): com.shevelev.wizard_camera.core.crashlytics.api.device_info.DisplayDensityCategory =
         appContext.resources.displayMetrics.let { metrics ->
             val defaultScale = 1F / DisplayMetrics.DENSITY_DEFAULT
 
@@ -82,12 +82,12 @@ constructor(
             }
 
             return when(densityIndex) {
-                0 -> DisplayDensityCategory.LDPI
-                1 -> DisplayDensityCategory.MDPI
-                2 -> DisplayDensityCategory.HDPI
-                3 -> DisplayDensityCategory.XHDPI
-                4 -> DisplayDensityCategory.XXHDPI
-                5 -> DisplayDensityCategory.XXXHDPI
+                0 -> com.shevelev.wizard_camera.core.crashlytics.api.device_info.DisplayDensityCategory.LDPI
+                1 -> com.shevelev.wizard_camera.core.crashlytics.api.device_info.DisplayDensityCategory.MDPI
+                2 -> com.shevelev.wizard_camera.core.crashlytics.api.device_info.DisplayDensityCategory.HDPI
+                3 -> com.shevelev.wizard_camera.core.crashlytics.api.device_info.DisplayDensityCategory.XHDPI
+                4 -> com.shevelev.wizard_camera.core.crashlytics.api.device_info.DisplayDensityCategory.XXHDPI
+                5 -> com.shevelev.wizard_camera.core.crashlytics.api.device_info.DisplayDensityCategory.XXXHDPI
                 else -> throw UnsupportedOperationException("Invalid density index: $densityIndex")
             }
         }

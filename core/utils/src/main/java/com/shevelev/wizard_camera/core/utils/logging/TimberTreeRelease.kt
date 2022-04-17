@@ -1,7 +1,7 @@
 package com.shevelev.wizard_camera.core.utils.logging
 
 import android.util.Log
-import com.shevelev.wizard_camera.core.utils.crashlytics.CrashlyticsFacade
+import com.shevelev.wizard_camera.core.crashlytics.api.CrashlyticsFacade
 import timber.log.Timber
 
 class TimberTreeRelease(private val crashlytics: CrashlyticsFacade): Timber.Tree() {

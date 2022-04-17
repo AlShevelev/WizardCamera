@@ -1,4 +1,4 @@
-package com.shevelev.wizard_camera.core.utils.crashlytics
+package com.shevelev.wizard_camera.core.crashlytics.api
 
 interface CrashlyticsFacade {
     /** */

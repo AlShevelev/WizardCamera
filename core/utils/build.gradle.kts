@@ -33,6 +33,8 @@ android {
 dependencies {
     implementation(project(":core:common_entities"))
 
+    implementation(project(":core:crashlytics:api"))
+
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
 
     implementation(Dependencies.kotlinStdlib)

@@ -75,6 +75,11 @@ dependencies {
     implementation(project(":core:catalano:impl"))
     implementation(project(":core:catalano:api"))
 
+    implementation(project(":core:crashlytics:impl"))
+    implementation(project(":core:crashlytics:api"))
+
+    implementation(project(":core:build_info:api"))
+
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
 
     implementation(Dependencies.appcompat)
@@ -118,8 +123,6 @@ dependencies {
 
     implementation(Dependencies.moshi)
     kapt(Dependencies.moshiCodegen)
-
-    implementation(Dependencies.firebaseCrashlytics)
 }
 
 repositories {

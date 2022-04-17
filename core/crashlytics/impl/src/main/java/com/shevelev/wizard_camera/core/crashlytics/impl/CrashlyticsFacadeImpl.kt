@@ -1,29 +1,27 @@
-package com.shevelev.wizard_camera.core.camera_gl.shared.crashlytics
+package com.shevelev.wizard_camera.core.crashlytics.impl
 
-import android.content.Context
 import com.google.firebase.crashlytics.FirebaseCrashlytics
-import com.shevelev.wizard_camera.BuildConfig
-import com.shevelev.wizard_camera.R
-import com.shevelev.wizard_camera.core.utils.crashlytics.CrashlyticsFacade
-import com.shevelev.wizard_camera.core.utils.device_info.DeviceInfoProvider
+import com.shevelev.wizard_camera.core.build_info.api.BuildInfo
+import com.shevelev.wizard_camera.core.crashlytics.api.CrashlyticsFacade
+import com.shevelev.wizard_camera.core.crashlytics.api.device_info.DeviceInfoProvider
 import javax.inject.Inject
 
 class CrashlyticsFacadeImpl
 @Inject
 constructor(
-    appContext: Context,
-    deviceInfoProvider: DeviceInfoProvider
+    deviceInfoProvider: DeviceInfoProvider,
+    buildInfo: BuildInfo
 ): CrashlyticsFacade {
 
-    private val enabled = BuildConfig.CRASH_REPORTS_ENABLED
+    private val enabled = buildInfo.crashReportsEnabled
 
     init {
         doCall {
-            FirebaseCrashlytics.getInstance().setCustomKey("BUILD_TYPE", BuildConfig.BUILD_TYPE)
-            FirebaseCrashlytics.getInstance().setCustomKey("BUILD_FLAVOR", BuildConfig.FLAVOR)
-            FirebaseCrashlytics.getInstance().setCustomKey("IS_DEBUG_BUILD", BuildConfig.DEBUG)
+            FirebaseCrashlytics.getInstance().setCustomKey("BUILD_TYPE", buildInfo.type)
+            FirebaseCrashlytics.getInstance().setCustomKey("BUILD_FLAVOR", buildInfo.flavor)
+            FirebaseCrashlytics.getInstance().setCustomKey("IS_DEBUG_BUILD", buildInfo.isDebug)
 
-            FirebaseCrashlytics.getInstance().setCustomKey("LOCALE", appContext.resources.getString(R.string.locale))
+            FirebaseCrashlytics.getInstance().setCustomKey("LOCALE", buildInfo.locale)
 
             FirebaseCrashlytics.getInstance().setCustomKey("COUNTRY", deviceInfoProvider.getCountryCode() ?: "")
 
