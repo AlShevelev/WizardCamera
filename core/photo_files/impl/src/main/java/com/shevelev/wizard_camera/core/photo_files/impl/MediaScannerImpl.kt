@@ -12,7 +12,7 @@ class MediaScannerImpl
 @Inject
 constructor(
     private val appContext: Context
-) : MediaScanner {
+) : com.shevelev.wizard_camera.core.photo_files.api.MediaScanner {
     override suspend fun processNewShot(shot: File): Uri? {
         return suspendCancellableCoroutine { continuation ->
             MediaScannerConnection.scanFile(appContext, arrayOf<String>(shot.absolutePath), arrayOf("image/jpeg")) { _, uri ->

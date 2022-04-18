@@ -11,7 +11,7 @@ class FilesHelperImpl
 @Inject
 constructor(
     private val appContext: Context
-) : FilesHelper {
+) : com.shevelev.wizard_camera.core.photo_files.api.FilesHelper {
     override fun createFileForShot(): File = createFileForShot(getShotsDirectory())
 
     override fun createTempFileForShot(): File = createFileForShot(appContext.cacheDir)
