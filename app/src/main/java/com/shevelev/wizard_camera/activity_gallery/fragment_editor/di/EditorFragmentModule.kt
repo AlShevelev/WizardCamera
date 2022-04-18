@@ -12,8 +12,8 @@ import com.shevelev.wizard_camera.activity_main.fragment_camera.model.filters_fa
 import com.shevelev.wizard_camera.activity_main.fragment_camera.model.filters_facade.settings.FilterSettingsFacadeImpl
 import com.shevelev.wizard_camera.core.common_entities.di_scopes.FragmentScope
 import com.shevelev.wizard_camera.core.common_entities.entities.PhotoShot
-import com.shevelev.wizard_camera.core.camera_gl.shared.filters_ui.display_data.gl.FilterDisplayDataList
-import com.shevelev.wizard_camera.core.camera_gl.shared.filters_ui.display_data.gl.FilterDisplayDataListImpl
+import com.shevelev.wizard_camera.filters.display_data.gl.FilterDisplayDataList
+import com.shevelev.wizard_camera.filters.display_data.gl.FilterDisplayDataListImpl
 import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_model.FragmentViewModelFactory
 import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_model.FragmentViewModelFactoryImpl
 import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_model.ViewModelKey

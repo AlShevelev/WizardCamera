@@ -3,7 +3,7 @@ package com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_machines.api.*
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.storage.EditorStorage
 import com.shevelev.wizard_camera.activity_main.fragment_camera.model.filters_facade.settings.FilterSettingsFacade
-import com.shevelev.wizard_camera.core.camera_gl.shared.filters_ui.display_data.gl.FilterDisplayDataList
+import com.shevelev.wizard_camera.filters.display_data.gl.FilterDisplayDataList
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import javax.inject.Inject

@@ -7,10 +7,10 @@ import com.shevelev.wizard_camera.activity_main.fragment_camera.model.filters_fa
 import com.shevelev.wizard_camera.core.common_entities.enums.GlFilterCode
 import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.EmptyFilterSettings
 import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.GlFilterSettings
-import com.shevelev.wizard_camera.core.camera_gl.shared.filters_ui.display_data.gl.FilterDisplayDataList
-import com.shevelev.wizard_camera.core.camera_gl.shared.filters_ui.filters_carousel.FilterFavoriteType
-import com.shevelev.wizard_camera.core.camera_gl.shared.filters_ui.filters_carousel.FilterListItem
-import com.shevelev.wizard_camera.core.camera_gl.shared.filters_ui.filters_carousel.FiltersListData
+import com.shevelev.wizard_camera.filters.display_data.gl.FilterDisplayDataList
+import com.shevelev.wizard_camera.filters.filters_carousel.FilterFavoriteType
+import com.shevelev.wizard_camera.filters.filters_carousel.FilterListItem
+import com.shevelev.wizard_camera.filters.filters_carousel.FiltersListData
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 
