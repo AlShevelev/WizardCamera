@@ -8,8 +8,8 @@ import com.shevelev.wizard_camera.core.common_entities.entities.PhotoShot
 import com.shevelev.wizard_camera.core.common_entities.enums.GlFilterCode
 import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.EmptyFilterSettings
 import com.shevelev.wizard_camera.core.database.api.repositories.PhotoShotRepository
-import com.shevelev.wizard_camera.core.camera_gl.shared.files.FilesHelper
-import com.shevelev.wizard_camera.core.camera_gl.shared.media_scanner.MediaScanner
+import com.shevelev.wizard_camera.core.photo_files.api.FilesHelper
+import com.shevelev.wizard_camera.core.photo_files.api.MediaScanner
 import com.shevelev.wizard_camera.core.utils.id.IdUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

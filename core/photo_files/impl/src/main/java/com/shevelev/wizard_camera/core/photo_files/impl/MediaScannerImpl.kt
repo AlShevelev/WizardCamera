@@ -1,4 +1,4 @@
-package com.shevelev.wizard_camera.core.camera_gl.shared.media_scanner
+package com.shevelev.wizard_camera.core.photo_files.impl
 
 import android.content.Context
 import android.media.MediaScannerConnection

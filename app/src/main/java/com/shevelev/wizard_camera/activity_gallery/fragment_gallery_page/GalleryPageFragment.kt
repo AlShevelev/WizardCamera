@@ -13,8 +13,7 @@ import com.shevelev.wizard_camera.core.camera_gl.bitmap.GLSurfaceViewBitmap
 import com.shevelev.wizard_camera.core.camera_gl.bitmap.filters.GLSurfaceShaderFilter
 import com.shevelev.wizard_camera.databinding.FragmentGalleryPageBinding
 import com.shevelev.wizard_camera.core.camera_gl.shared.factory.FiltersFactory
-import com.shevelev.wizard_camera.core.camera_gl.shared.files.FilesHelper
-import com.shevelev.wizard_camera.core.ui_utils.mvvm.view.FragmentBase
+import com.shevelev.wizard_camera.core.photo_files.api.FilesHelper
 import com.shevelev.wizard_camera.core.utils.resources.getScreenSize
 import kotlinx.coroutines.*
 import timber.log.Timber

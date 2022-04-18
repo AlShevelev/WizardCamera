@@ -11,8 +11,8 @@ import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.dto.ShotsLoa
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.model.image_importer.ImageImporter
 import com.shevelev.wizard_camera.activity_gallery.shared.FragmentsDataPass
 import com.shevelev.wizard_camera.core.bitmaps.api.utils.BitmapHelper
-import com.shevelev.wizard_camera.core.camera_gl.shared.files.FilesHelper
-import com.shevelev.wizard_camera.core.camera_gl.shared.media_scanner.MediaScanner
+import com.shevelev.wizard_camera.core.photo_files.api.FilesHelper
+import com.shevelev.wizard_camera.core.photo_files.api.MediaScanner
 import com.shevelev.wizard_camera.core.database.api.repositories.PhotoShotRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi

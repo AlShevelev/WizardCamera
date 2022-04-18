@@ -1,7 +1,6 @@
-package com.shevelev.wizard_camera.core.camera_gl.shared.files
+package com.shevelev.wizard_camera.core.photo_files.impl
 
 import android.content.Context
-import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.core.utils.id.IdUtil
 import java.io.File
 import javax.inject.Inject
@@ -10,7 +9,8 @@ import kotlin.math.absoluteValue
 class FilesHelperImpl
 @Inject
 constructor(
-    private val appContext: Context
+    private val appContext: Context,
+    private val appName: String
 ) : com.shevelev.wizard_camera.core.photo_files.api.FilesHelper {
     override fun createFileForShot(): File = createFileForShot(getShotsDirectory())
 
@@ -31,7 +31,7 @@ constructor(
     }
 
     private fun getShotsDirectory(): File {
-        val dir = File(appContext.externalMediaDirs[0], appContext.getString(R.string.appName))
+        val dir = File(appContext.externalMediaDirs[0], appName)
         if(!dir.exists()) {
             dir.mkdir()
         }

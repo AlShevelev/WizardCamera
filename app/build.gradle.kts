@@ -84,6 +84,9 @@ dependencies {
 
     implementation(project(":core:ui_utils"))
 
+    implementation(project(":core:photo_files:impl"))
+    implementation(project(":core:photo_files:api"))
+
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
 
     implementation(Dependencies.appcompat)

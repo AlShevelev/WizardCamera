@@ -5,8 +5,8 @@ import com.shevelev.wizard_camera.activity_main.fragment_camera.model.dto.Screen
 import com.shevelev.wizard_camera.core.bitmaps.api.utils.BitmapHelper
 import com.shevelev.wizard_camera.core.common_entities.entities.PhotoShot
 import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.GlFilterSettings
-import com.shevelev.wizard_camera.core.camera_gl.shared.files.FilesHelper
-import com.shevelev.wizard_camera.core.camera_gl.shared.media_scanner.MediaScanner
+import com.shevelev.wizard_camera.core.photo_files.api.FilesHelper
+import com.shevelev.wizard_camera.core.photo_files.api.MediaScanner
 import com.shevelev.wizard_camera.core.database.api.repositories.PhotoShotRepository
 import com.shevelev.wizard_camera.core.utils.id.IdUtil
 import kotlinx.coroutines.Dispatchers

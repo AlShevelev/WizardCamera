@@ -1,4 +1,4 @@
-package com.shevelev.wizard_camera.core.camera_gl.shared.files
+package com.shevelev.wizard_camera.core.photo_files.api
 
 import java.io.File
 
