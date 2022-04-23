@@ -4,7 +4,7 @@ import com.shevelev.wizard_camera.activity_main.fragment_camera.view.CameraFragm
 import com.shevelev.wizard_camera.core.common_entities.di_scopes.FragmentScope
 import dagger.Subcomponent
 
-@Subcomponent(modules = [CameraFragmentModule::class])
+@Subcomponent(modules = [CameraFragmentDaggerModule::class])
 @FragmentScope
 interface CameraFragmentComponent {
     @Subcomponent.Builder

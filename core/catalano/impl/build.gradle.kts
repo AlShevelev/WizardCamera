@@ -25,4 +25,6 @@ android {
 
 dependencies {
     implementation(project(":core:catalano:api"))
+
+    implementation(Dependencies.koin)
 }

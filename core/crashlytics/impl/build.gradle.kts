@@ -27,4 +27,6 @@ dependencies {
     implementation(Dependencies.dagger)
     implementation(Dependencies.firebaseCrashlytics)
     implementation(Dependencies.timber)
+
+    implementation(Dependencies.koin)
 }

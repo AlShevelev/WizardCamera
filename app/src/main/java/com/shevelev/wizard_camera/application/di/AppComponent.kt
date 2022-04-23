@@ -7,7 +7,7 @@ import com.shevelev.wizard_camera.activity_main.di.MainActivityComponent
 import dagger.Component
 
 @Component(modules = [
-    AppModule::class,
+    AppDaggerModule::class,
     AppModuleBinds::class,
     AppModuleChild::class
 ])

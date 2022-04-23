@@ -7,7 +7,6 @@ import android.graphics.SurfaceTexture
 import android.os.Bundle
 import android.view.TextureView
 import android.view.View
-import androidx.fragment.app.viewModels
 import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.activity_gallery.GalleryActivity
 import com.shevelev.wizard_camera.activity_main.fragment_camera.di.CameraFragmentComponent
@@ -15,20 +14,21 @@ import com.shevelev.wizard_camera.activity_main.fragment_camera.model.dto.*
 import com.shevelev.wizard_camera.activity_main.fragment_camera.view.gestures.GesturesDetector
 import com.shevelev.wizard_camera.activity_main.fragment_camera.view_model.CameraFragmentViewModel
 import com.shevelev.wizard_camera.application.App
-import com.shevelev.wizard_camera.core.camera_gl.camera.filter.CameraFilter
-import com.shevelev.wizard_camera.core.camera_gl.camera.manager.CameraManager
-import com.shevelev.wizard_camera.core.camera_gl.camera.renderer.GLRenderer
-import com.shevelev.wizard_camera.core.camera_gl.camera.settings_repository.CameraSettingsRepository
-import com.shevelev.wizard_camera.databinding.FragmentCameraBinding
+import com.shevelev.wizard_camera.core.camera_gl.api.CameraSettingsRepository
+import com.shevelev.wizard_camera.core.camera_gl.impl.camera.filter.CameraFilter
+import com.shevelev.wizard_camera.core.camera_gl.impl.camera.manager.CameraManager
+import com.shevelev.wizard_camera.core.camera_gl.impl.camera.renderer.GLRenderer
 import com.shevelev.wizard_camera.core.ui_utils.mvvm.view.FragmentBaseMVVM
 import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_commands.ViewCommand
+import com.shevelev.wizard_camera.databinding.FragmentCameraBinding
+import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import permissions.dispatcher.NeedsPermission
 import permissions.dispatcher.OnPermissionDenied
 import permissions.dispatcher.RuntimePermissions
-import javax.inject.Inject
 
 @RuntimePermissions
-class CameraFragment : com.shevelev.wizard_camera.core.ui_utils.mvvm.view.FragmentBaseMVVM<FragmentCameraBinding, CameraFragmentViewModel>(), TextureView.SurfaceTextureListener {
+class CameraFragment : FragmentBaseMVVM<FragmentCameraBinding, CameraFragmentViewModel>(), TextureView.SurfaceTextureListener {
     private lateinit var textureView: TextureView
 
     private var renderer: GLRenderer? = null
@@ -37,10 +37,9 @@ class CameraFragment : com.shevelev.wizard_camera.core.ui_utils.mvvm.view.Fragme
 
     private lateinit var gestureDetector: GesturesDetector
 
-    @Inject
-    internal lateinit var cameraSettingsRepository: CameraSettingsRepository
+    private val cameraSettingsRepository: CameraSettingsRepository by inject()
 
-    override val viewModel: CameraFragmentViewModel by viewModels { viewModelFactory }
+    override val viewModel: CameraFragmentViewModel by viewModel()
 
     override fun layoutResId(): Int = R.layout.fragment_camera
 
@@ -48,7 +47,7 @@ class CameraFragment : com.shevelev.wizard_camera.core.ui_utils.mvvm.view.Fragme
         binding.viewModel = viewModel
     }
 
-    override fun inject() = App.injections.get<CameraFragmentComponent>().inject(this)
+    override fun injectDagger() = App.injections.get<CameraFragmentComponent>().inject(this)
 
     override fun releaseInjection() = App.injections.release<CameraFragmentComponent>()
 

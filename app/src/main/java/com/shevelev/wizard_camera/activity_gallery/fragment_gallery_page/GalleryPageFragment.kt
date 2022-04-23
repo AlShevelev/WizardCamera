@@ -9,18 +9,19 @@ import android.view.ViewGroup
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.dto.GalleryItem
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery_page.di.GalleryPageFragmentComponent
 import com.shevelev.wizard_camera.application.App
-import com.shevelev.wizard_camera.core.camera_gl.bitmap.GLSurfaceViewBitmap
-import com.shevelev.wizard_camera.core.camera_gl.bitmap.filters.GLSurfaceShaderFilter
-import com.shevelev.wizard_camera.databinding.FragmentGalleryPageBinding
-import com.shevelev.wizard_camera.core.camera_gl.shared.factory.FiltersFactory
+import com.shevelev.wizard_camera.core.camera_gl.impl.bitmap.GLSurfaceViewBitmap
+import com.shevelev.wizard_camera.core.camera_gl.impl.bitmap.filters.GLSurfaceShaderFilter
+import com.shevelev.wizard_camera.core.camera_gl.impl.shared.factory.FiltersFactory
 import com.shevelev.wizard_camera.core.photo_files.api.FilesHelper
+import com.shevelev.wizard_camera.core.ui_utils.mvvm.view.FragmentBase
 import com.shevelev.wizard_camera.core.utils.resources.getScreenSize
+import com.shevelev.wizard_camera.databinding.FragmentGalleryPageBinding
 import kotlinx.coroutines.*
 import timber.log.Timber
-import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
+import org.koin.android.ext.android.inject
 
-class GalleryPageFragment : com.shevelev.wizard_camera.core.ui_utils.mvvm.view.FragmentBase<FragmentGalleryPageBinding>(), CoroutineScope {
+class GalleryPageFragment : FragmentBase<FragmentGalleryPageBinding>(), CoroutineScope {
     private lateinit var scopeJob: Job
 
     private val errorHandler = CoroutineExceptionHandler { _, exception -> Timber.e(exception) }
@@ -32,10 +33,9 @@ class GalleryPageFragment : com.shevelev.wizard_camera.core.ui_utils.mvvm.view.F
      */
     override lateinit var coroutineContext: CoroutineContext
 
-    @Inject
-    internal lateinit var filesHelper: FilesHelper
+    private val filesHelper: FilesHelper by inject()
 
-    override fun inject() = App.injections.get<GalleryPageFragmentComponent>().inject(this)
+    override fun injectDagger() = App.injections.get<GalleryPageFragmentComponent>().inject(this)
 
     override fun releaseInjection() = App.injections.release<GalleryPageFragmentComponent>()
 

@@ -11,7 +11,6 @@ class BuildInfoImpl
 constructor(
     appContext: Context
 ) : BuildInfo {
-
     override val crashReportsEnabled: Boolean = BuildConfig.CRASH_REPORTS_ENABLED
 
     override val type: String = BuildConfig.BUILD_TYPE
@@ -21,4 +20,6 @@ constructor(
     override val isDebug: Boolean = BuildConfig.DEBUG
 
     override val locale: String = appContext.resources.getString(R.string.locale)
+
+    override val appName: String = appContext.getString(R.string.appName)
 }

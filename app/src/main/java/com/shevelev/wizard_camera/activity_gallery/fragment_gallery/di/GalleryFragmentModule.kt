@@ -1,6 +1,6 @@
 package com.shevelev.wizard_camera.activity_gallery.fragment_gallery.di
 
-import androidx.lifecycle.ViewModel
+import com.shevelev.wizard_camera.activity_gallery.di.GalleryActivityScope
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.model.GalleryFragmentInteractor
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.model.GalleryFragmentInteractorImpl
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.model.image_importer.ImageImporter
@@ -13,48 +13,53 @@ import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.view_model.G
 import com.shevelev.wizard_camera.core.bitmaps.api.type_detector.ImageTypeDetector
 import com.shevelev.wizard_camera.core.bitmaps.impl.type_detector.ImageTypeDetectorImpl
 import com.shevelev.wizard_camera.core.bitmaps.impl.type_detector.signatures.ImageSignatureFactory
-import com.shevelev.wizard_camera.core.common_entities.di_scopes.FragmentScope
-import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_model.FragmentViewModelFactory
-import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_model.FragmentViewModelFactoryImpl
-import dagger.Binds
-import dagger.Module
-import dagger.Provides
-import dagger.multibindings.IntoMap
+import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.dsl.module
 
-@Module(includes = [GalleryFragmentModule.GalleryFragmentModuleBinds::class])
-class GalleryFragmentModule {
-    @Module
-    abstract class GalleryFragmentModuleBinds {
-        @Binds
-        @FragmentScope
-        abstract fun bindViewModelFactory(factory: FragmentViewModelFactoryImpl): FragmentViewModelFactory
-
-        @Binds
-        @FragmentScope
-        abstract fun provideInteractor(interactor: GalleryFragmentInteractorImpl): GalleryFragmentInteractor
-
-        @Binds
-        @IntoMap
-        @com.shevelev.wizard_camera.core.ui_utils.mvvm.view_model.ViewModelKey(GalleryFragmentViewModel::class)
-        abstract fun provideViewModel(model: GalleryFragmentViewModel): ViewModel
-
-        @Binds
-        abstract fun provideGalleryHelper(helper: GalleryHelperImpl): GalleryHelper
-
-        @Binds
-        abstract fun provideSharingHelper(helper: SharingHelperImpl): SharingHelper
-
-        @Binds
-        abstract fun provideImageTypeDetector(detector: ImageTypeDetectorImpl): ImageTypeDetector
-
-        @Binds
-        abstract fun provideImageImporter(importer: ImageImporterImpl): ImageImporter
+val GalleryFragmentModule = module(createdAtStart = false) {
+    factory<GalleryFragmentInteractor> {
+        GalleryFragmentInteractorImpl(
+            appContext = get(),
+            photoShotRepository = get(),
+            filesHelper = get(),
+            mediaScanner = get(),
+            fragmentsDataPass = GalleryActivityScope.getScope().get(),
+            bitmapHelper = get(),
+            imageImporter = get()
+        )
     }
 
-    @Provides
-    fun provideImageSignaturesList() : List<com.shevelev.wizard_camera.core.bitmaps.impl.type_detector.signatures.ImageSignature> =
-        listOf(
-            ImageSignatureFactory.getJpegSignature(),
-            ImageSignatureFactory.getPngSignature()
+    factory<GalleryHelper> {
+        GalleryHelperImpl()
+    }
+
+    factory<SharingHelper> {
+        SharingHelperImpl()
+    }
+
+    factory<ImageTypeDetector> {
+        ImageTypeDetectorImpl(
+            appContext = get(),
+            signatures = listOf (
+                ImageSignatureFactory.getJpegSignature(),
+                ImageSignatureFactory.getPngSignature()
+            )
         )
+    }
+
+    factory<ImageImporter> {
+        ImageImporterImpl(
+            photoShotRepository = get(),
+            filesHelper = get(),
+            mediaScanner = get(),
+            bitmapHelper = get(),
+            imageTypeDetector = get()
+        )
+    }
+
+    viewModel {
+        GalleryFragmentViewModel(
+            interactor = get()
+        )
+    }
 }

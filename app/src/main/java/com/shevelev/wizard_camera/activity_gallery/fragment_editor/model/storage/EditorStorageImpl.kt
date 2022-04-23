@@ -15,13 +15,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-/**
- * @property sourceShot an initial shot
- */
 class EditorStorageImpl
 @Inject
 constructor(
-    private val sourceShot: PhotoShot,
     private val filesHelper: FilesHelper,
     private val photoShotRepository: PhotoShotRepository,
     private val fragmentsDataPass: FragmentsDataPass,
@@ -36,7 +32,9 @@ constructor(
 
     private val usedFilters = mutableMapOf<GlFilterCode, GlFilterSettings>()
 
-    override var lastUsedGlFilter: GlFilterSettings? = sourceShot.filter.takeIf { it.code != GlFilterCode.ORIGINAL }
+    private lateinit var sourceShot: PhotoShot
+
+    override var lastUsedGlFilter: GlFilterSettings? = null
         set(value) {
             value?.let {
                 field = it
@@ -52,11 +50,12 @@ constructor(
 
     override var isInNoFiltersMode: Boolean = false
 
-    init {
-        memorizeUsedFilter(sourceShot.filter)
-    }
+    override suspend fun initImage(sourceShot: PhotoShot) {
+        this.sourceShot = sourceShot
 
-    override suspend fun initImage() {
+        memorizeUsedFilter(sourceShot.filter)
+        lastUsedGlFilter = sourceShot.filter.takeIf { it.code != GlFilterCode.ORIGINAL }
+
         sourceImage = withContext(Dispatchers.IO) {
             BitmapFactory.decodeFile(filesHelper.getShotFileByName(sourceShot.fileName).absolutePath)
         }

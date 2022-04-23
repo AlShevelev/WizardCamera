@@ -4,12 +4,12 @@ import com.shevelev.wizard_camera.activity_gallery.fragment_editor.view.EditorFr
 import com.shevelev.wizard_camera.core.common_entities.di_scopes.FragmentScope
 import dagger.Subcomponent
 
-@Subcomponent(modules = [EditorFragmentModule::class])
+@Subcomponent(modules = [EditorFragmentDaggerModule::class])
 @FragmentScope
 interface EditorFragmentComponent {
     @Subcomponent.Builder
     interface Builder {
-        fun init(module: EditorFragmentModule): Builder
+        fun init(module: EditorFragmentDaggerModule): Builder
         fun build(): EditorFragmentComponent
     }
 

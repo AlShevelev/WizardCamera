@@ -21,8 +21,10 @@ android {
 dependencies {
     implementation(project(":core:photo_files:api"))
     implementation(project(":core:utils"))
+    implementation(project(":core:build_info:api"))
 
     implementation(Dependencies.kotlinxCoroutinesCore)
 
     implementation(Dependencies.dagger)
+    implementation(Dependencies.koin)
 }

@@ -62,7 +62,6 @@ android {
 }
 
 dependencies {
-    implementation(project(":core:camera_gl"))
     implementation(project(":core:utils"))
     implementation(project(":core:common_entities"))
 
@@ -86,6 +85,9 @@ dependencies {
 
     implementation(project(":core:photo_files:impl"))
     implementation(project(":core:photo_files:api"))
+
+    implementation(project(":core:camera_gl:impl"))
+    implementation(project(":core:camera_gl:api"))
 
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
 
@@ -124,6 +126,8 @@ dependencies {
     implementation(Dependencies.dagger)
     kapt(Dependencies.daggerCompiler)
     kapt(Dependencies.daggerAndroid)
+
+    implementation(Dependencies.koin)
 
     implementation(Dependencies.glide)
     kapt(Dependencies.glideCompiler)

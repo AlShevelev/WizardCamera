@@ -38,6 +38,8 @@ dependencies {
 
     implementation(Dependencies.exif)
 
+    implementation(Dependencies.koin)
+
     testImplementation(DependenciesTest.junit)
     androidTestImplementation(DependenciesTest.junitExt)
     androidTestImplementation(DependenciesTest.espresso)

@@ -9,13 +9,15 @@ import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.EditorFragmentInteractor
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.dto.ImageWithFilter
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_machines.api.*
+import com.shevelev.wizard_camera.core.common_entities.entities.PhotoShot
 import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.GlFilterSettings
 import com.shevelev.wizard_camera.core.ui_utils.binding_adapters.ButtonState
+import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_commands.CloseEditorCommand
+import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_commands.ShowEditorSaveDialogCommand
+import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_model.ViewModelBase
 import com.shevelev.wizard_camera.filters.display_data.FilterDisplayId
 import com.shevelev.wizard_camera.filters.filters_carousel.FilterEventsProcessor
 import com.shevelev.wizard_camera.filters.filters_carousel.FiltersListData
-import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_commands.CloseEditorCommand
-import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_commands.ShowEditorSaveDialogCommand
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -24,8 +26,9 @@ class EditorFragmentViewModel
 @Inject
 constructor(
     private val appContext: Context,
-    interactor: EditorFragmentInteractor
-) : com.shevelev.wizard_camera.core.ui_utils.mvvm.view_model.ViewModelBase<EditorFragmentInteractor>(interactor),
+    interactor: EditorFragmentInteractor,
+    private val sourceShot: PhotoShot,
+) : ViewModelBase<EditorFragmentInteractor>(interactor),
     FilterEventsProcessor {
 
     private val _screenTitle = MutableLiveData<String?>(null)
@@ -71,7 +74,7 @@ constructor(
 
         launch {
             _progressVisibility.value = View.VISIBLE
-            interactor.init()
+            interactor.init(sourceShot)
             _progressVisibility.value = View.GONE
         }
     }

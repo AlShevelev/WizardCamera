@@ -20,7 +20,7 @@ abstract class FragmentBase<VB: ViewBinding>: Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        inject()
+        injectDagger()
 
         if(isBackHandlerEnabled) {
             requireActivity().onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(isBackHandlerEnabled) {
@@ -61,7 +61,7 @@ abstract class FragmentBase<VB: ViewBinding>: Fragment() {
 
     open fun onDialogResult(isCanceled: Boolean, requestCode: Int, data: Any?) {}
 
-    protected open fun inject() {}
+    protected open fun injectDagger() {}
 
     protected open fun releaseInjection() {}
 

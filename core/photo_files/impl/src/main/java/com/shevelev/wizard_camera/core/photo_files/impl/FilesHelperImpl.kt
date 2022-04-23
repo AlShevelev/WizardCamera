@@ -1,6 +1,7 @@
 package com.shevelev.wizard_camera.core.photo_files.impl
 
 import android.content.Context
+import com.shevelev.wizard_camera.core.photo_files.api.FilesHelper
 import com.shevelev.wizard_camera.core.utils.id.IdUtil
 import java.io.File
 import javax.inject.Inject
@@ -11,7 +12,7 @@ class FilesHelperImpl
 constructor(
     private val appContext: Context,
     private val appName: String
-) : com.shevelev.wizard_camera.core.photo_files.api.FilesHelper {
+) : FilesHelper {
     override fun createFileForShot(): File = createFileForShot(getShotsDirectory())
 
     override fun createTempFileForShot(): File = createFileForShot(appContext.cacheDir)

@@ -46,4 +46,7 @@ object Dependencies {
 
     const val room = "androidx.room:room-runtime:${Versions.room}"
     const val roomCompiler = "androidx.room:room-compiler:${Versions.room}"
+
+    const val koin = "io.insert-koin:koin-android:${Versions.koin}"
+
 }

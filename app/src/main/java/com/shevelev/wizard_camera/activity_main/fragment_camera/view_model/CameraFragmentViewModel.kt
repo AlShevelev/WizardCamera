@@ -17,6 +17,7 @@ import com.shevelev.wizard_camera.filters.display_data.FilterDisplayId
 import com.shevelev.wizard_camera.filters.filters_carousel.FilterEventsProcessor
 import com.shevelev.wizard_camera.filters.filters_carousel.FiltersListData
 import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_commands.ShowMessageResCommand
+import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_model.ViewModelBase
 import com.shevelev.wizard_camera.core.utils.ext.format
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -27,7 +28,7 @@ class CameraFragmentViewModel
 constructor(
     private val appContext: Context,
     interactor: CameraFragmentInteractor
-) : com.shevelev.wizard_camera.core.ui_utils.mvvm.view_model.ViewModelBase<CameraFragmentInteractor>(interactor),
+) : ViewModelBase<CameraFragmentInteractor>(interactor),
     FilterEventsProcessor {
 
     private val _selectedFilter = MutableLiveData(interactor.filters.displayFilter)

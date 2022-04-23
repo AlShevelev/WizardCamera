@@ -2,11 +2,11 @@ package com.shevelev.wizard_camera.application.di_storage
 
 import android.app.Application
 import com.shevelev.wizard_camera.application.di.AppComponent
-import com.shevelev.wizard_camera.application.di.AppModule
+import com.shevelev.wizard_camera.application.di.AppDaggerModule
 import com.shevelev.wizard_camera.application.di.DaggerAppComponent
 import com.shevelev.wizard_camera.activity_gallery.di.GalleryActivityComponent
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.di.EditorFragmentComponent
-import com.shevelev.wizard_camera.activity_gallery.fragment_editor.di.EditorFragmentModule
+import com.shevelev.wizard_camera.activity_gallery.fragment_editor.di.EditorFragmentDaggerModule
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.di.GalleryFragmentComponent
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery_page.di.GalleryPageFragmentComponent
 import com.shevelev.wizard_camera.activity_main.di.MainActivityComponent
@@ -43,7 +43,7 @@ class DependencyInjectionStorage(private val app: Application) {
     private fun <T> provideComponent(type: KClass<*>, args: Array<out Any?>): T {
         @Suppress("EXPERIMENTAL_API_USAGE")
         return when (type) {
-            AppComponent::class -> DaggerAppComponent.builder().appModule(AppModule(app)).build()
+            AppComponent::class -> DaggerAppComponent.builder().appDaggerModule(AppDaggerModule(app)).build()
 
             MainActivityComponent::class -> get<AppComponent>().mainActivity.build()
 
@@ -55,7 +55,7 @@ class DependencyInjectionStorage(private val app: Application) {
 
             EditorFragmentComponent::class ->
                 get<GalleryActivityComponent>().editorFragment
-                    .init(EditorFragmentModule(args[0] as PhotoShot))
+                    .init(EditorFragmentDaggerModule(args[0] as PhotoShot))
                     .build()
 
             else -> throw UnsupportedOperationException("This component is not supported: ${type.simpleName}")

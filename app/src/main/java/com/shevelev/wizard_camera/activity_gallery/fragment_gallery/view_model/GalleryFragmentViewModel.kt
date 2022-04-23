@@ -23,7 +23,7 @@ class GalleryFragmentViewModel
 @Inject
 constructor(
     interactor: GalleryFragmentInteractor
-) : com.shevelev.wizard_camera.core.ui_utils.mvvm.view_model.ViewModelBase<GalleryFragmentInteractor>(interactor),
+) : ViewModelBase<GalleryFragmentInteractor>(interactor),
     GalleryPagingActions {
 
     private val _photos = MutableLiveData<List<GalleryItem>>()

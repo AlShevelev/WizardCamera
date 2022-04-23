@@ -3,6 +3,7 @@ package com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_machines.api.*
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.storage.EditorStorage
 import com.shevelev.wizard_camera.activity_main.fragment_camera.model.filters_facade.settings.FilterSettingsFacade
+import com.shevelev.wizard_camera.core.common_entities.entities.PhotoShot
 import com.shevelev.wizard_camera.filters.display_data.gl.FilterDisplayDataList
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -51,14 +52,14 @@ constructor(
         }
     }
 
-    override suspend fun start() {
+    override suspend fun start(sourceShot: PhotoShot) {
         val initialMachine = if(editorStorage.lastUsedGlFilter == null) {
             InitialMachine.NO_FILTERS
         } else {
             InitialMachine.GL_FILTERS
         }
 
-        editorStorage.initImage()
+        editorStorage.initImage(sourceShot)
 
         when (initialMachine) {
             InitialMachine.NO_FILTERS -> switchToMachine(noFilterMachine)

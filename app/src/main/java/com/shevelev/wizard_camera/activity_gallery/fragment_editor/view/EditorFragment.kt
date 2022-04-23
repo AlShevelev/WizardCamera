@@ -3,24 +3,25 @@ package com.shevelev.wizard_camera.activity_gallery.fragment_editor.view
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.di.EditorFragmentComponent
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.dto.ImageWithFilter
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.view_model.EditorFragmentViewModel
 import com.shevelev.wizard_camera.application.App
-import com.shevelev.wizard_camera.core.camera_gl.bitmap.GLSurfaceViewBitmap
-import com.shevelev.wizard_camera.core.camera_gl.bitmap.filters.GLSurfaceShaderFilter
+import com.shevelev.wizard_camera.core.camera_gl.impl.bitmap.GLSurfaceViewBitmap
+import com.shevelev.wizard_camera.core.camera_gl.impl.bitmap.filters.GLSurfaceShaderFilter
+import com.shevelev.wizard_camera.core.camera_gl.impl.shared.factory.FiltersFactory
 import com.shevelev.wizard_camera.core.common_entities.entities.PhotoShot
-import com.shevelev.wizard_camera.databinding.FragmentEditorBinding
 import com.shevelev.wizard_camera.core.ui_utils.dialogs.ConfirmationDialog
-import com.shevelev.wizard_camera.core.camera_gl.shared.factory.FiltersFactory
 import com.shevelev.wizard_camera.core.ui_utils.mvvm.view.FragmentBaseMVVM
 import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_commands.CloseEditorCommand
 import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_commands.ShowEditorSaveDialogCommand
 import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_commands.ViewCommand
 import com.shevelev.wizard_camera.core.utils.resources.getScreenSize
+import com.shevelev.wizard_camera.databinding.FragmentEditorBinding
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 
 class EditorFragment : FragmentBaseMVVM<FragmentEditorBinding, EditorFragmentViewModel>() {
     private var glFilter: GLSurfaceShaderFilter? = null
@@ -30,7 +31,9 @@ class EditorFragment : FragmentBaseMVVM<FragmentEditorBinding, EditorFragmentVie
     override val isBackHandlerEnabled: Boolean
         get() = true
 
-    override val viewModel: EditorFragmentViewModel by viewModels { viewModelFactory }
+    override val viewModel: EditorFragmentViewModel by viewModel {
+        parametersOf(requireArguments().getParcelable<PhotoShot>(ARG_PHOTO)!!)
+    }
 
     override fun layoutResId(): Int = R.layout.fragment_editor
 
@@ -38,10 +41,9 @@ class EditorFragment : FragmentBaseMVVM<FragmentEditorBinding, EditorFragmentVie
         binding.viewModel = viewModel
     }
 
-    override fun inject() {
+    override fun injectDagger() {
         val photoSettings = requireArguments().getParcelable<PhotoShot>(ARG_PHOTO)!!
         App.injections.get<EditorFragmentComponent>(photoSettings).inject(this)
-
     }
 
     override fun releaseInjection() {

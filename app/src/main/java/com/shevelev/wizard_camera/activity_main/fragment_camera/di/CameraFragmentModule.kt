@@ -1,12 +1,9 @@
 package com.shevelev.wizard_camera.activity_main.fragment_camera.di
 
-import androidx.lifecycle.ViewModel
 import com.shevelev.wizard_camera.activity_main.fragment_camera.model.CameraFragmentInteractor
 import com.shevelev.wizard_camera.activity_main.fragment_camera.model.CameraFragmentInteractorImpl
 import com.shevelev.wizard_camera.activity_main.fragment_camera.model.filters_facade.FiltersFacade
 import com.shevelev.wizard_camera.activity_main.fragment_camera.model.filters_facade.FiltersFacadeImpl
-import com.shevelev.wizard_camera.filters.display_data.gl.FilterDisplayDataList
-import com.shevelev.wizard_camera.filters.display_data.gl.FilterDisplayDataListImpl
 import com.shevelev.wizard_camera.activity_main.fragment_camera.model.filters_facade.settings.FilterSettingsFacade
 import com.shevelev.wizard_camera.activity_main.fragment_camera.model.filters_facade.settings.FilterSettingsFacadeImpl
 import com.shevelev.wizard_camera.activity_main.fragment_camera.model.image_capture.ImageCapture
@@ -14,40 +11,59 @@ import com.shevelev.wizard_camera.activity_main.fragment_camera.model.image_capt
 import com.shevelev.wizard_camera.activity_main.fragment_camera.model.orientation.OrientationManager
 import com.shevelev.wizard_camera.activity_main.fragment_camera.model.orientation.OrientationManagerImpl
 import com.shevelev.wizard_camera.activity_main.fragment_camera.view_model.CameraFragmentViewModel
-import com.shevelev.wizard_camera.core.common_entities.di_scopes.FragmentScope
-import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_model.*
-import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_model.ViewModelKey
-import dagger.Binds
-import dagger.Module
-import dagger.multibindings.IntoMap
+import com.shevelev.wizard_camera.filters.display_data.gl.FilterDisplayDataList
+import com.shevelev.wizard_camera.filters.display_data.gl.FilterDisplayDataListImpl
+import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.dsl.module
 
-@Module
-abstract class CameraFragmentModule {
-    @Binds
-    @FragmentScope
-    abstract fun bindViewModelFactory(factory: FragmentViewModelFactoryImpl): FragmentViewModelFactory
+val CameraFragmentModule = module(createdAtStart = false) {
+    factory<FilterSettingsFacade> {
+        FilterSettingsFacadeImpl(
+            filterSettingsRepository = get()
+        )
+    }
 
-    @Binds
-    @FragmentScope
-    abstract fun provideInteractor(model: CameraFragmentInteractorImpl): CameraFragmentInteractor
+    factory<FilterDisplayDataList> {
+        FilterDisplayDataListImpl()
+    }
 
-    @Binds
-    @IntoMap
-    @ViewModelKey(CameraFragmentViewModel::class)
-    abstract fun provideViewModel(model: CameraFragmentViewModel): ViewModel
+    factory<OrientationManager> {
+        OrientationManagerImpl(
+            context = get()
+        )
+    }
 
-    @Binds
-    abstract fun provideFiltersRepository(repository: FiltersFacadeImpl): FiltersFacade
+    factory<ImageCapture> {
+        ImageCaptureImpl(
+            photoShotRepository = get(),
+            filesHelper = get(),
+            mediaScanner = get(),
+            bitmapHelper = get()
+        )
+    }
 
-    @Binds
-    abstract fun provideImageCapture(capture: ImageCaptureImpl): ImageCapture
+    factory<FiltersFacade> {
+        FiltersFacadeImpl(
+            lastUsedFilterRepository = get(),
+            favoriteFilterRepository = get(),
+            displayData = get(),
+            filterSettings = get()
+        )
+    }
 
-    @Binds
-    abstract fun provideOrientationManager(manager: OrientationManagerImpl): OrientationManager
+    factory<CameraFragmentInteractor> {
+        CameraFragmentInteractorImpl(
+            filters = get(),
+            capture = get(),
+            orientation = get(),
+            cameraSettings = get()
+        )
+    }
 
-    @Binds
-    abstract fun provideFilterDisplayDataList(list: FilterDisplayDataListImpl): FilterDisplayDataList
-
-    @Binds
-    abstract fun provideFilterSettingsFacade(facade: FilterSettingsFacadeImpl): FilterSettingsFacade
+    viewModel {
+        CameraFragmentViewModel(
+            appContext = get(),
+            interactor = get()
+        )
+    }
 }

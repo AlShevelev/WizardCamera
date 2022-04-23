@@ -1,6 +1,7 @@
 package com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.storage
 
 import android.graphics.Bitmap
+import com.shevelev.wizard_camera.core.common_entities.entities.PhotoShot
 import com.shevelev.wizard_camera.core.common_entities.enums.GlFilterCode
 import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.GlFilterSettings
 
@@ -15,7 +16,7 @@ interface EditorStorage {
 
     var isInNoFiltersMode: Boolean
 
-    suspend fun initImage()
+    suspend fun initImage(sourceShot: PhotoShot)
 
     fun switchToSourceImage()
 

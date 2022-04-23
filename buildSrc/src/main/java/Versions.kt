@@ -14,6 +14,7 @@ object Versions {
     // Main libraries
     const val coreKtx = "1.7.0"
     const val dagger = "2.36"
+    const val koin = "3.1.6"
     const val room = "2.4.2"
     const val camerax = "1.0.2"
 

@@ -4,8 +4,8 @@ import com.shevelev.wizard_camera.application.build_info.BuildInfoImpl
 import com.shevelev.wizard_camera.core.bitmaps.api.utils.BitmapHelper
 import com.shevelev.wizard_camera.core.bitmaps.impl.utils.BitmapHelperImpl
 import com.shevelev.wizard_camera.core.build_info.api.BuildInfo
-import com.shevelev.wizard_camera.core.camera_gl.camera.settings_repository.CameraSettingsRepository
-import com.shevelev.wizard_camera.core.camera_gl.camera.settings_repository.CameraSettingsRepositoryImpl
+import com.shevelev.wizard_camera.core.camera_gl.api.CameraSettingsRepository
+import com.shevelev.wizard_camera.core.camera_gl.impl.camera.settings_repository.CameraSettingsRepositoryImpl
 import com.shevelev.wizard_camera.core.common_entities.di_scopes.ApplicationScope
 import com.shevelev.wizard_camera.core.crashlytics.api.CrashlyticsFacade
 import com.shevelev.wizard_camera.core.crashlytics.api.device_info.DeviceInfoProvider

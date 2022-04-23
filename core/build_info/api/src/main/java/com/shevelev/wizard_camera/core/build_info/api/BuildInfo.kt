@@ -13,4 +13,6 @@ interface BuildInfo {
     val isDebug: Boolean
 
     val locale : String
+
+    val appName: String
 }

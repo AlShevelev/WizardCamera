@@ -7,7 +7,7 @@ import com.shevelev.wizard_camera.activity_main.di.MainActivityComponent
 import com.shevelev.wizard_camera.core.ui_utils.ext.hideSystemUI
 import com.shevelev.wizard_camera.core.ui_utils.mvvm.view.ActivityBase
 
-class MainActivity : com.shevelev.wizard_camera.core.ui_utils.mvvm.view.ActivityBase() {
+class MainActivity : ActivityBase() {
     override fun inject() = App.injections.get<MainActivityComponent>().inject(this)
 
     override fun releaseInjection() = App.injections.release<MainActivityComponent>()
