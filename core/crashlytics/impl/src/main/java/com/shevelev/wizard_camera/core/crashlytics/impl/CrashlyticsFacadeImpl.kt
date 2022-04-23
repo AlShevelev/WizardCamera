@@ -4,10 +4,8 @@ import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.shevelev.wizard_camera.core.build_info.api.BuildInfo
 import com.shevelev.wizard_camera.core.crashlytics.api.CrashlyticsFacade
 import com.shevelev.wizard_camera.core.crashlytics.api.device_info.DeviceInfoProvider
-import javax.inject.Inject
 
 class CrashlyticsFacadeImpl
-@Inject
 constructor(
     deviceInfoProvider: DeviceInfoProvider,
     buildInfo: BuildInfo

@@ -15,10 +15,8 @@ import com.shevelev.wizard_camera.core.database.api.repositories.FavoriteFilterR
 import com.shevelev.wizard_camera.core.database.api.repositories.LastUsedFilterRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
 class FiltersFacadeImpl
-@Inject
 constructor(
     private val lastUsedFilterRepository: LastUsedFilterRepository,
     private val favoriteFilterRepository: FavoriteFilterRepository,

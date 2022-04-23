@@ -123,10 +123,6 @@ dependencies {
 
     implementation(Dependencies.exif)
 
-    implementation(Dependencies.dagger)
-    kapt(Dependencies.daggerCompiler)
-    kapt(Dependencies.daggerAndroid)
-
     implementation(Dependencies.koin)
 
     implementation(Dependencies.glide)

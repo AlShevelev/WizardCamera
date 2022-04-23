@@ -38,7 +38,5 @@ dependencies {
     implementation(Dependencies.glide)
     kapt(Dependencies.glideCompiler)
 
-    implementation(Dependencies.dagger)
-
     implementation(Dependencies.timber)
 }

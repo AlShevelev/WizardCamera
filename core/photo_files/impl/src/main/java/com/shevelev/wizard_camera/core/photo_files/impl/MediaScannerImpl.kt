@@ -7,10 +7,8 @@ import com.shevelev.wizard_camera.core.photo_files.api.MediaScanner
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
 import java.io.File
-import javax.inject.Inject
 
 class MediaScannerImpl
-@Inject
 constructor(
     private val appContext: Context
 ) : MediaScanner {

@@ -22,12 +22,10 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.withContext
 import timber.log.Timber
-import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
 @FlowPreview
 class GalleryFragmentInteractorImpl
-@Inject
 constructor(
     private val appContext: Context,
     private val photoShotRepository: PhotoShotRepository,

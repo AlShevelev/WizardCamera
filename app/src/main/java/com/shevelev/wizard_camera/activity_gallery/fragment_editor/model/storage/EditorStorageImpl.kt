@@ -13,10 +13,8 @@ import com.shevelev.wizard_camera.core.database.api.repositories.PhotoShotReposi
 import com.shevelev.wizard_camera.core.photo_files.api.FilesHelper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
 class EditorStorageImpl
-@Inject
 constructor(
     private val filesHelper: FilesHelper,
     private val photoShotRepository: PhotoShotRepository,

@@ -3,10 +3,8 @@ package com.shevelev.wizard_camera.core.database.impl.type_converters.filter_set
 import com.shevelev.wizard_camera.core.common_entities.enums.GlFilterCode
 import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.*
 import com.squareup.moshi.Moshi
-import javax.inject.Inject
 
 class FilerSettingsConverterImpl 
-@Inject
 constructor(
     private val moshi: Moshi
 ) : FilerSettingsConverter {

@@ -5,10 +5,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.navigation.fragment.findNavController
 import com.shevelev.wizard_camera.R
-import com.shevelev.wizard_camera.activity_gallery.fragment_editor.di.EditorFragmentComponent
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.dto.ImageWithFilter
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.view_model.EditorFragmentViewModel
-import com.shevelev.wizard_camera.application.App
 import com.shevelev.wizard_camera.core.camera_gl.impl.bitmap.GLSurfaceViewBitmap
 import com.shevelev.wizard_camera.core.camera_gl.impl.bitmap.filters.GLSurfaceShaderFilter
 import com.shevelev.wizard_camera.core.camera_gl.impl.shared.factory.FiltersFactory
@@ -39,15 +37,6 @@ class EditorFragment : FragmentBaseMVVM<FragmentEditorBinding, EditorFragmentVie
 
     override fun linkViewModel(binding: FragmentEditorBinding, viewModel: EditorFragmentViewModel) {
         binding.viewModel = viewModel
-    }
-
-    override fun injectDagger() {
-        val photoSettings = requireArguments().getParcelable<PhotoShot>(ARG_PHOTO)!!
-        App.injections.get<EditorFragmentComponent>(photoSettings).inject(this)
-    }
-
-    override fun releaseInjection() {
-        App.injections.release<EditorFragmentComponent>()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

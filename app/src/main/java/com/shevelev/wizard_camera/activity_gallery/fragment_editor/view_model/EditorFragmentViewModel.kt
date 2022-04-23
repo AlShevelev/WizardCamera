@@ -19,11 +19,9 @@ import com.shevelev.wizard_camera.filters.display_data.FilterDisplayId
 import com.shevelev.wizard_camera.filters.filters_carousel.FilterEventsProcessor
 import com.shevelev.wizard_camera.filters.filters_carousel.FiltersListData
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @SuppressLint("StaticFieldLeak")
 class EditorFragmentViewModel
-@Inject
 constructor(
     private val appContext: Context,
     interactor: EditorFragmentInteractor,

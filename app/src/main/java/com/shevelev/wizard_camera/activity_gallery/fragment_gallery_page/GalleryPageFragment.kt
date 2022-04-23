@@ -7,8 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.dto.GalleryItem
-import com.shevelev.wizard_camera.activity_gallery.fragment_gallery_page.di.GalleryPageFragmentComponent
-import com.shevelev.wizard_camera.application.App
 import com.shevelev.wizard_camera.core.camera_gl.impl.bitmap.GLSurfaceViewBitmap
 import com.shevelev.wizard_camera.core.camera_gl.impl.bitmap.filters.GLSurfaceShaderFilter
 import com.shevelev.wizard_camera.core.camera_gl.impl.shared.factory.FiltersFactory
@@ -34,10 +32,6 @@ class GalleryPageFragment : FragmentBase<FragmentGalleryPageBinding>(), Coroutin
     override lateinit var coroutineContext: CoroutineContext
 
     private val filesHelper: FilesHelper by inject()
-
-    override fun injectDagger() = App.injections.get<GalleryPageFragmentComponent>().inject(this)
-
-    override fun releaseInjection() = App.injections.release<GalleryPageFragmentComponent>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         scopeJob = SupervisorJob()

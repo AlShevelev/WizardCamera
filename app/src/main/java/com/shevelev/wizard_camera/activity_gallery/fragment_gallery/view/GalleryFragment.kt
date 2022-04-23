@@ -7,14 +7,12 @@ import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.view.EditorFragment
-import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.di.GalleryFragmentComponent
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.dto.EditShotCommand
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.dto.ShareShotCommand
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.view.adapter.GalleryAdapter
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.view.external_actions.GalleryHelper
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.view.external_actions.SharingHelper
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.view_model.GalleryFragmentViewModel
-import com.shevelev.wizard_camera.application.App
 import com.shevelev.wizard_camera.core.ui_utils.dialogs.ConfirmationDialog
 import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_commands.ScrollGalleryToPosition
 import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_commands.ViewCommand
@@ -35,15 +33,6 @@ class GalleryFragment : com.shevelev.wizard_camera.core.ui_utils.mvvm.view.Fragm
 
     override fun linkViewModel(binding: FragmentGalleryBinding, viewModel: GalleryFragmentViewModel) {
         binding.viewModel = viewModel
-    }
-
-    override fun injectDagger() {
-        App.injections.get<GalleryFragmentComponent>().inject(this)
-
-    }
-
-    override fun releaseInjection() {
-        App.injections.release<GalleryFragmentComponent>()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

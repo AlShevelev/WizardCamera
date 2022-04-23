@@ -20,8 +20,6 @@ abstract class FragmentBase<VB: ViewBinding>: Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        injectDagger()
-
         if(isBackHandlerEnabled) {
             requireActivity().onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(isBackHandlerEnabled) {
                 override fun handleOnBackPressed() {
@@ -51,19 +49,7 @@ abstract class FragmentBase<VB: ViewBinding>: Fragment() {
         _binding = null
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-
-        if(!isDestroyedBySystem) {
-            releaseInjection()
-        }
-    }
-
     open fun onDialogResult(isCanceled: Boolean, requestCode: Int, data: Any?) {}
-
-    protected open fun injectDagger() {}
-
-    protected open fun releaseInjection() {}
 
     protected open fun onBackPressed() { }
 

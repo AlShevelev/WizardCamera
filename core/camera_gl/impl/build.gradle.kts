@@ -43,6 +43,5 @@ dependencies {
     implementation(Dependencies.cameraLifecycle)
 
     implementation(Dependencies.timber)
-    implementation(Dependencies.dagger)
     implementation(Dependencies.koin)
 }

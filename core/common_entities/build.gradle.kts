@@ -41,6 +41,4 @@ dependencies {
     implementation(Dependencies.timber)
 
     implementation(Dependencies.threeTen)
-
-    implementation(Dependencies.dagger)
 }

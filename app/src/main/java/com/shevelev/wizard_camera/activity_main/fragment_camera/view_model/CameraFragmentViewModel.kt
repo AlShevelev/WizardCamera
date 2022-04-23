@@ -20,11 +20,9 @@ import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_commands.ShowMessageRe
 import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_model.ViewModelBase
 import com.shevelev.wizard_camera.core.utils.ext.format
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @SuppressLint("StaticFieldLeak")
 class CameraFragmentViewModel
-@Inject
 constructor(
     private val appContext: Context,
     interactor: CameraFragmentInteractor

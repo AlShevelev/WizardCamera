@@ -5,10 +5,8 @@ import com.shevelev.wizard_camera.core.database.api.repositories.FavoriteFilterR
 import com.shevelev.wizard_camera.core.database.impl.core.DbCore
 import com.shevelev.wizard_camera.core.database.impl.entities.FavoriteFilterDb
 import com.shevelev.wizard_camera.core.utils.id.IdUtil
-import javax.inject.Inject
 
 class FavoriteFilterRepositoryImpl
-@Inject
 constructor(
     private val db: DbCore
 ) : FavoriteFilterRepository {

@@ -34,7 +34,6 @@ dependencies {
 
     implementation(Dependencies.threeTen)
 
-    implementation(Dependencies.dagger)
     implementation(Dependencies.koin)
 
     implementation(Dependencies.room)

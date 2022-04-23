@@ -12,9 +12,7 @@ import com.shevelev.wizard_camera.core.ui_utils.mvvm.model.InteractorBase
 import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_commands.ShowMessageResCommand
 import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_commands.ShowMessageTextCommand
 import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_commands.ViewCommand
-import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_model.FragmentViewModelFactory
 import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_model.ViewModelBase
-import javax.inject.Inject
 
 /**
  * Base class for all fragments
@@ -22,9 +20,6 @@ import javax.inject.Inject
 abstract class FragmentBaseMVVM<VDB: ViewDataBinding, VM: ViewModelBase<out InteractorBase>> : FragmentBase<VDB>() {
 
     protected abstract val viewModel: VM
-
-    @Inject
-    lateinit var viewModelFactory: FragmentViewModelFactory
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         viewModel.command.observe(viewLifecycleOwner) {

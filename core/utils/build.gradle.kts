@@ -42,5 +42,4 @@ dependencies {
     implementation(Dependencies.coreKtx)
     implementation(Dependencies.timber)
     implementation(Dependencies.threeTen)
-    implementation(Dependencies.dagger)
 }

@@ -6,10 +6,8 @@ import com.shevelev.wizard_camera.core.bitmaps.api.type_detector.ImageType
 import com.shevelev.wizard_camera.core.bitmaps.api.type_detector.ImageTypeDetector
 import com.shevelev.wizard_camera.core.bitmaps.impl.type_detector.signatures.ImageSignature
 import java.io.InputStream
-import javax.inject.Inject
 
 class ImageTypeDetectorImpl
-@Inject
 constructor(
     private val appContext: Context,
     private val signatures: List<ImageSignature>,

@@ -5,11 +5,8 @@ import android.content.Intent
 import android.net.Uri
 import android.provider.MediaStore
 import androidx.fragment.app.Fragment
-import javax.inject.Inject
 
-class GalleryHelperImpl
-@Inject
-constructor() : ExternalActionHelperBase(), GalleryHelper {
+class GalleryHelperImpl : ExternalActionHelperBase(), GalleryHelper {
 
     override fun startTakingPhoto(fragment: Fragment): Boolean {
         val takePictureIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)

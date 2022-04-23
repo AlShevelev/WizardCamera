@@ -32,10 +32,6 @@ object Dependencies {
 
     const val exif = "androidx.exifinterface:exifinterface:${Versions.exif}"
 
-    const val dagger = "com.google.dagger:dagger:${Versions.dagger}"
-    const val daggerCompiler = "com.google.dagger:dagger-compiler:${Versions.dagger}"
-    const val daggerAndroid = "com.google.dagger:dagger-android-processor:${Versions.dagger}"
-
     const val glide = "com.github.bumptech.glide:glide:${Versions.glide}"
     const val glideCompiler = "com.github.bumptech.glide:compiler:${Versions.glide}"
 

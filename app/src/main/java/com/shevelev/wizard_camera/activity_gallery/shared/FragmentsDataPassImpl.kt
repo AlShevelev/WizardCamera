@@ -1,14 +1,9 @@
 package com.shevelev.wizard_camera.activity_gallery.shared
 
-import com.shevelev.wizard_camera.core.common_entities.di_scopes.ActivityScope
 import com.shevelev.wizard_camera.core.common_entities.entities.PhotoShot
 import com.shevelev.wizard_camera.core.ui_utils.fragment_data_pass.FragmentsDataPushBase
-import javax.inject.Inject
 
-@ActivityScope
-class FragmentsDataPassImpl
-@Inject
-constructor() : FragmentsDataPushBase(), FragmentsDataPass {
+class FragmentsDataPassImpl : FragmentsDataPushBase(), FragmentsDataPass {
     override fun putPhotoShot(photoShot: PhotoShot) = put(PHOTO_SHOT, photoShot)
 
     /**

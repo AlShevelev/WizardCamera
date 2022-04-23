@@ -4,11 +4,8 @@ import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.core.common_entities.enums.GlFilterCode
 import com.shevelev.wizard_camera.filters.display_data.FilterDisplayData
 import com.shevelev.wizard_camera.filters.display_data.FilterDisplayId
-import javax.inject.Inject
 
-class FilterDisplayDataListImpl
-@Inject
-constructor() : FilterDisplayDataList {
+class FilterDisplayDataListImpl : FilterDisplayDataList {
     private val items = listOf(
         FilterDisplayData(
             FilterDisplayId.create(GlFilterCode.EDGE_DETECTION),

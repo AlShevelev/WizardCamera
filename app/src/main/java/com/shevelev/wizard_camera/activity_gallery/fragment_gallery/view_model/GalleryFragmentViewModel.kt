@@ -17,10 +17,8 @@ import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_model.ViewModelBase
 import kotlinx.coroutines.launch
 import org.threeten.bp.format.DateTimeFormatter
 import org.threeten.bp.format.FormatStyle
-import javax.inject.Inject
 
 class GalleryFragmentViewModel
-@Inject
 constructor(
     interactor: GalleryFragmentInteractor
 ) : ViewModelBase<GalleryFragmentInteractor>(interactor),

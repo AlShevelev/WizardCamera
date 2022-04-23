@@ -8,13 +8,9 @@ import android.hardware.camera2.CameraManager
 import android.util.Size
 import android.view.WindowManager
 import com.shevelev.wizard_camera.core.camera_gl.api.CameraSettingsRepository
-import com.shevelev.wizard_camera.core.common_entities.di_scopes.ApplicationScope
-import javax.inject.Inject
 import kotlin.math.abs
 
-@ApplicationScope
 class CameraSettingsRepositoryImpl
-@Inject
 constructor(
     private val appContext: Context
 ) : CameraSettingsRepository {

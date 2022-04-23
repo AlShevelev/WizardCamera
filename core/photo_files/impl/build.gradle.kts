@@ -25,6 +25,5 @@ dependencies {
 
     implementation(Dependencies.kotlinxCoroutinesCore)
 
-    implementation(Dependencies.dagger)
     implementation(Dependencies.koin)
 }

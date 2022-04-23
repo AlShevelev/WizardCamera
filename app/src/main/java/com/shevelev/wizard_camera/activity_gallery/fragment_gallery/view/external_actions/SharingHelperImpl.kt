@@ -4,11 +4,8 @@ import android.content.Intent
 import android.net.Uri
 import androidx.fragment.app.Fragment
 import com.shevelev.wizard_camera.R
-import javax.inject.Inject
 
-class SharingHelperImpl
-@Inject
-constructor() : ExternalActionHelperBase(), SharingHelper {
+class SharingHelperImpl : ExternalActionHelperBase(), SharingHelper {
 
     override fun startSharing(contentUri: Uri, fragment: Fragment): Boolean {
         val shareIntent = Intent().apply {

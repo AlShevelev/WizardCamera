@@ -5,10 +5,8 @@ import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_m
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_machines.api.StateMachinesOrchestrator
 import com.shevelev.wizard_camera.core.common_entities.entities.PhotoShot
 import kotlinx.coroutines.flow.SharedFlow
-import javax.inject.Inject
 
 class EditorFragmentInteractorImpl
-@Inject
 constructor(
     private val stateMachinesOrchestrator: StateMachinesOrchestrator
 ) : EditorFragmentInteractor {

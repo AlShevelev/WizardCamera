@@ -14,10 +14,8 @@ import com.shevelev.wizard_camera.core.utils.id.IdUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.threeten.bp.ZonedDateTime
-import javax.inject.Inject
 
 class ImageImporterImpl
-@Inject
 constructor(
     private val photoShotRepository: PhotoShotRepository,
     private val filesHelper: FilesHelper,

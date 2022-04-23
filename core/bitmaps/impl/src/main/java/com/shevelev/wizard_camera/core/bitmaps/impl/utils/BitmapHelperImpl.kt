@@ -9,10 +9,8 @@ import androidx.exifinterface.media.ExifInterface
 import com.shevelev.wizard_camera.core.bitmaps.api.utils.BitmapHelper
 import java.io.File
 import java.io.OutputStream
-import javax.inject.Inject
 
 class BitmapHelperImpl
-@Inject
 constructor(
     private val appContext: Context
 ) : BitmapHelper {

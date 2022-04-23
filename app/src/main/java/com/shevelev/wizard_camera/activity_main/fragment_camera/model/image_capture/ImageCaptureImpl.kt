@@ -14,10 +14,8 @@ import kotlinx.coroutines.withContext
 import org.threeten.bp.ZonedDateTime
 import timber.log.Timber
 import java.io.File
-import javax.inject.Inject
 
 class ImageCaptureImpl
-@Inject
 constructor(
     private val photoShotRepository: PhotoShotRepository,
     private val filesHelper: FilesHelper,

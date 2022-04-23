@@ -9,11 +9,9 @@ import android.view.TextureView
 import android.view.View
 import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.activity_gallery.GalleryActivity
-import com.shevelev.wizard_camera.activity_main.fragment_camera.di.CameraFragmentComponent
 import com.shevelev.wizard_camera.activity_main.fragment_camera.model.dto.*
 import com.shevelev.wizard_camera.activity_main.fragment_camera.view.gestures.GesturesDetector
 import com.shevelev.wizard_camera.activity_main.fragment_camera.view_model.CameraFragmentViewModel
-import com.shevelev.wizard_camera.application.App
 import com.shevelev.wizard_camera.core.camera_gl.api.CameraSettingsRepository
 import com.shevelev.wizard_camera.core.camera_gl.impl.camera.filter.CameraFilter
 import com.shevelev.wizard_camera.core.camera_gl.impl.camera.manager.CameraManager
@@ -46,10 +44,6 @@ class CameraFragment : FragmentBaseMVVM<FragmentCameraBinding, CameraFragmentVie
     override fun linkViewModel(binding: FragmentCameraBinding, viewModel: CameraFragmentViewModel) {
         binding.viewModel = viewModel
     }
-
-    override fun injectDagger() = App.injections.get<CameraFragmentComponent>().inject(this)
-
-    override fun releaseInjection() = App.injections.release<CameraFragmentComponent>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

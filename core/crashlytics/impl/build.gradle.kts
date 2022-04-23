@@ -24,7 +24,6 @@ dependencies {
     implementation(project(":core:utils"))
     implementation(project(":core:build_info:api"))
 
-    implementation(Dependencies.dagger)
     implementation(Dependencies.firebaseCrashlytics)
     implementation(Dependencies.timber)
 

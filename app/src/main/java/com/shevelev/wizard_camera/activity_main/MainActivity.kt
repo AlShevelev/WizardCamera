@@ -1,17 +1,11 @@
 package com.shevelev.wizard_camera.activity_main
 
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.shevelev.wizard_camera.R
-import com.shevelev.wizard_camera.application.App
-import com.shevelev.wizard_camera.activity_main.di.MainActivityComponent
 import com.shevelev.wizard_camera.core.ui_utils.ext.hideSystemUI
-import com.shevelev.wizard_camera.core.ui_utils.mvvm.view.ActivityBase
 
-class MainActivity : ActivityBase() {
-    override fun inject() = App.injections.get<MainActivityComponent>().inject(this)
-
-    override fun releaseInjection() = App.injections.release<MainActivityComponent>()
-
+class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)

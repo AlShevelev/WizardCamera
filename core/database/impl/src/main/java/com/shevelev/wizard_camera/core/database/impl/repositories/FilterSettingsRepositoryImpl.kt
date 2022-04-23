@@ -6,10 +6,8 @@ import com.shevelev.wizard_camera.core.database.impl.core.DbCore
 import com.shevelev.wizard_camera.core.database.impl.entities.FilterSettingsDb
 import com.shevelev.wizard_camera.core.database.impl.type_converters.filter_settings.FilerSettingsConverter
 import com.shevelev.wizard_camera.core.utils.id.IdUtil
-import javax.inject.Inject
 
 class FilterSettingsRepositoryImpl
-@Inject
 constructor(
     private val db: DbCore,
     private val filerSettingsConverter: FilerSettingsConverter

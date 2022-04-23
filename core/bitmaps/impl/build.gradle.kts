@@ -32,8 +32,6 @@ dependencies {
     implementation(Dependencies.appcompat)
     implementation(Dependencies.coreKtx)
 
-    implementation(Dependencies.dagger)
-
     implementation(Dependencies.timber)
 
     implementation(Dependencies.exif)

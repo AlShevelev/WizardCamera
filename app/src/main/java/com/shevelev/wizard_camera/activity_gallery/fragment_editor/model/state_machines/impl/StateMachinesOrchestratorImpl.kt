@@ -7,10 +7,8 @@ import com.shevelev.wizard_camera.core.common_entities.entities.PhotoShot
 import com.shevelev.wizard_camera.filters.display_data.gl.FilterDisplayDataList
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
-import javax.inject.Inject
 
 class StateMachinesOrchestratorImpl
-@Inject
 constructor(
     private val editorStorage: EditorStorage,
     private val filterDisplayData: FilterDisplayDataList,

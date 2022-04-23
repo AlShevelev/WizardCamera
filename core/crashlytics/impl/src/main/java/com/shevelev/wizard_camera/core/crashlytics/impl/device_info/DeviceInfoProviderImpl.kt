@@ -8,11 +8,9 @@ import android.util.Size
 import com.shevelev.wizard_camera.core.utils.ext.minIndexBy
 import timber.log.Timber
 import java.util.*
-import javax.inject.Inject
 import kotlin.math.abs
 
 class DeviceInfoProviderImpl
-@Inject
 constructor(
     private val appContext: Context
 ): com.shevelev.wizard_camera.core.crashlytics.api.device_info.DeviceInfoProvider {

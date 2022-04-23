@@ -4,10 +4,8 @@ import android.content.Context
 import com.shevelev.wizard_camera.BuildConfig
 import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.core.build_info.api.BuildInfo
-import javax.inject.Inject
 
 class BuildInfoImpl
-@Inject
 constructor(
     appContext: Context
 ) : BuildInfo {

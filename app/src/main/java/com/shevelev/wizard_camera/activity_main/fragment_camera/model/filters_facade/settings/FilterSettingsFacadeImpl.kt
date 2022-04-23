@@ -7,11 +7,9 @@ import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.*
 import com.shevelev.wizard_camera.core.database.api.repositories.FilterSettingsRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 import kotlin.random.Random
 
 class FilterSettingsFacadeImpl
-@Inject
 constructor(
     private val filterSettingsRepository: FilterSettingsRepository
 ) : FilterSettingsFacade {
