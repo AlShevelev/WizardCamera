@@ -7,7 +7,7 @@ import androidx.camera.core.Preview
 import androidx.camera.core.SurfaceRequest
 import java.util.concurrent.Executor
 
-class PreviewSurfaceProvider (
+internal class PreviewSurfaceProvider (
     private val surfaceTexture: SurfaceTexture,
     private val optimalOutputSize: Size,
     private val executor: Executor

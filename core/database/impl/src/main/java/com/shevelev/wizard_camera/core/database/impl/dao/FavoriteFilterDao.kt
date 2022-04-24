@@ -7,7 +7,7 @@ import com.shevelev.wizard_camera.core.common_entities.enums.GlFilterCode
 import com.shevelev.wizard_camera.core.database.impl.entities.FavoriteFilterDb
 
 @Dao
-interface FavoriteFilterDao {
+internal interface FavoriteFilterDao {
     @Insert
     fun create(filter: FavoriteFilterDb)
 

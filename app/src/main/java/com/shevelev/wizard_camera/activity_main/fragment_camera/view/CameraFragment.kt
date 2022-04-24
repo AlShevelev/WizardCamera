@@ -12,14 +12,12 @@ import com.shevelev.wizard_camera.activity_gallery.GalleryActivity
 import com.shevelev.wizard_camera.activity_main.fragment_camera.model.dto.*
 import com.shevelev.wizard_camera.activity_main.fragment_camera.view.gestures.GesturesDetector
 import com.shevelev.wizard_camera.activity_main.fragment_camera.view_model.CameraFragmentViewModel
-import com.shevelev.wizard_camera.core.camera_gl.api.CameraSettingsRepository
-import com.shevelev.wizard_camera.core.camera_gl.impl.camera.filter.CameraFilter
-import com.shevelev.wizard_camera.core.camera_gl.impl.camera.manager.CameraManager
-import com.shevelev.wizard_camera.core.camera_gl.impl.camera.renderer.GLRenderer
+import com.shevelev.wizard_camera.core.camera_gl.api.camera.manager.CameraManager
+import com.shevelev.wizard_camera.core.camera_gl.api.camera.renderer.GlRenderer
 import com.shevelev.wizard_camera.core.ui_utils.mvvm.view.FragmentBaseMVVM
 import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_commands.ViewCommand
 import com.shevelev.wizard_camera.databinding.FragmentCameraBinding
-import org.koin.android.ext.android.inject
+import org.koin.android.ext.android.getKoin
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import permissions.dispatcher.NeedsPermission
 import permissions.dispatcher.OnPermissionDenied
@@ -29,13 +27,11 @@ import permissions.dispatcher.RuntimePermissions
 class CameraFragment : FragmentBaseMVVM<FragmentCameraBinding, CameraFragmentViewModel>(), TextureView.SurfaceTextureListener {
     private lateinit var textureView: TextureView
 
-    private var renderer: GLRenderer? = null
+    private var renderer: GlRenderer? = null
 
     private lateinit var cameraManager: CameraManager
 
     private lateinit var gestureDetector: GesturesDetector
-
-    private val cameraSettingsRepository: CameraSettingsRepository by inject()
 
     override val viewModel: CameraFragmentViewModel by viewModel()
 
@@ -155,12 +151,12 @@ class CameraFragment : FragmentBaseMVVM<FragmentCameraBinding, CameraFragmentVie
             return
         }
 
-        renderer = GLRenderer(-width, -height, requireContext().applicationContext).also {
-            it.initGL(surface)
+        renderer = getKoin().get<GlRenderer>().also {
+            it.initGL(surface, -width, -height)
 
             it.setFilter(viewModel.selectedFilter.value!!)
 
-            cameraManager = CameraManager(cameraSettingsRepository)
+            cameraManager = getKoin().get()
             cameraManager.initCamera(requireContext(), this, it.cameraSurfaceTexture, textureView) {
                 binding.root.post {
                     viewModel.onCameraIsSetUp(cameraManager.isFlashLightSupported)
@@ -178,8 +174,6 @@ class CameraFragment : FragmentBaseMVVM<FragmentCameraBinding, CameraFragmentVie
         renderer = null
 
         cameraManager.releaseCamera()
-
-        CameraFilter.release()
     }
 
     private fun navigateToGallery() {

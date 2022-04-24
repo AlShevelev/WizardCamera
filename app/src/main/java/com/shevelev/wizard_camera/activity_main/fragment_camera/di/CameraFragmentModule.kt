@@ -55,8 +55,7 @@ val CameraFragmentModule = module(createdAtStart = false) {
         CameraFragmentInteractorImpl(
             filters = get(),
             capture = get(),
-            orientation = get(),
-            cameraSettings = get()
+            orientation = get()
         )
     }
 

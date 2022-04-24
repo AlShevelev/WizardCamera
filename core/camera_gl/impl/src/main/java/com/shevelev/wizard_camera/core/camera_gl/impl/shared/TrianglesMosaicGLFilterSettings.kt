@@ -8,7 +8,7 @@ import java.nio.FloatBuffer
 /**
  * A class for passing [TrianglesMosaicFilterSettings] into an OGL filter
  */
-class TrianglesMosaicGLFilterSettings(
+internal class TrianglesMosaicGLFilterSettings(
     settings: TrianglesMosaicFilterSettings
 ) : GLFilterSettingsBase<TrianglesMosaicFilterSettings>(settings) {
     /**

@@ -7,22 +7,24 @@ import androidx.navigation.fragment.findNavController
 import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.dto.ImageWithFilter
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.view_model.EditorFragmentViewModel
-import com.shevelev.wizard_camera.core.camera_gl.impl.bitmap.GLSurfaceViewBitmap
-import com.shevelev.wizard_camera.core.camera_gl.impl.bitmap.filters.GLSurfaceShaderFilter
-import com.shevelev.wizard_camera.core.camera_gl.impl.shared.factory.FiltersFactory
+import com.shevelev.wizard_camera.core.camera_gl.api.bitmap.GLSurfaceViewBitmap
+import com.shevelev.wizard_camera.core.camera_gl.api.bitmap.filters.GlSurfaceShaderFilter
+import com.shevelev.wizard_camera.core.camera_gl.api.shared.factory.GlShaderFiltersFactory
 import com.shevelev.wizard_camera.core.common_entities.entities.PhotoShot
 import com.shevelev.wizard_camera.core.ui_utils.dialogs.ConfirmationDialog
 import com.shevelev.wizard_camera.core.ui_utils.mvvm.view.FragmentBaseMVVM
 import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_commands.CloseEditorCommand
 import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_commands.ShowEditorSaveDialogCommand
 import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_commands.ViewCommand
-import com.shevelev.wizard_camera.core.utils.resources.getScreenSize
 import com.shevelev.wizard_camera.databinding.FragmentEditorBinding
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
 class EditorFragment : FragmentBaseMVVM<FragmentEditorBinding, EditorFragmentViewModel>() {
-    private var glFilter: GLSurfaceShaderFilter? = null
+    private var glFilter: GlSurfaceShaderFilter? = null
+
+    private val filtersFactory: GlShaderFiltersFactory by inject()
 
     private var displayedImage: Bitmap? = null
 
@@ -93,12 +95,9 @@ class EditorFragment : FragmentBaseMVVM<FragmentEditorBinding, EditorFragmentVie
     private fun setImageWithGlFilter(image: ImageWithFilter?) {
         image?.let {
             if(glFilter?.code != it.settings.code || displayedImage != image.image) {
-                val filter =  GLSurfaceShaderFilter(
-                    requireContext(),
+                val filter =  filtersFactory.createFilter(
                     it.image,
-                    FiltersFactory.getFilterRes(it.settings.code),
-                    requireContext().getScreenSize(),
-                    FiltersFactory.createGLFilterSettings(it.settings, requireContext())
+                    it.settings
                 )
 
                 glFilter = filter
@@ -107,7 +106,7 @@ class EditorFragment : FragmentBaseMVVM<FragmentEditorBinding, EditorFragmentVie
 
                 displayedImage = image.image
             } else {
-                val filter = FiltersFactory.createGLFilterSettings(it.settings, requireContext())
+                val filter = filtersFactory.createGLFilterSettings(it.settings, requireContext())
                 glFilter!!.updateSettings(filter)
             }
         }

@@ -3,7 +3,7 @@ package com.shevelev.wizard_camera.core.camera_gl.impl.bitmap.filters.effect.eff
 import android.media.effect.EffectFactory
 import android.util.Range
 
-class SaturationEffect(
+internal class SaturationEffect(
     sourceFactorStartValue: Float
 ) : EffectBase(
     Range(displayFactorMin, displayFactorMax),

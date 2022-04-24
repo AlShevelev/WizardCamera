@@ -7,7 +7,7 @@ import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.Legofi
 /**
  * A class for passing [LegofiedFilterSettings] into an OGL filter
  */
-class LegofiedGLFilterSettings(
+internal class LegofiedGLFilterSettings(
     settings: LegofiedFilterSettings
 ) : GLFilterSettingsBase<LegofiedFilterSettings>(settings) {
     /**

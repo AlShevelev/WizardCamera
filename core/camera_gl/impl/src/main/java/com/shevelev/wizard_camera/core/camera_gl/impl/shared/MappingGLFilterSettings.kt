@@ -10,7 +10,7 @@ import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.Mappin
 /**
  * A class for passing [MappingFilterSettings] into an OGL filter
  */
-class MappingGLFilterSettings(
+internal class MappingGLFilterSettings(
     private val context: Context,
     settings: MappingFilterSettings
 ) : GLFilterSettingsBase<MappingFilterSettings>(settings) {

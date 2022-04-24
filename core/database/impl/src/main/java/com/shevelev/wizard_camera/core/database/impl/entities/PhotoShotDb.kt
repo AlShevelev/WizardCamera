@@ -7,7 +7,7 @@ import com.shevelev.wizard_camera.core.common_entities.enums.GlFilterCode
 import org.threeten.bp.ZonedDateTime
 
 @Entity(tableName = "photo_shot")
-data class PhotoShotDb(
+internal data class PhotoShotDb(
     @PrimaryKey
     @ColumnInfo(name = "photo_shot_id")
     val id: Long,

@@ -5,7 +5,7 @@ import com.shevelev.wizard_camera.core.build_info.api.BuildInfo
 import com.shevelev.wizard_camera.core.crashlytics.api.CrashlyticsFacade
 import com.shevelev.wizard_camera.core.crashlytics.api.device_info.DeviceInfoProvider
 
-class CrashlyticsFacadeImpl
+internal class CrashlyticsFacadeImpl
 constructor(
     deviceInfoProvider: DeviceInfoProvider,
     buildInfo: BuildInfo

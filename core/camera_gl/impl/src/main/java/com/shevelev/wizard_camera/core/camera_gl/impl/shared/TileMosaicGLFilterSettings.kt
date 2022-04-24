@@ -6,7 +6,7 @@ import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.TileMo
 /**
  * A class for passing [TrianglesMosaicGLFilterSettings] into an OGL filter
  */
-class TileMosaicGLFilterSettings(
+internal class TileMosaicGLFilterSettings(
     settings: TileMosaicFilterSettings
 ) : GLFilterSettingsBase<TileMosaicFilterSettings>(settings) {
     /**

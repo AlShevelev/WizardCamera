@@ -6,7 +6,7 @@ import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.Cracke
 /**
  * A class for passing [CrackedFilterSettings] into an OGL filter
  */
-class CrackedGLFilterSettings(
+internal class CrackedGLFilterSettings(
     settings: CrackedFilterSettings
 ) : GLFilterSettingsBase<CrackedFilterSettings>(settings) {
     /**

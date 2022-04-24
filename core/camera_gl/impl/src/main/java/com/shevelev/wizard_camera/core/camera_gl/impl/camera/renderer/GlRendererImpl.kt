@@ -5,17 +5,17 @@ import android.graphics.SurfaceTexture
 import android.opengl.EGL14
 import android.opengl.GLES11Ext
 import android.opengl.GLES31
+import com.shevelev.wizard_camera.core.camera_gl.api.camera.renderer.GlRenderer
+import com.shevelev.wizard_camera.core.camera_gl.api.shared.factory.GlShaderFiltersFactory
 import com.shevelev.wizard_camera.core.camera_gl.impl.camera.filter.CameraFilter
 import com.shevelev.wizard_camera.core.camera_gl.impl.camera.renderer.utils.TextureUtils
 import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.GlFilterSettings
-import com.shevelev.wizard_camera.core.camera_gl.impl.shared.factory.FiltersFactory
 import javax.microedition.khronos.egl.*
 
-class GLRenderer(
-    private var glWidth: Int,
-    private var glHeight: Int,
-    private val context: Context
-) {
+internal class GlRendererImpl(
+    private val context: Context,
+    private val filtersFactory: GlShaderFiltersFactory
+) : GlRenderer {
     private lateinit var egl10: EGL10
     private lateinit var eglDisplay: EGLDisplay
     private var eglSurface: EGLSurface? = null
@@ -23,12 +23,18 @@ class GLRenderer(
 
     private lateinit var filter: CameraFilter
 
-    lateinit var cameraSurfaceTexture: SurfaceTexture
+    override lateinit var cameraSurfaceTexture: SurfaceTexture
         private set
 
     private var cameraTextureId: Int = 0
 
-    fun initGL(texture: SurfaceTexture) {
+    private var glWidth: Int = 0
+    private var glHeight: Int = 0
+
+    override fun initGL(texture: SurfaceTexture, glWidth: Int, glHeight: Int) {
+        this.glWidth = glWidth
+        this.glHeight = glHeight
+
         egl10 = EGLContext.getEGL() as EGL10
 
         eglDisplay = egl10.eglGetDisplay(EGL10.EGL_DEFAULT_DISPLAY)
@@ -88,11 +94,20 @@ class GLRenderer(
         }
     }
 
-    fun setFilter(filterSettings: GlFilterSettings) {
-        val selectedFilter = CameraFilter(context, FiltersFactory.getFilterRes(filterSettings.code))
-        selectedFilter.onAttach(FiltersFactory.createGLFilterSettings(filterSettings, context))
+    override fun setFilter(filterSettings: GlFilterSettings) {
+        val selectedFilter = CameraFilter(context, filtersFactory.getFilterRes(filterSettings.code))
+        selectedFilter.onAttach(filtersFactory.createGLFilterSettings(filterSettings, context))
 
         this.filter = selectedFilter
+    }
+
+    override fun releaseGL() {
+        cameraSurfaceTexture.setOnFrameAvailableListener(null)
+        cameraSurfaceTexture.release()
+
+        GLES31.glDeleteTextures(1, intArrayOf(cameraTextureId), 0)
+
+        filter.release()
     }
 
     private fun renderFrame() {
@@ -110,12 +125,5 @@ class GLRenderer(
         // Flush
         GLES31.glFlush()
         egl10.eglSwapBuffers(eglDisplay, eglSurface)
-    }
-
-    fun releaseGL() {
-        cameraSurfaceTexture.setOnFrameAvailableListener(null)
-        cameraSurfaceTexture.release()
-
-        GLES31.glDeleteTextures(1, intArrayOf(cameraTextureId), 0)
     }
 }

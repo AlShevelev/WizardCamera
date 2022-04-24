@@ -10,7 +10,7 @@ import timber.log.Timber
 import java.util.*
 import kotlin.math.abs
 
-class DeviceInfoProviderImpl
+internal class DeviceInfoProviderImpl
 constructor(
     private val appContext: Context
 ): com.shevelev.wizard_camera.core.crashlytics.api.device_info.DeviceInfoProvider {

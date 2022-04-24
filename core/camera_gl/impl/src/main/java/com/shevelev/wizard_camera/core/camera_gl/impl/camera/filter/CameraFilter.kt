@@ -8,45 +8,39 @@ import com.shevelev.wizard_camera.core.camera_gl.impl.R
 import com.shevelev.wizard_camera.core.camera_gl.impl.camera.renderer.RenderBuffer
 import com.shevelev.wizard_camera.core.camera_gl.impl.camera.renderer.utils.BufferUtils
 import com.shevelev.wizard_camera.core.camera_gl.impl.camera.renderer.utils.ShaderUtils
-import com.shevelev.wizard_camera.core.camera_gl.impl.shared.GLFilterSettings
+import com.shevelev.wizard_camera.core.camera_gl.api.shared.GLFilterSettings
 import java.nio.FloatBuffer
 
-class CameraFilter(
+private const val activeTextUnit = GLES31.GL_TEXTURE8
+
+internal class CameraFilter(
     context: Context,
     @RawRes fragmentFilterResId: Int
 ) {
-    companion object {
-        private val vertexBuffer = BufferUtils.createBuffer(
-            1.0f, -1.0f,        // Left-bottom
-            -1.0f, -1.0f,       // Right-bottom
-            1.0f, 1.0f,         // Left-top
-            -1.0f, 1.0f         // Right-top
-        )
+    private val vertexBuffer = BufferUtils.createBuffer(
+        1.0f, -1.0f,        // Left-bottom
+        -1.0f, -1.0f,       // Right-bottom
+        1.0f, 1.0f,         // Left-top
+        -1.0f, 1.0f         // Right-top
+    )
 
-        private val textureCoordinatesBuffer = BufferUtils.createBuffer(
-            1.0f, 0.0f,     // Left-bottom
-            0.0f, 0.0f,     // Right-bottom
-            1.0f, 1.0f,     // Left-top
-            0.0f, 1.0f      // Right-top
-        )
+    private val textureCoordinatesBuffer = BufferUtils.createBuffer(
+        1.0f, 0.0f,     // Left-bottom
+        0.0f, 0.0f,     // Right-bottom
+        1.0f, 1.0f,     // Left-top
+        0.0f, 1.0f      // Right-top
+    )
 
-        private val rotatedTextureCoordinatesBuffer = BufferUtils.createBuffer(
-            1.0f, 0.0f,     // Left-bottom
-            1.0f, 1.0f,     // Right-bottom
-            0.0f, 0.0f,     // Left-top
-            0.0f, 1.0f      // Right-top
-        )
+    private val rotatedTextureCoordinatesBuffer = BufferUtils.createBuffer(
+        1.0f, 0.0f,     // Left-bottom
+        1.0f, 1.0f,     // Right-bottom
+        0.0f, 0.0f,     // Left-top
+        0.0f, 1.0f      // Right-top
+    )
 
-        private var mainProgram = 0
-        private const val activeTextUnit = GLES31.GL_TEXTURE8
+    private var mainProgram = 0
 
-        private var cameraRenderBuffer: RenderBuffer? = null
-
-        fun release() {
-            mainProgram = 0
-            cameraRenderBuffer = null
-        }
-    }
+    private var cameraRenderBuffer: RenderBuffer? = null
 
     private val startTime = System.currentTimeMillis()
     private var iFrame = 0
@@ -111,6 +105,11 @@ class CameraFilter(
     fun onDraw(cameraTexId: Int, canvasWidth: Int, canvasHeight: Int) {
         setupShaderInputs(filterProgram, intArrayOf(canvasWidth, canvasHeight), cameraTexId)
         GLES31.glDrawArrays(GLES31.GL_TRIANGLE_STRIP, 0, 4)
+    }
+
+    fun release() {
+        mainProgram = 0
+        cameraRenderBuffer = null
     }
 
     /**

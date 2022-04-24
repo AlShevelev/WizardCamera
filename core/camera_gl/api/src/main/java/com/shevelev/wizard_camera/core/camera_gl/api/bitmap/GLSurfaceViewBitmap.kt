@@ -1,4 +1,4 @@
-package com.shevelev.wizard_camera.core.camera_gl.impl.bitmap
+package com.shevelev.wizard_camera.core.camera_gl.api.bitmap
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -8,7 +8,7 @@ import android.util.SizeF
 import android.view.Gravity
 import android.view.SurfaceHolder
 import android.widget.FrameLayout
-import com.shevelev.wizard_camera.core.camera_gl.impl.bitmap.filters.GLSurfaceFilterBase
+import com.shevelev.wizard_camera.core.camera_gl.api.bitmap.filters.GlSurfaceFilter
 
 class GLSurfaceViewBitmap
 @JvmOverloads
@@ -17,7 +17,7 @@ constructor(
     attrs: AttributeSet? = null
 ) : GLSurfaceView(context, attrs) {
 
-    private lateinit var filter: GLSurfaceFilterBase
+    private lateinit var filter: GlSurfaceFilter
 
     private lateinit var bitmapSize: SizeF
 
@@ -51,7 +51,8 @@ constructor(
             context: Context,
             root: FrameLayout,
             bitmap: Bitmap,
-            filter: GLSurfaceFilterBase): GLSurfaceViewBitmap {
+            filter: GlSurfaceFilter
+        ): GLSurfaceViewBitmap {
             val surfaceView = GLSurfaceViewBitmap(context)
 
             surfaceView.setBitmapParameters(bitmap)

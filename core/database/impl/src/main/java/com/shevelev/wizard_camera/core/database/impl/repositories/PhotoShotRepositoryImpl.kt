@@ -7,7 +7,7 @@ import com.shevelev.wizard_camera.core.database.impl.core.DbCore
 import com.shevelev.wizard_camera.core.database.impl.entities.PhotoShotDb
 import com.shevelev.wizard_camera.core.database.impl.type_converters.filter_settings.FilerSettingsConverter
 
-class PhotoShotRepositoryImpl
+internal class PhotoShotRepositoryImpl
 constructor(
     private val db: DbCore,
     private val filerSettingsConverter: FilerSettingsConverter

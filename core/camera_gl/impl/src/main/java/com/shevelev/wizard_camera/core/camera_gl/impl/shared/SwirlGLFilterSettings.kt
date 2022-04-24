@@ -6,7 +6,7 @@ import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.SwirlF
 /**
  * A class for passing [SwirlFilterSettings] into an OGL filter
  */
-class SwirlGLFilterSettings(
+internal class SwirlGLFilterSettings(
     settings: SwirlFilterSettings
 ) : GLFilterSettingsBase<SwirlFilterSettings>(settings) {
     /**

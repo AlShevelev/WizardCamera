@@ -6,7 +6,7 @@ import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.Triple
 /**
  * A class for passing [TripleFilterSettings] into an OGL filter
  */
-class TripleGLFilterSettings(
+internal class TripleGLFilterSettings(
     settings: TripleFilterSettings
 ) : GLFilterSettingsBase<TripleFilterSettings>(settings) {
     /**

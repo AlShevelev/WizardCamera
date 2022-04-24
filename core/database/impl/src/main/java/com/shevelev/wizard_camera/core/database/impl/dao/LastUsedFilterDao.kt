@@ -8,7 +8,7 @@ import com.shevelev.wizard_camera.core.common_entities.enums.GlFilterCode
 import com.shevelev.wizard_camera.core.database.impl.entities.LastUsedFilterDb
 
 @Dao
-interface LastUsedFilterDao {
+internal interface LastUsedFilterDao {
     @Insert
     fun create(lastUsedFilter: LastUsedFilterDb)
 

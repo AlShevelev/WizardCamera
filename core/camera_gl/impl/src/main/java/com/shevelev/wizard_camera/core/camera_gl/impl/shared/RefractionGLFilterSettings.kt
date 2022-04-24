@@ -9,7 +9,7 @@ import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.EmptyF
 /**
  * A class for passing parameters into the Refraction OGL filter
  */
-class RefractionGLFilterSettings(
+internal class RefractionGLFilterSettings(
     private val context: Context,
     settings: EmptyFilterSettings
 ) : GLFilterSettingsBase<EmptyFilterSettings>(settings) {

@@ -7,7 +7,7 @@ import com.shevelev.wizard_camera.core.bitmaps.api.type_detector.ImageType
  * Byte sets for various images have been got from here:
  * http://jubin.tech/articles/2018/12/05/Detect-image-format-using-java.html
  */
-object ImageSignatureFactory {
+internal object ImageSignatureFactory {
     fun getJpegSignature(): ImageSignature =
         ImageSignature(
             byteArrayOf(

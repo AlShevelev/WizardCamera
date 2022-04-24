@@ -25,7 +25,7 @@ import com.shevelev.wizard_camera.core.database.impl.type_converters.FilterCodeC
 @TypeConverters(
     DateTimeTypeConverter::class,
     FilterCodeConverter::class)
-abstract class DbCoreImpl: RoomDatabase(), DbCore {
+internal abstract class DbCoreImpl: RoomDatabase(), DbCore {
     abstract override val photoShot: PhotoShotDao
     abstract override val lastUsedFilter: LastUsedFilterDao
     abstract override val favoriteFilter: FavoriteFilterDao

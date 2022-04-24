@@ -6,7 +6,7 @@ import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.Newspa
 /**
  * A class for passing [NewspaperFilterSettings] into an OGL filter
  */
-class NewspaperGLFilterSettings(
+internal class NewspaperGLFilterSettings(
     settings: NewspaperFilterSettings
 ) : GLFilterSettingsBase<NewspaperFilterSettings>(settings) {
     /**

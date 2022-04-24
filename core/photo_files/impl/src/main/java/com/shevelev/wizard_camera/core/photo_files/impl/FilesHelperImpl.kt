@@ -6,7 +6,7 @@ import com.shevelev.wizard_camera.core.utils.id.IdUtil
 import java.io.File
 import kotlin.math.absoluteValue
 
-class FilesHelperImpl
+internal class FilesHelperImpl
 constructor(
     private val appContext: Context,
     private val appName: String

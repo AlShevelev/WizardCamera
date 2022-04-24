@@ -2,7 +2,7 @@ package com.shevelev.wizard_camera.core.bitmaps.impl.type_detector.signatures
 
 import com.shevelev.wizard_camera.core.bitmaps.api.type_detector.ImageType
 
-class ImageSignature(private val signature: ByteArray, val type: ImageType) {
+internal class ImageSignature(private val signature: ByteArray, val type: ImageType) {
     /**
      * Size of signature in bytes
      */

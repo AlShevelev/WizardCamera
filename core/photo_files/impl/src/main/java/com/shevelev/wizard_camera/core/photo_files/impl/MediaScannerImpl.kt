@@ -8,7 +8,7 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
 import java.io.File
 
-class MediaScannerImpl
+internal class MediaScannerImpl
 constructor(
     private val appContext: Context
 ) : MediaScanner {

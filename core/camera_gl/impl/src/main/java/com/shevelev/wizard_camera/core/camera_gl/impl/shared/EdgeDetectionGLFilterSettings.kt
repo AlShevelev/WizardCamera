@@ -6,7 +6,7 @@ import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.EdgeDe
 /**
  * A class for passing [EdgeDetectionFilterSettings] into an OGL filter
  */
-class EdgeDetectionGLFilterSettings(
+internal class EdgeDetectionGLFilterSettings(
     settings: EdgeDetectionFilterSettings
 ) : GLFilterSettingsBase<EdgeDetectionFilterSettings>(settings) {
     /**

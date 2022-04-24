@@ -7,7 +7,7 @@ import androidx.annotation.RawRes
 import com.shevelev.wizard_camera.core.utils.resources.getRawString
 import timber.log.Timber
 
-object ShaderUtils {
+internal object ShaderUtils {
     fun buildProgram(context: Context, @RawRes vertexSourceRawId: Int, @RawRes fragmentSourceRawId: Int): Int =
         buildProgram(context.getRawString(vertexSourceRawId), context.getRawString(fragmentSourceRawId))
 

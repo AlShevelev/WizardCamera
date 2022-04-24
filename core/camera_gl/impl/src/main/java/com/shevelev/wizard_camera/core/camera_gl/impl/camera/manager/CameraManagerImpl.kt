@@ -10,7 +10,8 @@ import androidx.camera.core.ImageCapture.FLASH_MODE_ON
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
-import com.shevelev.wizard_camera.core.camera_gl.api.CameraSettingsRepository
+import com.shevelev.wizard_camera.core.camera_gl.impl.camera.settings_repository.CameraSettingsRepository
+import com.shevelev.wizard_camera.core.camera_gl.api.camera.manager.CameraManager
 import com.shevelev.wizard_camera.core.utils.ext.fitInRange
 import com.shevelev.wizard_camera.core.utils.ext.reduceToRange
 import timber.log.Timber
@@ -22,20 +23,22 @@ import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
 
-class CameraManager(private val cameraSettingsRepository: CameraSettingsRepository) {
+internal class CameraManagerImpl(
+    private val cameraSettingsRepository: CameraSettingsRepository
+) : CameraManager {
     private var camera: Camera? = null
     private var cameraProvider: ProcessCameraProvider? = null
 
     private var preview: Preview? = null
     private var imageCapture: ImageCapture? = null
 
-    val isFlashLightSupported: Boolean
+    override val isFlashLightSupported: Boolean
         get() = camera?.cameraInfo?.hasFlashUnit() ?: false
 
     /** Blocking camera operations are performed using this executor */
     private var cameraExecutor: ExecutorService? = null
 
-    fun initCamera(
+    override fun initCamera(
         context: Context,
         lifecycleOwner: LifecycleOwner,
         surface: SurfaceTexture,
@@ -58,7 +61,7 @@ class CameraManager(private val cameraSettingsRepository: CameraSettingsReposito
         }, ContextCompat.getMainExecutor(context))
     }
 
-    fun releaseCamera() {
+    override fun releaseCamera() {
         // Shut down our background executor
         cameraExecutor?.shutdown()
         cameraExecutor = null
@@ -69,7 +72,7 @@ class CameraManager(private val cameraSettingsRepository: CameraSettingsReposito
      * @param scaleFactor a scale factor value
      * @return a zoom ration factor
      */
-    fun zoom(scaleFactor: Float): Float? =
+    override fun zoom(scaleFactor: Float): Float? =
         camera?.let { camera ->
             camera.cameraInfo.zoomState.value?.let { zoomInfo ->
                 val minRatio = zoomInfo.minZoomRatio
@@ -82,7 +85,7 @@ class CameraManager(private val cameraSettingsRepository: CameraSettingsReposito
             }
         }
 
-    fun updateExposure(exposureFactor: Float) {
+    override fun updateExposure(exposureFactor: Float) {
         camera?.let { camera ->
             camera.cameraInfo.exposureState.let { exposureInfo ->
                 val sourceRange = exposureInfo.exposureCompensationRange
@@ -100,7 +103,7 @@ class CameraManager(private val cameraSettingsRepository: CameraSettingsReposito
      * @param useFlashLight if the value is "true" a flash light will be used, otherwise not
      * @param saveCompleted a callback which is called when a saving is completed (a value "true" is passed in case of success)
      */
-    fun capture(imageFile: File, useFlashLight: Boolean, rotation: Int, saveCompleted: (Boolean) -> Unit) {
+    override fun capture(imageFile: File, useFlashLight: Boolean, rotation: Int, saveCompleted: (Boolean) -> Unit) {
         imageCapture?.let { imageCapture ->
             imageCapture.targetRotation = rotation
 

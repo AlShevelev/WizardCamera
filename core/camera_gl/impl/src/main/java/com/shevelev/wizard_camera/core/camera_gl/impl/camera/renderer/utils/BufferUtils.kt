@@ -4,7 +4,7 @@ import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import java.nio.FloatBuffer
 
-object BufferUtils {
+internal object BufferUtils {
     /**
      * Create a buffer for and put the coordinates to it
      */

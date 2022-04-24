@@ -9,7 +9,7 @@ import android.opengl.GLUtils
 import androidx.annotation.RawRes
 import javax.microedition.khronos.opengles.GL10
 
-object TextureUtils {
+internal object TextureUtils {
     /**
      * Creates texture of type [type]
      * @return id (aka "name") of created  texture

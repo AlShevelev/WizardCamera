@@ -5,7 +5,7 @@ import android.media.effect.EffectFactory
 import android.util.Range
 import com.shevelev.wizard_camera.core.utils.ext.reduceToRange
 
-abstract class EffectBase(
+internal abstract class EffectBase(
     private val displayFactorRange: Range<Float>,
     displayFactorStartValue: Float,
     private val effectFactorRange: Range<Float>,

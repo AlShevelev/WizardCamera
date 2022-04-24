@@ -6,7 +6,7 @@ import com.shevelev.wizard_camera.core.database.impl.core.DbCore
 import com.shevelev.wizard_camera.core.database.impl.entities.FavoriteFilterDb
 import com.shevelev.wizard_camera.core.utils.id.IdUtil
 
-class FavoriteFilterRepositoryImpl
+internal class FavoriteFilterRepositoryImpl
 constructor(
     private val db: DbCore
 ) : FavoriteFilterRepository {

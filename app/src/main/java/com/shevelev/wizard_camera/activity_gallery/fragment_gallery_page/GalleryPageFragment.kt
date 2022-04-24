@@ -7,17 +7,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.dto.GalleryItem
-import com.shevelev.wizard_camera.core.camera_gl.impl.bitmap.GLSurfaceViewBitmap
-import com.shevelev.wizard_camera.core.camera_gl.impl.bitmap.filters.GLSurfaceShaderFilter
-import com.shevelev.wizard_camera.core.camera_gl.impl.shared.factory.FiltersFactory
+import com.shevelev.wizard_camera.core.camera_gl.api.bitmap.GLSurfaceViewBitmap
+import com.shevelev.wizard_camera.core.camera_gl.api.shared.factory.GlShaderFiltersFactory
 import com.shevelev.wizard_camera.core.photo_files.api.FilesHelper
 import com.shevelev.wizard_camera.core.ui_utils.mvvm.view.FragmentBase
-import com.shevelev.wizard_camera.core.utils.resources.getScreenSize
 import com.shevelev.wizard_camera.databinding.FragmentGalleryPageBinding
 import kotlinx.coroutines.*
+import org.koin.android.ext.android.inject
 import timber.log.Timber
 import kotlin.coroutines.CoroutineContext
-import org.koin.android.ext.android.inject
 
 class GalleryPageFragment : FragmentBase<FragmentGalleryPageBinding>(), CoroutineScope {
     private lateinit var scopeJob: Job
@@ -25,6 +23,8 @@ class GalleryPageFragment : FragmentBase<FragmentGalleryPageBinding>(), Coroutin
     private val errorHandler = CoroutineExceptionHandler { _, exception -> Timber.e(exception) }
 
     private lateinit var surfaceView: GLSurfaceViewBitmap
+
+    private val filtersFactory: GlShaderFiltersFactory by inject()
 
     /**
      * Context of this scope.
@@ -57,13 +57,9 @@ class GalleryPageFragment : FragmentBase<FragmentGalleryPageBinding>(), Coroutin
                 BitmapFactory.decodeFile(filesHelper.getShotFileByName(item.item.fileName).absolutePath)
             }
 
-            //GrayscaleSurfaceRenderer(requireContext(), photoBitmap)
-            val filter =  GLSurfaceShaderFilter(
-                requireContext(),
+            val filter = filtersFactory.createFilter(
                 photoBitmap,
-                FiltersFactory.getFilterRes(item.item.filter.code),
-                requireContext().getScreenSize(),
-                FiltersFactory.createGLFilterSettings(item.item.filter, requireContext())
+                item.item.filter
             )
 
             surfaceView = GLSurfaceViewBitmap.createAndAddToView(

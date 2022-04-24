@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 import com.shevelev.wizard_camera.core.common_entities.enums.GlFilterCode
 
 @Entity(tableName = "favorite_filter")
-data class FavoriteFilterDb(
+internal data class FavoriteFilterDb(
     @PrimaryKey
     @ColumnInfo(name = "favorite_filter_id")
     val id: Long,

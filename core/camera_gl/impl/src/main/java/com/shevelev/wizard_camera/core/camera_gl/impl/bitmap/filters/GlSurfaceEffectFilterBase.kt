@@ -13,11 +13,11 @@ import javax.microedition.khronos.opengles.GL10
 /**
  * Base class for all OpenGL renderers, based on Android Media Effects
  */
-abstract class GLSurfaceEffectFilterBase(
+internal abstract class GlSurfaceEffectFilterBase(
     context: Context,
     bitmap: Bitmap,
     screenSize: Size
-) : GLSurfaceFilterBase(
+) : GlSurfaceFilterBase(
     context,
     bitmap,
     R.raw.original,

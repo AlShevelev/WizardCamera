@@ -5,15 +5,15 @@ import android.graphics.Bitmap
 import android.media.effect.Effect
 import android.media.effect.EffectFactory
 import android.util.Size
-import com.shevelev.wizard_camera.core.camera_gl.impl.bitmap.filters.GLSurfaceEffectFilterBase
+import com.shevelev.wizard_camera.core.camera_gl.impl.bitmap.filters.GlSurfaceEffectFilterBase
 import com.shevelev.wizard_camera.core.camera_gl.impl.bitmap.filters.effect.effects.EffectBase
 
-class OneEffectSurfaceRenderer(
+internal class OneEffectSurfaceRenderer(
     context: Context,
     bitmap: Bitmap,
     private val effect: EffectBase,
     screenSize: Size
-): GLSurfaceEffectFilterBase(context, bitmap, screenSize) {
+): GlSurfaceEffectFilterBase(context, bitmap, screenSize) {
 
     val sourceFactor: Float
         get() = effect.displayFactor

@@ -10,7 +10,7 @@ import com.shevelev.wizard_camera.core.bitmaps.api.utils.BitmapHelper
 import java.io.File
 import java.io.OutputStream
 
-class BitmapHelperImpl
+internal class BitmapHelperImpl
 constructor(
     private val appContext: Context
 ) : BitmapHelper {

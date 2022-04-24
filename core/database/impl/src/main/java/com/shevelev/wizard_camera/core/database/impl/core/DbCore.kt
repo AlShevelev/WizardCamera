@@ -5,7 +5,7 @@ import com.shevelev.wizard_camera.core.database.impl.dao.FilterSettingsDao
 import com.shevelev.wizard_camera.core.database.impl.dao.LastUsedFilterDao
 import com.shevelev.wizard_camera.core.database.impl.dao.PhotoShotDao
 
-interface DbCore {
+internal interface DbCore {
     val photoShot: PhotoShotDao
     val lastUsedFilter: LastUsedFilterDao
     val favoriteFilter: FavoriteFilterDao

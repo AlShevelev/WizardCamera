@@ -6,7 +6,7 @@ import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import javax.microedition.khronos.opengles.GL10
 
-class RenderBuffer(val width: Int, val height: Int, activeTexUnit: Int) {
+internal class RenderBuffer(val width: Int, val height: Int, activeTexUnit: Int) {
     val texId: Int
 
     private val frameBufferId: Int

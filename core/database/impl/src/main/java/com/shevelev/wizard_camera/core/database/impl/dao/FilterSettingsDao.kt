@@ -8,7 +8,7 @@ import com.shevelev.wizard_camera.core.common_entities.enums.GlFilterCode
 import com.shevelev.wizard_camera.core.database.impl.entities.FilterSettingsDb
 
 @Dao
-interface FilterSettingsDao {
+internal interface FilterSettingsDao {
     @Insert
     fun create(settings: FilterSettingsDb)
 

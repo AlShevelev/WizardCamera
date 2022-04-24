@@ -7,7 +7,7 @@ import com.shevelev.wizard_camera.core.utils.date_time.toZoneDateTime
 import org.threeten.bp.ZonedDateTime
 import java.nio.ByteBuffer
 
-class DateTimeTypeConverter {
+internal class DateTimeTypeConverter {
     @TypeConverter
     fun toDb(sourceData: ZonedDateTime?): ByteArray? =
         sourceData?.let {

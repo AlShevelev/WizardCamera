@@ -10,6 +10,7 @@ import android.os.Handler
 import android.util.Size
 import androidx.annotation.CallSuper
 import androidx.annotation.RawRes
+import com.shevelev.wizard_camera.core.camera_gl.api.bitmap.filters.GlSurfaceFilter
 import com.shevelev.wizard_camera.core.camera_gl.impl.R
 import com.shevelev.wizard_camera.core.camera_gl.impl.camera.renderer.utils.BufferUtils
 import com.shevelev.wizard_camera.core.camera_gl.impl.camera.renderer.utils.ShaderUtils
@@ -20,13 +21,13 @@ import javax.microedition.khronos.opengles.GL10
 /**
  * Base renderer for all OpenGL renderers
  */
-abstract class GLSurfaceFilterBase(
+internal abstract class GlSurfaceFilterBase(
     private val context: Context,
     private val bitmap: Bitmap,
     @RawRes
     private val fragmentShaderResId: Int,
     screenSize: Size
-): GLSurfaceView.Renderer {
+): GlSurfaceFilter {
     // Init buffer with polygon vertexes
     private val verticesBuffer = BufferUtils.createBuffer(
         -1f, -1f,           // Left-bottom
@@ -61,7 +62,7 @@ abstract class GLSurfaceFilterBase(
     @get:Synchronized @set:Synchronized
     private var getFrameAsBitmapCallback: ((Bitmap?) -> Unit)? = null
 
-    fun attachSurface(surface: GLSurfaceView) {
+    override fun attachSurface(surface: GLSurfaceView) {
         this.surface = surface
     }
 
@@ -79,12 +80,12 @@ abstract class GLSurfaceFilterBase(
         // do nothing
     }
 
-    fun startGetFrameAsBitmap(handler: Handler, callback: (Bitmap?) -> Unit) {
+    override fun startGetFrameAsBitmap(handler: Handler, callback: (Bitmap?) -> Unit) {
         getFrameAsBitmapHandler = handler
         getFrameAsBitmapCallback = callback
     }
 
-    abstract fun release()
+    abstract override fun release()
 
     protected fun tryToGetFrameAsBitmap(gl: GL10) {
         getFrameAsBitmapHandler?.let { handler ->

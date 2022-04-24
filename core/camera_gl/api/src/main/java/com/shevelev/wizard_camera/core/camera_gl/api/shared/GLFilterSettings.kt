@@ -1,4 +1,4 @@
-package com.shevelev.wizard_camera.core.camera_gl.impl.shared
+package com.shevelev.wizard_camera.core.camera_gl.api.shared
 
 import com.shevelev.wizard_camera.core.common_entities.enums.GlFilterCode
 import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.GlFilterSettings

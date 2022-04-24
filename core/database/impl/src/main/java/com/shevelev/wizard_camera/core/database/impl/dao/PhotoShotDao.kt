@@ -7,7 +7,7 @@ import androidx.room.Update
 import com.shevelev.wizard_camera.core.database.impl.entities.PhotoShotDb
 
 @Dao
-interface PhotoShotDao {
+internal interface PhotoShotDao {
     @Insert
     fun create(shot: PhotoShotDb)
 
