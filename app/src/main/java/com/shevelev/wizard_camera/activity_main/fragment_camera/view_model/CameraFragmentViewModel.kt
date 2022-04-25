@@ -6,6 +6,7 @@ import android.view.View
 import androidx.annotation.MainThread
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.activity_main.fragment_camera.model.CameraFragmentInteractor
 import com.shevelev.wizard_camera.activity_main.fragment_camera.model.dto.*
@@ -68,7 +69,7 @@ constructor(
     private var exiting = false
 
     init {
-        launch {
+        viewModelScope.launch {
             interactor.filters.init()
             _allFiltersListData.value = interactor.filters.getAllFiltersListData()
             interactor.filters.getFavoriteFiltersListData()?.let { _favoriteFiltersListData.value = it }
@@ -87,7 +88,7 @@ constructor(
     }
 
     fun onCaptureClick() {
-        launch {
+        viewModelScope.launch {
             hideSettings()
 
             if(interactor.capture.inProgress) {
@@ -108,7 +109,7 @@ constructor(
     }
 
     fun onCaptureComplete(isSuccess: Boolean) {
-        launch {
+        viewModelScope.launch {
             _command.value = if(isSuccess) {
                 interactor.capture.captureCompleted()
                 ShowCapturingSuccessCommand(interactor.orientation.screenOrientation)
@@ -159,7 +160,7 @@ constructor(
     }
 
     fun onSwitchFilterModeClick(mode: FiltersMode) {
-        launch {
+        viewModelScope.launch {
             hideSettings()
 
             interactor.filters.filtersMode = mode
@@ -201,7 +202,7 @@ constructor(
     }
 
     fun onFilterSelected(id: FilterDisplayId) {
-        launch {
+        viewModelScope.launch {
             hideSettings()
 
             interactor.filters.selectFilter(id.filterCode)
@@ -214,7 +215,7 @@ constructor(
     }
 
     fun onFavoriteFilterSelected(id: FilterDisplayId) {
-        launch {
+        viewModelScope.launch {
             hideSettings()
 
             interactor.filters.selectFavoriteFilter(id.filterCode)
@@ -235,14 +236,14 @@ constructor(
         }
 
     fun onFilterSettingsChange(settings: GlFilterSettings) {
-        launch {
+        viewModelScope.launch {
             interactor.filters.updateSettings(settings)
             _selectedFilter.value = interactor.filters.displayFilter
         }
     }
 
     override fun onFavoriteFilterClick(id: FilterDisplayId, isSelected: Boolean) {
-        launch {
+        viewModelScope.launch {
             hideSettings()
 
             if(isSelected) {

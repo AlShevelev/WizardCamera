@@ -46,7 +46,7 @@ constructor(
         private set
 
     init {
-        launch {
+        viewModelScope.launch {
             interactor.loadingResult.collect {
                 when(it) {
                     is ShotsLoadingResult.PreLoading -> {
@@ -73,7 +73,7 @@ constructor(
     fun onDeleteShotClick(position: Int) = processAction { interactor.delete(position) }
 
     fun onShareShotClick(filteredImage: Bitmap) {
-        launch {
+        viewModelScope.launch {
             interactor.startBitmapSharing(filteredImage).also {
                 _command.value = ShareShotCommand(it)
             }
@@ -94,7 +94,7 @@ constructor(
     }
 
     fun startImageImport(uri: Uri, currentPosition: Int) {
-        launch {
+        viewModelScope.launch {
             if(!interactor.importBitmap(uri, currentPosition)) {
                 _command.value = ShowMessageResCommand(R.string.generalError)
             } else {
@@ -104,7 +104,7 @@ constructor(
     }
 
     private fun processAction(action: suspend () -> Unit) {
-        launch {
+        viewModelScope.launch {
             try {
                 action()
             } catch(ex: Exception) {

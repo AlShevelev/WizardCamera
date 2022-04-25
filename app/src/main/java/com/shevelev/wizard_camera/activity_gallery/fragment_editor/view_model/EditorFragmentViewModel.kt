@@ -5,6 +5,7 @@ import android.content.Context
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.EditorFragmentInteractor
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.dto.ImageWithFilter
@@ -66,11 +67,11 @@ constructor(
     val glFilters: LiveData<FiltersListData> = _glFilters
 
     init {
-        launch {
+        viewModelScope.launch {
             interactor.commands.collect { processOutputCommand(it) }
         }
 
-        launch {
+        viewModelScope.launch {
             _progressVisibility.value = View.VISIBLE
             interactor.init(sourceShot)
             _progressVisibility.value = View.GONE
@@ -78,33 +79,33 @@ constructor(
     }
 
     override fun onSettingsClick(id: FilterDisplayId) {
-        launch { interactor.processEvent(GlFilterSettingsShown) }
+        viewModelScope.launch { interactor.processEvent(GlFilterSettingsShown) }
     }
 
     fun onModeButtonClick(code: ModeButtonCode) {
-        launch { interactor.processEvent(ModeButtonClicked(code)) }
+        viewModelScope.launch { interactor.processEvent(ModeButtonClicked(code)) }
     }
 
     fun onAcceptClick() {
-        launch { interactor.processEvent(AcceptClicked) }
+        viewModelScope.launch { interactor.processEvent(AcceptClicked) }
     }
 
     fun onCancelClick() {
-        launch { interactor.processEvent(CancelClicked) }
+        viewModelScope.launch { interactor.processEvent(CancelClicked) }
     }
 
     fun onGLFilterSelected(filterId: FilterDisplayId) {
-        launch {
+        viewModelScope.launch {
             interactor.processEvent(GlFilterSwitched(filterId))
         }
     }
 
     fun onGLFilterSettingsUpdated(setting: GlFilterSettings) {
-        launch { interactor.processEvent(GlFilterSettingsUpdated(setting)) }
+        viewModelScope.launch { interactor.processEvent(GlFilterSettingsUpdated(setting)) }
     }
 
     fun onGlSurfaceClick() {
-        launch { interactor.processEvent(GlFilterSettingsHided) }
+        viewModelScope.launch { interactor.processEvent(GlFilterSettingsHided) }
     }
 
     private fun processOutputCommand(command: OutputCommand) {
