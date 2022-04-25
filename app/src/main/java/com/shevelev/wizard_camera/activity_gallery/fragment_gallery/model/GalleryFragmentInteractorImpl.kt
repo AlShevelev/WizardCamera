@@ -17,9 +17,9 @@ import com.shevelev.wizard_camera.core.database.api.repositories.PhotoShotReposi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.channels.BroadcastChannel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.channels.BufferOverflow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 
@@ -46,15 +46,20 @@ constructor(
 
     private var updateInProgress = false
 
-    private val loadingResultChannel = BroadcastChannel<ShotsLoadingResult>(1)
-    override val loadingResult: Flow<ShotsLoadingResult> = loadingResultChannel.asFlow()
+    private val loadingResultMutable = MutableSharedFlow<ShotsLoadingResult>(
+        replay = 0,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST,
+        extraBufferCapacity = 1
+    )
+
+    override val loadingResult: SharedFlow<ShotsLoadingResult> = loadingResultMutable
 
     override val pageSize: Int = PAGE_SIZE
 
     override suspend fun initPhotos() =
         processAction {
             if(photosList.isEmpty()) {
-                loadingResultChannel.send(ShotsLoadingResult.PreLoading)
+                loadingResultMutable.tryEmit(ShotsLoadingResult.PreLoading)
 
                 loadNextPageInternal()
             } else {
@@ -68,7 +73,7 @@ constructor(
                                     item = editedPhotoShot
                                 )
 
-                        loadingResultChannel.send(ShotsLoadingResult.DataUpdated(photosList))
+                        loadingResultMutable.tryEmit(ShotsLoadingResult.DataUpdated(photosList))
                     }
                 }
             }
@@ -91,14 +96,10 @@ constructor(
             mediaScanner.processDeletedShot(deletedFile)
 
             photosList.removeAt(position)
-            loadingResultChannel.send(ShotsLoadingResult.DataUpdated(photosList))
+            loadingResultMutable.tryEmit(ShotsLoadingResult.DataUpdated(photosList))
         }
 
     override fun getShot(position: Int): PhotoShot = photosList[position].item
-
-    override fun clear() {
-        loadingResultChannel.close()
-    }
 
     /**
      * Saves a bitmap into a temporary file and returns content Uri for sharing
@@ -124,7 +125,7 @@ constructor(
         } ?: return false
 
         photosList.add(currentPosition, GalleryItem(shot.id, 0, shot))
-        loadingResultChannel.send(ShotsLoadingResult.DataUpdated(photosList))
+        loadingResultMutable.tryEmit(ShotsLoadingResult.DataUpdated(photosList))
 
         return true
     }
@@ -137,7 +138,7 @@ constructor(
 
         photosList.addAll(dbData)
         offset += PAGE_SIZE
-        loadingResultChannel.send(ShotsLoadingResult.DataUpdated(photosList))
+        loadingResultMutable.tryEmit(ShotsLoadingResult.DataUpdated(photosList))
     }
 
     private suspend fun processAction(action: suspend () -> Unit) {

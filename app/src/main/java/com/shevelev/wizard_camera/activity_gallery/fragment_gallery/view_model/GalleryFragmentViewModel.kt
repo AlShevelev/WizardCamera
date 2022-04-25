@@ -5,6 +5,7 @@ import android.net.Uri
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.dto.EditShotCommand
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.dto.GalleryItem
@@ -100,11 +101,6 @@ constructor(
                 _command.value = ScrollGalleryToPosition(currentPosition)
             }
         }
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        interactor.clear()
     }
 
     private fun processAction(action: suspend () -> Unit) {
