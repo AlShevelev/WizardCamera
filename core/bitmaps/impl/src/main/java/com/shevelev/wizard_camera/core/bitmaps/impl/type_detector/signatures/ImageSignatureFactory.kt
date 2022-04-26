@@ -22,9 +22,9 @@ internal object ImageSignatureFactory {
         ImageSignature(
             byteArrayOf(
                 0x89.toByte(),
-                'P'.toByte(),
-                'N'.toByte(),
-                'G'.toByte(),
+                0x50.toByte(),      // P
+                0x4E.toByte(),      // N
+                0x47.toByte(),      // G
                 0x0D.toByte(),
                 0x0A.toByte(),
                 0x1A.toByte(),

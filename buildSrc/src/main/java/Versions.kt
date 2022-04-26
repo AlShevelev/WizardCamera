@@ -34,7 +34,7 @@ object Versions {
     const val exif = "1.3.3"
 
     // Testing
-    const val junit = "4.13.1"
-    const val junitTestExt = "1.1.2"
-    const val espresso = "3.3.0"
+    const val junit = "4.13.2"
+    const val junitTestExt = "1.1.3"
+    const val espresso = "3.4.0"
 }
