@@ -20,4 +20,6 @@ constructor(
     override val locale: String = appContext.resources.getString(R.string.locale)
 
     override val appName: String = appContext.getString(R.string.appName)
+
+    override val appId: String = BuildConfig.APPLICATION_ID
 }

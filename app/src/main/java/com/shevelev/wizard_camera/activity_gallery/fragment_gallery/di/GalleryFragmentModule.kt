@@ -16,13 +16,12 @@ import org.koin.dsl.module
 val GalleryFragmentModule = module(createdAtStart = false) {
     factory<GalleryFragmentInteractor> {
         GalleryFragmentInteractorImpl(
-            appContext = get(),
             photoShotRepository = get(),
             filesHelper = get(),
             mediaScanner = get(),
             fragmentsDataPass = GalleryActivityScope.getScope().get(),
-            bitmapHelper = get(),
-            imageImporter = get()
+            imageImporter = get(),
+            photoFilesRepository = get()
         )
     }
 

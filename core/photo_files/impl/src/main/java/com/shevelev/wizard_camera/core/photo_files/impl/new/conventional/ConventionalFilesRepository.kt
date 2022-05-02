@@ -1,9 +1,13 @@
 package com.shevelev.wizard_camera.core.photo_files.impl.new.conventional
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.net.Uri
+import androidx.core.content.FileProvider
 import com.shevelev.wizard_camera.core.bitmaps.api.bitmaps.BitmapHelper
 import com.shevelev.wizard_camera.core.bitmaps.api.orientation.BitmapOrientationCorrector
 import com.shevelev.wizard_camera.core.bitmaps.api.orientation.Orientation
+import com.shevelev.wizard_camera.core.build_info.api.BuildInfo
 import com.shevelev.wizard_camera.core.common_entities.entities.PhotoShot
 import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.GlFilterSettings
 import com.shevelev.wizard_camera.core.database.api.repositories.PhotoShotRepository
@@ -23,7 +27,7 @@ import kotlin.math.absoluteValue
  */
 internal class ConventionalFilesRepository(
     private val appContext: Context,
-    private val appName: String,
+    private val appInfo: BuildInfo,
     private val mediaScanner: MediaScanner,
     private val bitmapOrientationCorrector: BitmapOrientationCorrector,
     private val bitmapHelper: BitmapHelper,
@@ -85,8 +89,21 @@ internal class ConventionalFilesRepository(
             }
         }
 
+    /**
+     * Saves a bitmap into a temporary storage and returns content Uri for the saved bitmap
+     */
+    override suspend fun saveBitmapToTempStorage(bitmap: Bitmap): Uri {
+        val file = withContext(Dispatchers.IO) {
+            File(appContext.cacheDir, "${IdUtil.generateLongId().absoluteValue}.jpg").also {
+                bitmapHelper.save(it, bitmap)
+            }
+        }
+
+        return FileProvider.getUriForFile(appContext, "${appInfo.appId}.file_provider", file)
+    }
+
     private fun getShotsDirectory(): File {
-        val dir = File(appContext.externalMediaDirs[0], appName)
+        val dir = File(appContext.externalMediaDirs[0], appInfo.appName)
         if(!dir.exists()) {
             dir.mkdir()
         }

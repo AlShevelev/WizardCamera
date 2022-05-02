@@ -15,4 +15,6 @@ interface BuildInfo {
     val locale : String
 
     val appName: String
+
+    val appId: String
 }

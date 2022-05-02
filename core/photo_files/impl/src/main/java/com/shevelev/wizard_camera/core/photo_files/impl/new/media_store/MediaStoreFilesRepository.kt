@@ -1,5 +1,7 @@
 package com.shevelev.wizard_camera.core.photo_files.impl.new.media_store
 
+import android.graphics.Bitmap
+import android.net.Uri
 import com.shevelev.wizard_camera.core.common_entities.entities.PhotoShot
 import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.GlFilterSettings
 import com.shevelev.wizard_camera.core.photo_files.api.new.PhotoFilesRepository
@@ -32,6 +34,13 @@ internal class MediaStoreFilesRepository() : PhotoFilesRepository {
         // update the database
         // reset a pending flag (see [1] line 93-95)
         // remove a record from the Map<OutputStream, Uri>
+    }
+
+    /**
+     * Saves a bitmap into a temporary storage and returns content Uri for the saved bitmap
+     */
+    override suspend fun saveBitmapToTempStorage(bitmap: Bitmap): Uri {
+        TODO("Not yet implemented")
     }
 }
 

@@ -27,7 +27,7 @@ val PhotoFilesModule = module(createdAtStart = false) {
     single<PhotoFilesRepository> {
         ConventionalFilesRepository(
             appContext = get(),
-            appName = get<BuildInfo>().appName,
+            appInfo = get(),
             mediaScanner = get(),
             bitmapOrientationCorrector = get(),
             bitmapHelper = get(),

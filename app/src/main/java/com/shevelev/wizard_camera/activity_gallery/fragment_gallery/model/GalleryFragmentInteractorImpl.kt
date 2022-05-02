@@ -1,19 +1,16 @@
 package com.shevelev.wizard_camera.activity_gallery.fragment_gallery.model
 
-import android.content.Context
 import android.graphics.Bitmap
 import android.net.Uri
-import androidx.core.content.FileProvider
-import com.shevelev.wizard_camera.BuildConfig
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.dto.GalleryItem
-import com.shevelev.wizard_camera.core.common_entities.entities.PhotoShot
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.dto.ShotsLoadingResult
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.model.image_importer.ImageImporter
 import com.shevelev.wizard_camera.activity_gallery.shared.FragmentsDataPass
-import com.shevelev.wizard_camera.core.bitmaps.api.bitmaps.BitmapHelper
+import com.shevelev.wizard_camera.core.common_entities.entities.PhotoShot
+import com.shevelev.wizard_camera.core.database.api.repositories.PhotoShotRepository
 import com.shevelev.wizard_camera.core.photo_files.api.FilesHelper
 import com.shevelev.wizard_camera.core.photo_files.api.MediaScanner
-import com.shevelev.wizard_camera.core.database.api.repositories.PhotoShotRepository
+import com.shevelev.wizard_camera.core.photo_files.api.new.PhotoFilesRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -27,13 +24,12 @@ import timber.log.Timber
 @FlowPreview
 class GalleryFragmentInteractorImpl
 constructor(
-    private val appContext: Context,
     private val photoShotRepository: PhotoShotRepository,
     private val filesHelper: FilesHelper,
     private val mediaScanner: MediaScanner,
     private val fragmentsDataPass: FragmentsDataPass,
-    private val bitmapHelper: BitmapHelper,
-    private val imageImporter: ImageImporter
+    private val imageImporter: ImageImporter,
+    private val photoFilesRepository: PhotoFilesRepository
 ) : GalleryFragmentInteractor {
 
     companion object {
@@ -104,15 +100,7 @@ constructor(
     /**
      * Saves a bitmap into a temporary file and returns content Uri for sharing
      */
-    override suspend fun startBitmapSharing(bitmap: Bitmap): Uri {
-        val file = withContext(Dispatchers.IO) {
-            filesHelper.createTempFileForShot().also {
-                bitmapHelper.save(it, bitmap)
-            }
-        }
-
-        return FileProvider.getUriForFile(appContext, "${BuildConfig.APPLICATION_ID}.file_provider", file)
-    }
+    override suspend fun startBitmapSharing(bitmap: Bitmap): Uri = photoFilesRepository.saveBitmapToTempStorage(bitmap)
 
     override suspend fun importBitmap(sourceUri: Uri, currentPosition: Int): Boolean {
         val shot = withContext(Dispatchers.IO) {
