@@ -22,8 +22,13 @@ dependencies {
     implementation(project(":core:photo_files:api"))
     implementation(project(":core:utils"))
     implementation(project(":core:build_info:api"))
+    implementation(project(":core:bitmaps:api"))
+    implementation(project(":core:common_entities"))
+    implementation(project(":core:database:api"))
 
     implementation(Dependencies.kotlinxCoroutinesCore)
+    implementation(Dependencies.timber)
+    implementation(Dependencies.threeTen)
 
     implementation(Dependencies.koin)
 }

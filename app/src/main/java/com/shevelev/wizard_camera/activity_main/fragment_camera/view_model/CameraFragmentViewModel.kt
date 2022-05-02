@@ -98,12 +98,12 @@ constructor(
 
             val filter = interactor.filters.displayFilter
             val screenOrientation = interactor.orientation.screenOrientation
-            val targetFile = interactor.capture.startCapture(filter, screenOrientation)
+            val targetStream = interactor.capture.startCapture(filter, screenOrientation)
 
-            if(targetFile == null) {
+            if(targetStream == null) {
                 ShowMessageResCommand(R.string.generalError)
             } else {
-                _command.value = StartCaptureCommand(targetFile, isFlashActive, interactor.orientation.surfaceRotation)
+                _command.value = StartCaptureCommand(targetStream, isFlashActive, interactor.orientation.surfaceRotation)
             }
         }
     }

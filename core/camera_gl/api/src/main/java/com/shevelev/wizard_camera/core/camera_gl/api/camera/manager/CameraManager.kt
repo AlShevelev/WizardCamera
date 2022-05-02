@@ -5,6 +5,7 @@ import android.graphics.SurfaceTexture
 import android.view.TextureView
 import androidx.lifecycle.LifecycleOwner
 import java.io.File
+import java.io.OutputStream
 
 interface CameraManager {
     val isFlashLightSupported: Boolean
@@ -29,9 +30,9 @@ interface CameraManager {
 
     /**
      * Captures an image
-     * @param imageFile a file in which an image will be saved
+     * @param imageStream a stream in which an image will be saved
      * @param useFlashLight if the value is "true" a flash light will be used, otherwise not
      * @param saveCompleted a callback which is called when a saving is completed (a value "true" is passed in case of success)
      */
-    fun capture(imageFile: File, useFlashLight: Boolean, rotation: Int, saveCompleted: (Boolean) -> Unit)
+    fun capture(imageStream: OutputStream, useFlashLight: Boolean, rotation: Int, saveCompleted: (Boolean) -> Unit)
 }

@@ -10,7 +10,7 @@ import com.shevelev.wizard_camera.core.common_entities.entities.PhotoShot
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.dto.ShotsLoadingResult
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.model.image_importer.ImageImporter
 import com.shevelev.wizard_camera.activity_gallery.shared.FragmentsDataPass
-import com.shevelev.wizard_camera.core.bitmaps.api.utils.BitmapHelper
+import com.shevelev.wizard_camera.core.bitmaps.api.bitmaps.BitmapHelper
 import com.shevelev.wizard_camera.core.photo_files.api.FilesHelper
 import com.shevelev.wizard_camera.core.photo_files.api.MediaScanner
 import com.shevelev.wizard_camera.core.database.api.repositories.PhotoShotRepository
@@ -107,7 +107,7 @@ constructor(
     override suspend fun startBitmapSharing(bitmap: Bitmap): Uri {
         val file = withContext(Dispatchers.IO) {
             filesHelper.createTempFileForShot().also {
-                bitmapHelper.saveBitmap(it, bitmap)
+                bitmapHelper.save(it, bitmap)
             }
         }
 

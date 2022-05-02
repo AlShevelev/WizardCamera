@@ -16,6 +16,7 @@ import com.shevelev.wizard_camera.core.utils.ext.fitInRange
 import com.shevelev.wizard_camera.core.utils.ext.reduceToRange
 import timber.log.Timber
 import java.io.File
+import java.io.OutputStream
 import java.util.*
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
@@ -99,11 +100,11 @@ internal class CameraManagerImpl(
 
     /**
      * Captures an image
-     * @param imageFile a file in which an image will be saved
+     * @param imageStream a stream in which an image will be saved
      * @param useFlashLight if the value is "true" a flash light will be used, otherwise not
      * @param saveCompleted a callback which is called when a saving is completed (a value "true" is passed in case of success)
      */
-    override fun capture(imageFile: File, useFlashLight: Boolean, rotation: Int, saveCompleted: (Boolean) -> Unit) {
+    override fun capture(imageStream: OutputStream, useFlashLight: Boolean, rotation: Int, saveCompleted: (Boolean) -> Unit) {
         imageCapture?.let { imageCapture ->
             imageCapture.targetRotation = rotation
 
@@ -111,7 +112,7 @@ internal class CameraManagerImpl(
                 isReversedHorizontal = false
             }
 
-            val outputOptions = ImageCapture.OutputFileOptions.Builder(imageFile)
+            val outputOptions = ImageCapture.OutputFileOptions.Builder(imageStream)
                 .setMetadata(metadata)
                 .build()
 

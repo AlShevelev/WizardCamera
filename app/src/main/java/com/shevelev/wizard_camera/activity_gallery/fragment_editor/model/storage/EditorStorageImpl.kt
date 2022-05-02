@@ -4,7 +4,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import com.shevelev.wizard_camera.activity_gallery.shared.FragmentsDataPass
 import com.shevelev.wizard_camera.activity_main.fragment_camera.model.filters_facade.settings.FilterSettingsFacade
-import com.shevelev.wizard_camera.core.bitmaps.api.utils.BitmapHelper
+import com.shevelev.wizard_camera.core.bitmaps.api.bitmaps.BitmapHelper
 import com.shevelev.wizard_camera.core.catalano.impl.facade.ImageProcessorImpl
 import com.shevelev.wizard_camera.core.common_entities.entities.PhotoShot
 import com.shevelev.wizard_camera.core.common_entities.enums.GlFilterCode
@@ -95,7 +95,7 @@ constructor(
 
         withContext(Dispatchers.IO) {
             // File with image
-            bitmapHelper.saveBitmap(filesHelper.getShotFileByName(sourceShot.fileName), displayedImage)
+            bitmapHelper.save(filesHelper.getShotFileByName(sourceShot.fileName), displayedImage)
 
             // Metadata in the database
             val filter = if(isInNoFiltersMode) {

@@ -4,15 +4,15 @@ import androidx.annotation.StringRes
 import androidx.camera.core.impl.ImageOutputConfig
 import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.GlFilterSettings
 import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_commands.ViewCommand
-import java.io.File
+import java.io.OutputStream
 
 class ShowCapturingSuccessCommand(val screenOrientation: ScreenOrientation): ViewCommand
 
 /**
- * @param targetFile file for a captured image
+ * @param targetStream file for a captured image
  */
 class StartCaptureCommand(
-    val targetFile: File,
+    val targetStream: OutputStream,
     val isFlashLightActive: Boolean,
     @ImageOutputConfig.RotationValue
     val rotation: Int

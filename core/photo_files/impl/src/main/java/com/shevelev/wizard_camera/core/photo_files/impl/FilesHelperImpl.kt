@@ -11,19 +11,13 @@ constructor(
     private val appContext: Context,
     private val appName: String
 ) : FilesHelper {
-    override fun createFileForShot(): File = createFileForShot(getShotsDirectory())
-
+    // return Uri via File - see GalleryFragmentInteractorImpl line 114
+    // remove this call from GalleryFragmentInteractorImpl
     override fun createTempFileForShot(): File = createFileForShot(appContext.cacheDir)
 
     override fun getShotFileByName(fileName: String): File = File(getShotsDirectory(), fileName)
 
     override fun removeShotFileByName(fileName: String) = getShotFileByName(fileName).apply { delete() }
-
-    override fun copyToTempFile(source: File): File {
-        val destinationFile = createTempFileForShot()
-        source.copyTo(destinationFile, overwrite = true)
-        return destinationFile
-    }
 
     override fun removeFile(fileToRemove: File) {
         fileToRemove.delete()

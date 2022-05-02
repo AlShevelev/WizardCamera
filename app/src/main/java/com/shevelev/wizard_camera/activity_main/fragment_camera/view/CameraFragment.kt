@@ -104,7 +104,7 @@ class CameraFragment : FragmentBaseMVVM<FragmentCameraBinding, CameraFragmentVie
             is HideFilterSettingsCommand -> binding.settings.hide()
 
             is StartCaptureCommand -> cameraManager.capture(
-                command.targetFile,
+                command.targetStream,
                 command.isFlashLightActive,
                 command.rotation
             ) { isSuccess ->
