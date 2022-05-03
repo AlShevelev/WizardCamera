@@ -7,10 +7,10 @@ import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.dto.ShotsLoa
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.model.image_importer.ImageImporter
 import com.shevelev.wizard_camera.activity_gallery.shared.FragmentsDataPass
 import com.shevelev.wizard_camera.core.common_entities.entities.PhotoShot
-import com.shevelev.wizard_camera.core.database.api.repositories.PhotoShotRepository
+import com.shevelev.wizard_camera.core.database.api.repositories.PhotoShotDbRepository
 import com.shevelev.wizard_camera.core.photo_files.api.FilesHelper
 import com.shevelev.wizard_camera.core.photo_files.api.MediaScanner
-import com.shevelev.wizard_camera.core.photo_files.api.new.PhotoFilesRepository
+import com.shevelev.wizard_camera.core.photo_files.api.new.PhotoShotRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -24,12 +24,10 @@ import timber.log.Timber
 @FlowPreview
 class GalleryFragmentInteractorImpl
 constructor(
-    private val photoShotRepository: PhotoShotRepository,
-    private val filesHelper: FilesHelper,
-    private val mediaScanner: MediaScanner,
+    private val photoShotDbRepository: PhotoShotDbRepository,
     private val fragmentsDataPass: FragmentsDataPass,
     private val imageImporter: ImageImporter,
-    private val photoFilesRepository: PhotoFilesRepository
+    private val photoShotRepository: PhotoShotRepository
 ) : GalleryFragmentInteractor {
 
     companion object {
@@ -84,12 +82,7 @@ constructor(
         processAction {
             val shotItem = photosList[position]
 
-            val deletedFile = withContext(Dispatchers.IO) {
-                photoShotRepository.deleteById(shotItem.item.id)
-                filesHelper.removeShotFileByName(shotItem.item.fileName)
-            }
-
-            mediaScanner.processDeletedShot(deletedFile)
+            photoShotRepository.removeShot(shotItem.item)
 
             photosList.removeAt(position)
             loadingResultMutable.tryEmit(ShotsLoadingResult.DataUpdated(photosList))
@@ -100,7 +93,7 @@ constructor(
     /**
      * Saves a bitmap into a temporary file and returns content Uri for sharing
      */
-    override suspend fun startBitmapSharing(bitmap: Bitmap): Uri = photoFilesRepository.saveBitmapToTempStorage(bitmap)
+    override suspend fun startBitmapSharing(bitmap: Bitmap): Uri = photoShotRepository.saveBitmapToTempStorage(bitmap)
 
     override suspend fun importBitmap(sourceUri: Uri, currentPosition: Int): Boolean {
         val shot = withContext(Dispatchers.IO) {
@@ -120,7 +113,7 @@ constructor(
 
     private suspend fun loadNextPageInternal() {
         val dbData = withContext(Dispatchers.IO) {
-            photoShotRepository.readPaged(PAGE_SIZE, offset)
+            photoShotDbRepository.readPaged(PAGE_SIZE, offset)
         }
             .map { GalleryItem(id = it.id, version = 0, item = it) }
 

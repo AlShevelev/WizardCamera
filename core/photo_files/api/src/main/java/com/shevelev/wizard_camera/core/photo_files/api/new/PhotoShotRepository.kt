@@ -9,7 +9,7 @@ import java.io.OutputStream
 /**
  * It is an interface for a repository for files with photos
  */
-interface PhotoFilesRepository {
+interface PhotoShotRepository {
     /**
      * Creates a file for a photo shot and returns its OutputStream
      */
@@ -25,4 +25,15 @@ interface PhotoFilesRepository {
      * Saves a bitmap into a temporary storage and returns content Uri for the saved bitmap
      */
     suspend fun saveBitmapToTempStorage(bitmap: Bitmap): Uri
+
+    /**
+     * Removes a given shot
+     */
+    suspend fun removeShot(photoShot: PhotoShot)
+
+    /**
+     * Updates a given shot by a new bitmap or/and a new filter
+     * @return updated shot
+     */
+    suspend fun updateShot(bitmap: Bitmap, filter: GlFilterSettings, updatedShot: PhotoShot): PhotoShot
 }

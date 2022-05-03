@@ -1,15 +1,15 @@
 package com.shevelev.wizard_camera.core.database.impl.repositories
 
 import com.shevelev.wizard_camera.core.common_entities.entities.LastUsedFilter
-import com.shevelev.wizard_camera.core.database.api.repositories.LastUsedFilterRepository
+import com.shevelev.wizard_camera.core.database.api.repositories.LastUsedFilterDbRepository
 import com.shevelev.wizard_camera.core.database.impl.core.DbCore
 import com.shevelev.wizard_camera.core.database.impl.entities.LastUsedFilterDb
 import com.shevelev.wizard_camera.core.utils.id.IdUtil
 
-internal class LastUsedFilterRepositoryImpl
+internal class LastUsedFilterDbRepositoryImpl
 constructor(
     private val db: DbCore
-) : LastUsedFilterRepository {
+) : LastUsedFilterDbRepository {
 
     override fun update(filter: LastUsedFilter) =
         db.runConsistent {

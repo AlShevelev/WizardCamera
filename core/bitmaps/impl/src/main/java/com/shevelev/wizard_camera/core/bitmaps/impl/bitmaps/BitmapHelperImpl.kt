@@ -12,28 +12,39 @@ internal class BitmapHelperImpl
 constructor(
     private val appContext: Context
 ) : BitmapHelper {
-    override fun save(file: File, bitmap: Bitmap) {
-        file.outputStream().use {
+    override fun save(bitmap: Bitmap, destination: File) {
+        destination.outputStream().use {
             compressBitmap(bitmap, it)
         }
     }
 
-    override fun save(file: File, uri: Uri) {
-        appContext.contentResolver.openInputStream(uri).use { input ->
-            file.outputStream().use { fileOut ->
+    override fun save(bitmap: Bitmap, destination: Uri) {
+        appContext.contentResolver.openOutputStream(destination).use {
+            compressBitmap(bitmap, it!!)
+        }
+    }
+
+    override fun copy(source: Uri, destination: File) {
+        appContext.contentResolver.openInputStream(source).use { input ->
+            destination.outputStream().use { fileOut ->
                 input!!.copyTo(fileOut)
             }
         }
     }
 
-    override fun save(stream: OutputStream, uri: Uri) {
-        appContext.contentResolver.openInputStream(uri).use { input ->
-            input!!.copyTo(stream)
+    override fun copy(source: Uri, destination: OutputStream) {
+        appContext.contentResolver.openInputStream(source).use { input ->
+            input!!.copyTo(destination)
         }
     }
 
+    override fun load(source: Uri): Bitmap =
+        appContext.contentResolver.openInputStream(source).use {
+            BitmapFactory.decodeStream(it)
+        }
+
     override fun update(file: File, action: (Bitmap) -> Bitmap) =
-        save(file, action(loadBitmap(file)))
+        save(action(loadBitmap(file)), file)
 
     private fun compressBitmap(bitmap: Bitmap, output: OutputStream) {
         // Jpeg format with "95" quality value is used - as same as ImageCapture settings

@@ -1,15 +1,14 @@
 package com.shevelev.wizard_camera.activity_gallery.fragment_gallery_page
 
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.dto.GalleryItem
+import com.shevelev.wizard_camera.core.bitmaps.api.bitmaps.BitmapHelper
 import com.shevelev.wizard_camera.core.camera_gl.api.bitmap.GLSurfaceViewBitmap
 import com.shevelev.wizard_camera.core.camera_gl.api.shared.factory.GlShaderFiltersFactory
-import com.shevelev.wizard_camera.core.photo_files.api.FilesHelper
 import com.shevelev.wizard_camera.core.ui_utils.mvvm.view.FragmentBase
 import com.shevelev.wizard_camera.databinding.FragmentGalleryPageBinding
 import kotlinx.coroutines.*
@@ -26,12 +25,12 @@ class GalleryPageFragment : FragmentBase<FragmentGalleryPageBinding>(), Coroutin
 
     private val filtersFactory: GlShaderFiltersFactory by inject()
 
+    private val bitmapHelper: BitmapHelper by inject()
+
     /**
      * Context of this scope.
      */
     override lateinit var coroutineContext: CoroutineContext
-
-    private val filesHelper: FilesHelper by inject()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         scopeJob = SupervisorJob()
@@ -54,12 +53,12 @@ class GalleryPageFragment : FragmentBase<FragmentGalleryPageBinding>(), Coroutin
     fun loadPhoto(item: GalleryItem) {
         launch {
             val photoBitmap = withContext(Dispatchers.IO) {
-                BitmapFactory.decodeFile(filesHelper.getShotFileByName(item.item.fileName).absolutePath)
+                bitmapHelper.load(item.item.fileContentUri)
             }
 
             val filter = filtersFactory.createFilter(
-                photoBitmap,
-                item.item.filter
+                bitmap = photoBitmap,
+                settings = item.item.filter
             )
 
             surfaceView = GLSurfaceViewBitmap.createAndAddToView(

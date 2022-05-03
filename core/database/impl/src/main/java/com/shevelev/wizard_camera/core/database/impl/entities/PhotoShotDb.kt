@@ -12,8 +12,11 @@ internal data class PhotoShotDb(
     @ColumnInfo(name = "photo_shot_id")
     val id: Long,
 
+    @ColumnInfo(name = "file_content_uri")
+    val fileContentUri: String,
+
     @ColumnInfo(name = "file_name")
-    val fileName: String,
+    val fileName: String?,
 
     @ColumnInfo(name = "created", typeAffinity = ColumnInfo.BLOB)
     val created: ZonedDateTime,

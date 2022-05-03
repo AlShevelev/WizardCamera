@@ -4,13 +4,13 @@ import android.graphics.Bitmap
 import android.net.Uri
 import com.shevelev.wizard_camera.core.common_entities.entities.PhotoShot
 import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.GlFilterSettings
-import com.shevelev.wizard_camera.core.photo_files.api.new.PhotoFilesRepository
+import com.shevelev.wizard_camera.core.photo_files.api.new.PhotoShotRepository
 import java.io.OutputStream
 
 /**
  * An new-style repository, based on MediaStore
  */
-internal class MediaStoreFilesRepository() : PhotoFilesRepository {
+internal class MediaStoreFilesRepository() : PhotoShotRepository {
     /**
      * Creates a file for a photo shot and returns its OutputStream
      */
@@ -40,6 +40,21 @@ internal class MediaStoreFilesRepository() : PhotoFilesRepository {
      * Saves a bitmap into a temporary storage and returns content Uri for the saved bitmap
      */
     override suspend fun saveBitmapToTempStorage(bitmap: Bitmap): Uri {
+        TODO("Not yet implemented")
+    }
+
+    /**
+     * Removes a given shot
+     */
+    override suspend fun removeShot(photoShot: PhotoShot) {
+        TODO("Not yet implemented")
+    }
+
+    /**
+     * Updates a given shot by a new bitmap or/and a new filter
+     * @return updated shot
+     */
+    override suspend fun updateShot(bitmap: Bitmap, filter: GlFilterSettings, updatedShot: PhotoShot): PhotoShot {
         TODO("Not yet implemented")
     }
 }

@@ -6,11 +6,15 @@ import java.io.File
 import java.io.OutputStream
 
 interface BitmapHelper {
-    fun save(file: File, bitmap: Bitmap)
+    fun save(bitmap: Bitmap, destination: File)
 
-    fun save(file: File, uri: Uri)
+    fun save(bitmap: Bitmap, destination: Uri)
 
-    fun save(stream: OutputStream, uri: Uri)
+    fun copy(source: Uri, destination: File)
+
+    fun copy(source: Uri, destination: OutputStream)
+
+    fun load(source: Uri): Bitmap
 
     fun update(file: File, action: (Bitmap) -> Bitmap)
 }

@@ -1,15 +1,15 @@
 package com.shevelev.wizard_camera.core.database.impl.repositories
 
 import com.shevelev.wizard_camera.core.common_entities.enums.GlFilterCode
-import com.shevelev.wizard_camera.core.database.api.repositories.FavoriteFilterRepository
+import com.shevelev.wizard_camera.core.database.api.repositories.FavoriteFilterDbRepository
 import com.shevelev.wizard_camera.core.database.impl.core.DbCore
 import com.shevelev.wizard_camera.core.database.impl.entities.FavoriteFilterDb
 import com.shevelev.wizard_camera.core.utils.id.IdUtil
 
-internal class FavoriteFilterRepositoryImpl
+internal class FavoriteFilterDbRepositoryImpl
 constructor(
     private val db: DbCore
-) : FavoriteFilterRepository {
+) : FavoriteFilterDbRepository {
 
     override fun create(code: GlFilterCode) {
         db.runConsistent {

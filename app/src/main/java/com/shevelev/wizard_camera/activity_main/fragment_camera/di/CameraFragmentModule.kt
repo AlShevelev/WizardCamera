@@ -35,7 +35,7 @@ val CameraFragmentModule = module(createdAtStart = false) {
 
     factory<ImageCapture> {
         ImageCaptureImpl(
-            photoFilesRepository = get()
+            photoShotRepository = get()
         )
     }
 

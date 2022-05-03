@@ -4,14 +4,14 @@ import com.shevelev.wizard_camera.core.common_entities.enums.GlFilterCode
 import com.shevelev.wizard_camera.core.common_entities.enums.MappingFilterTexture
 import com.shevelev.wizard_camera.core.common_entities.enums.Size
 import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.*
-import com.shevelev.wizard_camera.core.database.api.repositories.FilterSettingsRepository
+import com.shevelev.wizard_camera.core.database.api.repositories.FilterSettingsDbRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlin.random.Random
 
 class FilterSettingsFacadeImpl
 constructor(
-    private val filterSettingsRepository: FilterSettingsRepository
+    private val filterSettingsRepository: FilterSettingsDbRepository
 ) : FilterSettingsFacade {
 
     private val settingsMap = mutableMapOf<GlFilterCode, GlFilterSettings>(

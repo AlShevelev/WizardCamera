@@ -15,8 +15,9 @@ import org.threeten.bp.ZonedDateTime
 @TypeParceler<GlFilterSettings, GlFilterSettingsParceler>
 data class PhotoShot (
     val id: Long,
-    val fileName: String,
+    val fileContentUri: Uri,
+    val fileName: String?,
     val created: ZonedDateTime,
     val filter: GlFilterSettings,
-    val contentUri: Uri?
+    val mediaContentUri: Uri?
 ) : Parcelable

@@ -1,9 +1,8 @@
 package com.shevelev.wizard_camera.core.photo_files.impl.di
 
-import com.shevelev.wizard_camera.core.build_info.api.BuildInfo
 import com.shevelev.wizard_camera.core.photo_files.api.FilesHelper
 import com.shevelev.wizard_camera.core.photo_files.api.MediaScanner
-import com.shevelev.wizard_camera.core.photo_files.api.new.PhotoFilesRepository
+import com.shevelev.wizard_camera.core.photo_files.api.new.PhotoShotRepository
 import com.shevelev.wizard_camera.core.photo_files.impl.FilesHelperImpl
 import com.shevelev.wizard_camera.core.photo_files.impl.MediaScannerImpl
 import com.shevelev.wizard_camera.core.photo_files.impl.new.conventional.ConventionalFilesRepository
@@ -17,14 +16,11 @@ val PhotoFilesModule = module(createdAtStart = false) {
     }
 
     factory<FilesHelper> {
-        FilesHelperImpl(
-            appContext = get(),
-            appName = get<BuildInfo>().appName
-        )
+        FilesHelperImpl()
     }
 
     // must be single!
-    single<PhotoFilesRepository> {
+    single<PhotoShotRepository> {
         ConventionalFilesRepository(
             appContext = get(),
             appInfo = get(),

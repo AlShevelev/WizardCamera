@@ -2,7 +2,7 @@ package com.shevelev.wizard_camera.activity_main.fragment_camera.model.image_cap
 
 import com.shevelev.wizard_camera.activity_main.fragment_camera.model.dto.ScreenOrientation
 import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.GlFilterSettings
-import com.shevelev.wizard_camera.core.photo_files.api.new.PhotoFilesRepository
+import com.shevelev.wizard_camera.core.photo_files.api.new.PhotoShotRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -10,7 +10,7 @@ import java.io.OutputStream
 
 class ImageCaptureImpl
 constructor(
-    private val photoFilesRepository: PhotoFilesRepository
+    private val photoShotRepository: PhotoShotRepository
 ) : ImageCapture {
 
     override val inProgress: Boolean
@@ -29,7 +29,7 @@ constructor(
             this.activeFilter = activeFilter
 
             withContext(Dispatchers.IO) {
-                photoFilesRepository.startCapturing()
+                photoShotRepository.startCapturing()
             }
         } catch (ex: Exception) {
             Timber.e(ex)
@@ -42,7 +42,7 @@ constructor(
     override suspend fun captureCompleted() {
         withContext(Dispatchers.IO) {
             targetStream?.let { targetStream ->
-                photoFilesRepository.completeCapturing(targetStream, activeFilter!!)
+                photoShotRepository.completeCapturing(targetStream, activeFilter!!)
             }
         }
 

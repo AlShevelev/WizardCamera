@@ -11,15 +11,15 @@ import com.shevelev.wizard_camera.filters.filters_carousel.FiltersListData
 import com.shevelev.wizard_camera.activity_main.fragment_camera.model.dto.FiltersMode
 import com.shevelev.wizard_camera.filters.display_data.gl.FilterDisplayDataList
 import com.shevelev.wizard_camera.activity_main.fragment_camera.model.filters_facade.settings.FilterSettingsFacade
-import com.shevelev.wizard_camera.core.database.api.repositories.FavoriteFilterRepository
-import com.shevelev.wizard_camera.core.database.api.repositories.LastUsedFilterRepository
+import com.shevelev.wizard_camera.core.database.api.repositories.FavoriteFilterDbRepository
+import com.shevelev.wizard_camera.core.database.api.repositories.LastUsedFilterDbRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class FiltersFacadeImpl
 constructor(
-    private val lastUsedFilterRepository: LastUsedFilterRepository,
-    private val favoriteFilterRepository: FavoriteFilterRepository,
+    private val lastUsedFilterRepository: LastUsedFilterDbRepository,
+    private val favoriteFilterRepository: FavoriteFilterDbRepository,
     private val displayData: FilterDisplayDataList,
     private val filterSettings: FilterSettingsFacade
 ) : FiltersFacade {

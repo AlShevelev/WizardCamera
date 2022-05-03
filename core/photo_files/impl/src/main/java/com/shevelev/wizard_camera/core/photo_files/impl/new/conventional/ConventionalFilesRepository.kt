@@ -10,9 +10,9 @@ import com.shevelev.wizard_camera.core.bitmaps.api.orientation.Orientation
 import com.shevelev.wizard_camera.core.build_info.api.BuildInfo
 import com.shevelev.wizard_camera.core.common_entities.entities.PhotoShot
 import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.GlFilterSettings
-import com.shevelev.wizard_camera.core.database.api.repositories.PhotoShotRepository
+import com.shevelev.wizard_camera.core.database.api.repositories.PhotoShotDbRepository
 import com.shevelev.wizard_camera.core.photo_files.api.MediaScanner
-import com.shevelev.wizard_camera.core.photo_files.api.new.PhotoFilesRepository
+import com.shevelev.wizard_camera.core.photo_files.api.new.PhotoShotRepository
 import com.shevelev.wizard_camera.core.utils.id.IdUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -31,8 +31,8 @@ internal class ConventionalFilesRepository(
     private val mediaScanner: MediaScanner,
     private val bitmapOrientationCorrector: BitmapOrientationCorrector,
     private val bitmapHelper: BitmapHelper,
-    private val photoShotRepository: PhotoShotRepository
-) : PhotoFilesRepository {
+    private val photoShotRepository: PhotoShotDbRepository
+) : PhotoShotRepository {
 
     private val filesMap = mutableMapOf<OutputStream, File>()
 
@@ -70,13 +70,15 @@ internal class ConventionalFilesRepository(
                     }
 
                     val contentUri = mediaScanner.processNewShot(file)
+                    val fileUri = FileProvider.getUriForFile(appContext, "${appInfo.appId}.file_provider", file)
 
                     val shot = PhotoShot(
-                        IdUtil.generateLongId(),
-                        file.name,
-                        ZonedDateTime.now(),
-                        filter,
-                        contentUri
+                        id = IdUtil.generateLongId(),
+                        fileContentUri = fileUri,
+                        fileName = file.name,
+                        created = ZonedDateTime.now(),
+                        filter = filter,
+                        mediaContentUri = contentUri
                     )
 
                     photoShotRepository.create(shot)
@@ -95,12 +97,40 @@ internal class ConventionalFilesRepository(
     override suspend fun saveBitmapToTempStorage(bitmap: Bitmap): Uri {
         val file = withContext(Dispatchers.IO) {
             File(appContext.cacheDir, "${IdUtil.generateLongId().absoluteValue}.jpg").also {
-                bitmapHelper.save(it, bitmap)
+                bitmapHelper.save(bitmap, it)
             }
         }
 
         return FileProvider.getUriForFile(appContext, "${appInfo.appId}.file_provider", file)
     }
+
+    /**
+     * Removes a given shot
+     */
+    override suspend fun removeShot(photoShot: PhotoShot) {
+        val file = File(getShotsDirectory(), photoShot.fileName!!)
+
+        withContext(Dispatchers.IO) {
+            photoShotRepository.deleteById(photoShot.id)
+            file.delete()
+        }
+
+        mediaScanner.processDeletedShot(file)
+    }
+
+    /**
+     * Updates a given shot by a new bitmap or/and a new filter
+     * @return updated shot
+     */
+    override suspend fun updateShot(bitmap: Bitmap, filter: GlFilterSettings, updatedShot: PhotoShot): PhotoShot =
+        withContext(Dispatchers.IO) {
+            bitmapHelper.save(bitmap, updatedShot.fileContentUri)
+
+            val shotToSave = updatedShot.copy(filter = filter)
+            photoShotRepository.update(shotToSave)
+
+            shotToSave
+        }
 
     private fun getShotsDirectory(): File {
         val dir = File(appContext.externalMediaDirs[0], appInfo.appName)

@@ -2,7 +2,7 @@ package com.shevelev.wizard_camera.core.database.api.repositories
 
 import com.shevelev.wizard_camera.core.common_entities.entities.PhotoShot
 
-interface PhotoShotRepository {
+interface PhotoShotDbRepository {
     fun create(shot: PhotoShot)
 
     fun update(shot: PhotoShot)

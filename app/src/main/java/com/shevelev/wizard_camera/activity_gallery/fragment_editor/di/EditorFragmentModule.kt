@@ -42,7 +42,6 @@ val EditorFragmentModule = module(createdAtStart = false) {
 
     factory<EditorStorage> {
         EditorStorageImpl(
-            filesHelper = get(),
             photoShotRepository = get(),
             fragmentsDataPass = GalleryActivityScope.getScope().get(),
             filterSettings = get(),

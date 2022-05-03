@@ -1,7 +1,6 @@
 package com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.storage
 
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import com.shevelev.wizard_camera.activity_gallery.shared.FragmentsDataPass
 import com.shevelev.wizard_camera.activity_main.fragment_camera.model.filters_facade.settings.FilterSettingsFacade
 import com.shevelev.wizard_camera.core.bitmaps.api.bitmaps.BitmapHelper
@@ -9,18 +8,17 @@ import com.shevelev.wizard_camera.core.catalano.impl.facade.ImageProcessorImpl
 import com.shevelev.wizard_camera.core.common_entities.entities.PhotoShot
 import com.shevelev.wizard_camera.core.common_entities.enums.GlFilterCode
 import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.GlFilterSettings
-import com.shevelev.wizard_camera.core.database.api.repositories.PhotoShotRepository
-import com.shevelev.wizard_camera.core.photo_files.api.FilesHelper
+import com.shevelev.wizard_camera.core.database.api.repositories.PhotoShotDbRepository
+import com.shevelev.wizard_camera.core.photo_files.api.new.PhotoShotRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class EditorStorageImpl
 constructor(
-    private val filesHelper: FilesHelper,
-    private val photoShotRepository: PhotoShotRepository,
     private val fragmentsDataPass: FragmentsDataPass,
     private val filterSettings: FilterSettingsFacade,
-    private val bitmapHelper: BitmapHelper
+    private val bitmapHelper: BitmapHelper,
+    private val photoShotRepository: PhotoShotRepository
 ) : EditorStorage {
     override lateinit var displayedImage: Bitmap
 
@@ -55,7 +53,7 @@ constructor(
         lastUsedGlFilter = sourceShot.filter.takeIf { it.code != GlFilterCode.ORIGINAL }
 
         sourceImage = withContext(Dispatchers.IO) {
-            BitmapFactory.decodeFile(filesHelper.getShotFileByName(sourceShot.fileName).absolutePath)
+            bitmapHelper.load(sourceShot.fileContentUri)
         }
 
         displayedImage = sourceImage
@@ -93,21 +91,14 @@ constructor(
             return
         }
 
-        withContext(Dispatchers.IO) {
-            // File with image
-            bitmapHelper.save(filesHelper.getShotFileByName(sourceShot.fileName), displayedImage)
-
-            // Metadata in the database
-            val filter = if(isInNoFiltersMode) {
-                filterSettings[GlFilterCode.ORIGINAL]
-            } else {
-                lastUsedGlFilter ?: sourceShot.filter
-            }
-
-            val shotToSave = sourceShot.copy(filter = filter)
-            photoShotRepository.update(shotToSave)
-
-            fragmentsDataPass.putPhotoShot(shotToSave)
+        val filter = if(isInNoFiltersMode) {
+            filterSettings[GlFilterCode.ORIGINAL]
+        } else {
+            lastUsedGlFilter ?: sourceShot.filter
         }
+
+        val updatedShot = photoShotRepository.updateShot(displayedImage, filter, sourceShot)
+
+        fragmentsDataPass.putPhotoShot(updatedShot)
     }
 }

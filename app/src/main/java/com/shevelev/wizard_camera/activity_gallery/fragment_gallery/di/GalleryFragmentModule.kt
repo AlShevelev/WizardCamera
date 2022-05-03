@@ -17,11 +17,9 @@ val GalleryFragmentModule = module(createdAtStart = false) {
     factory<GalleryFragmentInteractor> {
         GalleryFragmentInteractorImpl(
             photoShotRepository = get(),
-            filesHelper = get(),
-            mediaScanner = get(),
             fragmentsDataPass = GalleryActivityScope.getScope().get(),
             imageImporter = get(),
-            photoFilesRepository = get()
+            photoShotDbRepository = get()
         )
     }
 
@@ -37,7 +35,7 @@ val GalleryFragmentModule = module(createdAtStart = false) {
         ImageImporterImpl(
             bitmapHelper = get(),
             imageTypeDetector = get(),
-            photoFilesRepository = get()
+            photoShotRepository = get()
         )
     }
 

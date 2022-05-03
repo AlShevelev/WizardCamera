@@ -1,7 +1,7 @@
 <resources>
     <string name="locale">En</string>
 
-    <string name="appName">Wizard camera</string>
+    <string name="appName">WizardCamera</string>
 
     <string name="ok">OK</string>
 

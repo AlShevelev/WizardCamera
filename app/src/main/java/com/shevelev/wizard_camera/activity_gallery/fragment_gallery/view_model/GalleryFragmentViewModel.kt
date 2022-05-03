@@ -84,7 +84,7 @@ constructor(
         val shot = interactor.getShot(position)
 
         _shotDateTime.value = shot.created.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT))
-        _isShareButtonVisible.value = shot.contentUri?.let { View.VISIBLE } ?: View.INVISIBLE
+        _isShareButtonVisible.value = shot.mediaContentUri?.let { View.VISIBLE } ?: View.INVISIBLE
 
         currentPageIndex = position
     }
