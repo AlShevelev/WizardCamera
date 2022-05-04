@@ -11,7 +11,7 @@ import com.shevelev.wizard_camera.core.build_info.api.BuildInfo
 import com.shevelev.wizard_camera.core.common_entities.entities.PhotoShot
 import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.GlFilterSettings
 import com.shevelev.wizard_camera.core.database.api.repositories.PhotoShotDbRepository
-import com.shevelev.wizard_camera.core.photo_files.api.MediaScanner
+import com.shevelev.wizard_camera.core.photo_files.impl.MediaScanner
 import com.shevelev.wizard_camera.core.photo_files.api.new.PhotoShotRepository
 import com.shevelev.wizard_camera.core.utils.id.IdUtil
 import kotlinx.coroutines.Dispatchers

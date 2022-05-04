@@ -110,8 +110,7 @@ constructor(
 
     fun onCaptureComplete(isSuccess: Boolean) {
         viewModelScope.launch {
-            _command.value = if(isSuccess) {
-                interactor.capture.captureCompleted()
+            _command.value = if(isSuccess && interactor.capture.captureCompleted()) {
                 ShowCapturingSuccessCommand(interactor.orientation.screenOrientation)
             } else {
                 ShowMessageResCommand(R.string.generalError)

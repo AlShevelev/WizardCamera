@@ -8,8 +8,6 @@ import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.model.image_
 import com.shevelev.wizard_camera.activity_gallery.shared.FragmentsDataPass
 import com.shevelev.wizard_camera.core.common_entities.entities.PhotoShot
 import com.shevelev.wizard_camera.core.database.api.repositories.PhotoShotDbRepository
-import com.shevelev.wizard_camera.core.photo_files.api.FilesHelper
-import com.shevelev.wizard_camera.core.photo_files.api.MediaScanner
 import com.shevelev.wizard_camera.core.photo_files.api.new.PhotoShotRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi

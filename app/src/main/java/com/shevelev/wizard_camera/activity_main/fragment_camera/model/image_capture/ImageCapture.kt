@@ -14,5 +14,5 @@ interface ImageCapture {
      */
     suspend fun startCapture(activeFilter: GlFilterSettings, screenOrientation: ScreenOrientation): OutputStream?
 
-    suspend fun captureCompleted()
+    suspend fun captureCompleted(): Boolean
 }

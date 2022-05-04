@@ -3,7 +3,6 @@ package com.shevelev.wizard_camera.core.photo_files.impl
 import android.content.Context
 import android.media.MediaScannerConnection
 import android.net.Uri
-import com.shevelev.wizard_camera.core.photo_files.api.MediaScanner
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
 import java.io.File

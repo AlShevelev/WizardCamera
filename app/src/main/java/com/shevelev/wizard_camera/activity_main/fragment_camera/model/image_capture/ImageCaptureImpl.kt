@@ -39,14 +39,17 @@ constructor(
         return targetStream
     }
 
-    override suspend fun captureCompleted() {
-        withContext(Dispatchers.IO) {
+    override suspend fun captureCompleted(): Boolean {
+        val isSuccess = withContext(Dispatchers.IO) {
             targetStream?.let { targetStream ->
-                photoShotRepository.completeCapturing(targetStream, activeFilter!!)
+                photoShotRepository.completeCapturing(targetStream, activeFilter!!) != null
             }
+                ?: false
         }
 
         targetStream = null
         activeFilter = null
+
+        return isSuccess
     }
 }

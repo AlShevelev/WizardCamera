@@ -1,9 +1,7 @@
 package com.shevelev.wizard_camera.core.photo_files.impl.di
 
-import com.shevelev.wizard_camera.core.photo_files.api.FilesHelper
-import com.shevelev.wizard_camera.core.photo_files.api.MediaScanner
+import com.shevelev.wizard_camera.core.photo_files.impl.MediaScanner
 import com.shevelev.wizard_camera.core.photo_files.api.new.PhotoShotRepository
-import com.shevelev.wizard_camera.core.photo_files.impl.FilesHelperImpl
 import com.shevelev.wizard_camera.core.photo_files.impl.MediaScannerImpl
 import com.shevelev.wizard_camera.core.photo_files.impl.new.conventional.ConventionalFilesRepository
 import org.koin.dsl.module
@@ -13,10 +11,6 @@ val PhotoFilesModule = module(createdAtStart = false) {
         MediaScannerImpl(
             appContext = get()
         )
-    }
-
-    factory<FilesHelper> {
-        FilesHelperImpl()
     }
 
     // must be single!
@@ -29,6 +23,5 @@ val PhotoFilesModule = module(createdAtStart = false) {
             bitmapHelper = get(),
             photoShotRepository = get()
         )
-        // or MediaStoreFilesRepository
     }
 }
