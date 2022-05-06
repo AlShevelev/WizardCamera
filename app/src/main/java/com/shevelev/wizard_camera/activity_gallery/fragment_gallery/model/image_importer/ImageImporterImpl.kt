@@ -7,7 +7,7 @@ import com.shevelev.wizard_camera.core.bitmaps.api.bitmaps.BitmapHelper
 import com.shevelev.wizard_camera.core.common_entities.entities.PhotoShot
 import com.shevelev.wizard_camera.core.common_entities.enums.GlFilterCode
 import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.EmptyFilterSettings
-import com.shevelev.wizard_camera.core.photo_files.api.new.PhotoShotRepository
+import com.shevelev.wizard_camera.core.photo_files.api.photo_shot_repository.PhotoShotRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -28,11 +28,11 @@ constructor(
         }
 
         return withContext(Dispatchers.IO) {
-            val stream = photoShotRepository.startCapturing()
+            photoShotRepository.startCapturing()?.let { stream ->
+                bitmapHelper.copy(uri, stream)
 
-            bitmapHelper.copy(uri, stream)
-
-            photoShotRepository.completeCapturing(stream, EmptyFilterSettings(GlFilterCode.ORIGINAL))
+                photoShotRepository.completeCapturing(stream, EmptyFilterSettings(GlFilterCode.ORIGINAL))
+            }
         }
     }
 }

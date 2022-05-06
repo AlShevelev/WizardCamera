@@ -23,22 +23,22 @@ constructor(
     private fun PhotoShot.map(): PhotoShotDb =
         PhotoShotDb(
             id = id,
-            fileContentUri = fileContentUri.toString(),
+            contentUri = contentUri.toString(),
             fileName = fileName,
             created = created,
             createdSort = created.toEpochSecond(),
             filterCode = filter.code,
             filterSettings = filerSettingsConverter.toString(filter),
-            contentUri = mediaContentUri?.toString()
+            mediaContentUri = mediaContentUri?.toString()
         )
 
     private fun PhotoShotDb.map(): PhotoShot =
         PhotoShot(
             id = id,
-            fileContentUri = fileContentUri.let { Uri.parse(it) },
+            contentUri = contentUri.let { Uri.parse(it) },
             fileName = fileName,
             created = created,
             filter = filerSettingsConverter.fromString(filterCode, filterSettings),
-            mediaContentUri = contentUri?.let { Uri.parse(it)}
+            mediaContentUri = mediaContentUri?.let { Uri.parse(it)}
         )
 }

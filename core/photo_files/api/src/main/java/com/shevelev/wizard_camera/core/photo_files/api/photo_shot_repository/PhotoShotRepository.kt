@@ -1,4 +1,4 @@
-package com.shevelev.wizard_camera.core.photo_files.api.new
+package com.shevelev.wizard_camera.core.photo_files.api.photo_shot_repository
 
 import android.graphics.Bitmap
 import android.net.Uri
@@ -13,7 +13,7 @@ interface PhotoShotRepository {
     /**
      * Creates a file for a photo shot and returns its OutputStream
      */
-    suspend fun startCapturing(): OutputStream
+    suspend fun startCapturing(): OutputStream?
 
     /**
      * Completes capturing process

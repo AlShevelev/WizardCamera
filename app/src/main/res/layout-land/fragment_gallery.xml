@@ -62,7 +62,7 @@
             app:layout_constraintEnd_toStartOf="@id/deleteButton"
             tools:ignore="ContentDescription"
             android:layout_marginEnd="@dimen/marginSmall"
-            android:visibility="@{viewModel.isShareButtonVisible}"
+            android:visibility="@{viewModel.isShotWidgetsVisible}"
             tools:visibility="visible" />
 
         <ImageButton
@@ -74,7 +74,7 @@
             app:layout_constraintEnd_toStartOf="@id/editButton"
             tools:ignore="ContentDescription"
             android:layout_marginEnd="@dimen/marginSmall"
-            android:visibility="@{viewModel.isShareButtonVisible}"
+            android:visibility="@{viewModel.isShotWidgetsVisible}"
             tools:visibility="visible" />
 
         <ImageButton
@@ -86,7 +86,7 @@
             app:layout_constraintEnd_toStartOf="@id/shareButton"
             tools:ignore="ContentDescription"
             android:layout_marginEnd="@dimen/marginSmall"
-            android:visibility="@{viewModel.isShareButtonVisible}"
+            android:visibility="@{viewModel.isImportVisible}"
             tools:visibility="visible" />
 
         <ImageView

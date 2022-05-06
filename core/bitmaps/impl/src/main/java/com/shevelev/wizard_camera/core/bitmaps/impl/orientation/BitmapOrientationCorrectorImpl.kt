@@ -1,38 +1,29 @@
 package com.shevelev.wizard_camera.core.bitmaps.impl.orientation
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Matrix
+import android.net.Uri
 import com.shevelev.wizard_camera.core.bitmaps.api.orientation.BitmapOrientationCorrector
 import androidx.exifinterface.media.ExifInterface
 import com.shevelev.wizard_camera.core.bitmaps.api.orientation.Orientation
 import java.io.File
 import java.io.InputStream
 
-internal class BitmapOrientationCorrectorImpl : BitmapOrientationCorrector {
+internal class BitmapOrientationCorrectorImpl(
+    private val appContext: Context
+) : BitmapOrientationCorrector {
     override fun getOrientation(file: File): Orientation? =
         ExifInterface(file)
             .getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED)
             .let { fromExif(it) }
 
-    override fun getOrientation(stream: InputStream): Orientation? {
-        val markSupported = stream.markSupported()
-
-        val orientation = if(markSupported) {
-            stream.mark(Int.MAX_VALUE)
-
+    override fun getOrientation(uri: Uri): Orientation? =
+        appContext.contentResolver.openInputStream(uri)?.use { stream ->
             ExifInterface(stream)
                 .getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED)
                 .let { fromExif(it) }
-        } else {
-            null
         }
-
-        if(markSupported) {
-            stream.reset()
-        }
-
-        return orientation
-    }
 
     override fun rotate(bitmap: Bitmap, orientation: Orientation): Bitmap {
         val rotateAngle = when(toExif(orientation)) {

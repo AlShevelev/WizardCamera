@@ -24,14 +24,6 @@ constructor(
         }
     }
 
-    override fun copy(source: Uri, destination: File) {
-        appContext.contentResolver.openInputStream(source).use { input ->
-            destination.outputStream().use { fileOut ->
-                input!!.copyTo(fileOut)
-            }
-        }
-    }
-
     override fun copy(source: Uri, destination: OutputStream) {
         appContext.contentResolver.openInputStream(source).use { input ->
             input!!.copyTo(destination)
@@ -43,8 +35,9 @@ constructor(
             BitmapFactory.decodeStream(it)
         }
 
-    override fun update(file: File, action: (Bitmap) -> Bitmap) =
-        save(action(loadBitmap(file)), file)
+    override fun update(file: File, action: (Bitmap) -> Bitmap) = save(action(loadBitmap(file)), file)
+
+    override fun update(uri: Uri, action: (Bitmap) -> Bitmap) = save(action(load(uri)), uri)
 
     private fun compressBitmap(bitmap: Bitmap, output: OutputStream) {
         // Jpeg format with "95" quality value is used - as same as ImageCapture settings

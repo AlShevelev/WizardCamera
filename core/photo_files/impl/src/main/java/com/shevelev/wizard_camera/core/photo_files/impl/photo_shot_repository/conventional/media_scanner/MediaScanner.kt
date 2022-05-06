@@ -1,4 +1,4 @@
-package com.shevelev.wizard_camera.core.photo_files.impl
+package com.shevelev.wizard_camera.core.photo_files.impl.photo_shot_repository.conventional.media_scanner
 
 import android.net.Uri
 import java.io.File

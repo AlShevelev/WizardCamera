@@ -2,7 +2,7 @@ package com.shevelev.wizard_camera.activity_main.fragment_camera.model.image_cap
 
 import com.shevelev.wizard_camera.activity_main.fragment_camera.model.dto.ScreenOrientation
 import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.GlFilterSettings
-import com.shevelev.wizard_camera.core.photo_files.api.new.PhotoShotRepository
+import com.shevelev.wizard_camera.core.photo_files.api.photo_shot_repository.PhotoShotRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber

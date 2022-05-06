@@ -8,7 +8,7 @@ import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.model.image_
 import com.shevelev.wizard_camera.activity_gallery.shared.FragmentsDataPass
 import com.shevelev.wizard_camera.core.common_entities.entities.PhotoShot
 import com.shevelev.wizard_camera.core.database.api.repositories.PhotoShotDbRepository
-import com.shevelev.wizard_camera.core.photo_files.api.new.PhotoShotRepository
+import com.shevelev.wizard_camera.core.photo_files.api.photo_shot_repository.PhotoShotRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -104,6 +104,7 @@ constructor(
         } ?: return false
 
         photosList.add(currentPosition, GalleryItem(shot.id, 0, shot))
+
         loadingResultMutable.tryEmit(ShotsLoadingResult.DataUpdated(photosList))
 
         return true
@@ -117,6 +118,7 @@ constructor(
 
         photosList.addAll(dbData)
         offset += PAGE_SIZE
+
         loadingResultMutable.tryEmit(ShotsLoadingResult.DataUpdated(photosList))
     }
 

@@ -27,6 +27,8 @@ val BitmapsModule = module(createdAtStart = false) {
     }
 
     factory<BitmapOrientationCorrector> {
-        BitmapOrientationCorrectorImpl()
+        BitmapOrientationCorrectorImpl(
+            appContext = get()
+        )
     }
 }

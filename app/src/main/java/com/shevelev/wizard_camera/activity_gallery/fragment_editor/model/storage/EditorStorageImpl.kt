@@ -8,8 +8,7 @@ import com.shevelev.wizard_camera.core.catalano.impl.facade.ImageProcessorImpl
 import com.shevelev.wizard_camera.core.common_entities.entities.PhotoShot
 import com.shevelev.wizard_camera.core.common_entities.enums.GlFilterCode
 import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.GlFilterSettings
-import com.shevelev.wizard_camera.core.database.api.repositories.PhotoShotDbRepository
-import com.shevelev.wizard_camera.core.photo_files.api.new.PhotoShotRepository
+import com.shevelev.wizard_camera.core.photo_files.api.photo_shot_repository.PhotoShotRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -53,7 +52,7 @@ constructor(
         lastUsedGlFilter = sourceShot.filter.takeIf { it.code != GlFilterCode.ORIGINAL }
 
         sourceImage = withContext(Dispatchers.IO) {
-            bitmapHelper.load(sourceShot.fileContentUri)
+            bitmapHelper.load(sourceShot.contentUri)
         }
 
         displayedImage = sourceImage

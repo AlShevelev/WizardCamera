@@ -30,9 +30,6 @@ constructor(
 
     val pageSize: Int = interactor.pageSize
 
-    private val _isShareButtonVisible = MutableLiveData(View.INVISIBLE)
-    val isShareButtonVisible: LiveData<Int> = _isShareButtonVisible
-
     private val _shotDateTime = MutableLiveData("")
     val shotDateTime: LiveData<String> = _shotDateTime
 
@@ -41,6 +38,9 @@ constructor(
 
     private val _isShotWidgetsVisible = MutableLiveData(View.INVISIBLE)
     val isShotWidgetsVisible: LiveData<Int> = _isShotWidgetsVisible
+
+    private val _isImportVisible = MutableLiveData(View.INVISIBLE)
+    val isImportVisible: LiveData<Int> = _isImportVisible
 
     var currentPageIndex: Int? = null
         private set
@@ -52,12 +52,12 @@ constructor(
                     is ShotsLoadingResult.PreLoading -> {
                         _isNoDataStubVisible.value = View.INVISIBLE
                         _isShotWidgetsVisible.value = View.INVISIBLE
-                        _isShareButtonVisible.value = View.INVISIBLE
+                        _isImportVisible.value = View.INVISIBLE
                     }
                     is ShotsLoadingResult.DataUpdated -> {
                         _isNoDataStubVisible.value = if (it.data.isEmpty()) View.VISIBLE else View.INVISIBLE
                         _isShotWidgetsVisible.value = if (it.data.isNotEmpty()) View.VISIBLE else View.INVISIBLE
-                        _isShareButtonVisible.value = if (it.data.isNotEmpty()) View.VISIBLE else View.INVISIBLE
+                        _isImportVisible.value = View.VISIBLE
 
                         _photos.value = it.data
                     }
@@ -84,7 +84,6 @@ constructor(
         val shot = interactor.getShot(position)
 
         _shotDateTime.value = shot.created.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT))
-        _isShareButtonVisible.value = shot.mediaContentUri?.let { View.VISIBLE } ?: View.INVISIBLE
 
         currentPageIndex = position
     }

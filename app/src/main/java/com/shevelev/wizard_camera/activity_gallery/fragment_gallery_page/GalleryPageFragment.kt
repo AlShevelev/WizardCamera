@@ -53,7 +53,7 @@ class GalleryPageFragment : FragmentBase<FragmentGalleryPageBinding>(), Coroutin
     fun loadPhoto(item: GalleryItem) {
         launch {
             val photoBitmap = withContext(Dispatchers.IO) {
-                bitmapHelper.load(item.item.fileContentUri)
+                bitmapHelper.load(item.item.contentUri)
             }
 
             val filter = filtersFactory.createFilter(

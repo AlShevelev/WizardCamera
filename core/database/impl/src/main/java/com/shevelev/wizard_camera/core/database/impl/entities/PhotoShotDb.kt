@@ -12,8 +12,8 @@ internal data class PhotoShotDb(
     @ColumnInfo(name = "photo_shot_id")
     val id: Long,
 
-    @ColumnInfo(name = "file_content_uri")
-    val fileContentUri: String,
+    @ColumnInfo(name = "content_uri")
+    val contentUri: String,
 
     @ColumnInfo(name = "file_name")
     val fileName: String?,
@@ -30,6 +30,6 @@ internal data class PhotoShotDb(
     @ColumnInfo(name = "filter_settings")
     val filterSettings: String,
 
-    @ColumnInfo(name = "content_uri")
-    val contentUri: String?
+    @ColumnInfo(name = "media_content_uri")
+    val mediaContentUri: String?
 )

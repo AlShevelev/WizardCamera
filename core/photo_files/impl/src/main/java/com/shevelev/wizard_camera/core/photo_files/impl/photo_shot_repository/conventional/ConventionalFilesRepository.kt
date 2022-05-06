@@ -1,8 +1,6 @@
-package com.shevelev.wizard_camera.core.photo_files.impl.new.conventional
+package com.shevelev.wizard_camera.core.photo_files.impl.photo_shot_repository.conventional
 
 import android.content.Context
-import android.graphics.Bitmap
-import android.net.Uri
 import androidx.core.content.FileProvider
 import com.shevelev.wizard_camera.core.bitmaps.api.bitmaps.BitmapHelper
 import com.shevelev.wizard_camera.core.bitmaps.api.orientation.BitmapOrientationCorrector
@@ -11,8 +9,9 @@ import com.shevelev.wizard_camera.core.build_info.api.BuildInfo
 import com.shevelev.wizard_camera.core.common_entities.entities.PhotoShot
 import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.GlFilterSettings
 import com.shevelev.wizard_camera.core.database.api.repositories.PhotoShotDbRepository
-import com.shevelev.wizard_camera.core.photo_files.impl.MediaScanner
-import com.shevelev.wizard_camera.core.photo_files.api.new.PhotoShotRepository
+import com.shevelev.wizard_camera.core.photo_files.api.photo_shot_repository.PhotoShotRepository
+import com.shevelev.wizard_camera.core.photo_files.impl.photo_shot_repository.conventional.media_scanner.MediaScanner
+import com.shevelev.wizard_camera.core.photo_files.impl.photo_shot_repository.PhotoShotRepositoryBase
 import com.shevelev.wizard_camera.core.utils.id.IdUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -26,13 +25,18 @@ import kotlin.math.absoluteValue
  * An old-style repository, based on files
  */
 internal class ConventionalFilesRepository(
-    private val appContext: Context,
-    private val appInfo: BuildInfo,
+    appContext: Context,
+    appInfo: BuildInfo,
     private val mediaScanner: MediaScanner,
     private val bitmapOrientationCorrector: BitmapOrientationCorrector,
-    private val bitmapHelper: BitmapHelper,
-    private val photoShotRepository: PhotoShotDbRepository
-) : PhotoShotRepository {
+    bitmapHelper: BitmapHelper,
+    photoShotRepository: PhotoShotDbRepository
+) : PhotoShotRepositoryBase(
+    appContext,
+    appInfo,
+    bitmapHelper,
+    photoShotRepository
+), PhotoShotRepository {
 
     private val filesMap = mutableMapOf<OutputStream, File>()
 
@@ -74,7 +78,7 @@ internal class ConventionalFilesRepository(
 
                     val shot = PhotoShot(
                         id = IdUtil.generateLongId(),
-                        fileContentUri = fileUri,
+                        contentUri = fileUri,
                         fileName = file.name,
                         created = ZonedDateTime.now(),
                         filter = filter,
@@ -92,19 +96,6 @@ internal class ConventionalFilesRepository(
         }
 
     /**
-     * Saves a bitmap into a temporary storage and returns content Uri for the saved bitmap
-     */
-    override suspend fun saveBitmapToTempStorage(bitmap: Bitmap): Uri {
-        val file = withContext(Dispatchers.IO) {
-            File(appContext.cacheDir, "${IdUtil.generateLongId().absoluteValue}.jpg").also {
-                bitmapHelper.save(bitmap, it)
-            }
-        }
-
-        return FileProvider.getUriForFile(appContext, "${appInfo.appId}.file_provider", file)
-    }
-
-    /**
      * Removes a given shot
      */
     override suspend fun removeShot(photoShot: PhotoShot) {
@@ -118,20 +109,7 @@ internal class ConventionalFilesRepository(
         mediaScanner.processDeletedShot(file)
     }
 
-    /**
-     * Updates a given shot by a new bitmap or/and a new filter
-     * @return updated shot
-     */
-    override suspend fun updateShot(bitmap: Bitmap, filter: GlFilterSettings, updatedShot: PhotoShot): PhotoShot =
-        withContext(Dispatchers.IO) {
-            bitmapHelper.save(bitmap, updatedShot.fileContentUri)
-
-            val shotToSave = updatedShot.copy(filter = filter)
-            photoShotRepository.update(shotToSave)
-
-            shotToSave
-        }
-
+    @Suppress("DEPRECATION")
     private fun getShotsDirectory(): File {
         val dir = File(appContext.externalMediaDirs[0], appInfo.appName)
         if(!dir.exists()) {
