@@ -14,9 +14,9 @@ constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
-) : FilterSettingsHostBase<GlFilterSettings>(context, attrs, defStyleAttr)  {
+) : FilterSettingsHostBase(context, attrs, defStyleAttr)  {
 
-    override fun createWidget(settings: GlFilterSettings): FilterSettingsWidget<GlFilterSettings> =
+    override fun createWidget(settings: GlFilterSettings): FilterSettingsWidget =
         when(settings.code) {
             GlFilterCode.EDGE_DETECTION -> FilterSettingsEdgeDetection(context)
             GlFilterCode.BLACK_AND_WHITE -> FilterSettingsBlackAndWhite(context)

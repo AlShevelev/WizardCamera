@@ -4,6 +4,7 @@
     package="com.shevelev.wizard_camera">
 
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -38,6 +39,10 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
+        <service
+            android:name="com.shevelev.wizard_camera.capturing_service.PhotoShotCaptureCompleteService"
+            android:exported="false" />
     </application>
 
     <queries>

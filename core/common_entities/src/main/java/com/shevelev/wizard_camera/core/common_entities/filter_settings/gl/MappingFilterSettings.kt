@@ -1,6 +1,5 @@
 package com.shevelev.wizard_camera.core.common_entities.filter_settings.gl
 
-import android.os.Parcelable
 import com.shevelev.wizard_camera.core.common_entities.enums.GlFilterCode
 import com.shevelev.wizard_camera.core.common_entities.enums.MappingFilterTexture
 import kotlinx.parcelize.Parcelize
@@ -12,4 +11,4 @@ data class MappingFilterSettings(
 
     // From 5(included) to 20(included)
     val mixFactor: Int
-): GlFilterSettings, Parcelable
+): GlFilterSettings

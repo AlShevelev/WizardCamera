@@ -10,15 +10,15 @@ import com.shevelev.wizard_camera.core.common_entities.entities.PhotoShot
 import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.GlFilterSettings
 import com.shevelev.wizard_camera.core.database.api.repositories.PhotoShotDbRepository
 import com.shevelev.wizard_camera.core.photo_files.api.photo_shot_repository.PhotoShotRepository
-import com.shevelev.wizard_camera.core.photo_files.impl.photo_shot_repository.conventional.media_scanner.MediaScanner
+import com.shevelev.wizard_camera.core.photo_files.api.photo_shot_repository.model.StartCapturingResult
 import com.shevelev.wizard_camera.core.photo_files.impl.photo_shot_repository.PhotoShotRepositoryBase
+import com.shevelev.wizard_camera.core.photo_files.impl.photo_shot_repository.conventional.media_scanner.MediaScanner
 import com.shevelev.wizard_camera.core.utils.id.IdUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.threeten.bp.ZonedDateTime
 import timber.log.Timber
 import java.io.File
-import java.io.OutputStream
 import kotlin.math.absoluteValue
 
 /**
@@ -31,40 +31,44 @@ internal class ConventionalFilesRepository(
     private val bitmapOrientationCorrector: BitmapOrientationCorrector,
     bitmapHelper: BitmapHelper,
     photoShotRepository: PhotoShotDbRepository
-) : PhotoShotRepositoryBase(
+) : PhotoShotRepositoryBase<File>(
     appContext,
     appInfo,
     bitmapHelper,
     photoShotRepository
 ), PhotoShotRepository {
 
-    private val filesMap = mutableMapOf<OutputStream, File>()
+    private val lock = Object()
 
     /**
      * Creates a file for a photo shot and returns its OutputStream
      */
-    override suspend fun startCapturing(): OutputStream =
+    override suspend fun startCapturing(): StartCapturingResult =
         withContext(Dispatchers.IO) {
             val dir = getShotsDirectory()
             val file = File(dir, "${IdUtil.generateLongId().absoluteValue}.jpg")
 
             val stream = file.outputStream()
 
-            putFile(stream, file)
+            val key = IdUtil.generateLongId()
+            putState(key, stream, file)
 
-            stream
+            StartCapturingResult(key, stream)
         }
 
     /**
      * Completes capturing process
-     * @param stream a stream created in [startCapturing] function with a stored image data
+     * @param key a value of [StartCapturingResult.key]
      */
-    override suspend fun completeCapturing(stream: OutputStream, filter: GlFilterSettings): PhotoShot? =
+    override suspend fun completeCapturing(key: Long, filter: GlFilterSettings): PhotoShot? =
         withContext(Dispatchers.IO) {
             try {
-                stream.close()
+                extractState(key)?.let { state ->
+                    val stream = state.first
+                    val file = state.second
 
-                extractFile(stream)?.let { file ->
+                    stream.close()
+
                     bitmapOrientationCorrector.getOrientation(file)?.let { orientation ->
                         if(orientation != Orientation.NORMAL) {
                             bitmapHelper.update(file) { bitmap ->
@@ -96,6 +100,54 @@ internal class ConventionalFilesRepository(
         }
 
     /**
+     * Completes capturing process (without coroutines, in a background thread)
+     * @param key a value of [StartCapturingResult.key]
+     */
+    override fun completeCapturingForService(key: Long, filter: GlFilterSettings) {
+        try {
+            extractState(key)?.let { state ->
+                val stream = state.first
+                val file = state.second
+
+                stream.close()
+
+                bitmapOrientationCorrector.getOrientation(file)?.let { orientation ->
+                    if (orientation != Orientation.NORMAL) {
+                        bitmapHelper.update(file) { bitmap ->
+                            bitmapOrientationCorrector.rotate(bitmap, orientation)
+                        }
+                    }
+                }
+
+                mediaScanner.processNewShot(file) { contentUri ->
+                    val fileUri = FileProvider.getUriForFile(appContext, "${appInfo.appId}.file_provider", file)
+
+                    val shot = PhotoShot(
+                        id = IdUtil.generateLongId(),
+                        contentUri = fileUri,
+                        fileName = file.name,
+                        created = ZonedDateTime.now(),
+                        filter = filter,
+                        mediaContentUri = contentUri
+                    )
+
+                    photoShotRepository.create(shot)
+
+                    synchronized(lock) {
+                        lock.notify()
+                    }
+                }
+
+                synchronized(lock) {
+                    lock.wait(3000L)
+                }
+            }
+        } catch (ex: Exception) {
+            Timber.e(ex)
+        }
+    }
+
+    /**
      * Removes a given shot
      */
     override suspend fun removeShot(photoShot: PhotoShot) {
@@ -117,13 +169,5 @@ internal class ConventionalFilesRepository(
         }
 
         return dir
-    }
-
-    @Synchronized
-    private fun extractFile(stream: OutputStream): File? = filesMap.remove(stream)
-
-    @Synchronized
-    private fun putFile(stream: OutputStream, file: File) {
-        filesMap[stream] = file
     }
 }

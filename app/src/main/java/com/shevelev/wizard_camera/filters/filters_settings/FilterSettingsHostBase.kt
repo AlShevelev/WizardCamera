@@ -8,22 +8,22 @@ import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.shevelev.wizard_camera.R
-import com.shevelev.wizard_camera.core.common_entities.filter_settings.FilterSettings
+import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.GlFilterSettings
 
 /**
  * Base class for all filer setting hosts
  */
 @Suppress("LeakingThis")
-abstract class FilterSettingsHostBase<T: FilterSettings<*>>
+abstract class FilterSettingsHostBase
 constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : LinearLayout(context, attrs, defStyleAttr) {
 
-    private var onSettingsChangeListener: ((T) -> Unit)? = null
+    private var onSettingsChangeListener: ((GlFilterSettings) -> Unit)? = null
 
-    private var settingsWidget: FilterSettingsWidget<T>? = null
+    private var settingsWidget: FilterSettingsWidget? = null
 
     private val settingsContainer by lazy { findViewById<FrameLayout>(R.id.settingsContainer) }
     private val headerText by lazy { findViewById<TextView>(R.id.headerText) }
@@ -34,12 +34,12 @@ constructor(
         setOnClickListener {  } // To prevent unexpected close the "dialog"
     }
 
-    fun setOnSettingsChangeListener(listener: ((T) -> Unit)?) {
+    fun setOnSettingsChangeListener(listener: ((GlFilterSettings) -> Unit)?) {
         onSettingsChangeListener = listener
     }
 
     @Suppress("UNCHECKED_CAST")
-    fun show(settings: T) {
+    fun show(settings: GlFilterSettings) {
         if(visibility == View.VISIBLE) {
             return
         }
@@ -72,5 +72,5 @@ constructor(
         settingsWidget = null
     }
 
-    protected abstract fun createWidget(settings: T): FilterSettingsWidget<T>
+    protected abstract fun createWidget(settings: GlFilterSettings): FilterSettingsWidget
 }

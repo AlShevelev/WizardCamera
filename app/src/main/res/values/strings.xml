@@ -1,11 +1,14 @@
 <resources>
     <string name="locale">En</string>
 
-    <string name="appName">WizardCamera</string>
+    <string name="appName">Wizard Camera</string>
+    <string name="appSystemName">WizardCamera</string>
 
     <string name="ok">OK</string>
 
     <string name="captureMenuText">Capture</string>
+
+    <string name="capturing">Capturing…</string>
 
     <string name="filterOriginal">No filters</string>
     <string name="filterEdgeDetection">Edges detection</string>

@@ -58,7 +58,9 @@ class CameraFragment : FragmentBaseMVVM<FragmentCameraBinding, CameraFragmentVie
             binding.favoritesFiltersCarousel.setStartData(it, viewModel)
         }
 
-        binding.shootButton.setOnClickListener { textureView.let { viewModel.onCaptureClick() } }
+        binding.shootButton.setOnClickListener {
+            textureView.let { viewModel.onCaptureClick() }
+        }
         binding.flashButton.setOnClickListener { viewModel.onFlashClick() }
         binding.filtersModeButton.setOnModeChangeListener { viewModel.onSwitchFilterModeClick(it) }
         binding.expositionBar.setOnValueChangeListener { viewModel.onExposeValueUpdated(it) }
@@ -91,7 +93,9 @@ class CameraFragment : FragmentBaseMVVM<FragmentCameraBinding, CameraFragmentVie
 
     override fun processViewCommand(command: ViewCommand) {
         when(command) {
-            is ShowCapturingSuccessCommand -> binding.captureSuccess.show(command.screenOrientation)
+            is ShowCapturingSuccessCommand -> {
+                binding.captureSuccess.show(command.screenOrientation)
+            }
             is ZoomCommand -> cameraManager.zoom(command.scaleFactor).let { viewModel.onZoomUpdated(it) }
             is ResetExposureCommand -> binding.expositionBar.reset()
             is SetExposureCommand -> cameraManager.updateExposure(command.exposureValue)

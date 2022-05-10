@@ -1,11 +1,13 @@
 package com.shevelev.wizard_camera.core.photo_files.impl.di
 
 import android.os.Build
-import com.shevelev.wizard_camera.core.photo_files.impl.photo_shot_repository.conventional.media_scanner.MediaScanner
 import com.shevelev.wizard_camera.core.photo_files.api.photo_shot_repository.PhotoShotRepository
-import com.shevelev.wizard_camera.core.photo_files.impl.photo_shot_repository.conventional.media_scanner.MediaScannerImpl
+import com.shevelev.wizard_camera.core.photo_files.api.photo_shot_repository.PhotoShotRepositoryService
 import com.shevelev.wizard_camera.core.photo_files.impl.photo_shot_repository.conventional.ConventionalFilesRepository
+import com.shevelev.wizard_camera.core.photo_files.impl.photo_shot_repository.conventional.media_scanner.MediaScanner
+import com.shevelev.wizard_camera.core.photo_files.impl.photo_shot_repository.conventional.media_scanner.MediaScannerImpl
 import com.shevelev.wizard_camera.core.photo_files.impl.photo_shot_repository.media_store.MediaStoreFilesRepository
+import org.koin.dsl.binds
 import org.koin.dsl.module
 
 val PhotoFilesModule = module(createdAtStart = false) {
@@ -15,8 +17,7 @@ val PhotoFilesModule = module(createdAtStart = false) {
         )
     }
 
-    // must be single!
-    single<PhotoShotRepository> {
+    single {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             MediaStoreFilesRepository(
                 appContext = get(),
@@ -35,5 +36,10 @@ val PhotoFilesModule = module(createdAtStart = false) {
                 photoShotRepository = get()
             )
         }
-    }
+    }.binds(
+        arrayOf(
+            PhotoShotRepository::class,
+            PhotoShotRepositoryService::class
+        )
+    )
 }

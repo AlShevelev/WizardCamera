@@ -10,18 +10,23 @@ import com.shevelev.wizard_camera.core.common_entities.entities.PhotoShot
 import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.GlFilterSettings
 import com.shevelev.wizard_camera.core.database.api.repositories.PhotoShotDbRepository
 import com.shevelev.wizard_camera.core.photo_files.api.photo_shot_repository.PhotoShotRepository
+import com.shevelev.wizard_camera.core.photo_files.api.photo_shot_repository.PhotoShotRepositoryService
 import com.shevelev.wizard_camera.core.utils.id.IdUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
+import java.io.OutputStream
 import kotlin.math.absoluteValue
 
-internal abstract class PhotoShotRepositoryBase(
+internal abstract class PhotoShotRepositoryBase<TS>(
     protected val appContext: Context,
     protected val appInfo: BuildInfo,
     protected val bitmapHelper: BitmapHelper,
     protected val photoShotRepository: PhotoShotDbRepository
-) : PhotoShotRepository {
+) : PhotoShotRepository, PhotoShotRepositoryService {
+
+    private val stateMap = mutableMapOf<Long, Pair<OutputStream, TS>>()
+
     /**
      * Saves a bitmap into a temporary storage and returns content Uri for the saved bitmap
      */
@@ -48,4 +53,12 @@ internal abstract class PhotoShotRepositoryBase(
 
             shotToSave
         }
+
+    @Synchronized
+    protected fun extractState(key: Long): Pair<OutputStream, TS>? = stateMap.remove(key)
+
+    @Synchronized
+    protected fun putState(key: Long, stream: OutputStream, storage: TS) {
+        stateMap[key] = Pair(stream, storage)
+    }
 }

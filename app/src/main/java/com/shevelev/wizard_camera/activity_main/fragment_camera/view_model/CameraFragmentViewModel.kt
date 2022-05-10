@@ -10,16 +10,18 @@ import androidx.lifecycle.viewModelScope
 import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.activity_main.fragment_camera.model.CameraFragmentInteractor
 import com.shevelev.wizard_camera.activity_main.fragment_camera.model.dto.*
+import com.shevelev.wizard_camera.activity_main.fragment_camera.view.gestures.Gesture
+import com.shevelev.wizard_camera.activity_main.fragment_camera.view.gestures.Pinch
+import com.shevelev.wizard_camera.activity_main.fragment_camera.view.gestures.Tap
 import com.shevelev.wizard_camera.core.common_entities.enums.GlFilterCode
 import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.GlFilterSettings
-import com.shevelev.wizard_camera.activity_main.fragment_camera.view.gestures.*
 import com.shevelev.wizard_camera.core.ui_utils.binding_adapters.ButtonState
-import com.shevelev.wizard_camera.filters.display_data.FilterDisplayId
-import com.shevelev.wizard_camera.filters.filters_carousel.FilterEventsProcessor
-import com.shevelev.wizard_camera.filters.filters_carousel.FiltersListData
 import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_commands.ShowMessageResCommand
 import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_model.ViewModelBase
 import com.shevelev.wizard_camera.core.utils.ext.format
+import com.shevelev.wizard_camera.filters.display_data.FilterDisplayId
+import com.shevelev.wizard_camera.filters.filters_carousel.FilterEventsProcessor
+import com.shevelev.wizard_camera.filters.filters_carousel.FiltersListData
 import kotlinx.coroutines.launch
 
 @SuppressLint("StaticFieldLeak")
@@ -98,12 +100,16 @@ constructor(
 
             val filter = interactor.filters.displayFilter
             val screenOrientation = interactor.orientation.screenOrientation
-            val targetStream = interactor.capture.startCapture(filter, screenOrientation)
+            val startCapturingResult = interactor.capture.startCapture(filter, screenOrientation)
 
-            if(targetStream == null) {
+            if(startCapturingResult == null) {
                 ShowMessageResCommand(R.string.generalError)
             } else {
-                _command.value = StartCaptureCommand(targetStream, isFlashActive, interactor.orientation.surfaceRotation)
+                _command.value = StartCaptureCommand(
+                    startCapturingResult.capturingStream,
+                    isFlashActive,
+                    interactor.orientation.surfaceRotation
+                )
             }
         }
     }

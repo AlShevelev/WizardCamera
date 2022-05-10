@@ -28,10 +28,10 @@ constructor(
         }
 
         return withContext(Dispatchers.IO) {
-            photoShotRepository.startCapturing()?.let { stream ->
-                bitmapHelper.copy(uri, stream)
+            photoShotRepository.startCapturing()?.let { result ->
+                bitmapHelper.copy(uri, result.capturingStream)
 
-                photoShotRepository.completeCapturing(stream, EmptyFilterSettings(GlFilterCode.ORIGINAL))
+                photoShotRepository.completeCapturing(result.key, EmptyFilterSettings(GlFilterCode.ORIGINAL))
             }
         }
     }

@@ -17,7 +17,7 @@ constructor(
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : ConstraintLayout(context, attrs, defStyleAttr),
-    FilterSettingsWidget<GlFilterSettings> {
+    FilterSettingsWidget {
 
     private var onSettingsChangeListener: ((GlFilterSettings) -> Unit)? = null
     private lateinit var settings: TileMosaicFilterSettings

@@ -10,12 +10,11 @@ import androidx.camera.core.ImageCapture.FLASH_MODE_ON
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
-import com.shevelev.wizard_camera.core.camera_gl.impl.camera.settings_repository.CameraSettingsRepository
 import com.shevelev.wizard_camera.core.camera_gl.api.camera.manager.CameraManager
+import com.shevelev.wizard_camera.core.camera_gl.impl.camera.settings_repository.CameraSettingsRepository
 import com.shevelev.wizard_camera.core.utils.ext.fitInRange
 import com.shevelev.wizard_camera.core.utils.ext.reduceToRange
 import timber.log.Timber
-import java.io.File
 import java.io.OutputStream
 import java.util.*
 import java.util.concurrent.ExecutorService

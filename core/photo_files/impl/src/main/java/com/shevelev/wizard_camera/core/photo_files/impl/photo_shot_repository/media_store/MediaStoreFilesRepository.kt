@@ -14,13 +14,13 @@ import com.shevelev.wizard_camera.core.common_entities.entities.PhotoShot
 import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.GlFilterSettings
 import com.shevelev.wizard_camera.core.database.api.repositories.PhotoShotDbRepository
 import com.shevelev.wizard_camera.core.photo_files.api.photo_shot_repository.PhotoShotRepository
+import com.shevelev.wizard_camera.core.photo_files.api.photo_shot_repository.model.StartCapturingResult
 import com.shevelev.wizard_camera.core.photo_files.impl.photo_shot_repository.PhotoShotRepositoryBase
 import com.shevelev.wizard_camera.core.utils.id.IdUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.threeten.bp.ZonedDateTime
 import timber.log.Timber
-import java.io.OutputStream
 import kotlin.math.absoluteValue
 
 /**
@@ -33,19 +33,16 @@ internal class MediaStoreFilesRepository(
     private val bitmapOrientationCorrector: BitmapOrientationCorrector,
     bitmapHelper: BitmapHelper,
     photoShotRepository: PhotoShotDbRepository
-) : PhotoShotRepositoryBase(
+) : PhotoShotRepositoryBase<Uri>(
     appContext,
     appInfo,
     bitmapHelper,
     photoShotRepository
 ),  PhotoShotRepository {
-
-    private val uriMap = mutableMapOf<OutputStream, Uri>()
-
     /**
      * Creates a file for a photo shot and returns its OutputStream
      */
-    override suspend fun startCapturing(): OutputStream? =
+    override suspend fun startCapturing(): StartCapturingResult? =
         withContext(Dispatchers.IO) {
             val collection = MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL)
 
@@ -59,53 +56,29 @@ internal class MediaStoreFilesRepository(
             val resolver = appContext.contentResolver
             resolver.insert(collection, values)?.let { uri ->
                 resolver.openOutputStream(uri)?.let { stream ->
-                    putUri(stream, uri)
-                    stream
+                    val key = IdUtil.generateLongId()
+                    putState(key, stream, uri)
+                    StartCapturingResult(key, stream)
                 }
             }
         }
 
     /**
      * Completes capturing process
-     * @param stream a stream created in [startCapturing] function
+     * @param key a value of [StartCapturingResult.key]
      */
-    override suspend fun completeCapturing(stream: OutputStream, filter: GlFilterSettings): PhotoShot? =
+    override suspend fun completeCapturing(key: Long, filter: GlFilterSettings): PhotoShot? =
         withContext(Dispatchers.IO) {
-            try {
-                stream.close()
-
-                extractUri(stream)?.let { uri ->
-                    bitmapOrientationCorrector.getOrientation(uri)?.let { orientation ->
-                        if(orientation != Orientation.NORMAL) {
-                            bitmapHelper.update(uri) { bitmap ->
-                                bitmapOrientationCorrector.rotate(bitmap, orientation)
-                            }
-                        }
-                    }
-
-                    val values = ContentValues().apply {
-                        put(MediaStore.Images.Media.IS_PENDING, 0)
-                    }
-                    appContext.contentResolver.update(uri, values, null, null)
-
-                    val shot = PhotoShot(
-                        id = IdUtil.generateLongId(),
-                        contentUri = uri,
-                        fileName = null,
-                        created = ZonedDateTime.now(),
-                        filter = filter,
-                        mediaContentUri = null
-                    )
-
-                    photoShotRepository.create(shot)
-
-                    shot
-                }
-            } catch (ex: Exception) {
-                Timber.e(ex)
-                null
-            }
+            completeCapturingInternal(key, filter)
         }
+
+    /**
+     * Completes capturing process (without coroutines, in a background thread)
+     * @param key a value of [StartCapturingResult.key]
+     */
+    override fun completeCapturingForService(key: Long, filter: GlFilterSettings) {
+        completeCapturingInternal(key, filter)
+    }
 
     /**
      * Removes a given shot
@@ -117,11 +90,42 @@ internal class MediaStoreFilesRepository(
             photoShotRepository.deleteById(photoShot.id)
         }
 
-    @Synchronized
-    private fun extractUri(stream: OutputStream): Uri? = uriMap.remove(stream)
+    private fun completeCapturingInternal(key: Long, filter: GlFilterSettings): PhotoShot? =
+        try {
+            extractState(key)?.let { state ->
+                val stream = state.first
+                val uri = state.second
 
-    @Synchronized
-    private fun putUri(stream: OutputStream, uri: Uri) {
-        uriMap[stream] = uri
-    }
+                stream.close()
+
+                bitmapOrientationCorrector.getOrientation(uri)?.let { orientation ->
+                    if(orientation != Orientation.NORMAL) {
+                        bitmapHelper.update(uri) { bitmap ->
+                            bitmapOrientationCorrector.rotate(bitmap, orientation)
+                        }
+                    }
+                }
+
+                val values = ContentValues().apply {
+                    put(MediaStore.Images.Media.IS_PENDING, 0)
+                }
+                appContext.contentResolver.update(uri, values, null, null)
+
+                val shot = PhotoShot(
+                    id = IdUtil.generateLongId(),
+                    contentUri = uri,
+                    fileName = null,
+                    created = ZonedDateTime.now(),
+                    filter = filter,
+                    mediaContentUri = null
+                )
+
+                photoShotRepository.create(shot)
+
+                shot
+            }
+        } catch (ex: Exception) {
+            Timber.e(ex)
+            null
+        }
 }

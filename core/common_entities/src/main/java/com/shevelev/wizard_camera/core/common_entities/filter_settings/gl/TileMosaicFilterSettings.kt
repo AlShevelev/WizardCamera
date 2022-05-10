@@ -1,6 +1,5 @@
 package com.shevelev.wizard_camera.core.common_entities.filter_settings.gl
 
-import android.os.Parcelable
 import com.shevelev.wizard_camera.core.common_entities.enums.GlFilterCode
 import kotlinx.parcelize.Parcelize
 
@@ -17,4 +16,4 @@ data class TileMosaicFilterSettings(
      * from 1(included) to 5(included)
      */
     val borderSize: Int
-): GlFilterSettings, Parcelable
+): GlFilterSettings
