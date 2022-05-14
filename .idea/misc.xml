@@ -3,10 +3,16 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable/bcg_circle_white.xml" value="0.1645" />
+        <entry key="app/src/main/res/drawable/bcg_circle_yellow.xml" value="0.1645" />
         <entry key="app/src/main/res/layout-land/fragment_gallery.xml" value="0.16005291005291006" />
+        <entry key="app/src/main/res/layout/fragment_camera.xml" value="0.2871376811594203" />
         <entry key="app/src/main/res/layout/fragment_editor.xml" value="0.2871376811594203" />
         <entry key="app/src/main/res/layout/fragment_gallery.xml" value="0.2871376811594203" />
         <entry key="app/src/main/res/layout/view_filter_settings_mapping.xml" value="0.21822916666666667" />
+        <entry key="app/src/main/res/layout/view_filters_carousel.xml" value="0.2871376811594203" />
+        <entry key="app/src/main/res/layout/view_filters_carousel_item.xml" value="0.2871376811594203" />
+        <entry key="app/src/main/res/layout/view_filters_mode.xml" value="0.21822916666666667" />
       </map>
     </option>
   </component>

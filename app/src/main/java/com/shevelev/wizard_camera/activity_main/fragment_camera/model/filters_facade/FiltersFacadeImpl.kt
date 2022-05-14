@@ -16,8 +16,7 @@ import com.shevelev.wizard_camera.core.database.api.repositories.LastUsedFilterD
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class FiltersFacadeImpl
-constructor(
+class FiltersFacadeImpl (
     private val lastUsedFilterRepository: LastUsedFilterDbRepository,
     private val favoriteFilterRepository: FavoriteFilterDbRepository,
     private val displayData: FilterDisplayDataList,
@@ -26,7 +25,7 @@ constructor(
 
     private lateinit var favoritesList: MutableList<GlFilterCode>
 
-    private var selectedFilter = displayData[0].id.filterCode
+    private var selectedFilter = displayData[0].code
     private var selectedFavoriteFilter = GlFilterCode.ORIGINAL
 
     private var priorFavoritesListData: FiltersListData? = null
@@ -62,7 +61,7 @@ constructor(
             favoriteFilterRepository.read()
         }.toMutableList()
 
-        selectedFilter = lastUsedFilters.firstOrNull { !it.isFavorite }?.code ?: displayData[0].id.filterCode
+        selectedFilter = lastUsedFilters.firstOrNull { !it.isFavorite }?.code ?: displayData[0].code
 
         selectedFavoriteFilter =
             lastUsedFilters.firstOrNull { it.isFavorite }?.code
@@ -88,7 +87,7 @@ constructor(
 
     override suspend fun getAllFiltersListData(): FiltersListData {
         val startItems = displayData.map {
-            val isFavorite = if(favoritesList.contains(it.id.filterCode)) {
+            val isFavorite = if(favoritesList.contains(it.code)) {
                 FilterFavoriteType.FAVORITE
             }
             else {
@@ -96,9 +95,10 @@ constructor(
             }
 
             FilterListItem(
+                listId = FiltersListId.ALL_FILTERS_LIST,
                 displayData = it,
                 favorite = isFavorite,
-                hasSettings = filterSettings[it.id.filterCode] !is EmptyFilterSettings,
+                hasSettings = filterSettings[it.code] !is EmptyFilterSettings,
                 isSelected = false
             )
         }
@@ -111,6 +111,7 @@ constructor(
 
         val items = favoritesList.map {
             FilterListItem(
+                listId = FiltersListId.FAVORITE_FILTERS_LIST,
                 displayData = displayData[it],
                 favorite = FilterFavoriteType.HIDDEN,
                 hasSettings = filterSettings[it] !is EmptyFilterSettings,
@@ -120,7 +121,7 @@ constructor(
 
         if(items.isNotEmpty() && startIndex == -1) {
             startIndex = 0
-            selectedFavoriteFilter = items[0].displayData.id.filterCode
+            selectedFavoriteFilter = items[0].displayData.code
         }
 
         val newFavoritesListData = FiltersListData(startIndex, items)

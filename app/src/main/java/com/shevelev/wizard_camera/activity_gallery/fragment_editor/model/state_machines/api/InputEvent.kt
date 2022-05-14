@@ -1,7 +1,7 @@
 package com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_machines.api
 
+import com.shevelev.wizard_camera.core.common_entities.enums.GlFilterCode
 import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.GlFilterSettings
-import com.shevelev.wizard_camera.filters.display_data.FilterDisplayId
 
 /**
  * Base class for all user's actions
@@ -31,7 +31,7 @@ object CancelClicked : InputEvent()
 /**
  * A new filter has been selected in the carousel
  */
-data class GlFilterSwitched(val filterId: FilterDisplayId) : InputEvent()
+data class GlFilterSwitched(val filterCode: GlFilterCode) : InputEvent()
 
 /**
  * A user show current filter settings

@@ -1,5 +1,6 @@
 package com.shevelev.wizard_camera.filters.filters_carousel
 
+import android.content.Context
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
@@ -21,44 +22,60 @@ class FiltersItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
     fun bind(item: FilterListItem, position: Int, eventsProcessor: FilterEventsProcessor) {
         iconGlideTarget = listItemIcon.loadCircle(item.displayData.icon)
-        root.tag = FiltersItemTag(id = item.displayData.id, position = position)
+        root.tag = FiltersItemTag(id = item.displayData.code, position = position)
 
-        if(!item.isSelected) {
-            favoriteButton.visibility = View.INVISIBLE
-        } else {
-            when(item.favorite) {
-                FilterFavoriteType.FAVORITE -> {
-                    favoriteButton.visibility = View.VISIBLE
-                    favoriteButton.isActive = true
-                }
-                FilterFavoriteType.NOT_FAVORITE -> {
-                    favoriteButton.visibility = View.VISIBLE
-                    favoriteButton.isActive = false
-                }
-                FilterFavoriteType.HIDDEN -> {
-                    favoriteButton.visibility = View.INVISIBLE
-                }
+        when(item.favorite) {
+            FilterFavoriteType.FAVORITE -> {
+                favoriteButton.visibility = View.VISIBLE
+                favoriteButton.isActive = true
+            }
+            FilterFavoriteType.NOT_FAVORITE -> {
+                favoriteButton.visibility = View.VISIBLE
+                favoriteButton.isActive = false
+            }
+            FilterFavoriteType.HIDDEN -> {
+                favoriteButton.visibility = View.INVISIBLE
             }
         }
 
-        if(item.isSelected) {
-            settingsButton.visibility = if (item.hasSettings) View.VISIBLE else View.INVISIBLE
-        } else {
-            settingsButton.visibility = View.INVISIBLE
-        }
+        settingsButton.visibility = if (item.hasSettings) View.VISIBLE else View.INVISIBLE
+
+        setSelection(
+            icon = listItemIcon,
+            context = root.context,
+            isSelected = item.isSelected
+        )
 
         favoriteButton.setOnPulseButtonClickListener { isActive ->
-            eventsProcessor.onFavoriteFilterClick(item.displayData.id, isActive)
+            eventsProcessor.onFavoriteFilterClick(item.displayData.code, isActive)
         }
 
         settingsButton.setOnPulseButtonClickListener {
-            eventsProcessor.onSettingsClick(item.displayData.id)
+            eventsProcessor.onSettingsClick(item.displayData.code)
+        }
+
+        root.setOnClickListener {
+            eventsProcessor.onFilterClick(item.displayData.code, item.listId)
         }
     }
 
     fun recycle() {
         iconGlideTarget?.clear(itemView.context.applicationContext)
+
         favoriteButton.setOnPulseButtonClickListener(null)
         settingsButton.setOnPulseButtonClickListener(null)
+        root.setOnClickListener(null)
+    }
+
+    private fun setSelection(icon: View, context: Context, isSelected: Boolean) {
+        val frameThickness = if(isSelected) R.dimen.strokeWidthSelected else R.dimen.strokeWidthThin
+        val padding = context.resources.getDimension(frameThickness).toInt()+1
+        icon.setPadding(padding, padding, padding, padding)
+
+        if(isSelected) {
+            icon.setBackgroundResource(R.drawable.bcg_circle_yellow)
+        } else {
+            icon.setBackgroundResource(R.drawable.bcg_circle_white)
+        }
     }
 }

@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
-import kotlin.random.Random
+import com.shevelev.wizard_camera.core.common_entities.enums.GlFilterCode
 
 class FiltersAdapter(
     @LayoutRes
@@ -18,14 +18,12 @@ class FiltersAdapter(
         FiltersItemViewHolder(LayoutInflater.from(parent.context).inflate(layoutId, parent, false))
 
     override fun onBindViewHolder(holder: FiltersItemViewHolder, position: Int) {
-        val index = getItemIndexByPosition(position)
-
-        holder.bind(items[index], position, eventsProcessor)
+        holder.bind(items[position], position, eventsProcessor)
     }
 
     override fun onViewRecycled(holder: FiltersItemViewHolder) = holder.recycle()
 
-    override fun getItemCount() = Int.MAX_VALUE
+    override fun getItemCount() = items.size
 
     fun setItems(newItems: List<FilterListItem>, startPosition: Int) {
         items = newItems.toMutableList()
@@ -35,23 +33,33 @@ class FiltersAdapter(
         notifyDataSetChanged()
     }
 
-    fun setItemSelectionState(position: Int, isSelected: Boolean) {
-        val positionInList = getItemIndexByPosition(position)
-
-        items[positionInList] = items[positionInList].copy(isSelected = isSelected)
-        notifyItemChanged(position)
-    }
-
     /**
-     * Calculates scroll position by index of an item in the list
-     * [position] an index in the list of items
+     * Marks an item as selected
      */
-    fun recalculatePosition(position: Int): Int {
-        val basePosition = Int.MAX_VALUE /2
-        val baseIndex = getItemIndexByPosition(basePosition)
+    fun selectItem(selectedItemId: GlFilterCode) {
+        val oldSelectedItemPosition = items.indexOfFirst { it.isSelected }
+        val newSelectedItemPosition = items.indexOfFirst { it.displayData.code == selectedItemId }
 
-        return basePosition - (baseIndex - position) - Random.nextInt(1, 500)*items.size
+        if(oldSelectedItemPosition == -1 || newSelectedItemPosition == -1) {
+            return
+        }
+
+        val oldSelectedItem = items[oldSelectedItemPosition]
+        val newSelectedItem = items[newSelectedItemPosition]
+
+        if(oldSelectedItem.displayData.code == newSelectedItem.displayData.code) {
+            return
+        }
+
+        items[oldSelectedItemPosition] = oldSelectedItem.copy(isSelected = false)
+        notifyItemChanged(oldSelectedItemPosition)
+
+        items[newSelectedItemPosition] = newSelectedItem.copy(isSelected = true)
+        notifyItemChanged(newSelectedItemPosition)
     }
 
-    private fun getItemIndexByPosition(position: Int) = position % items.size
+    fun getItemPosition(itemCode: GlFilterCode): Int? =
+        items
+            .indexOfFirst { it.displayData.code == itemCode }
+            .let { if(it == -1) null else it }
 }

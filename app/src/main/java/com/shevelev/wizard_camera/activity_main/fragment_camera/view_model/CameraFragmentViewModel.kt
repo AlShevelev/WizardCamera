@@ -10,6 +10,7 @@ import androidx.lifecycle.viewModelScope
 import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.activity_main.fragment_camera.model.CameraFragmentInteractor
 import com.shevelev.wizard_camera.activity_main.fragment_camera.model.dto.*
+import com.shevelev.wizard_camera.activity_main.fragment_camera.model.filters_facade.FiltersListId
 import com.shevelev.wizard_camera.activity_main.fragment_camera.view.gestures.Gesture
 import com.shevelev.wizard_camera.activity_main.fragment_camera.view.gestures.Pinch
 import com.shevelev.wizard_camera.activity_main.fragment_camera.view.gestures.Tap
@@ -19,7 +20,6 @@ import com.shevelev.wizard_camera.core.ui_utils.binding_adapters.ButtonState
 import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_commands.ShowMessageResCommand
 import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_model.ViewModelBase
 import com.shevelev.wizard_camera.core.utils.ext.format
-import com.shevelev.wizard_camera.filters.display_data.FilterDisplayId
 import com.shevelev.wizard_camera.filters.filters_carousel.FilterEventsProcessor
 import com.shevelev.wizard_camera.filters.filters_carousel.FiltersListData
 import kotlinx.coroutines.launch
@@ -185,6 +185,12 @@ constructor(
             } else {
                 View.INVISIBLE
             }
+
+            when(mode) {
+                FiltersMode.ALL -> _command.value = ScrollToFilter(interactor.filters.displayFilter.code)
+                FiltersMode.FAVORITE -> _command.value = ScrollToFavoriteFilter(interactor.filters.displayFilter.code)
+                else -> { }
+            }
         }
     }
 
@@ -206,32 +212,6 @@ constructor(
         _command.value = ExitCommand(R.string.needCameraPermissionExit)
     }
 
-    fun onFilterSelected(id: FilterDisplayId) {
-        viewModelScope.launch {
-            hideSettings()
-
-            interactor.filters.selectFilter(id.filterCode)
-
-            if(interactor.filters.filtersMode == FiltersMode.ALL) {
-                _selectedFilter.value = interactor.filters.displayFilter
-                _screenTitle.value = appContext.getString(interactor.filters.displayFilterTitle)
-            }
-        }
-    }
-
-    fun onFavoriteFilterSelected(id: FilterDisplayId) {
-        viewModelScope.launch {
-            hideSettings()
-
-            interactor.filters.selectFavoriteFilter(id.filterCode)
-
-            if(interactor.filters.filtersMode == FiltersMode.FAVORITE) {
-                _selectedFilter.value = interactor.filters.displayFilter
-                _screenTitle.value = appContext.getString(interactor.filters.displayFilterTitle)
-            }
-        }
-    }
-
     fun onBackClick(): Boolean =
         if(isSettingsVisible) {
             hideSettings()
@@ -247,19 +227,26 @@ constructor(
         }
     }
 
-    override fun onFavoriteFilterClick(id: FilterDisplayId, isSelected: Boolean) {
+    override fun onFavoriteFilterClick(id: GlFilterCode, isSelected: Boolean) {
         viewModelScope.launch {
             hideSettings()
 
             if(isSelected) {
-                interactor.filters.addToFavorite(id.filterCode)
+                interactor.filters.addToFavorite(id)
             } else {
-                interactor.filters.removeFromFavorite(id.filterCode)
+                interactor.filters.removeFromFavorite(id)
             }
         }
     }
 
-    override fun onSettingsClick(id: FilterDisplayId) = showSettings(id.filterCode)
+    override fun onSettingsClick(id: GlFilterCode) = showSettings(id)
+
+    override fun onFilterClick(id: GlFilterCode, listId: String) {
+        when(listId) {
+            FiltersListId.ALL_FILTERS_LIST -> onFilterSelected(id)
+            FiltersListId.FAVORITE_FILTERS_LIST -> onFavoriteFilterSelected(id)
+        }
+    }
 
     private fun zoom(touchDistance: Float) {
         _command.value = ZoomCommand(touchDistance)
@@ -291,5 +278,35 @@ constructor(
             _favoritesFiltersVisibility.value = View.VISIBLE
         }
         isSettingsVisible = false
+    }
+
+    private fun onFilterSelected(id: GlFilterCode) {
+        viewModelScope.launch {
+            hideSettings()
+
+            interactor.filters.selectFilter(id)
+
+            if(interactor.filters.filtersMode == FiltersMode.ALL) {
+                _selectedFilter.value = interactor.filters.displayFilter
+                _screenTitle.value = appContext.getString(interactor.filters.displayFilterTitle)
+            }
+
+            _command.value = SelectFilter(id)
+        }
+    }
+
+    private fun onFavoriteFilterSelected(id: GlFilterCode) {
+        viewModelScope.launch {
+            hideSettings()
+
+            interactor.filters.selectFavoriteFilter(id)
+
+            if(interactor.filters.filtersMode == FiltersMode.FAVORITE) {
+                _selectedFilter.value = interactor.filters.displayFilter
+                _screenTitle.value = appContext.getString(interactor.filters.displayFilterTitle)
+            }
+
+            _command.value = SelectFavoriteFilter(id)
+        }
     }
 }

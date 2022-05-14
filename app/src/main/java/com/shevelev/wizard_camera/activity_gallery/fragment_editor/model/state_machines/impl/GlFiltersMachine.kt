@@ -86,7 +86,7 @@ class GlFiltersMachine(
 
             state == State.MAIN && event is GlFilterSwitched -> {
                 editorStorage.onUpdate()
-                val filter = editorStorage.getUsedFilter(event.filterId.filterCode) ?: filterSettings[event.filterId.filterCode]
+                val filter = editorStorage.getUsedFilter(event.filterCode) ?: filterSettings[event.filterCode]
 
                 editorStorage.lastUsedGlFilter = filter
                 outputCommands.emit(UpdateImageByGlFilter(filter, getFilterTitle(filter)))
@@ -162,9 +162,10 @@ class GlFiltersMachine(
     private fun getFiltersListData() : FiltersListData {
         val startItems = filterDisplayData.map {
             FilterListItem(
+                listId = "",        // There is only one list in the editor screen, so never mind about it
                 displayData = it,
                 favorite = FilterFavoriteType.HIDDEN,
-                hasSettings = filterSettings[it.id.filterCode] !is EmptyFilterSettings,
+                hasSettings = filterSettings[it.code] !is EmptyFilterSettings,
                 isSelected = false
             )
         }

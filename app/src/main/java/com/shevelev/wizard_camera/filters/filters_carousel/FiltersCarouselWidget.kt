@@ -6,7 +6,7 @@ import android.view.View
 import android.widget.FrameLayout
 import android.widget.TextView
 import com.shevelev.wizard_camera.R
-import com.shevelev.wizard_camera.filters.display_data.FilterDisplayId
+import com.shevelev.wizard_camera.core.common_entities.enums.GlFilterCode
 
 class FiltersCarouselWidget
 @JvmOverloads
@@ -37,7 +37,10 @@ constructor(
 
     fun scrollToPosition(position: Int) = filtersList.scrollToPosition(position)
 
-    fun smoothScrollToPosition(position: Int) = filtersList.smoothScrollToPosition(position)
+    fun scrollToItem(itemId: GlFilterCode) = filtersList.scrollToItem(itemId)
 
-    fun setOnItemSelectedListener(listener: ((id: FilterDisplayId) -> Unit)?) = filtersList.setOnItemSelectedListener(listener)
+    /**
+     * Marks an item as selected
+     */
+    fun selectItem(selectedItemId: GlFilterCode) = filtersList.selectItem(selectedItemId)
 }

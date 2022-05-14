@@ -1,8 +1,8 @@
 package com.shevelev.wizard_camera.filters.filters_carousel
 
-import com.shevelev.wizard_camera.filters.display_data.FilterDisplayId
+import com.shevelev.wizard_camera.core.common_entities.enums.GlFilterCode
 
 data class FiltersItemTag(
-    val id: FilterDisplayId,
+    val id: GlFilterCode,
     val position: Int
 )

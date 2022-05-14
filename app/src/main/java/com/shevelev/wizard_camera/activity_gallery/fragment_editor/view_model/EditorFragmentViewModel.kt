@@ -10,13 +10,14 @@ import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.EditorFragmentInteractor
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.dto.ImageWithFilter
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_machines.api.*
+import com.shevelev.wizard_camera.activity_main.fragment_camera.model.dto.SelectFilter
 import com.shevelev.wizard_camera.core.common_entities.entities.PhotoShot
+import com.shevelev.wizard_camera.core.common_entities.enums.GlFilterCode
 import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.GlFilterSettings
 import com.shevelev.wizard_camera.core.ui_utils.binding_adapters.ButtonState
 import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_commands.CloseEditorCommand
 import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_commands.ShowEditorSaveDialogCommand
 import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_model.ViewModelBase
-import com.shevelev.wizard_camera.filters.display_data.FilterDisplayId
 import com.shevelev.wizard_camera.filters.filters_carousel.FilterEventsProcessor
 import com.shevelev.wizard_camera.filters.filters_carousel.FiltersListData
 import kotlinx.coroutines.launch
@@ -78,8 +79,16 @@ constructor(
         }
     }
 
-    override fun onSettingsClick(id: FilterDisplayId) {
+    override fun onSettingsClick(id: GlFilterCode) {
         viewModelScope.launch { interactor.processEvent(GlFilterSettingsShown) }
+    }
+
+    override fun onFilterClick(id: GlFilterCode, listId: String) {
+        viewModelScope.launch {
+            interactor.processEvent(GlFilterSwitched(id))
+
+            _command.value = SelectFilter(id)
+        }
     }
 
     fun onModeButtonClick(code: ModeButtonCode) {
@@ -92,12 +101,6 @@ constructor(
 
     fun onCancelClick() {
         viewModelScope.launch { interactor.processEvent(CancelClicked) }
-    }
-
-    fun onGLFilterSelected(filterId: FilterDisplayId) {
-        viewModelScope.launch {
-            interactor.processEvent(GlFilterSwitched(filterId))
-        }
     }
 
     fun onGLFilterSettingsUpdated(setting: GlFilterSettings) {
