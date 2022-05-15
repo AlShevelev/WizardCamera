@@ -13,7 +13,11 @@ constructor(
     /**
      * Direct command for view
      */
-    protected val _command = SingleLiveData<ViewCommand>()
+    private val _command = SingleLiveData<ViewCommand>()
     val command: LiveData<ViewCommand>
         get() = _command
+
+    protected fun sendCommand(command: ViewCommand) {
+        _command.value = command
+    }
 }

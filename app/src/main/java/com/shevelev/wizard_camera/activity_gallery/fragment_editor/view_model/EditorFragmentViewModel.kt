@@ -87,7 +87,7 @@ constructor(
         viewModelScope.launch {
             interactor.processEvent(GlFilterSwitched(id))
 
-            _command.value = SelectFilter(id)
+            sendCommand(SelectFilter(id))
         }
     }
 
@@ -149,9 +149,9 @@ constructor(
 
             is HideGlFilterSettings -> _glSettings.value = null
 
-            is ShowSaveDialog -> _command.value = ShowEditorSaveDialogCommand
+            is ShowSaveDialog -> sendCommand(ShowEditorSaveDialogCommand)
 
-            is CloseEditor -> _command.value = CloseEditorCommand
+            is CloseEditor -> sendCommand(CloseEditorCommand)
 
             is SetProgressVisibility -> _progressVisibility.value = if(command.isVisible) View.VISIBLE else View.GONE
         }

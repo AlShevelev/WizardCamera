@@ -75,7 +75,7 @@ constructor(
     fun onShareShotClick(filteredImage: Bitmap) {
         viewModelScope.launch {
             interactor.startBitmapSharing(filteredImage).also {
-                _command.value = ShareShotCommand(it)
+                sendCommand(ShareShotCommand(it))
             }
         }
     }
@@ -89,15 +89,15 @@ constructor(
     }
 
     fun onEditShotClick(position: Int) {
-        _command.value = EditShotCommand(interactor.getShot(position))
+        sendCommand(EditShotCommand(interactor.getShot(position)))
     }
 
     fun startImageImport(uri: Uri, currentPosition: Int) {
         viewModelScope.launch {
             if(!interactor.importBitmap(uri, currentPosition)) {
-                _command.value = ShowMessageResCommand(R.string.generalError)
+                sendCommand(ShowMessageResCommand(R.string.generalError))
             } else {
-                _command.value = ScrollGalleryToPosition(currentPosition)
+                sendCommand(ScrollGalleryToPosition(currentPosition))
             }
         }
     }
@@ -107,7 +107,7 @@ constructor(
             try {
                 action()
             } catch(ex: Exception) {
-                _command.value = ShowMessageResCommand(R.string.generalError)
+                sendCommand(ShowMessageResCommand(R.string.generalError))
             }
         }
     }

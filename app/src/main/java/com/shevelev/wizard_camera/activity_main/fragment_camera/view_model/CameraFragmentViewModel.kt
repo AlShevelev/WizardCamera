@@ -94,7 +94,7 @@ constructor(
             hideSettings()
 
             if(interactor.capture.inProgress) {
-                _command.value = ShowMessageResCommand(R.string.capturingInProgressError)
+                sendCommand(ShowMessageResCommand(R.string.capturingInProgressError))
                 return@launch
             }
 
@@ -105,10 +105,12 @@ constructor(
             if(startCapturingResult == null) {
                 ShowMessageResCommand(R.string.generalError)
             } else {
-                _command.value = StartCaptureCommand(
-                    startCapturingResult.capturingStream,
-                    isFlashActive,
-                    interactor.orientation.surfaceRotation
+                sendCommand(
+                    StartCaptureCommand(
+                        startCapturingResult.capturingStream,
+                        isFlashActive,
+                        interactor.orientation.surfaceRotation
+                    )
                 )
             }
         }
@@ -116,11 +118,13 @@ constructor(
 
     fun onCaptureComplete(isSuccess: Boolean) {
         viewModelScope.launch {
-            _command.value = if(isSuccess && interactor.capture.captureCompleted()) {
+             val command = if(isSuccess && interactor.capture.captureCompleted()) {
                 ShowCapturingSuccessCommand(interactor.orientation.screenOrientation)
             } else {
                 ShowMessageResCommand(R.string.generalError)
             }
+
+            sendCommand(command)
         }
     }
 
@@ -131,7 +135,7 @@ constructor(
     fun onInactive() {
         interactor.orientation.stop()
 
-        _command.value = ResetExposureCommand()
+        sendCommand(ResetExposureCommand())
 
         hideSettings()
     }
@@ -187,8 +191,8 @@ constructor(
             }
 
             when(mode) {
-                FiltersMode.ALL -> _command.value = ScrollToFilter(interactor.filters.displayFilter.code)
-                FiltersMode.FAVORITE -> _command.value = ScrollToFavoriteFilter(interactor.filters.displayFilter.code)
+                FiltersMode.ALL -> sendCommand(ScrollToFilter(interactor.filters.displayFilter.code))
+                FiltersMode.FAVORITE -> sendCommand(ScrollToFavoriteFilter(interactor.filters.displayFilter.code))
                 else -> { }
             }
         }
@@ -199,17 +203,17 @@ constructor(
     }
 
     fun onExposeValueUpdated(exposeValue: Float) {
-        _command.value = SetExposureCommand(-exposeValue)
+        sendCommand(SetExposureCommand(-exposeValue))
     }
 
     fun onGalleyClick() {
         hideSettings()
-        _command.value = NavigateToGalleryCommand()
+        sendCommand(NavigateToGalleryCommand())
     }
 
     fun onPermissionDenied() {
         exiting = true
-        _command.value = ExitCommand(R.string.needCameraPermissionExit)
+        sendCommand(ExitCommand(R.string.needCameraPermissionExit))
     }
 
     fun onBackClick(): Boolean =
@@ -237,7 +241,7 @@ constructor(
                 interactor.filters.removeFromFavorite(id)
             }
 
-            _command.value = SetItemFavoriteStatus(id, isSelected)
+            sendCommand(SetItemFavoriteStatus(id, isSelected))
         }
     }
 
@@ -251,7 +255,7 @@ constructor(
     }
 
     private fun zoom(touchDistance: Float) {
-        _command.value = ZoomCommand(touchDistance)
+        sendCommand(ZoomCommand(touchDistance))
     }
 
     private fun showSettings(code: GlFilterCode) {
@@ -262,7 +266,7 @@ constructor(
         _allFiltersVisibility.value = View.INVISIBLE
         _favoritesFiltersVisibility.value = View.INVISIBLE
 
-        _command.value = ShowFilterSettingsCommand(interactor.filters.getSettings(code))
+        sendCommand(ShowFilterSettingsCommand(interactor.filters.getSettings(code)))
         isSettingsVisible = true
     }
 
@@ -271,7 +275,7 @@ constructor(
             return
         }
 
-        _command.value = HideFilterSettingsCommand()
+        sendCommand(HideFilterSettingsCommand())
         _exposureBarVisibility.value = View.VISIBLE
         if(isAllFiltersWereVisible) {
             _allFiltersVisibility.value = View.VISIBLE
@@ -293,7 +297,7 @@ constructor(
                 _screenTitle.value = appContext.getString(interactor.filters.displayFilterTitle)
             }
 
-            _command.value = SelectFilter(id)
+            sendCommand(SelectFilter(id))
         }
     }
 
@@ -308,7 +312,7 @@ constructor(
                 _screenTitle.value = appContext.getString(interactor.filters.displayFilterTitle)
             }
 
-            _command.value = SelectFavoriteFilter(id)
+            sendCommand(SelectFavoriteFilter(id))
         }
     }
 }
