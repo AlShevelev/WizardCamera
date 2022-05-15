@@ -43,4 +43,6 @@ constructor(
      * Marks an item as selected
      */
     fun selectItem(selectedItemId: GlFilterCode) = filtersList.selectItem(selectedItemId)
+
+    fun setItemFavoriteStatus(itemId: GlFilterCode, isFavorite: Boolean) = filtersList.setItemFavoriteStatus(itemId, isFavorite)
 }

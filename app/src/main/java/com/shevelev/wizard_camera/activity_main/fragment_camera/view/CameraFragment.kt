@@ -117,6 +117,8 @@ class CameraFragment : FragmentBaseMVVM<FragmentCameraBinding, CameraFragmentVie
 
             is ScrollToFilter -> binding.allFiltersCarousel.scrollToItem(command.filterId)
             is ScrollToFavoriteFilter -> binding.favoritesFiltersCarousel.scrollToItem(command.filterId)
+
+            is SetItemFavoriteStatus -> binding.allFiltersCarousel.setItemFavoriteStatus(command.itemId, command.isFavorite)
         }
     }
 

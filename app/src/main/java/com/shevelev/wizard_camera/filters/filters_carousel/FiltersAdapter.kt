@@ -58,6 +58,24 @@ class FiltersAdapter(
         notifyItemChanged(newSelectedItemPosition)
     }
 
+    fun setItemFavoriteStatus(itemId: GlFilterCode, isFavorite: Boolean) {
+        val itemIndex = items.indexOfFirst { it.displayData.code == itemId }
+
+        if(itemIndex != -1) {
+            val item = items[itemIndex]
+
+            if(item.favorite != FilterFavoriteType.HIDDEN) {
+                val newItem = item.copy(
+                    favorite = if(isFavorite) FilterFavoriteType.FAVORITE else FilterFavoriteType.NOT_FAVORITE
+                )
+
+                if(newItem.favorite != item.favorite) {
+                    items[itemIndex] = newItem      // We don't need to call notifyItemChanged here
+                }
+            }
+        }
+    }
+
     fun getItemPosition(itemCode: GlFilterCode): Int? =
         items
             .indexOfFirst { it.displayData.code == itemCode }

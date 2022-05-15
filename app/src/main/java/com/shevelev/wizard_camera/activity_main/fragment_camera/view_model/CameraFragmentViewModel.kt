@@ -236,6 +236,8 @@ constructor(
             } else {
                 interactor.filters.removeFromFavorite(id)
             }
+
+            _command.value = SetItemFavoriteStatus(id, isSelected)
         }
     }
 

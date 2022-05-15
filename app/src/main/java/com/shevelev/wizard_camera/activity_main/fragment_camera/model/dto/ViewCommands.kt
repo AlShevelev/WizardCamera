@@ -36,3 +36,5 @@ class SelectFavoriteFilter(val filterId: GlFilterCode): ViewCommand
 
 class ScrollToFilter(val filterId: GlFilterCode): ViewCommand
 class ScrollToFavoriteFilter(val filterId: GlFilterCode): ViewCommand
+
+class SetItemFavoriteStatus(val itemId: GlFilterCode, val isFavorite: Boolean): ViewCommand

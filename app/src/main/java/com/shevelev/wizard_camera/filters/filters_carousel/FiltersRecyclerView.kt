@@ -33,6 +33,8 @@ class FiltersRecyclerView(
      */
     fun selectItem(selectedItemId: GlFilterCode) = filtersAdapter.selectItem(selectedItemId)
 
+    fun setItemFavoriteStatus(itemId: GlFilterCode, isFavorite: Boolean) = filtersAdapter.setItemFavoriteStatus(itemId, isFavorite)
+
     fun scrollToItem(itemCode: GlFilterCode) {
         filtersAdapter.getItemPosition(itemCode)
             ?.let {
