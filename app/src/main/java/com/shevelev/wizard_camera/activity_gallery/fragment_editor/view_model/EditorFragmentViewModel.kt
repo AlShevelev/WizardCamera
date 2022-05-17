@@ -19,7 +19,7 @@ import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_commands.CloseEditorCo
 import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_commands.ShowEditorSaveDialogCommand
 import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_model.ViewModelBase
 import com.shevelev.wizard_camera.filters.filters_carousel.FilterEventsProcessor
-import com.shevelev.wizard_camera.filters.filters_carousel.FiltersListData
+import com.shevelev.wizard_camera.filters.filters_carousel.FilterListItem
 import kotlinx.coroutines.launch
 
 @SuppressLint("StaticFieldLeak")
@@ -64,8 +64,8 @@ constructor(
     private val _imageWithGlFilter = MutableLiveData<ImageWithFilter>(null)
     val imageWithGlFilter: LiveData<ImageWithFilter> = _imageWithGlFilter
 
-    private val _glFilters: MutableLiveData<FiltersListData> = MutableLiveData()
-    val glFilters: LiveData<FiltersListData> = _glFilters
+    private val _glFilters: MutableLiveData<List<FilterListItem>> = MutableLiveData()
+    val glFilters: LiveData<List<FilterListItem>> = _glFilters
 
     init {
         viewModelScope.launch {
@@ -134,7 +134,7 @@ constructor(
                 _glFiltersVisibility.value = View.INVISIBLE
             }
 
-            is IntiGlFilterCarousel -> _glFilters.value = command.filterData
+            is IntiGlFilterCarousel -> _glFilters.value = command.items
 
             is UpdateImageByGlFilter -> {
                 _imageWithGlFilter.value?.let { filter ->

@@ -3,7 +3,7 @@ package com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_
 import android.graphics.Bitmap
 import androidx.annotation.StringRes
 import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.GlFilterSettings
-import com.shevelev.wizard_camera.filters.filters_carousel.FiltersListData
+import com.shevelev.wizard_camera.filters.filters_carousel.FilterListItem
 
 /**
  * Base class for all output commands
@@ -34,7 +34,7 @@ class SetGlFilterCarouselVisibility(val isVisible: Boolean) : OutputCommand()
 /**
  * Sets initial value to the carousel of GL filters
  */
-data class IntiGlFilterCarousel(val filterData: FiltersListData) : OutputCommand()
+data class IntiGlFilterCarousel(val items: List<FilterListItem>) : OutputCommand()
 
 /**
  * Sets new GL filter to an image

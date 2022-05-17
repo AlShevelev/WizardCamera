@@ -1,18 +1,17 @@
 package com.shevelev.wizard_camera.activity_main.fragment_camera.model.filters_facade
 
 import com.shevelev.wizard_camera.R
+import com.shevelev.wizard_camera.activity_main.fragment_camera.model.dto.FiltersMode
+import com.shevelev.wizard_camera.activity_main.fragment_camera.model.filters_facade.settings.FilterSettingsFacade
 import com.shevelev.wizard_camera.core.common_entities.entities.LastUsedFilter
 import com.shevelev.wizard_camera.core.common_entities.enums.GlFilterCode
 import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.EmptyFilterSettings
 import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.GlFilterSettings
-import com.shevelev.wizard_camera.filters.filters_carousel.FilterFavoriteType
-import com.shevelev.wizard_camera.filters.filters_carousel.FilterListItem
-import com.shevelev.wizard_camera.filters.filters_carousel.FiltersListData
-import com.shevelev.wizard_camera.activity_main.fragment_camera.model.dto.FiltersMode
-import com.shevelev.wizard_camera.filters.display_data.gl.FilterDisplayDataList
-import com.shevelev.wizard_camera.activity_main.fragment_camera.model.filters_facade.settings.FilterSettingsFacade
 import com.shevelev.wizard_camera.core.database.api.repositories.FavoriteFilterDbRepository
 import com.shevelev.wizard_camera.core.database.api.repositories.LastUsedFilterDbRepository
+import com.shevelev.wizard_camera.filters.display_data.gl.FilterDisplayDataList
+import com.shevelev.wizard_camera.filters.filters_carousel.FilterFavoriteType
+import com.shevelev.wizard_camera.filters.filters_carousel.FilterListItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -28,7 +27,7 @@ class FiltersFacadeImpl (
     private var selectedFilter = displayData[0].code
     private var selectedFavoriteFilter = GlFilterCode.ORIGINAL
 
-    private var priorFavoritesListData: FiltersListData? = null
+    private var priorFavoritesListData: List<FilterListItem>? = null
 
     override val displayFilter: GlFilterSettings
         get() = when(filtersMode) {
@@ -85,8 +84,8 @@ class FiltersFacadeImpl (
         selectedFavoriteFilter = code
     }
 
-    override suspend fun getAllFiltersListData(): FiltersListData {
-        val startItems = displayData.map {
+    override suspend fun getAllFiltersListData(): List<FilterListItem> =
+        displayData.map {
             val isFavorite = if(favoritesList.contains(it.code)) {
                 FilterFavoriteType.FAVORITE
             }
@@ -99,36 +98,34 @@ class FiltersFacadeImpl (
                 displayData = it,
                 favorite = isFavorite,
                 hasSettings = filterSettings[it.code] !is EmptyFilterSettings,
-                isSelected = false
+                isSelected = selectedFilter == it.code
             )
         }
 
-        return FiltersListData(displayData.getIndex(selectedFilter), startItems)
-    }
+    override suspend fun getFavoriteFiltersListData(): List<FilterListItem>? {
+        val startIndex = favoritesList.indexOf(selectedFavoriteFilter)
 
-    override suspend fun getFavoriteFiltersListData(): FiltersListData? {
-        var startIndex = favoritesList.indexOf(selectedFavoriteFilter)
-
-        val items = favoritesList.map {
+        val items = favoritesList.mapIndexed { index, item ->
             FilterListItem(
                 listId = FiltersListId.FAVORITE_FILTERS_LIST,
-                displayData = displayData[it],
+                displayData = displayData[item],
                 favorite = FilterFavoriteType.HIDDEN,
-                hasSettings = filterSettings[it] !is EmptyFilterSettings,
-                isSelected = false
+                hasSettings = filterSettings[item] !is EmptyFilterSettings,
+                isSelected = if(startIndex == -1) {
+                    index == 0
+                } else {
+                    selectedFavoriteFilter == displayData[item].code
+                }
             )
         }
 
         if(items.isNotEmpty() && startIndex == -1) {
-            startIndex = 0
             selectedFavoriteFilter = items[0].displayData.code
         }
 
-        val newFavoritesListData = FiltersListData(startIndex, items)
-
-        return if(newFavoritesListData != priorFavoritesListData) {
-            priorFavoritesListData = newFavoritesListData
-            newFavoritesListData
+        return if(items != priorFavoritesListData) {
+            priorFavoritesListData = items
+            items
         } else {
             null
         }

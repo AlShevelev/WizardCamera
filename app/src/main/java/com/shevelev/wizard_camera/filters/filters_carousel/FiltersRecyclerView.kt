@@ -12,20 +12,27 @@ class FiltersRecyclerView(
     attrs: AttributeSet
 ) : RecyclerView(context, attrs) {
 
-    private var startId: GlFilterCode? = null
-
     private lateinit var filtersAdapter: FiltersAdapter
 
-    fun setStartData(data: FiltersListData, eventsProcessor: FilterEventsProcessor) {
-        startId = data.items[data.startPosition].displayData.code
-
+    fun init(items: List<FilterListItem>, eventsProcessor: FilterEventsProcessor) {
         if(!::filtersAdapter.isInitialized) {
             filtersAdapter = FiltersAdapter(R.layout.view_filters_carousel_item, eventsProcessor)
-            addAdapter(filtersAdapter)
+
+            layoutManager = LinearLayoutManager(context, HORIZONTAL, false)
+            adapter = filtersAdapter
         }
 
-        filtersAdapter.setItems(data.items, data.startPosition)
-        setUp(data.startPosition)
+        filtersAdapter.setItems(items)
+
+        items
+            .indexOfFirst { it.isSelected }
+            .let {
+                if(it != -1) {
+                    post {
+                        (layoutManager as LinearLayoutManager).scrollToPositionWithOffset(it, 0)
+                    }
+                }
+            }
     }
 
     /**
@@ -40,16 +47,5 @@ class FiltersRecyclerView(
             ?.let {
                 (layoutManager as LinearLayoutManager).scrollToPositionWithOffset(it, 0)
             }
-    }
-
-    private fun addAdapter(newAdapter: FiltersAdapter) {
-        layoutManager = LinearLayoutManager(context, HORIZONTAL, false)
-        adapter = newAdapter
-    }
-
-    private fun setUp(position: Int) {
-        post{
-            (layoutManager as LinearLayoutManager).scrollToPositionWithOffset(position, 0)
-        }
     }
 }

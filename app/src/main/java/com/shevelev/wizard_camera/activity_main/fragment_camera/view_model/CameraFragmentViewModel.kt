@@ -21,7 +21,7 @@ import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_commands.ShowMessageRe
 import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_model.ViewModelBase
 import com.shevelev.wizard_camera.core.utils.ext.format
 import com.shevelev.wizard_camera.filters.filters_carousel.FilterEventsProcessor
-import com.shevelev.wizard_camera.filters.filters_carousel.FiltersListData
+import com.shevelev.wizard_camera.filters.filters_carousel.FilterListItem
 import kotlinx.coroutines.launch
 
 @SuppressLint("StaticFieldLeak")
@@ -47,11 +47,11 @@ constructor(
     private val _isShotButtonEnabled = MutableLiveData(false)
     val isShotButtonEnabled: LiveData<Boolean> = _isShotButtonEnabled
 
-    private val _allFiltersListData: MutableLiveData<FiltersListData> = MutableLiveData()
-    val allFiltersListData: LiveData<FiltersListData> = _allFiltersListData
+    private val _allFiltersListData: MutableLiveData<List<FilterListItem>> = MutableLiveData()
+    val allFiltersListData: LiveData<List<FilterListItem>> = _allFiltersListData
 
-    private val _favoriteFiltersListData: MutableLiveData<FiltersListData> = MutableLiveData()
-    val favoriteFiltersListData: LiveData<FiltersListData> = _favoriteFiltersListData
+    private val _favoriteFiltersListData: MutableLiveData<List<FilterListItem>> = MutableLiveData()
+    val favoriteFiltersListData: LiveData<List<FilterListItem>> = _favoriteFiltersListData
 
     private val _allFiltersVisibility = MutableLiveData(View.INVISIBLE)
     val allFiltersVisibility: LiveData<Int> = _allFiltersVisibility

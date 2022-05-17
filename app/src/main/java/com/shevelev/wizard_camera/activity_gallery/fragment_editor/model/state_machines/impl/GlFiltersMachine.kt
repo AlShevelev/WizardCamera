@@ -10,7 +10,6 @@ import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.GlFilt
 import com.shevelev.wizard_camera.filters.display_data.gl.FilterDisplayDataList
 import com.shevelev.wizard_camera.filters.filters_carousel.FilterFavoriteType
 import com.shevelev.wizard_camera.filters.filters_carousel.FilterListItem
-import com.shevelev.wizard_camera.filters.filters_carousel.FiltersListData
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 
@@ -159,18 +158,18 @@ class GlFiltersMachine(
             else -> state
         }
 
-    private fun getFiltersListData() : FiltersListData {
-        val startItems = filterDisplayData.map {
+    private fun getFiltersListData() : List<FilterListItem> {
+        val selectedFilterCode = editorStorage.lastUsedGlFilter!!.code
+
+        return filterDisplayData.map {
             FilterListItem(
                 listId = "",        // There is only one list in the editor screen, so never mind about it
                 displayData = it,
                 favorite = FilterFavoriteType.HIDDEN,
                 hasSettings = filterSettings[it.code] !is EmptyFilterSettings,
-                isSelected = false
+                isSelected = it.code == selectedFilterCode
             )
         }
-
-        return FiltersListData(filterDisplayData.getIndex(editorStorage.lastUsedGlFilter!!.code), startItems)
     }
 
     private suspend fun hideFilterSettings() {

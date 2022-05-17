@@ -23,19 +23,17 @@ constructor(
         inflate(context, R.layout.view_filters_carousel, this)
     }
 
-    fun setStartData(data: FiltersListData, eventsProcessor: FilterEventsProcessor) {
-        if(data.items.isEmpty()) {
+    fun setStartData(items: List<FilterListItem>, eventsProcessor: FilterEventsProcessor) {
+        if(items.isEmpty()) {
             filtersList.visibility = View.INVISIBLE
             noItemsStub.visibility = View.VISIBLE
         } else {
             filtersList.visibility = View.VISIBLE
             noItemsStub.visibility = View.INVISIBLE
 
-            filtersList.setStartData(data, eventsProcessor)
+            filtersList.init(items, eventsProcessor)
         }
     }
-
-    fun scrollToPosition(position: Int) = filtersList.scrollToPosition(position)
 
     fun scrollToItem(itemId: GlFilterCode) = filtersList.scrollToItem(itemId)
 

@@ -25,11 +25,8 @@ class FiltersAdapter(
 
     override fun getItemCount() = items.size
 
-    fun setItems(newItems: List<FilterListItem>, startPosition: Int) {
+    fun setItems(newItems: List<FilterListItem>) {
         items = newItems.toMutableList()
-            .also {
-                it[startPosition] = it[startPosition].copy(isSelected = true)
-            }
         notifyDataSetChanged()
     }
 

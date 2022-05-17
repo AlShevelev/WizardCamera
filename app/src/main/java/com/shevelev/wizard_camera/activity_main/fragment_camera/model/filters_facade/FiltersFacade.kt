@@ -2,8 +2,8 @@ package com.shevelev.wizard_camera.activity_main.fragment_camera.model.filters_f
 
 import com.shevelev.wizard_camera.core.common_entities.enums.GlFilterCode
 import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.GlFilterSettings
-import com.shevelev.wizard_camera.filters.filters_carousel.FiltersListData
 import com.shevelev.wizard_camera.activity_main.fragment_camera.model.dto.FiltersMode
+import com.shevelev.wizard_camera.filters.filters_carousel.FilterListItem
 
 interface FiltersFacade {
     val displayFilter: GlFilterSettings
@@ -18,9 +18,9 @@ interface FiltersFacade {
 
     suspend fun selectFavoriteFilter(code: GlFilterCode)
 
-    suspend fun getAllFiltersListData(): FiltersListData
+    suspend fun getAllFiltersListData(): List<FilterListItem>
 
-    suspend fun getFavoriteFiltersListData(): FiltersListData?
+    suspend fun getFavoriteFiltersListData(): List<FilterListItem>?
 
     suspend fun addToFavorite(code: GlFilterCode)
 
