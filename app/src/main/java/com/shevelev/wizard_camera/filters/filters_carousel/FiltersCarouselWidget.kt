@@ -23,7 +23,7 @@ constructor(
         inflate(context, R.layout.view_filters_carousel, this)
     }
 
-    fun setStartData(items: List<FilterListItem>, eventsProcessor: FilterEventsProcessor) {
+    fun updateData(items: List<FilterListItem>, eventsProcessor: FilterEventsProcessor) {
         if(items.isEmpty()) {
             filtersList.visibility = View.INVISIBLE
             noItemsStub.visibility = View.VISIBLE
@@ -31,16 +31,9 @@ constructor(
             filtersList.visibility = View.VISIBLE
             noItemsStub.visibility = View.INVISIBLE
 
-            filtersList.init(items, eventsProcessor)
+            filtersList.updateData(items, eventsProcessor)
         }
     }
 
     fun scrollToItem(itemId: GlFilterCode) = filtersList.scrollToItem(itemId)
-
-    /**
-     * Marks an item as selected
-     */
-    fun selectItem(selectedItemId: GlFilterCode) = filtersList.selectItem(selectedItemId)
-
-    fun setItemFavoriteStatus(itemId: GlFilterCode, isFavorite: Boolean) = filtersList.setItemFavoriteStatus(itemId, isFavorite)
 }

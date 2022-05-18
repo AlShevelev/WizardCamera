@@ -14,7 +14,7 @@ class FiltersRecyclerView(
 
     private lateinit var filtersAdapter: FiltersAdapter
 
-    fun init(items: List<FilterListItem>, eventsProcessor: FilterEventsProcessor) {
+    fun updateData(items: List<FilterListItem>, eventsProcessor: FilterEventsProcessor) {
         if(!::filtersAdapter.isInitialized) {
             filtersAdapter = FiltersAdapter(R.layout.view_filters_carousel_item, eventsProcessor)
 
@@ -22,30 +22,22 @@ class FiltersRecyclerView(
             adapter = filtersAdapter
         }
 
-        filtersAdapter.setItems(items)
+        val isNewListType = filtersAdapter.setItems(items)
 
-        items
-            .indexOfFirst { it.isSelected }
-            .let {
-                if(it != -1) {
-                    post {
-                        (layoutManager as LinearLayoutManager).scrollToPositionWithOffset(it, 0)
+        // If new type of list has been loaded to the carousel
+        if(isNewListType) {
+            items
+                .indexOfFirst { it.isSelected }
+                .let {
+                    if (it != -1) {
+                        post { (layoutManager as LinearLayoutManager).scrollToPositionWithOffset(it, 0) }
                     }
                 }
-            }
+        }
     }
-
-    /**
-     * Marks an item as selected
-     */
-    fun selectItem(selectedItemId: GlFilterCode) = filtersAdapter.selectItem(selectedItemId)
-
-    fun setItemFavoriteStatus(itemId: GlFilterCode, isFavorite: Boolean) = filtersAdapter.setItemFavoriteStatus(itemId, isFavorite)
 
     fun scrollToItem(itemCode: GlFilterCode) {
         filtersAdapter.getItemPosition(itemCode)
-            ?.let {
-                (layoutManager as LinearLayoutManager).scrollToPositionWithOffset(it, 0)
-            }
+            ?.let { (layoutManager as LinearLayoutManager).scrollToPositionWithOffset(it, 0) }
     }
 }

@@ -3,6 +3,7 @@ package com.shevelev.wizard_camera.filters.filters_carousel
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.shevelev.wizard_camera.core.common_entities.enums.GlFilterCode
 
@@ -12,7 +13,7 @@ class FiltersAdapter(
     private val eventsProcessor: FilterEventsProcessor
 ) : RecyclerView.Adapter<FiltersItemViewHolder>() {
 
-    private var items: MutableList<FilterListItem> = mutableListOf()
+    private var items = listOf<FilterListItem>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FiltersItemViewHolder =
         FiltersItemViewHolder(LayoutInflater.from(parent.context).inflate(layoutId, parent, false))
@@ -25,52 +26,17 @@ class FiltersAdapter(
 
     override fun getItemCount() = items.size
 
-    fun setItems(newItems: List<FilterListItem>) {
-        items = newItems.toMutableList()
-        notifyDataSetChanged()
-    }
+    fun setItems(newItems: List<FilterListItem>): Boolean {
+        val oldListId = items.firstOrNull()?.listId
+        val newListId = newItems.firstOrNull()?.listId
 
-    /**
-     * Marks an item as selected
-     */
-    fun selectItem(selectedItemId: GlFilterCode) {
-        val oldSelectedItemPosition = items.indexOfFirst { it.isSelected }
-        val newSelectedItemPosition = items.indexOfFirst { it.displayData.code == selectedItemId }
+        val diffCallback = FilterDiffAlg(items, newItems)
+        val diffResult = DiffUtil.calculateDiff(diffCallback)
 
-        if(oldSelectedItemPosition == -1 || newSelectedItemPosition == -1) {
-            return
-        }
+        items = newItems.toList()
+        diffResult.dispatchUpdatesTo(this)
 
-        val oldSelectedItem = items[oldSelectedItemPosition]
-        val newSelectedItem = items[newSelectedItemPosition]
-
-        if(oldSelectedItem.displayData.code == newSelectedItem.displayData.code) {
-            return
-        }
-
-        items[oldSelectedItemPosition] = oldSelectedItem.copy(isSelected = false)
-        notifyItemChanged(oldSelectedItemPosition)
-
-        items[newSelectedItemPosition] = newSelectedItem.copy(isSelected = true)
-        notifyItemChanged(newSelectedItemPosition)
-    }
-
-    fun setItemFavoriteStatus(itemId: GlFilterCode, isFavorite: Boolean) {
-        val itemIndex = items.indexOfFirst { it.displayData.code == itemId }
-
-        if(itemIndex != -1) {
-            val item = items[itemIndex]
-
-            if(item.favorite != FilterFavoriteType.HIDDEN) {
-                val newItem = item.copy(
-                    favorite = if(isFavorite) FilterFavoriteType.FAVORITE else FilterFavoriteType.NOT_FAVORITE
-                )
-
-                if(newItem.favorite != item.favorite) {
-                    items[itemIndex] = newItem      // We don't need to call notifyItemChanged here
-                }
-            }
-        }
+        return oldListId != newListId
     }
 
     fun getItemPosition(itemCode: GlFilterCode): Int? =

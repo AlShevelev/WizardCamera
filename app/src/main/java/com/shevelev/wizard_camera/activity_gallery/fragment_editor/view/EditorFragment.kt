@@ -7,7 +7,6 @@ import androidx.navigation.fragment.findNavController
 import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.dto.ImageWithFilter
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.view_model.EditorFragmentViewModel
-import com.shevelev.wizard_camera.activity_main.fragment_camera.model.dto.SelectFilter
 import com.shevelev.wizard_camera.core.camera_gl.api.bitmap.GLSurfaceViewBitmap
 import com.shevelev.wizard_camera.core.camera_gl.api.bitmap.filters.GlSurfaceShaderFilter
 import com.shevelev.wizard_camera.core.camera_gl.api.shared.factory.GlShaderFiltersFactory
@@ -50,7 +49,7 @@ class EditorFragment : FragmentBaseMVVM<FragmentEditorBinding, EditorFragmentVie
         }
 
         viewModel.glFilters.observe(viewLifecycleOwner) {
-            binding.glFiltersCarousel.setStartData(it, viewModel)
+            binding.glFiltersCarousel.updateData(it, viewModel)
         }
 
         viewModel.glSettings.observe(viewLifecycleOwner) {
@@ -77,8 +76,6 @@ class EditorFragment : FragmentBaseMVVM<FragmentEditorBinding, EditorFragmentVie
                 )
 
             is CloseEditorCommand -> findNavController().popBackStack()
-
-            is SelectFilter -> binding.glFiltersCarousel.selectItem(command.filterId)
         }
     }
 

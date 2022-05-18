@@ -51,11 +51,11 @@ class CameraFragment : FragmentBaseMVVM<FragmentCameraBinding, CameraFragmentVie
         }
 
         viewModel.allFiltersListData.observe(viewLifecycleOwner) {
-            binding.allFiltersCarousel.setStartData(it, viewModel)
+            binding.allFiltersCarousel.updateData(it, viewModel)
         }
 
         viewModel.favoriteFiltersListData.observe(viewLifecycleOwner) {
-            binding.favoritesFiltersCarousel.setStartData(it, viewModel)
+            binding.favoritesFiltersCarousel.updateData(it, viewModel)
         }
 
         binding.shootButton.setOnClickListener {
@@ -112,13 +112,8 @@ class CameraFragment : FragmentBaseMVVM<FragmentCameraBinding, CameraFragmentVie
                 viewModel.onCaptureComplete(isSuccess)
             }
 
-            is SelectFilter -> binding.allFiltersCarousel.selectItem(command.filterId)
-            is SelectFavoriteFilter -> binding.favoritesFiltersCarousel.selectItem(command.filterId)
-
             is ScrollToFilter -> binding.allFiltersCarousel.scrollToItem(command.filterId)
             is ScrollToFavoriteFilter -> binding.favoritesFiltersCarousel.scrollToItem(command.filterId)
-
-            is SetItemFavoriteStatus -> binding.allFiltersCarousel.setItemFavoriteStatus(command.itemId, command.isFavorite)
         }
     }
 

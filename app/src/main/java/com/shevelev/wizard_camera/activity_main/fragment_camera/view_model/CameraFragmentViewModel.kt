@@ -20,6 +20,7 @@ import com.shevelev.wizard_camera.core.ui_utils.binding_adapters.ButtonState
 import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_commands.ShowMessageResCommand
 import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_model.ViewModelBase
 import com.shevelev.wizard_camera.core.utils.ext.format
+import com.shevelev.wizard_camera.filters.filters_carousel.FilterCarouselUtils
 import com.shevelev.wizard_camera.filters.filters_carousel.FilterEventsProcessor
 import com.shevelev.wizard_camera.filters.filters_carousel.FilterListItem
 import kotlinx.coroutines.launch
@@ -241,7 +242,9 @@ constructor(
                 interactor.filters.removeFromFavorite(id)
             }
 
-            sendCommand(SetItemFavoriteStatus(id, isSelected))
+            _allFiltersListData.value?.let { oldItems ->
+                _allFiltersListData.value = FilterCarouselUtils.setFavoriteStatus(oldItems, id, isSelected)
+            }
         }
     }
 
@@ -297,7 +300,9 @@ constructor(
                 _screenTitle.value = appContext.getString(interactor.filters.displayFilterTitle)
             }
 
-            sendCommand(SelectFilter(id))
+            _allFiltersListData.value?.let { oldItems ->
+                _allFiltersListData.value = FilterCarouselUtils.setSelection(oldItems, id)
+            }
         }
     }
 
@@ -312,7 +317,9 @@ constructor(
                 _screenTitle.value = appContext.getString(interactor.filters.displayFilterTitle)
             }
 
-            sendCommand(SelectFavoriteFilter(id))
+            _favoriteFiltersListData.value?.let { oldItems ->
+                _favoriteFiltersListData.value = FilterCarouselUtils.setSelection(oldItems, id)
+            }
         }
     }
 }
