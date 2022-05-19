@@ -38,7 +38,11 @@ class FiltersItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
             }
         }
 
-        settingsButton.visibility = if (item.hasSettings) View.VISIBLE else View.INVISIBLE
+        settingsButton.visibility = if (item.hasSettings && item.isSelected) {
+            View.VISIBLE
+        } else {
+            View.INVISIBLE
+        }
 
         setSelection(
             icon = listItemIcon,

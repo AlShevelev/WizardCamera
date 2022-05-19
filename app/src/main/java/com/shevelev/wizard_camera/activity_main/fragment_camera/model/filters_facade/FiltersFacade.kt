@@ -20,7 +20,7 @@ interface FiltersFacade {
 
     suspend fun getAllFiltersListData(): List<FilterListItem>
 
-    suspend fun getFavoriteFiltersListData(): List<FilterListItem>?
+    suspend fun getFavoriteFiltersListData(): List<FilterListItem>
 
     suspend fun addToFavorite(code: GlFilterCode)
 

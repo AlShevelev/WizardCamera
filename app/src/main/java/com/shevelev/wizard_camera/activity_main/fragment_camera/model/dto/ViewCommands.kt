@@ -31,6 +31,3 @@ class ExitCommand(@StringRes val messageResId: Int): ViewCommand
 
 class ShowFilterSettingsCommand(val settings: GlFilterSettings): ViewCommand
 class HideFilterSettingsCommand : ViewCommand
-
-class ScrollToFilter(val filterId: GlFilterCode): ViewCommand
-class ScrollToFavoriteFilter(val filterId: GlFilterCode): ViewCommand

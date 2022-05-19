@@ -74,7 +74,7 @@
             app:exposure_stroke_width="@dimen/strokeWidthNormal"
             android:visibility="@{viewModel.exposureBarVisibility}"
             tools:visibility="visible"
-            app:layout_constraintBottom_toTopOf="@+id/allFiltersCarousel"
+            app:layout_constraintBottom_toTopOf="@+id/filtersCarousel"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/galleryButton" />
 
@@ -115,30 +115,13 @@
             tools:ignore="ContentDescription" />
 
         <com.shevelev.wizard_camera.filters.filters_carousel.FiltersCarouselWidget
-            android:id="@+id/allFiltersCarousel"
+            android:id="@+id/filtersCarousel"
             android:layout_width="0dp"
             android:layout_height="@dimen/mainFilterCarouselHeight"
 
             android:layout_marginBottom="@dimen/marginNormal"
 
-            android:visibility="@{viewModel.allFiltersVisibility}"
-
-            app:layout_constraintBottom_toTopOf="@+id/shootButton"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-
-            tools:background="#0000ff"
-
-            tools:visibility="visible" />
-
-        <com.shevelev.wizard_camera.filters.filters_carousel.FiltersCarouselWidget
-            android:id="@+id/favoritesFiltersCarousel"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/mainFilterCarouselHeight"
-
-            android:layout_marginBottom="@dimen/marginNormal"
-
-            android:visibility="@{viewModel.favoritesFiltersVisibility}"
+            android:visibility="@{viewModel.filtersVisibility}"
 
             app:layout_constraintBottom_toTopOf="@+id/shootButton"
             app:layout_constraintEnd_toEndOf="parent"

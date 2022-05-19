@@ -48,24 +48,16 @@ constructor(
     private val _isShotButtonEnabled = MutableLiveData(false)
     val isShotButtonEnabled: LiveData<Boolean> = _isShotButtonEnabled
 
-    private val _allFiltersListData: MutableLiveData<List<FilterListItem>> = MutableLiveData()
-    val allFiltersListData: LiveData<List<FilterListItem>> = _allFiltersListData
+    private val _filtersListData: MutableLiveData<List<FilterListItem>> = MutableLiveData()
+    val filtersListData: LiveData<List<FilterListItem>> = _filtersListData
 
-    private val _favoriteFiltersListData: MutableLiveData<List<FilterListItem>> = MutableLiveData()
-    val favoriteFiltersListData: LiveData<List<FilterListItem>> = _favoriteFiltersListData
-
-    private val _allFiltersVisibility = MutableLiveData(View.INVISIBLE)
-    val allFiltersVisibility: LiveData<Int> = _allFiltersVisibility
-
-    private val _favoritesFiltersVisibility = MutableLiveData(View.INVISIBLE)
-    val favoritesFiltersVisibility: LiveData<Int> = _favoritesFiltersVisibility
+    private val _filtersVisibility = MutableLiveData(View.INVISIBLE)
+    val filtersVisibility: LiveData<Int> = _filtersVisibility
 
     private val _exposureBarVisibility = MutableLiveData(View.INVISIBLE)
     val exposureBarVisibility: LiveData<Int> = _exposureBarVisibility
 
     private var isSettingsVisible = false
-    private var isAllFiltersWereVisible = false
-    private var isFavoriteFiltersWereVisible = false
 
     private var isFlashActive: Boolean = false
 
@@ -74,8 +66,7 @@ constructor(
     init {
         viewModelScope.launch {
             interactor.filters.init()
-            _allFiltersListData.value = interactor.filters.getAllFiltersListData()
-            interactor.filters.getFavoriteFiltersListData()?.let { _favoriteFiltersListData.value = it }
+            _filtersListData.value = interactor.filters.getAllFiltersListData()
         }
     }
 
@@ -154,15 +145,22 @@ constructor(
     @MainThread
     fun onCameraIsSetUp(isFlashSupported: Boolean) {
         _flashButtonState.value = if(isFlashSupported) {
-            if(isFlashActive)  ButtonState.SELECTED else ButtonState.ENABLED
+            if(isFlashActive) {
+                ButtonState.SELECTED
+            } else {
+                ButtonState.ENABLED
+            }
         } else {
             ButtonState.DISABLED
         }
 
         _filterModeButtonState.value = FiltersModeButtonState(interactor.filters.filtersMode, false)
 
-        _allFiltersVisibility.value = if(interactor.filters.filtersMode == FiltersMode.ALL) View.VISIBLE else View.INVISIBLE
-        _favoritesFiltersVisibility.value = if(interactor.filters.filtersMode == FiltersMode.FAVORITE) View.VISIBLE else View.INVISIBLE
+        _filtersVisibility.value = if(interactor.filters.filtersMode == FiltersMode.NO_FILTERS) {
+            View.INVISIBLE
+        } else {
+            View.INVISIBLE
+        }
 
         _isShotButtonEnabled.value = true
 
@@ -180,21 +178,20 @@ constructor(
 
             _filterModeButtonState.value = FiltersModeButtonState(interactor.filters.filtersMode, false)
 
-            if(mode == FiltersMode.FAVORITE) {
-                interactor.filters.getFavoriteFiltersListData()?.let { _favoriteFiltersListData.value = it }
-            }
-
-            _allFiltersVisibility.value = if(interactor.filters.filtersMode == FiltersMode.ALL) View.VISIBLE else View.INVISIBLE
-            _favoritesFiltersVisibility.value = if(interactor.filters.filtersMode == FiltersMode.FAVORITE) {
-                View.VISIBLE
-            } else {
-                View.INVISIBLE
-            }
-
             when(mode) {
-                FiltersMode.ALL -> sendCommand(ScrollToFilter(interactor.filters.displayFilter.code))
-                FiltersMode.FAVORITE -> sendCommand(ScrollToFavoriteFilter(interactor.filters.displayFilter.code))
-                else -> { }
+                FiltersMode.FAVORITE -> {
+                    _filtersVisibility.value = View.VISIBLE
+                    _filtersListData.value = interactor.filters.getFavoriteFiltersListData()
+                }
+
+                FiltersMode.ALL -> {
+                    _filtersVisibility.value = View.VISIBLE
+                    _filtersListData.value = interactor.filters.getAllFiltersListData()
+                }
+
+                FiltersMode.NO_FILTERS -> {
+                    _filtersVisibility.value = View.INVISIBLE
+                }
             }
         }
     }
@@ -242,8 +239,8 @@ constructor(
                 interactor.filters.removeFromFavorite(id)
             }
 
-            _allFiltersListData.value?.let { oldItems ->
-                _allFiltersListData.value = FilterCarouselUtils.setFavoriteStatus(oldItems, id, isSelected)
+            _filtersListData.value?.let { oldItems ->
+                _filtersListData.value = FilterCarouselUtils.setFavoriteStatus(oldItems, id, isSelected)
             }
         }
     }
@@ -262,12 +259,8 @@ constructor(
     }
 
     private fun showSettings(code: GlFilterCode) {
-        isAllFiltersWereVisible = _allFiltersVisibility.value == View.VISIBLE
-        isFavoriteFiltersWereVisible = _favoritesFiltersVisibility.value == View.VISIBLE
-
         _exposureBarVisibility.value = View.INVISIBLE
-        _allFiltersVisibility.value = View.INVISIBLE
-        _favoritesFiltersVisibility.value = View.INVISIBLE
+        _filtersVisibility.value = View.INVISIBLE
 
         sendCommand(ShowFilterSettingsCommand(interactor.filters.getSettings(code)))
         isSettingsVisible = true
@@ -279,13 +272,10 @@ constructor(
         }
 
         sendCommand(HideFilterSettingsCommand())
+
         _exposureBarVisibility.value = View.VISIBLE
-        if(isAllFiltersWereVisible) {
-            _allFiltersVisibility.value = View.VISIBLE
-        }
-        if(isFavoriteFiltersWereVisible) {
-            _favoritesFiltersVisibility.value = View.VISIBLE
-        }
+        _filtersVisibility.value = View.VISIBLE
+
         isSettingsVisible = false
     }
 
@@ -300,8 +290,8 @@ constructor(
                 _screenTitle.value = appContext.getString(interactor.filters.displayFilterTitle)
             }
 
-            _allFiltersListData.value?.let { oldItems ->
-                _allFiltersListData.value = FilterCarouselUtils.setSelection(oldItems, id)
+            _filtersListData.value?.let { oldItems ->
+                _filtersListData.value = FilterCarouselUtils.setSelection(oldItems, id)
             }
         }
     }
@@ -317,8 +307,8 @@ constructor(
                 _screenTitle.value = appContext.getString(interactor.filters.displayFilterTitle)
             }
 
-            _favoriteFiltersListData.value?.let { oldItems ->
-                _favoriteFiltersListData.value = FilterCarouselUtils.setSelection(oldItems, id)
+            _filtersListData.value?.let { oldItems ->
+                _filtersListData.value = FilterCarouselUtils.setSelection(oldItems, id)
             }
         }
     }

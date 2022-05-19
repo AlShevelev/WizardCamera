@@ -5,7 +5,6 @@ import android.util.AttributeSet
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.shevelev.wizard_camera.R
-import com.shevelev.wizard_camera.core.common_entities.enums.GlFilterCode
 
 class FiltersRecyclerView(
     context: Context,
@@ -34,10 +33,5 @@ class FiltersRecyclerView(
                     }
                 }
         }
-    }
-
-    fun scrollToItem(itemCode: GlFilterCode) {
-        filtersAdapter.getItemPosition(itemCode)
-            ?.let { (layoutManager as LinearLayoutManager).scrollToPositionWithOffset(it, 0) }
     }
 }

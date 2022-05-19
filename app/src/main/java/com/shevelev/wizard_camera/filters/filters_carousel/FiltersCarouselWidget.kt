@@ -34,6 +34,4 @@ constructor(
             filtersList.updateData(items, eventsProcessor)
         }
     }
-
-    fun scrollToItem(itemId: GlFilterCode) = filtersList.scrollToItem(itemId)
 }

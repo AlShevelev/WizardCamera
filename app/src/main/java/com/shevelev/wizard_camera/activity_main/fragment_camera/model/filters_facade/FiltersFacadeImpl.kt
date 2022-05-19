@@ -27,8 +27,6 @@ class FiltersFacadeImpl (
     private var selectedFilter = displayData[0].code
     private var selectedFavoriteFilter = GlFilterCode.ORIGINAL
 
-    private var priorFavoritesListData: List<FilterListItem>? = null
-
     override val displayFilter: GlFilterSettings
         get() = when(filtersMode) {
             FiltersMode.NO_FILTERS -> filterSettings[GlFilterCode.ORIGINAL]
@@ -102,7 +100,7 @@ class FiltersFacadeImpl (
             )
         }
 
-    override suspend fun getFavoriteFiltersListData(): List<FilterListItem>? {
+    override suspend fun getFavoriteFiltersListData(): List<FilterListItem> {
         val startIndex = favoritesList.indexOf(selectedFavoriteFilter)
 
         val items = favoritesList.mapIndexed { index, item ->
@@ -123,12 +121,7 @@ class FiltersFacadeImpl (
             selectedFavoriteFilter = items[0].displayData.code
         }
 
-        return if(items != priorFavoritesListData) {
-            priorFavoritesListData = items
-            items
-        } else {
-            null
-        }
+        return items
     }
 
     override suspend fun addToFavorite(code: GlFilterCode) {

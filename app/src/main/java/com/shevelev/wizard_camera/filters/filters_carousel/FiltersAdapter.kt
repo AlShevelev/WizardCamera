@@ -5,7 +5,6 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.shevelev.wizard_camera.core.common_entities.enums.GlFilterCode
 
 class FiltersAdapter(
     @LayoutRes
@@ -38,9 +37,4 @@ class FiltersAdapter(
 
         return oldListId != newListId
     }
-
-    fun getItemPosition(itemCode: GlFilterCode): Int? =
-        items
-            .indexOfFirst { it.displayData.code == itemCode }
-            .let { if(it == -1) null else it }
 }
