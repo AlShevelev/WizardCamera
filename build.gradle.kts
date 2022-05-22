@@ -10,7 +10,7 @@ buildscript {
 
         classpath(DependenciesGradle.googleServices)
         classpath(DependenciesGradle.firebaseCrashlytics)
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.20")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.21")
     }
 }
 
