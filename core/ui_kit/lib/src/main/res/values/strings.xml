@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="emptyFiltersList">There are no filters in this list</string>
+
+    <!-- Filter names -->
+    <string name="filterEdgeDetection">Edges detection</string>
+    <string name="filterPixelize">Pixelize</string>
+    <string name="filterTrianglesMosaic">Triangles mosaic</string>
+    <string name="filterLegofied">Legofied</string>
+    <string name="filterTileMosaic">Tile mosaic</string>
+    <string name="filterBlueorange">Blue and Orange</string>
+    <string name="filterBasicDeform">Basic deform</string>
+    <string name="filterContrast">Contrast</string>
+    <string name="filterNoiseWarp">Noise warp</string>
+    <string name="filterRefraction">Refraction</string>
+    <string name="filterMapping">Mapping</string>
+    <string name="filterCrosshatch">Crosshatch</string>
+    <string name="filterNewspaper">Newspaper</string>
+    <string name="filterAsciiArt">Ascii art</string>
+    <string name="filterMoney">Money filter</string>
+    <string name="filterCracked">Cracked</string>
+    <string name="filterPolygonization">Polygonization</string>
+    <string name="filterBlackAndWhite">Black and White</string>
+    <string name="filterGray">Gray</string>
+    <string name="filterNegative">Negative</string>
+    <string name="filterNostalgia">Nostalgia</string>
+    <string name="filterCasting">Casting</string>
+    <string name="filterRelief">Relief</string>
+    <string name="filterSwirl">Swirl</string>
+    <string name="filterHexagonMosaic">Hexagon mosaic</string>
+    <string name="filterMirror">Mirror</string>
+    <string name="filterTriple">Triple</string>
+    <string name="filterCartoon">Cartoon</string>
+    <string name="filterWaterReflection">Water reflection</string>
+
+    <!-- Filter settings -->
+    <string name="small">Small</string>
+    <string name="normal">Normal</string>
+    <string name="large">Large</string>
+    <string name="blockSize">Block size</string>
+    <string name="totalShards">Total shards</string>
+    <string name="randomShards">Random shards</string>
+    <string name="mixFactor">Mixture factor</string>
+    <string name="inverted">Inverted</string>
+    <string name="triangleSize">Triangle size</string>
+    <string name="size">Size</string>
+    <string name="rotation">Rotation</string>
+    <string name="invertedRotation">Inverted rotation</string>
+    <string name="tileSize">Tile size</string>
+    <string name="borderSize">Border size</string>
+    <string name="horizontal">Horizontal</string>
+    <string name="grayscale">Grayscale</string>
+
+    <!-- Filter setting names -->
+    <string name="filterEdgeDetectionSettings">Edges detection settings</string>
+    <string name="filterBlackAndWhiteSettings">Black and White settings</string>
+    <string name="filterLegofiedSettings">Legofied settings</string>
+    <string name="filterTrianglesMosaicSettings">Triangles mosaic settings</string>
+    <string name="filterHexagonMosaicSettings">Hexagon mosaic settings</string>
+    <string name="filterCrackedSettings">Cracked settings</string>
+    <string name="filterSwirlSettings">Swirl settings</string>
+    <string name="filterTileMosaicSettings">Tile mosaic settings</string>
+    <string name="filterTripleSettings">Triple settings</string>
+    <string name="filterNewspaperSettings">Newspaper settings</string>
+    <string name="filterMappingSettings">Mapping settings</string>
+
+</resources>

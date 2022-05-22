@@ -2,10 +2,8 @@ package com.shevelev.wizard_camera.activity_main.fragment_camera.model.dto
 
 import androidx.annotation.StringRes
 import androidx.camera.core.impl.ImageOutputConfig
-import com.shevelev.wizard_camera.core.common_entities.enums.GlFilterCode
 import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.GlFilterSettings
 import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_commands.ViewCommand
-import com.shevelev.wizard_camera.filters.filters_carousel.FilterListItem
 import java.io.OutputStream
 
 class ShowCapturingSuccessCommand(val screenOrientation: ScreenOrientation): ViewCommand

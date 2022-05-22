@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="PulseImageButton">
+        <attr name="pulse_button_active_icon" format="reference" />
+        <attr name="pulse_button_inactive_icon" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="PulseImageButtonStateless">
+        <attr name="pulse_button_icon" format="reference" />
+    </declare-styleable>
+</resources>

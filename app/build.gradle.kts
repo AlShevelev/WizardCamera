@@ -89,6 +89,8 @@ dependencies {
     implementation(project(":core:camera_gl:impl"))
     implementation(project(":core:camera_gl:api"))
 
+    implementation(project(":core:ui_kit:lib"))
+
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
 
     implementation(Dependencies.appcompat)

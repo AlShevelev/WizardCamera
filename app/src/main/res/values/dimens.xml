@@ -1,29 +1,7 @@
 <resources>
-    <dimen name="textSizeNormal">17sp</dimen>
-    <dimen name="textSizeSmall">15sp</dimen>
-
-    <dimen name="toolButtonIconSize">18dp</dimen>
-    <dimen name="toolButtonSizeNormal">50dp</dimen>
-    <dimen name="toolButtonSizeLarge">60dp</dimen>
-
-    <dimen name="marginSmall">8dp</dimen>
-    <dimen name="marginNormal">16dp</dimen>
-    <dimen name="marginLarge">24dp</dimen>
-
-    <dimen name="strokeWidthThin">1dp</dimen>
-    <dimen name="strokeWidthNormal">2dp</dimen>
-    <dimen name="strokeWidthSelected">3dp</dimen>
-
     <dimen name="mainButtonsMargin">25dp</dimen>
-    <dimen name="mainFilterCarouselButtonSmall">75dp</dimen>
     <dimen name="mainFilterCarouselHeight">75dp</dimen>
-    <dimen name="mainFilterCarouselMargin">5dp</dimen>
     <dimen name="mainFiltersModeMargin">1.5dp</dimen>
-    <dimen name="mainFilterCarouselSettingsButton">25dp</dimen>
-    <dimen name="mainFilterCarouselSettingsButtonMargin">22dp</dimen>
-    <dimen name="mainSettingsCorner">15dp</dimen>
-    <dimen name="mainSettingsCornerButton">7dp</dimen>
-    <dimen name="mainSettingsMappingTextureSize">100dp</dimen>
 
     <dimen name="navigationBarButtonsMargin">52dp</dimen>
 

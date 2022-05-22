@@ -33,7 +33,13 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:ui_utils"))
+    implementation(project(":core:common_entities"))
+
     implementation(Dependencies.appcompat)
+
+    implementation(Dependencies.viewPager)
+    implementation(Dependencies.constraintLayout)
 
     implementation(Dependencies.glide)
     kapt(Dependencies.glideCompiler)

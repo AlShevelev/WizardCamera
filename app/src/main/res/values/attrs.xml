@@ -13,13 +13,4 @@
         <attr name="exposure_min_value" format="float" />
         <attr name="exposure_max_value" format="float" />
     </declare-styleable>
-
-    <declare-styleable name="PulseImageButton">
-        <attr name="pulse_button_active_icon" format="reference" />
-        <attr name="pulse_button_inactive_icon" format="reference" />
-    </declare-styleable>
-
-    <declare-styleable name="PulseImageButtonStateless">
-        <attr name="pulse_button_icon" format="reference" />
-    </declare-styleable>
 </resources>

@@ -13,6 +13,25 @@
         <entry key="app/src/main/res/layout/view_filters_carousel.xml" value="0.2871376811594203" />
         <entry key="app/src/main/res/layout/view_filters_carousel_item.xml" value="0.2871376811594203" />
         <entry key="app/src/main/res/layout/view_filters_mode.xml" value="0.21822916666666667" />
+        <entry key="core/ui_kit/lib/src/main/res/drawable/bcg_circle_white.xml" value="0.1605" />
+        <entry key="core/ui_kit/lib/src/main/res/drawable/bcg_circle_yellow.xml" value="0.1605" />
+        <entry key="core/ui_kit/lib/src/main/res/drawable/bcg_filter_mode_button.xml" value="0.1605" />
+        <entry key="core/ui_kit/lib/src/main/res/drawable/bcg_main_button_settings.xml" value="0.1605" />
+        <entry key="core/ui_kit/lib/src/main/res/drawable/bcg_main_settings.xml" value="0.1605" />
+        <entry key="core/ui_kit/lib/src/main/res/drawable/bcg_main_text.xml" value="0.1605" />
+        <entry key="core/ui_kit/lib/src/main/res/drawable/ic_favorite_selected.xml" value="0.1605" />
+        <entry key="core/ui_kit/lib/src/main/res/drawable/ic_favorite_unselected.xml" value="0.1605" />
+        <entry key="core/ui_kit/lib/src/main/res/drawable/ic_settings.xml" value="0.1605" />
+        <entry key="core/ui_kit/lib/src/main/res/layout/view_filter_settings_block_size.xml" value="0.276268115942029" />
+        <entry key="core/ui_kit/lib/src/main/res/layout/view_filter_settings_cracked.xml" value="0.276268115942029" />
+        <entry key="core/ui_kit/lib/src/main/res/layout/view_filter_settings_host.xml" value="0.276268115942029" />
+        <entry key="core/ui_kit/lib/src/main/res/layout/view_filter_settings_mapping.xml" value="0.276268115942029" />
+        <entry key="core/ui_kit/lib/src/main/res/layout/view_filter_settings_single_bar.xml" value="0.276268115942029" />
+        <entry key="core/ui_kit/lib/src/main/res/layout/view_filter_settings_single_check.xml" value="0.276268115942029" />
+        <entry key="core/ui_kit/lib/src/main/res/layout/view_filter_settings_swirl.xml" value="0.276268115942029" />
+        <entry key="core/ui_kit/lib/src/main/res/layout/view_filter_settings_tile_mosaic.xml" value="0.276268115942029" />
+        <entry key="core/ui_kit/lib/src/main/res/layout/view_filters_carousel.xml" value="0.276268115942029" />
+        <entry key="core/ui_kit/lib/src/main/res/layout/view_filters_carousel_item.xml" value="0.276268115942029" />
       </map>
     </option>
   </component>

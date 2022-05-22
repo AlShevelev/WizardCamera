@@ -9,9 +9,9 @@ import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.EmptyF
 import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.GlFilterSettings
 import com.shevelev.wizard_camera.core.database.api.repositories.FavoriteFilterDbRepository
 import com.shevelev.wizard_camera.core.database.api.repositories.LastUsedFilterDbRepository
-import com.shevelev.wizard_camera.filters.display_data.gl.FilterDisplayDataList
-import com.shevelev.wizard_camera.filters.filters_carousel.FilterFavoriteType
-import com.shevelev.wizard_camera.filters.filters_carousel.FilterListItem
+import com.shevelev.wizard_camera.core.ui_kit.lib.filters.display_data.gl.FilterDisplayDataList
+import com.shevelev.wizard_camera.core.ui_kit.lib.filters.filters_carousel.FilterFavoriteType
+import com.shevelev.wizard_camera.core.ui_kit.lib.filters.filters_carousel.FilterListItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 

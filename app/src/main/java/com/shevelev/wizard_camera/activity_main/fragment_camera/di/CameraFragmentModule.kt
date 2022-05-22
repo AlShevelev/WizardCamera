@@ -11,8 +11,8 @@ import com.shevelev.wizard_camera.activity_main.fragment_camera.model.image_capt
 import com.shevelev.wizard_camera.activity_main.fragment_camera.model.orientation.OrientationManager
 import com.shevelev.wizard_camera.activity_main.fragment_camera.model.orientation.OrientationManagerImpl
 import com.shevelev.wizard_camera.activity_main.fragment_camera.view_model.CameraFragmentViewModel
-import com.shevelev.wizard_camera.filters.display_data.gl.FilterDisplayDataList
-import com.shevelev.wizard_camera.filters.display_data.gl.FilterDisplayDataListImpl
+import com.shevelev.wizard_camera.core.ui_kit.lib.filters.display_data.gl.FilterDisplayDataList
+import com.shevelev.wizard_camera.core.ui_kit.lib.filters.display_data.gl.FilterDisplayDataListImpl
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 

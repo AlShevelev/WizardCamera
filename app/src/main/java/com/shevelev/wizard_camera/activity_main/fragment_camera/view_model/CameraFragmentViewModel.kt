@@ -20,9 +20,9 @@ import com.shevelev.wizard_camera.core.ui_utils.binding_adapters.ButtonState
 import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_commands.ShowMessageResCommand
 import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_model.ViewModelBase
 import com.shevelev.wizard_camera.core.utils.ext.format
-import com.shevelev.wizard_camera.filters.filters_carousel.FilterCarouselUtils
-import com.shevelev.wizard_camera.filters.filters_carousel.FilterEventsProcessor
-import com.shevelev.wizard_camera.filters.filters_carousel.FilterListItem
+import com.shevelev.wizard_camera.core.ui_kit.lib.filters.filters_carousel.FilterCarouselUtils
+import com.shevelev.wizard_camera.core.ui_kit.lib.filters.filters_carousel.FilterEventsProcessor
+import com.shevelev.wizard_camera.core.ui_kit.lib.filters.filters_carousel.FilterListItem
 import kotlinx.coroutines.launch
 
 @SuppressLint("StaticFieldLeak")

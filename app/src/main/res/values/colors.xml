@@ -3,16 +3,4 @@
     <color name="colorPrimary">#646464</color>
     <color name="colorPrimaryDark">#646464</color>
     <color name="colorAccent">@android:color/white</color>
-
-    <color name="white">@android:color/white</color>
-    <color name="black50">#80000000</color>
-    <color name="blue50">#800000FF</color>
-    <color name="gray">#808080</color>
-    <color name="fuchsia">#FF00FF</color>
-    <color name="yellow">#FFEB3B</color>
-
-    <color name="mainButtonsBackground">@color/black50</color>
-    <color name="mainButtonsBackgroundPressed">@color/blue50</color>
-    <color name="mainButtonsBackgroundDisabled">@color/gray</color>
-    <color name="mainButtonsForeground">@color/white</color>
 </resources>
