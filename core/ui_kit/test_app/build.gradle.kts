@@ -33,6 +33,8 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:ui_kit:lib"))
+
     implementation(Dependencies.appcompat)
 
     implementation(Dependencies.coreKtx)

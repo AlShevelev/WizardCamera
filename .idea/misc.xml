@@ -32,6 +32,8 @@
         <entry key="core/ui_kit/lib/src/main/res/layout/view_filter_settings_tile_mosaic.xml" value="0.276268115942029" />
         <entry key="core/ui_kit/lib/src/main/res/layout/view_filters_carousel.xml" value="0.276268115942029" />
         <entry key="core/ui_kit/lib/src/main/res/layout/view_filters_carousel_item.xml" value="0.276268115942029" />
+        <entry key="core/ui_kit/lib/src/main/res/layout/view_flower_menu_item.xml" value="0.3170289855072464" />
+        <entry key="core/ui_kit/test_app/src/main/res/layout/activity_main.xml" value="0.3170289855072464" />
       </map>
     </option>
   </component>
