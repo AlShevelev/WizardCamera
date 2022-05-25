@@ -18,6 +18,8 @@ constructor(
     private val itemButton by lazy { findViewById<ImageButton>(R.id.itemButton) }
     private val itemText by lazy { findViewById<TextView>(R.id.itemText) }
 
+    private var onItemClickListener: (() -> Unit)? = null
+
     init {
         inflate(context, R.layout.view_flower_menu_item, this)
     }
@@ -25,5 +27,12 @@ constructor(
     fun init(item: FlowerMenuItemData) {
         itemButton.setImageResource(item.iconResId)
         itemText.text = item.text
+
+        itemButton.setOnClickListener { onItemClickListener?.invoke() }
+        itemText.setOnClickListener { onItemClickListener?.invoke() }
+    }
+
+    fun setOnClickListener(listener: (() -> Unit)?) {
+        onItemClickListener = listener
     }
 }

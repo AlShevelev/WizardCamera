@@ -27,7 +27,7 @@ internal object PositionsCalculator {
             val currentAngle = angleOffset * i
 
             val x = ((distance * sin(currentAngle)) + center.x).roundToInt()
-            val y = ((distance * cos(currentAngle)) + center.y).roundToInt()
+            val y = ((distance * cos(currentAngle + Math.PI)) + center.y).roundToInt()
 
             result.add(Point(x, y))
         }
