@@ -3,6 +3,7 @@ package com.shevelev.wizard_camera.core.database.impl.entities
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.shevelev.wizard_camera.core.common_entities.enums.FiltersGroup
 import com.shevelev.wizard_camera.core.common_entities.enums.GlFilterCode
 
 @Entity(tableName = "last_used_filter")
@@ -14,6 +15,6 @@ internal data class LastUsedFilterDb(
     @ColumnInfo(name = "filter", typeAffinity = ColumnInfo.INTEGER)
     val code: GlFilterCode,
 
-    @ColumnInfo(name = "is_favorite")
-    val isFavorite: Boolean
+    @ColumnInfo(name = "filter_group")
+    val group: FiltersGroup
 )

@@ -13,6 +13,7 @@ import com.shevelev.wizard_camera.core.database.impl.entities.LastUsedFilterDb
 import com.shevelev.wizard_camera.core.database.impl.entities.PhotoShotDb
 import com.shevelev.wizard_camera.core.database.impl.type_converters.DateTimeTypeConverter
 import com.shevelev.wizard_camera.core.database.impl.type_converters.FilterCodeConverter
+import com.shevelev.wizard_camera.core.database.impl.type_converters.FiltersGroupConverter
 
 @Database(
     entities = [
@@ -24,7 +25,9 @@ import com.shevelev.wizard_camera.core.database.impl.type_converters.FilterCodeC
     version = 1)
 @TypeConverters(
     DateTimeTypeConverter::class,
-    FilterCodeConverter::class)
+    FilterCodeConverter::class,
+    FiltersGroupConverter::class
+)
 internal abstract class DbCoreImpl: RoomDatabase(), DbCore {
     abstract override val photoShot: PhotoShotDao
     abstract override val lastUsedFilter: LastUsedFilterDao

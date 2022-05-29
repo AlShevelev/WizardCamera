@@ -5,6 +5,10 @@
       <map>
         <entry key="app/src/main/res/drawable/bcg_circle_white.xml" value="0.1645" />
         <entry key="app/src/main/res/drawable/bcg_circle_yellow.xml" value="0.1645" />
+        <entry key="app/src/main/res/drawable/ic_favorite_filters.xml" value="0.176" />
+        <entry key="app/src/main/res/drawable/ic_gallery_filter.xml" value="0.143" />
+        <entry key="app/src/main/res/drawable/ic_gallery_no_filters.xml" value="0.143" />
+        <entry key="app/src/main/res/drawable/ic_turn_filters.xml" value="0.176" />
         <entry key="app/src/main/res/layout-land/fragment_gallery.xml" value="0.16005291005291006" />
         <entry key="app/src/main/res/layout/fragment_camera.xml" value="0.2871376811594203" />
         <entry key="app/src/main/res/layout/fragment_editor.xml" value="0.2871376811594203" />

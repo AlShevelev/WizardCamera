@@ -10,7 +10,7 @@ import androidx.lifecycle.viewModelScope
 import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.activity_main.fragment_camera.model.CameraFragmentInteractor
 import com.shevelev.wizard_camera.activity_main.fragment_camera.model.dto.*
-import com.shevelev.wizard_camera.activity_main.fragment_camera.model.filters_facade.FiltersListId
+import com.shevelev.wizard_camera.core.common_entities.enums.FiltersGroup
 import com.shevelev.wizard_camera.activity_main.fragment_camera.view.gestures.Gesture
 import com.shevelev.wizard_camera.activity_main.fragment_camera.view.gestures.Pinch
 import com.shevelev.wizard_camera.activity_main.fragment_camera.view.gestures.Tap
@@ -249,8 +249,8 @@ constructor(
 
     override fun onFilterClick(id: GlFilterCode, listId: String) {
         when(listId) {
-            FiltersListId.ALL_FILTERS_LIST -> onFilterSelected(id)
-            FiltersListId.FAVORITE_FILTERS_LIST -> onFavoriteFilterSelected(id)
+            FiltersGroup.ALL.toString() -> onFilterSelected(id)
+            FiltersGroup.FAVORITES.toString() -> onFavoriteFilterSelected(id)
         }
     }
 

@@ -4,6 +4,7 @@ import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.activity_main.fragment_camera.model.dto.FiltersMode
 import com.shevelev.wizard_camera.activity_main.fragment_camera.model.filters_facade.settings.FilterSettingsFacade
 import com.shevelev.wizard_camera.core.common_entities.entities.LastUsedFilter
+import com.shevelev.wizard_camera.core.common_entities.enums.FiltersGroup
 import com.shevelev.wizard_camera.core.common_entities.enums.GlFilterCode
 import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.EmptyFilterSettings
 import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.GlFilterSettings
@@ -12,6 +13,7 @@ import com.shevelev.wizard_camera.core.database.api.repositories.LastUsedFilterD
 import com.shevelev.wizard_camera.core.ui_kit.lib.filters.display_data.gl.FilterDisplayDataList
 import com.shevelev.wizard_camera.core.ui_kit.lib.filters.filters_carousel.FilterFavoriteType
 import com.shevelev.wizard_camera.core.ui_kit.lib.filters.filters_carousel.FilterListItem
+import com.shevelev.wizard_camera.core.ui_kit.lib.flower_menu.FlowerMenuItemData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -58,17 +60,38 @@ class FiltersFacadeImpl (
             favoriteFilterRepository.read()
         }.toMutableList()
 
-        selectedFilter = lastUsedFilters.firstOrNull { !it.isFavorite }?.code ?: displayData[0].code
+        selectedFilter = lastUsedFilters.firstOrNull { it.group == FiltersGroup.ALL }?.code ?: displayData[0].code
 
         selectedFavoriteFilter =
-            lastUsedFilters.firstOrNull { it.isFavorite }?.code
+            lastUsedFilters.firstOrNull { it.group == FiltersGroup.FAVORITES }?.code
             ?: favoritesList.firstOrNull()
             ?: GlFilterCode.ORIGINAL
     }
 
+    override fun getFiltersForMenu(): List<FlowerMenuItemData> {
+        TODO("Not yet implemented")
+//        val items = listOf(
+//            FlowerMenuItemData(R.drawable.ic_emoji_nature, "Text 1"),
+//            FlowerMenuItemData(R.drawable.ic_emoji_nature, "text 2"),
+//            FlowerMenuItemData(R.drawable.ic_emoji_nature, "Text 3"),
+//            FlowerMenuItemData(R.drawable.ic_emoji_nature, "Text 4"),
+//            FlowerMenuItemData(R.drawable.ic_emoji_nature, "Text 5"),
+//            FlowerMenuItemData(R.drawable.ic_emoji_nature, "Text 6")
+//        )
+
+    }
+
+    override suspend fun selectFilter(code: GlFilterCode, group: FiltersGroup) {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getFiltersListData(group: FiltersGroup): List<FilterListItem> {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun selectFilter(code: GlFilterCode) {
         withContext(Dispatchers.IO) {
-            lastUsedFilterRepository.update(LastUsedFilter(code, false))
+            lastUsedFilterRepository.update(LastUsedFilter(code, FiltersGroup.ALL))
         }
 
         selectedFilter = code
@@ -76,7 +99,7 @@ class FiltersFacadeImpl (
 
     override suspend fun selectFavoriteFilter(code: GlFilterCode) {
         withContext(Dispatchers.IO) {
-            lastUsedFilterRepository.update(LastUsedFilter(code, true))
+            lastUsedFilterRepository.update(LastUsedFilter(code, FiltersGroup.FAVORITES))
         }
 
         selectedFavoriteFilter = code
@@ -92,7 +115,7 @@ class FiltersFacadeImpl (
             }
 
             FilterListItem(
-                listId = FiltersListId.ALL_FILTERS_LIST,
+                listId = FiltersGroup.ALL.toString(),
                 displayData = it,
                 favorite = isFavorite,
                 hasSettings = filterSettings[it.code] !is EmptyFilterSettings,
@@ -105,7 +128,7 @@ class FiltersFacadeImpl (
 
         val items = favoritesList.mapIndexed { index, item ->
             FilterListItem(
-                listId = FiltersListId.FAVORITE_FILTERS_LIST,
+                listId = FiltersGroup.FAVORITES.toString(),
                 displayData = displayData[item],
                 favorite = FilterFavoriteType.HIDDEN,
                 hasSettings = filterSettings[item] !is EmptyFilterSettings,
@@ -149,14 +172,14 @@ class FiltersFacadeImpl (
             selectedFavoriteFilter = GlFilterCode.ORIGINAL
 
             withContext(Dispatchers.IO) {
-                lastUsedFilterRepository.remove(LastUsedFilter(code, true))
+                lastUsedFilterRepository.remove(LastUsedFilter(code, FiltersGroup.FAVORITES))
             }
         } else {
             if(selectedFavoriteFilter == code) {
                 selectedFavoriteFilter = favoritesList[0]
 
                 withContext(Dispatchers.IO) {
-                    lastUsedFilterRepository.update(LastUsedFilter(selectedFavoriteFilter, true))
+                    lastUsedFilterRepository.update(LastUsedFilter(selectedFavoriteFilter, FiltersGroup.FAVORITES))
                 }
             }
         }

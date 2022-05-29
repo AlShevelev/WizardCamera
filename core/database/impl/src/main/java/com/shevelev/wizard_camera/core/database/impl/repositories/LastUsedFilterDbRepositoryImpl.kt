@@ -13,16 +13,16 @@ constructor(
 
     override fun update(filter: LastUsedFilter) =
         db.runConsistent {
-            val dbRecord = db.lastUsedFilter.read().firstOrNull { it.isFavorite == filter.isFavorite }
+            val dbRecord = db.lastUsedFilter.read().firstOrNull { it.group == filter.group }
 
             if(dbRecord == null) {
-                db.lastUsedFilter.create(LastUsedFilterDb(IdUtil.generateLongId(), filter.code, filter.isFavorite ))
+                db.lastUsedFilter.create(LastUsedFilterDb(IdUtil.generateLongId(), filter.code, filter.group ))
             } else {
                 db.lastUsedFilter.update(dbRecord.copy(code = filter.code))
             }
         }
 
-    override fun remove(filter: LastUsedFilter) = db.lastUsedFilter.delete(filter.code, filter.isFavorite)
+    override fun remove(filter: LastUsedFilter) = db.lastUsedFilter.delete(filter.group)
 
-    override fun read(): List<LastUsedFilter> = db.lastUsedFilter.read().map { LastUsedFilter(it.code, it.isFavorite) }
+    override fun read(): List<LastUsedFilter> = db.lastUsedFilter.read().map { LastUsedFilter(it.code, it.group) }
 }
