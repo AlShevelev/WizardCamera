@@ -9,6 +9,7 @@ import android.view.TextureView
 import android.view.View
 import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.activity_gallery.GalleryActivity
+import com.shevelev.wizard_camera.activity_main.fragment_camera.di.CameraFragmentScope
 import com.shevelev.wizard_camera.activity_main.fragment_camera.model.dto.*
 import com.shevelev.wizard_camera.activity_main.fragment_camera.view.gestures.GesturesDetector
 import com.shevelev.wizard_camera.activity_main.fragment_camera.view_model.CameraFragmentViewModel
@@ -77,6 +78,11 @@ class CameraFragment : FragmentBaseMVVM<FragmentCameraBinding, CameraFragmentVie
     override fun onPause() {
         super.onPause()
         viewModel.onInactive()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        CameraFragmentScope.closeScope()
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {

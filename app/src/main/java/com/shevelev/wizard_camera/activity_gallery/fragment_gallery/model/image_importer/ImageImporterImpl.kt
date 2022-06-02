@@ -11,8 +11,7 @@ import com.shevelev.wizard_camera.core.photo_files.api.photo_shot_repository.Pho
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class ImageImporterImpl
-constructor(
+internal class ImageImporterImpl (
     private val bitmapHelper: BitmapHelper,
     private val imageTypeDetector: ImageTypeDetector,
     private val photoShotRepository: PhotoShotRepository

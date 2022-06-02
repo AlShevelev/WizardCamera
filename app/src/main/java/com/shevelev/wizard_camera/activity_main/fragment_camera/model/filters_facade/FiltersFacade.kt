@@ -22,14 +22,6 @@ interface FiltersFacade {
 
     suspend fun getFiltersListData(group: FiltersGroup): List<FilterListItem>
 
-    suspend fun selectFilter(code: GlFilterCode)
-
-    suspend fun selectFavoriteFilter(code: GlFilterCode)
-
-    suspend fun getAllFiltersListData(): List<FilterListItem>
-
-    suspend fun getFavoriteFiltersListData(): List<FilterListItem>
-
     suspend fun addToFavorite(code: GlFilterCode)
 
     suspend fun removeFromFavorite(code: GlFilterCode)

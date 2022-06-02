@@ -8,7 +8,7 @@ import com.shevelev.wizard_camera.activity_main.fragment_camera.model.filters_fa
 import com.shevelev.wizard_camera.core.common_entities.enums.GlFilterCode
 import kotlinx.coroutines.flow.MutableSharedFlow
 
-class NoFiltersMachine(
+internal class NoFiltersMachine(
     outputCommands: MutableSharedFlow<OutputCommand>,
     editorStorage: EditorStorage,
     private val filterSettings: FilterSettingsFacade

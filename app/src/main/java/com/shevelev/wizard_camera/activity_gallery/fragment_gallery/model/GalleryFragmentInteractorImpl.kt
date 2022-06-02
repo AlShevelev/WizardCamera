@@ -10,7 +10,6 @@ import com.shevelev.wizard_camera.core.common_entities.entities.PhotoShot
 import com.shevelev.wizard_camera.core.database.api.repositories.PhotoShotDbRepository
 import com.shevelev.wizard_camera.core.photo_files.api.photo_shot_repository.PhotoShotRepository
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -18,10 +17,8 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 
-@ExperimentalCoroutinesApi
 @FlowPreview
-class GalleryFragmentInteractorImpl
-constructor(
+internal class GalleryFragmentInteractorImpl (
     private val photoShotDbRepository: PhotoShotDbRepository,
     private val fragmentsDataPass: FragmentsDataPass,
     private val imageImporter: ImageImporter,

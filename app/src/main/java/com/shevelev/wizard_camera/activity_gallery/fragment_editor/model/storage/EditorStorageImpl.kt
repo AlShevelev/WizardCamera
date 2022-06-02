@@ -12,7 +12,7 @@ import com.shevelev.wizard_camera.core.photo_files.api.photo_shot_repository.Pho
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class EditorStorageImpl
+internal class EditorStorageImpl
 constructor(
     private val fragmentsDataPass: FragmentsDataPass,
     private val filterSettings: FilterSettingsFacade,

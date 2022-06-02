@@ -8,8 +8,7 @@ import com.shevelev.wizard_camera.core.ui_kit.lib.filters.display_data.gl.Filter
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 
-class StateMachinesOrchestratorImpl
-constructor(
+internal class StateMachinesOrchestratorImpl (
     private val editorStorage: EditorStorage,
     private val filterDisplayData: FilterDisplayDataList,
     private val filterSettings: FilterSettingsFacade

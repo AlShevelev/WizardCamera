@@ -9,8 +9,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlin.random.Random
 
-class FilterSettingsFacadeImpl
-constructor(
+internal class FilterSettingsFacadeImpl(
     private val filterSettingsRepository: FilterSettingsDbRepository
 ) : FilterSettingsFacade {
 

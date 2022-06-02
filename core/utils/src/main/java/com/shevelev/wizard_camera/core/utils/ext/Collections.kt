@@ -26,3 +26,7 @@ inline fun <T, R : Comparable<R>> Iterable<T>.minIndexBy(selector: (T, Int) -> R
     }
     return minIndex
 }
+
+inline fun <T>MutableList<T>.update(index: Int, updateAction: (T) -> T) {
+     this[index] = updateAction(this[index])
+}

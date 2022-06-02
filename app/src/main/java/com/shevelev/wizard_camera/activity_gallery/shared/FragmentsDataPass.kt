@@ -2,7 +2,7 @@ package com.shevelev.wizard_camera.activity_gallery.shared
 
 import com.shevelev.wizard_camera.core.common_entities.entities.PhotoShot
 
-interface FragmentsDataPass {
+internal interface FragmentsDataPass {
     fun putPhotoShot(photoShot: PhotoShot)
 
     /**

@@ -66,7 +66,7 @@ constructor(
     init {
         viewModelScope.launch {
             interactor.filters.init()
-            _filtersListData.value = interactor.filters.getAllFiltersListData()
+            _filtersListData.value = interactor.filters.getFiltersListData(FiltersGroup.ALL)
         }
     }
 
@@ -181,12 +181,12 @@ constructor(
             when(mode) {
                 FiltersMode.FAVORITE -> {
                     _filtersVisibility.value = View.VISIBLE
-                    _filtersListData.value = interactor.filters.getFavoriteFiltersListData()
+                    _filtersListData.value = interactor.filters.getFiltersListData(FiltersGroup.FAVORITES)
                 }
 
                 FiltersMode.ALL -> {
                     _filtersVisibility.value = View.VISIBLE
-                    _filtersListData.value = interactor.filters.getAllFiltersListData()
+                    _filtersListData.value = interactor.filters.getFiltersListData(FiltersGroup.ALL)
                 }
 
                 FiltersMode.NO_FILTERS -> {
@@ -283,7 +283,7 @@ constructor(
         viewModelScope.launch {
             hideSettings()
 
-            interactor.filters.selectFilter(id)
+            interactor.filters.selectFilter(id, FiltersGroup.ALL)
 
             if(interactor.filters.filtersMode == FiltersMode.ALL) {
                 _selectedFilter.value = interactor.filters.displayFilter
@@ -300,7 +300,7 @@ constructor(
         viewModelScope.launch {
             hideSettings()
 
-            interactor.filters.selectFavoriteFilter(id)
+            interactor.filters.selectFilter(id, FiltersGroup.FAVORITES)
 
             if(interactor.filters.filtersMode == FiltersMode.FAVORITE) {
                 _selectedFilter.value = interactor.filters.displayFilter

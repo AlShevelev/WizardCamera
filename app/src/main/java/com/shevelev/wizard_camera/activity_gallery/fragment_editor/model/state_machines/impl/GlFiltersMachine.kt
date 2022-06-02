@@ -5,15 +5,13 @@ import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_m
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.storage.EditorStorage
 import com.shevelev.wizard_camera.activity_main.fragment_camera.model.filters_facade.settings.FilterSettingsFacade
 import com.shevelev.wizard_camera.core.common_entities.enums.GlFilterCode
-import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.EmptyFilterSettings
 import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.GlFilterSettings
 import com.shevelev.wizard_camera.core.ui_kit.lib.filters.display_data.gl.FilterDisplayDataList
-import com.shevelev.wizard_camera.core.ui_kit.lib.filters.filters_carousel.FilterFavoriteType
 import com.shevelev.wizard_camera.core.ui_kit.lib.filters.filters_carousel.FilterListItem
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 
-class GlFiltersMachine(
+internal class GlFiltersMachine(
     outputCommands: MutableSharedFlow<OutputCommand>,
     editorStorage: EditorStorage,
     private val filterDisplayData: FilterDisplayDataList,
@@ -161,15 +159,16 @@ class GlFiltersMachine(
     private fun getFiltersListData() : List<FilterListItem> {
         val selectedFilterCode = editorStorage.lastUsedGlFilter!!.code
 
-        return filterDisplayData.map {
-            FilterListItem(
-                listId = "",        // There is only one list in the editor screen, so never mind about it
-                displayData = it,
-                favorite = FilterFavoriteType.HIDDEN,
-                hasSettings = filterSettings[it.code] !is EmptyFilterSettings,
-                isSelected = it.code == selectedFilterCode
-            )
-        }
+        throw UnsupportedOperationException("Use AllFiltersGroupStorage instead")
+//        return filterDisplayData.map {
+//            FilterListItem(
+//                listId = "",        // There is only one list in the editor screen, so never mind about it
+//                displayData = it,
+//                favorite = FilterFavoriteType.HIDDEN,
+//                hasSettings = filterSettings[it.code] !is EmptyFilterSettings,
+//                isSelected = it.code == selectedFilterCode
+//            )
+//        }
     }
 
     private suspend fun hideFilterSettings() {

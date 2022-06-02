@@ -3,7 +3,7 @@ package com.shevelev.wizard_camera.activity_gallery.shared
 import com.shevelev.wizard_camera.core.common_entities.entities.PhotoShot
 import com.shevelev.wizard_camera.core.ui_utils.fragment_data_pass.FragmentsDataPushBase
 
-class FragmentsDataPassImpl : FragmentsDataPushBase(), FragmentsDataPass {
+internal class FragmentsDataPassImpl : FragmentsDataPushBase(), FragmentsDataPass {
     override fun putPhotoShot(photoShot: PhotoShot) = put(PHOTO_SHOT, photoShot)
 
     /**
