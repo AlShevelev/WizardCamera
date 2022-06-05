@@ -26,12 +26,16 @@ constructor(
 
     private lateinit var viewPoints: List<Point>
 
+    private lateinit var items: List<FlowerMenuItemData>
+
     private val centralPoint: Point
         get() = Point(width / 2, height / 2)
 
     private var onItemClickListener: ((Int) -> Unit)? = null
 
     fun init(items: List<FlowerMenuItemData>) {
+        this.items = items
+
         views = items.mapIndexed { index, item ->
             FlowerMenuItem(context)
                 .also {

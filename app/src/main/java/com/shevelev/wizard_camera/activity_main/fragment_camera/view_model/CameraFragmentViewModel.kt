@@ -23,6 +23,7 @@ import com.shevelev.wizard_camera.core.utils.ext.format
 import com.shevelev.wizard_camera.core.ui_kit.lib.filters.filters_carousel.FilterCarouselUtils
 import com.shevelev.wizard_camera.core.ui_kit.lib.filters.filters_carousel.FilterEventsProcessor
 import com.shevelev.wizard_camera.core.ui_kit.lib.filters.filters_carousel.FilterListItem
+import com.shevelev.wizard_camera.core.ui_kit.lib.flower_menu.FlowerMenuItemData
 import kotlinx.coroutines.launch
 
 @SuppressLint("StaticFieldLeak")
@@ -42,9 +43,6 @@ constructor(
     private val _flashButtonState = MutableLiveData(ButtonState.DISABLED)
     val flashButtonState: LiveData<ButtonState> = _flashButtonState
 
-    private val _filterModeButtonState = MutableLiveData(FiltersModeButtonState(FiltersMode.NO_FILTERS, true))
-    val filterModeButtonState: LiveData<FiltersModeButtonState> = _filterModeButtonState
-
     private val _isShotButtonEnabled = MutableLiveData(false)
     val isShotButtonEnabled: LiveData<Boolean> = _isShotButtonEnabled
 
@@ -57,6 +55,12 @@ constructor(
     private val _exposureBarVisibility = MutableLiveData(View.INVISIBLE)
     val exposureBarVisibility: LiveData<Int> = _exposureBarVisibility
 
+    private val _flowerFilters = MutableLiveData(interactor.filters.getFiltersForMenu())
+    val flowerFilters: LiveData<List<FlowerMenuItemData>> = _flowerFilters
+
+    private val _filtersButtonState = MutableLiveData(ButtonState.ENABLED)
+    val filtersButtonState: LiveData<ButtonState> = _filtersButtonState
+
     private var isSettingsVisible = false
 
     private var isFlashActive: Boolean = false
@@ -66,11 +70,12 @@ constructor(
     init {
         viewModelScope.launch {
             interactor.filters.init()
-            _filtersListData.value = interactor.filters.getFiltersListData(FiltersGroup.ALL)
         }
     }
 
     fun processGesture(gesture: Gesture) {
+        hideFiltersMenu()
+
         if(isSettingsVisible) {
             hideSettings()
         } else {
@@ -84,6 +89,7 @@ constructor(
     fun onCaptureClick() {
         viewModelScope.launch {
             hideSettings()
+            hideFiltersMenu()
 
             if(interactor.capture.inProgress) {
                 sendCommand(ShowMessageResCommand(R.string.capturingInProgressError))
@@ -127,13 +133,14 @@ constructor(
     fun onInactive() {
         interactor.orientation.stop()
 
-        sendCommand(ResetExposureCommand())
+        sendCommand(ResetExposureCommand)
 
         hideSettings()
     }
 
     fun onFlashClick() {
         hideSettings()
+        hideFiltersMenu()
 
         isFlashActive = !isFlashActive
         _flashButtonState.value = if(isFlashActive)  ButtonState.SELECTED else ButtonState.ENABLED
@@ -154,9 +161,7 @@ constructor(
             ButtonState.DISABLED
         }
 
-        _filterModeButtonState.value = FiltersModeButtonState(interactor.filters.filtersMode, false)
-
-        _filtersVisibility.value = if(interactor.filters.filtersMode == FiltersMode.NO_FILTERS) {
+        _filtersVisibility.value = if(interactor.filters.currentGroup == FiltersGroup.NO_FILTERS) {
             View.INVISIBLE
         } else {
             View.INVISIBLE
@@ -167,46 +172,50 @@ constructor(
         _exposureBarVisibility.value = View.VISIBLE
     }
 
-    fun onSwitchFilterModeClick(mode: FiltersMode) {
-        viewModelScope.launch {
-            hideSettings()
-
-            interactor.filters.filtersMode = mode
-
-            _selectedFilter.value = interactor.filters.displayFilter
-            _screenTitle.value = appContext.getString(interactor.filters.displayFilterTitle)
-
-            _filterModeButtonState.value = FiltersModeButtonState(interactor.filters.filtersMode, false)
-
-            when(mode) {
-                FiltersMode.FAVORITE -> {
-                    _filtersVisibility.value = View.VISIBLE
-                    _filtersListData.value = interactor.filters.getFiltersListData(FiltersGroup.FAVORITES)
-                }
-
-                FiltersMode.ALL -> {
-                    _filtersVisibility.value = View.VISIBLE
-                    _filtersListData.value = interactor.filters.getFiltersListData(FiltersGroup.ALL)
-                }
-
-                FiltersMode.NO_FILTERS -> {
-                    _filtersVisibility.value = View.INVISIBLE
-                }
-            }
-        }
-    }
-
     fun onZoomUpdated(zoomRatio: Float?) {
         zoomRatio?.let { _screenTitle.value = "${appContext.getString(R.string.zoomFactor)} ${it.format("#.00")}" }
     }
 
     fun onExposeValueUpdated(exposeValue: Float) {
+        hideFiltersMenu()
         sendCommand(SetExposureCommand(-exposeValue))
     }
 
     fun onGalleyClick() {
         hideSettings()
-        sendCommand(NavigateToGalleryCommand())
+        hideFiltersMenu()
+
+        sendCommand(NavigateToGalleryCommand)
+    }
+
+    fun onFiltersMenuClick() {
+        hideSettings()
+
+        if (!hideFiltersMenu()) {
+            _filtersButtonState.value = ButtonState.SELECTED
+            sendCommand(ShowFlowerMenuCommand)
+        }
+    }
+
+    fun onFilterClick(index: Int) {
+        viewModelScope.launch {
+            hideSettings()
+            hideFiltersMenu()
+
+            val group  = FiltersGroup.fromIndex(index)!!
+
+            interactor.filters.currentGroup = group
+
+            _selectedFilter.value = interactor.filters.displayFilter
+            _screenTitle.value = appContext.getString(interactor.filters.displayFilterTitle)
+
+            if(group == FiltersGroup.NO_FILTERS) {
+                _filtersVisibility.value = View.INVISIBLE
+            } else {
+                _filtersVisibility.value = View.VISIBLE
+                _filtersListData.value = interactor.filters.getFiltersListData()
+            }
+        }
     }
 
     fun onPermissionDenied() {
@@ -224,6 +233,8 @@ constructor(
 
     fun onFilterSettingsChange(settings: GlFilterSettings) {
         viewModelScope.launch {
+            hideFiltersMenu()
+
             interactor.filters.updateSettings(settings)
             _selectedFilter.value = interactor.filters.displayFilter
         }
@@ -248,9 +259,16 @@ constructor(
     override fun onSettingsClick(id: GlFilterCode) = showSettings(id)
 
     override fun onFilterClick(id: GlFilterCode, listId: String) {
-        when(listId) {
-            FiltersGroup.ALL.toString() -> onFilterSelected(id)
-            FiltersGroup.FAVORITES.toString() -> onFavoriteFilterSelected(id)
+        viewModelScope.launch {
+            hideSettings()
+
+            interactor.filters.selectFilter(id)
+
+            _selectedFilter.value = interactor.filters.displayFilter
+            _screenTitle.value = appContext.getString(interactor.filters.displayFilterTitle)
+
+
+            _filtersListData.value = interactor.filters.getFiltersListData()
         }
     }
 
@@ -279,37 +297,12 @@ constructor(
         isSettingsVisible = false
     }
 
-    private fun onFilterSelected(id: GlFilterCode) {
-        viewModelScope.launch {
-            hideSettings()
-
-            interactor.filters.selectFilter(id, FiltersGroup.ALL)
-
-            if(interactor.filters.filtersMode == FiltersMode.ALL) {
-                _selectedFilter.value = interactor.filters.displayFilter
-                _screenTitle.value = appContext.getString(interactor.filters.displayFilterTitle)
-            }
-
-            _filtersListData.value?.let { oldItems ->
-                _filtersListData.value = FilterCarouselUtils.setSelection(oldItems, id)
-            }
+    private fun hideFiltersMenu(): Boolean =
+        if (_filtersButtonState.value == ButtonState.SELECTED) {
+            _filtersButtonState.value = ButtonState.ENABLED
+            sendCommand(HideFlowerMenuCommand)
+            true
+        } else {
+            false
         }
-    }
-
-    private fun onFavoriteFilterSelected(id: GlFilterCode) {
-        viewModelScope.launch {
-            hideSettings()
-
-            interactor.filters.selectFilter(id, FiltersGroup.FAVORITES)
-
-            if(interactor.filters.filtersMode == FiltersMode.FAVORITE) {
-                _selectedFilter.value = interactor.filters.displayFilter
-                _screenTitle.value = appContext.getString(interactor.filters.displayFilterTitle)
-            }
-
-            _filtersListData.value?.let { oldItems ->
-                _filtersListData.value = FilterCarouselUtils.setSelection(oldItems, id)
-            }
-        }
-    }
 }

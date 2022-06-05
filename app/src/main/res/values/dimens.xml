@@ -6,4 +6,6 @@
     <dimen name="navigationBarButtonsMargin">52dp</dimen>
 
     <dimen name="galleryButtonsMargin">65dp</dimen>
+
+    <dimen name="flower_menu_size">300dp</dimen>
 </resources>

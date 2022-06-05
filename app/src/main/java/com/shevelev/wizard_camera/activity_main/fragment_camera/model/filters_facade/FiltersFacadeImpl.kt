@@ -2,7 +2,6 @@ package com.shevelev.wizard_camera.activity_main.fragment_camera.model.filters_f
 
 import android.content.Context
 import com.shevelev.wizard_camera.R
-import com.shevelev.wizard_camera.activity_main.fragment_camera.model.dto.FiltersMode
 import com.shevelev.wizard_camera.activity_main.fragment_camera.model.filters_facade.groups.FiltersGroupStorage
 import com.shevelev.wizard_camera.activity_main.fragment_camera.model.filters_facade.last_used_filters.LastUsedFilters
 import com.shevelev.wizard_camera.activity_main.fragment_camera.model.filters_facade.settings.FilterSettingsFacade
@@ -22,24 +21,19 @@ internal class FiltersFacadeImpl (
 ) : FiltersFacade {
 
     override val displayFilter: GlFilterSettings
-        get() = when(filtersMode) {
-            FiltersMode.NO_FILTERS -> filterSettings[GlFilterCode.ORIGINAL]
-            FiltersMode.ALL-> filterSettings[groups[FiltersGroup.ALL]!!.selected]
-            FiltersMode.FAVORITE -> filterSettings[groups[FiltersGroup.FAVORITES]!!.selected]
-        }
+        get() = filterSettings[groups[currentGroup]!!.selected]
 
     override val displayFilterTitle: Int
-        get() = when(filtersMode) {
-            FiltersMode.NO_FILTERS -> R.string.filterOriginal
-            FiltersMode.ALL-> displayData[groups[FiltersGroup.ALL]!!.selected].title
-            FiltersMode.FAVORITE -> if(groups[FiltersGroup.FAVORITES]!!.selected == GlFilterCode.ORIGINAL) {
+        get() {
+            val selected = groups[currentGroup]!!.selected
+            return if (selected == GlFilterCode.ORIGINAL) {
                 R.string.filterOriginal
             } else {
-                displayData[groups[FiltersGroup.FAVORITES]!!.selected].title
+                displayData[selected].title
             }
         }
 
-    override var filtersMode: FiltersMode = FiltersMode.NO_FILTERS
+    override var currentGroup: FiltersGroup = FiltersGroup.NO_FILTERS
 
     override suspend fun init() {
         filterSettings.init()
@@ -55,19 +49,32 @@ internal class FiltersFacadeImpl (
 
     override fun getFiltersForMenu(): List<FlowerMenuItemData> =
         with(context.resources) {
-            listOf(
-                FlowerMenuItemData(R.drawable.ic_gallery_no_filters, getString(R.string.filterOriginal)),
-                FlowerMenuItemData(R.drawable.ic_gallery_filter, getString(R.string.filterAll)),
-                FlowerMenuItemData(R.drawable.ic_deformation, getString(R.string.filterDeformations)),
-                FlowerMenuItemData(R.drawable.ic_color, getString(R.string.filterColors)),
-                FlowerMenuItemData(R.drawable.ic_style, getString(R.string.filterStylization)),
-                FlowerMenuItemData(R.drawable.ic_favorite, getString(R.string.filterFavorites))
-            )
+            FiltersGroup.values().map {
+                when(it) {
+                    FiltersGroup.ALL ->
+                        FlowerMenuItemData(R.drawable.ic_gallery_filter, getString(R.string.filterAll))
+
+                    FiltersGroup.FAVORITES ->
+                        FlowerMenuItemData(R.drawable.ic_favorite, getString(R.string.filterFavorites))
+
+                    FiltersGroup.NO_FILTERS ->
+                        FlowerMenuItemData(R.drawable.ic_gallery_no_filters, getString(R.string.filterOriginal))
+
+                    FiltersGroup.STYLIZATION ->
+                        FlowerMenuItemData(R.drawable.ic_style, getString(R.string.filterStylization))
+
+                    FiltersGroup.COLORS ->
+                        FlowerMenuItemData(R.drawable.ic_color, getString(R.string.filterColors))
+
+                    FiltersGroup.DEFORMATIONS ->
+                        FlowerMenuItemData(R.drawable.ic_deformation, getString(R.string.filterDeformations))
+                }
+            }
         }
 
-    override suspend fun selectFilter(code: GlFilterCode, group: FiltersGroup) = groups[group]!!.select(code)
+    override suspend fun selectFilter(code: GlFilterCode) = groups[currentGroup]!!.select(code)
 
-    override suspend fun getFiltersListData(group: FiltersGroup): List<FilterListItem> = groups[group]!!.getFilters()
+    override suspend fun getFiltersListData(): List<FilterListItem> = groups[currentGroup]!!.getFilters()
 
     override suspend fun addToFavorite(code: GlFilterCode) {
         groups.forEach {

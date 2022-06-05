@@ -4,8 +4,8 @@ enum class FiltersGroup(val index: Int) {
     NO_FILTERS(0),
     ALL(1),
     STYLIZATION(2),
-    COLORS(3),
-    DEFORMATIONS(4),
+    DEFORMATIONS(3),
+    COLORS(4),
     FAVORITES(5);
 
     companion object {

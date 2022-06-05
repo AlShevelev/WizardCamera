@@ -55,13 +55,16 @@ class CameraFragment : FragmentBaseMVVM<FragmentCameraBinding, CameraFragmentVie
             binding.filtersCarousel.updateData(it, viewModel)
         }
 
-        binding.shootButton.setOnClickListener {
-            textureView.let { viewModel.onCaptureClick() }
+        viewModel.flowerFilters.observe(viewLifecycleOwner) {
+            binding.flowerMenu.init(it)
         }
+
+        binding.shootButton.setOnClickListener { textureView.let { viewModel.onCaptureClick() }  }
         binding.flashButton.setOnClickListener { viewModel.onFlashClick() }
-        binding.filtersModeButton.setOnModeChangeListener { viewModel.onSwitchFilterModeClick(it) }
         binding.expositionBar.setOnValueChangeListener { viewModel.onExposeValueUpdated(it) }
         binding.galleryButton.setOnClickListener { viewModel.onGalleyClick() }
+        binding.filtersButton.setOnClickListener { viewModel.onFiltersMenuClick() }
+        binding.flowerMenu.setOnItemClickListener { viewModel.onFilterClick(it) }
 
         binding.settings.setOnSettingsChangeListener { viewModel.onFilterSettingsChange(it) }
 
@@ -96,9 +99,9 @@ class CameraFragment : FragmentBaseMVVM<FragmentCameraBinding, CameraFragmentVie
                 binding.captureSuccess.show(command.screenOrientation)
             }
             is ZoomCommand -> cameraManager.zoom(command.scaleFactor).let { viewModel.onZoomUpdated(it) }
-            is ResetExposureCommand -> binding.expositionBar.reset()
+            ResetExposureCommand -> binding.expositionBar.reset()
             is SetExposureCommand -> cameraManager.updateExposure(command.exposureValue)
-            is NavigateToGalleryCommand -> navigateToGallery()
+            NavigateToGalleryCommand -> navigateToGallery()
             is ShowFilterSettingsCommand -> {
                 binding.settings.hide()
                 binding.settings.show(command.settings)
@@ -113,6 +116,9 @@ class CameraFragment : FragmentBaseMVVM<FragmentCameraBinding, CameraFragmentVie
             ) { isSuccess ->
                 viewModel.onCaptureComplete(isSuccess)
             }
+
+            ShowFlowerMenuCommand -> binding.flowerMenu.show()
+            HideFlowerMenuCommand -> binding.flowerMenu.hide()
         }
     }
 

@@ -78,17 +78,17 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/galleryButton" />
 
-        <com.shevelev.wizard_camera.activity_main.fragment_camera.view.widgets.FiltersModeButton
-            android:id="@+id/filtersModeButton"
-            android:layout_width="@dimen/toolButtonSizeNormal"
-            android:layout_height="@dimen/toolButtonSizeNormal"
-            app:button_state_filters_mode = "@{viewModel.filterModeButtonState}"
+        <ImageButton
+            android:id="@+id/filtersButton"
+            style = "@style/WizCam.RoundButton"
+            app:button_state="@{viewModel.filtersButtonState}"
+            android:src="@drawable/ic_turn_filters"
             app:layout_constraintBottom_toBottomOf="@+id/shootButton"
             app:layout_constraintEnd_toStartOf="@+id/shootButton"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/shootButton"
-            />
+            tools:ignore="ContentDescription" />
 
         <ImageButton
             android:id="@+id/shootButton"
@@ -99,7 +99,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/flashButton"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/filtersModeButton"
+            app:layout_constraintStart_toEndOf="@+id/filtersButton"
             tools:ignore="ContentDescription" />
 
         <ImageButton
@@ -147,5 +147,15 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             tools:visibility="visible" />
+
+        <com.shevelev.wizard_camera.core.ui_kit.lib.flower_menu.FlowerMenu
+            android:id="@+id/flowerMenu"
+            android:layout_width="@dimen/flower_menu_size"
+            android:layout_height="@dimen/flower_menu_size"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

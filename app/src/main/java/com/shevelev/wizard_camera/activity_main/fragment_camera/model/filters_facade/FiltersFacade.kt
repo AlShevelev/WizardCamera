@@ -12,15 +12,15 @@ interface FiltersFacade {
 
     val displayFilterTitle: Int
 
-    var filtersMode: FiltersMode
+    var currentGroup: FiltersGroup
 
     suspend fun init()
 
     fun getFiltersForMenu(): List<FlowerMenuItemData>
 
-    suspend fun selectFilter(code: GlFilterCode, group: FiltersGroup)
+    suspend fun selectFilter(code: GlFilterCode)
 
-    suspend fun getFiltersListData(group: FiltersGroup): List<FilterListItem>
+    suspend fun getFiltersListData(): List<FilterListItem>
 
     suspend fun addToFavorite(code: GlFilterCode)
 
