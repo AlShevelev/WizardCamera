@@ -5,8 +5,10 @@ import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_m
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.storage.EditorStorage
 import com.shevelev.wizard_camera.activity_main.fragment_camera.model.filters_facade.settings.FilterSettingsFacade
 import com.shevelev.wizard_camera.core.common_entities.enums.GlFilterCode
+import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.EmptyFilterSettings
 import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.GlFilterSettings
 import com.shevelev.wizard_camera.core.ui_kit.lib.filters.display_data.gl.FilterDisplayDataList
+import com.shevelev.wizard_camera.core.ui_kit.lib.filters.filters_carousel.FilterFavoriteType
 import com.shevelev.wizard_camera.core.ui_kit.lib.filters.filters_carousel.FilterListItem
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -159,16 +161,15 @@ internal class GlFiltersMachine(
     private fun getFiltersListData() : List<FilterListItem> {
         val selectedFilterCode = editorStorage.lastUsedGlFilter!!.code
 
-        throw UnsupportedOperationException("Use AllFiltersGroupStorage instead")
-//        return filterDisplayData.map {
-//            FilterListItem(
-//                listId = "",        // There is only one list in the editor screen, so never mind about it
-//                displayData = it,
-//                favorite = FilterFavoriteType.HIDDEN,
-//                hasSettings = filterSettings[it.code] !is EmptyFilterSettings,
-//                isSelected = it.code == selectedFilterCode
-//            )
-//        }
+        return getSupportedFilters().map { code ->
+            FilterListItem(
+                listId = "",        // There is only one list in the editor screen, so never mind about it
+                displayData = filterDisplayData[code],
+                favorite = FilterFavoriteType.HIDDEN,
+                hasSettings = filterSettings[code] !is EmptyFilterSettings,
+                isSelected = code == selectedFilterCode
+            )
+        }
     }
 
     private suspend fun hideFilterSettings() {
@@ -178,4 +179,37 @@ internal class GlFiltersMachine(
 
     @StringRes
     private fun getFilterTitle(filter: GlFilterSettings): Int = filterDisplayData[filter.code].title
+
+    private fun getSupportedFilters(): List<GlFilterCode> =
+        listOf(
+            GlFilterCode.EDGE_DETECTION,
+            GlFilterCode.PIXELIZE,
+            GlFilterCode.TRIANGLES_MOSAIC,
+            GlFilterCode.LEGOFIED,
+            GlFilterCode.TILE_MOSAIC,
+            GlFilterCode.BLUE_ORANGE,
+            GlFilterCode.BASIC_DEFORM,
+            GlFilterCode.CONTRAST,
+            GlFilterCode.NOISE_WARP,
+            GlFilterCode.REFRACTION,
+            GlFilterCode.MAPPING,
+            GlFilterCode.CROSSHATCH,
+            GlFilterCode.NEWSPAPER,
+            GlFilterCode.ASCII_ART,
+            GlFilterCode.MONEY,
+            GlFilterCode.CRACKED,
+            GlFilterCode.POLYGONIZATION,
+            GlFilterCode.BLACK_AND_WHITE,
+            GlFilterCode.GRAY,
+            GlFilterCode.NEGATIVE,
+            GlFilterCode.NOSTALGIA,
+            GlFilterCode.CASTING,
+            GlFilterCode.RELIEF,
+            GlFilterCode.SWIRL,
+            GlFilterCode.HEXAGON_MOSAIC,
+            GlFilterCode.MIRROR,
+            GlFilterCode.TRIPLE,
+            GlFilterCode.CARTOON,
+            GlFilterCode.WATER_REFLECTION
+        )
 }
