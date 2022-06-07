@@ -20,6 +20,7 @@ import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_model.ViewModelBase
 import com.shevelev.wizard_camera.core.ui_kit.lib.filters.filters_carousel.FilterCarouselUtils
 import com.shevelev.wizard_camera.core.ui_kit.lib.filters.filters_carousel.FilterEventsProcessor
 import com.shevelev.wizard_camera.core.ui_kit.lib.filters.filters_carousel.FilterListItem
+import com.shevelev.wizard_camera.core.ui_kit.lib.flower_menu.FlowerMenuItemData
 import kotlinx.coroutines.launch
 
 @SuppressLint("StaticFieldLeak")
@@ -58,6 +59,9 @@ constructor(
     private val _glFiltersButtonState = MutableLiveData(ButtonState.ENABLED)
     val glFiltersButtonState: LiveData<ButtonState> = _glFiltersButtonState
 
+    private val _filtersButtonState = MutableLiveData(ButtonState.ENABLED)
+    val filtersButtonState: LiveData<ButtonState> = _filtersButtonState
+
     private val _magicButtonState = MutableLiveData(ButtonState.ENABLED)
     val magicButtonState: LiveData<ButtonState> = _magicButtonState
 
@@ -66,6 +70,9 @@ constructor(
 
     private val _glFilters: MutableLiveData<List<FilterListItem>> = MutableLiveData()
     val glFilters: LiveData<List<FilterListItem>> = _glFilters
+
+    private val _flowerFilters = MutableLiveData(interactor.getFiltersForMenu())
+    val flowerFilters: LiveData<List<FlowerMenuItemData>> = _flowerFilters
 
     init {
         viewModelScope.launch {
@@ -96,6 +103,10 @@ constructor(
 
     fun onModeButtonClick(code: ModeButtonCode) {
         viewModelScope.launch { interactor.processEvent(ModeButtonClicked(code)) }
+    }
+
+    fun onFiltersButtonClick() {
+        //Show the menu
     }
 
     fun onAcceptClick() {

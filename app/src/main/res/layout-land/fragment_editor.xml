@@ -75,6 +75,18 @@
             app:button_state="@{viewModel.noFiltersButtonState}" />
 
         <ImageButton
+            android:id="@+id/filtersButton"
+            style="@style/WizCam.RoundButton"
+            android:layout_marginEnd="@dimen/marginSmall"
+            android:src="@drawable/ic_gallery_no_filters"
+            app:layout_constraintBottom_toBottomOf="@id/glFiltersButton"
+            app:layout_constraintEnd_toStartOf="@id/noFiltersButton"
+            tools:ignore="ContentDescription"
+            tools:visibility="visible"
+            android:onClick="@{() -> viewModel.onFiltersButtonClick()}"
+            app:button_state="@{viewModel.filtersButtonState}" />
+
+        <ImageButton
             android:id="@+id/cancelButton"
             style="@style/WizCam.RoundButton"
             android:layout_marginTop="@dimen/marginNormal"
@@ -141,5 +153,15 @@
 
         <include layout="@layout/view_editor_progress"
             app:viewModel = "@{viewModel}"/>
+
+        <com.shevelev.wizard_camera.core.ui_kit.lib.flower_menu.FlowerMenu
+            android:id="@+id/flowerMenu"
+            android:layout_width="@dimen/flower_menu_size"
+            android:layout_height="@dimen/flower_menu_size"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

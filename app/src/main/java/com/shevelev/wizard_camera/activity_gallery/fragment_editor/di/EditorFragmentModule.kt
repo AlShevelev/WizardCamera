@@ -36,7 +36,8 @@ val EditorFragmentModule = module(createdAtStart = false) {
 
     factory<EditorFragmentInteractor> {
         EditorFragmentInteractorImpl(
-            stateMachinesOrchestrator = get()
+            stateMachinesOrchestrator = get(),
+            filters = get()
         )
     }
 

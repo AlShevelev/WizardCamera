@@ -11,10 +11,12 @@
         <entry key="app/src/main/res/drawable/ic_gallery_filter.xml" value="0.143" />
         <entry key="app/src/main/res/drawable/ic_gallery_no_filters.xml" value="0.143" />
         <entry key="app/src/main/res/drawable/ic_turn_filters.xml" value="0.176" />
+        <entry key="app/src/main/res/layout-land/fragment_editor.xml" value="0.15989583333333332" />
         <entry key="app/src/main/res/layout-land/fragment_gallery.xml" value="0.16005291005291006" />
         <entry key="app/src/main/res/layout/fragment_camera.xml" value="0.2871376811594203" />
         <entry key="app/src/main/res/layout/fragment_editor.xml" value="0.2871376811594203" />
         <entry key="app/src/main/res/layout/fragment_gallery.xml" value="0.2871376811594203" />
+        <entry key="app/src/main/res/layout/view_editor_progress.xml" value="0.27807971014492755" />
         <entry key="app/src/main/res/layout/view_filter_settings_mapping.xml" value="0.21822916666666667" />
         <entry key="app/src/main/res/layout/view_filters_carousel.xml" value="0.2871376811594203" />
         <entry key="app/src/main/res/layout/view_filters_carousel_item.xml" value="0.2871376811594203" />

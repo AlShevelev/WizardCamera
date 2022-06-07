@@ -59,6 +59,11 @@ class EditorFragment : FragmentBaseMVVM<FragmentEditorBinding, EditorFragmentVie
                 binding.glFiltersSettings.show(it)
             }
         }
+
+        viewModel.flowerFilters.observe(viewLifecycleOwner) {
+            binding.flowerMenu.init(it)
+        }
+
         binding.glFiltersSettings.setOnSettingsChangeListener(viewModel::onGLFilterSettingsUpdated)
 
         binding.surfaceContainer.setOnClickListener { viewModel.onGlSurfaceClick() }
