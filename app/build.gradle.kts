@@ -91,6 +91,9 @@ dependencies {
 
     implementation(project(":core:ui_kit:lib"))
 
+    implementation(project(":feature:filters_facade:api"))
+    implementation(project(":feature:filters_facade:impl"))
+
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
 
     implementation(Dependencies.appcompat)

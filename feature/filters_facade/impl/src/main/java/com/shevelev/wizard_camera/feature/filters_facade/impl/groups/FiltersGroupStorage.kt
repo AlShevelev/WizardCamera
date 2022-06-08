@@ -1,9 +1,9 @@
-package com.shevelev.wizard_camera.activity_main.fragment_camera.model.filters_facade.groups
+package com.shevelev.wizard_camera.feature.filters_facade.impl.groups
 
 import com.shevelev.wizard_camera.core.common_entities.enums.GlFilterCode
 import com.shevelev.wizard_camera.core.ui_kit.lib.filters.filters_carousel.FilterListItem
 
-internal interface FiltersGroupStorage {
+interface FiltersGroupStorage {
     val selected: GlFilterCode
 
     suspend fun init()

@@ -1,18 +1,18 @@
-package com.shevelev.wizard_camera.activity_main.fragment_camera.model.filters_facade
+package com.shevelev.wizard_camera.feature.filters_facade.impl
 
 import android.content.Context
-import com.shevelev.wizard_camera.R
-import com.shevelev.wizard_camera.activity_main.fragment_camera.model.filters_facade.groups.FiltersGroupStorage
-import com.shevelev.wizard_camera.activity_main.fragment_camera.model.filters_facade.last_used_filters.LastUsedFilters
-import com.shevelev.wizard_camera.activity_main.fragment_camera.model.filters_facade.settings.FilterSettingsFacade
+import com.shevelev.wizard_camera.feature.filters_facade.impl.groups.FiltersGroupStorage
+import com.shevelev.wizard_camera.feature.filters_facade.impl.last_used_filters.LastUsedFilters
+import com.shevelev.wizard_camera.feature.filters_facade.impl.settings.FilterSettingsFacade
 import com.shevelev.wizard_camera.core.common_entities.enums.FiltersGroup
 import com.shevelev.wizard_camera.core.common_entities.enums.GlFilterCode
 import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.GlFilterSettings
 import com.shevelev.wizard_camera.core.ui_kit.lib.filters.display_data.gl.FilterDisplayDataList
 import com.shevelev.wizard_camera.core.ui_kit.lib.filters.filters_carousel.FilterListItem
 import com.shevelev.wizard_camera.core.ui_kit.lib.flower_menu.FlowerMenuItemData
+import com.shevelev.wizard_camera.feature.filters_facade.api.FiltersFacade
 
-internal class FiltersFacadeImpl (
+class FiltersFacadeImpl (
     private val context: Context,
     private val lastUsedFilters: LastUsedFilters,
     private val displayData: FilterDisplayDataList,

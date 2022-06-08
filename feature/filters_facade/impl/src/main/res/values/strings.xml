@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="filterOriginal">No filters</string>
+    <string name="filterAll">All</string>
+    <string name="filterStylization">Stylization</string>
+    <string name="filterColors">Colors</string>
+    <string name="filterDeformations">Deformations</string>
+    <string name="filterFavorites">Favorites</string>
+</resources>

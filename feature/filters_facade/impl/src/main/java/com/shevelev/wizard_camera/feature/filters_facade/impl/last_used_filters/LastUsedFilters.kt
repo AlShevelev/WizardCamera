@@ -1,9 +1,9 @@
-package com.shevelev.wizard_camera.activity_main.fragment_camera.model.filters_facade.last_used_filters
+package com.shevelev.wizard_camera.feature.filters_facade.impl.last_used_filters
 
 import com.shevelev.wizard_camera.core.common_entities.enums.FiltersGroup
 import com.shevelev.wizard_camera.core.common_entities.enums.GlFilterCode
 
-internal interface LastUsedFilters {
+interface LastUsedFilters {
     operator fun get(group: FiltersGroup): GlFilterCode?
 
     suspend fun init()

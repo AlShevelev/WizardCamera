@@ -5,6 +5,7 @@
       <map>
         <entry key="app/src/main/res/drawable/bcg_circle_white.xml" value="0.1645" />
         <entry key="app/src/main/res/drawable/bcg_circle_yellow.xml" value="0.1645" />
+        <entry key="app/src/main/res/drawable/ic_favorite.xml" value="0.1625" />
         <entry key="app/src/main/res/drawable/ic_favorite_filters.xml" value="0.176" />
         <entry key="app/src/main/res/drawable/ic_flash.xml" value="0.165" />
         <entry key="app/src/main/res/drawable/ic_gallery.xml" value="0.143" />
@@ -29,6 +30,8 @@
         <entry key="core/ui_kit/lib/src/main/res/drawable/bcg_main_text.xml" value="0.1605" />
         <entry key="core/ui_kit/lib/src/main/res/drawable/ic_favorite_selected.xml" value="0.1605" />
         <entry key="core/ui_kit/lib/src/main/res/drawable/ic_favorite_unselected.xml" value="0.1605" />
+        <entry key="core/ui_kit/lib/src/main/res/drawable/ic_gallery_filter.xml" value="0.1625" />
+        <entry key="core/ui_kit/lib/src/main/res/drawable/ic_gallery_no_filters.xml" value="0.1625" />
         <entry key="core/ui_kit/lib/src/main/res/drawable/ic_settings.xml" value="0.1605" />
         <entry key="core/ui_kit/lib/src/main/res/layout/view_filter_settings_block_size.xml" value="0.276268115942029" />
         <entry key="core/ui_kit/lib/src/main/res/layout/view_filter_settings_cracked.xml" value="0.276268115942029" />
@@ -42,6 +45,10 @@
         <entry key="core/ui_kit/lib/src/main/res/layout/view_filters_carousel_item.xml" value="0.276268115942029" />
         <entry key="core/ui_kit/lib/src/main/res/layout/view_flower_menu_item.xml" value="0.3170289855072464" />
         <entry key="core/ui_kit/test_app/src/main/res/layout/activity_main.xml" value="0.3170289855072464" />
+        <entry key="feature/filters_facade/impl/src/main/res/drawable/ic_color.xml" value="0.1625" />
+        <entry key="feature/filters_facade/impl/src/main/res/drawable/ic_deformation.xml" value="0.1625" />
+        <entry key="feature/filters_facade/impl/src/main/res/drawable/ic_favorite.xml" value="0.1625" />
+        <entry key="feature/filters_facade/impl/src/main/res/drawable/ic_style.xml" value="0.1625" />
       </map>
     </option>
   </component>

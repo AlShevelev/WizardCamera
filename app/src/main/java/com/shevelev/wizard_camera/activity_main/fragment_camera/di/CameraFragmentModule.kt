@@ -2,13 +2,12 @@ package com.shevelev.wizard_camera.activity_main.fragment_camera.di
 
 import com.shevelev.wizard_camera.activity_main.fragment_camera.model.CameraFragmentInteractor
 import com.shevelev.wizard_camera.activity_main.fragment_camera.model.CameraFragmentInteractorImpl
-import com.shevelev.wizard_camera.activity_main.fragment_camera.model.filters_facade.FiltersFacade
-import com.shevelev.wizard_camera.activity_main.fragment_camera.model.filters_facade.FiltersFacadeImpl
-import com.shevelev.wizard_camera.activity_main.fragment_camera.model.filters_facade.groups.*
-import com.shevelev.wizard_camera.activity_main.fragment_camera.model.filters_facade.last_used_filters.LastUsedFilters
-import com.shevelev.wizard_camera.activity_main.fragment_camera.model.filters_facade.last_used_filters.LastUsedFiltersImpl
-import com.shevelev.wizard_camera.activity_main.fragment_camera.model.filters_facade.settings.FilterSettingsFacade
-import com.shevelev.wizard_camera.activity_main.fragment_camera.model.filters_facade.settings.FilterSettingsFacadeImpl
+import com.shevelev.wizard_camera.feature.filters_facade.api.FiltersFacade
+import com.shevelev.wizard_camera.feature.filters_facade.impl.FiltersFacadeImpl
+import com.shevelev.wizard_camera.feature.filters_facade.impl.last_used_filters.LastUsedFilters
+import com.shevelev.wizard_camera.feature.filters_facade.impl.last_used_filters.LastUsedFiltersImpl
+import com.shevelev.wizard_camera.feature.filters_facade.impl.settings.FilterSettingsFacade
+import com.shevelev.wizard_camera.feature.filters_facade.impl.settings.FilterSettingsFacadeImpl
 import com.shevelev.wizard_camera.activity_main.fragment_camera.model.image_capture.ImageCapture
 import com.shevelev.wizard_camera.activity_main.fragment_camera.model.image_capture.ImageCaptureImpl
 import com.shevelev.wizard_camera.activity_main.fragment_camera.model.orientation.OrientationManager
@@ -17,6 +16,7 @@ import com.shevelev.wizard_camera.activity_main.fragment_camera.view_model.Camer
 import com.shevelev.wizard_camera.core.common_entities.enums.FiltersGroup
 import com.shevelev.wizard_camera.core.ui_kit.lib.filters.display_data.gl.FilterDisplayDataList
 import com.shevelev.wizard_camera.core.ui_kit.lib.filters.display_data.gl.FilterDisplayDataListImpl
+import com.shevelev.wizard_camera.feature.filters_facade.impl.groups.*
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.qualifier.named
 import org.koin.dsl.module

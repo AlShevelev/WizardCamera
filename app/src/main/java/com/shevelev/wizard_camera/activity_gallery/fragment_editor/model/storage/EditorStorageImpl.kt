@@ -2,7 +2,7 @@ package com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.storag
 
 import android.graphics.Bitmap
 import com.shevelev.wizard_camera.activity_gallery.shared.FragmentsDataPass
-import com.shevelev.wizard_camera.activity_main.fragment_camera.model.filters_facade.settings.FilterSettingsFacade
+import com.shevelev.wizard_camera.feature.filters_facade.impl.settings.FilterSettingsFacade
 import com.shevelev.wizard_camera.core.bitmaps.api.bitmaps.BitmapHelper
 import com.shevelev.wizard_camera.core.catalano.impl.facade.ImageProcessorImpl
 import com.shevelev.wizard_camera.core.common_entities.entities.PhotoShot

@@ -78,7 +78,7 @@
             android:id="@+id/filtersButton"
             style="@style/WizCam.RoundButton"
             android:layout_marginEnd="@dimen/marginSmall"
-            android:src="@drawable/ic_gallery_no_filters"
+            android:src="@drawable/ic_gallery_filter"
             app:layout_constraintBottom_toBottomOf="@id/glFiltersButton"
             app:layout_constraintEnd_toStartOf="@id/noFiltersButton"
             tools:ignore="ContentDescription"

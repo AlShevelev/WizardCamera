@@ -1,4 +1,4 @@
-package com.shevelev.wizard_camera.activity_main.fragment_camera.model.filters_facade.last_used_filters
+package com.shevelev.wizard_camera.feature.filters_facade.impl.last_used_filters
 
 import com.shevelev.wizard_camera.core.common_entities.entities.LastUsedFilter
 import com.shevelev.wizard_camera.core.common_entities.enums.FiltersGroup
@@ -7,7 +7,7 @@ import com.shevelev.wizard_camera.core.database.api.repositories.LastUsedFilterD
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-internal class LastUsedFiltersImpl(
+class LastUsedFiltersImpl(
     private val lastUsedFilterRepository: LastUsedFilterDbRepository
 ) : LastUsedFilters {
 

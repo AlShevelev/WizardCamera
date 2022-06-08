@@ -1,4 +1,4 @@
-package com.shevelev.wizard_camera.activity_main.fragment_camera.model.filters_facade.settings
+package com.shevelev.wizard_camera.feature.filters_facade.impl.settings
 
 import com.shevelev.wizard_camera.core.common_entities.enums.GlFilterCode
 import com.shevelev.wizard_camera.core.common_entities.enums.MappingFilterTexture
@@ -9,7 +9,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlin.random.Random
 
-internal class FilterSettingsFacadeImpl(
+class FilterSettingsFacadeImpl(
     private val filterSettingsRepository: FilterSettingsDbRepository
 ) : FilterSettingsFacade {
 

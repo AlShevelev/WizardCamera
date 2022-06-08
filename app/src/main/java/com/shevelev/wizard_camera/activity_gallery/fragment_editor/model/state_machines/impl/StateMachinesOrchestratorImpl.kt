@@ -2,7 +2,7 @@ package com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_
 
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_machines.api.*
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.storage.EditorStorage
-import com.shevelev.wizard_camera.activity_main.fragment_camera.model.filters_facade.settings.FilterSettingsFacade
+import com.shevelev.wizard_camera.feature.filters_facade.impl.settings.FilterSettingsFacade
 import com.shevelev.wizard_camera.core.common_entities.entities.PhotoShot
 import com.shevelev.wizard_camera.core.ui_kit.lib.filters.display_data.gl.FilterDisplayDataList
 import kotlinx.coroutines.flow.MutableSharedFlow

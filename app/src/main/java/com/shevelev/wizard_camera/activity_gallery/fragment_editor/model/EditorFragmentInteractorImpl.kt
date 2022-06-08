@@ -3,7 +3,7 @@ package com.shevelev.wizard_camera.activity_gallery.fragment_editor.model
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_machines.api.InputEvent
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_machines.api.OutputCommand
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_machines.api.StateMachinesOrchestrator
-import com.shevelev.wizard_camera.activity_main.fragment_camera.model.filters_facade.FiltersFacade
+import com.shevelev.wizard_camera.feature.filters_facade.api.FiltersFacade
 import com.shevelev.wizard_camera.core.common_entities.entities.PhotoShot
 import com.shevelev.wizard_camera.core.ui_kit.lib.flower_menu.FlowerMenuItemData
 import kotlinx.coroutines.flow.SharedFlow
