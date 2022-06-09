@@ -7,7 +7,7 @@ import com.shevelev.wizard_camera.core.database.api.repositories.LastUsedFilterD
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class LastUsedFiltersImpl(
+internal class LastUsedFiltersImpl(
     private val lastUsedFilterRepository: LastUsedFilterDbRepository
 ) : LastUsedFilters {
 

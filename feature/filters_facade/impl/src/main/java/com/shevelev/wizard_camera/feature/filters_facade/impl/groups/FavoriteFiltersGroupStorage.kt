@@ -13,7 +13,7 @@ import com.shevelev.wizard_camera.feature.filters_facade.impl.settings.FilterSet
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class FavoriteFiltersGroupStorage(
+internal class FavoriteFiltersGroupStorage(
     private val favoriteFilterRepository: FavoriteFilterDbRepository,
     private val displayData: FilterDisplayDataList,
     private val filterSettings: FilterSettingsFacade,

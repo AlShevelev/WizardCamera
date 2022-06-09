@@ -15,6 +15,7 @@ import com.shevelev.wizard_camera.core.catalano.impl.di.CatalanoModule
 import com.shevelev.wizard_camera.core.crashlytics.impl.di.CrashlyticsModule
 import com.shevelev.wizard_camera.core.database.impl.di.DatabaseModule
 import com.shevelev.wizard_camera.core.photo_files.impl.di.PhotoFilesModule
+import com.shevelev.wizard_camera.feature.filters_facade.impl.di.FiltersFacadeModule
 import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -50,7 +51,10 @@ class App : Application() {
                 // Gallery activity
                 GalleryActivityModule,
                 EditorFragmentModule,
-                GalleryFragmentModule
+                GalleryFragmentModule,
+
+                // Features
+                FiltersFacadeModule
             )
         }
 

@@ -10,7 +10,7 @@ import com.shevelev.wizard_camera.core.utils.ext.update
 import com.shevelev.wizard_camera.feature.filters_facade.impl.last_used_filters.LastUsedFilters
 import com.shevelev.wizard_camera.feature.filters_facade.impl.settings.FilterSettingsFacade
 
-abstract class FiltersGroupStorageBase(
+internal abstract class FiltersGroupStorageBase(
     private val favoriteFilters: FiltersGroupStorage,
     private val displayData: FilterDisplayDataList,
     private val filterSettings: FilterSettingsFacade,

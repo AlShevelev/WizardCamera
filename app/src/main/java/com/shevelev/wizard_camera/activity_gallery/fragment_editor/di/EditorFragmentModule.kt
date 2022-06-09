@@ -8,10 +8,10 @@ import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_m
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.storage.EditorStorage
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.storage.EditorStorageImpl
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.view_model.EditorFragmentViewModel
-import com.shevelev.wizard_camera.feature.filters_facade.impl.settings.FilterSettingsFacade
-import com.shevelev.wizard_camera.feature.filters_facade.impl.settings.FilterSettingsFacadeImpl
 import com.shevelev.wizard_camera.core.ui_kit.lib.filters.display_data.gl.FilterDisplayDataList
 import com.shevelev.wizard_camera.core.ui_kit.lib.filters.display_data.gl.FilterDisplayDataListImpl
+import com.shevelev.wizard_camera.feature.filters_facade.impl.settings.FilterSettingsFacade
+import com.shevelev.wizard_camera.feature.filters_facade.impl.settings.FilterSettingsFacadeImpl
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 

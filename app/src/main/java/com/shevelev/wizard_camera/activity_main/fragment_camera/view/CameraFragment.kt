@@ -9,7 +9,6 @@ import android.view.TextureView
 import android.view.View
 import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.activity_gallery.GalleryActivity
-import com.shevelev.wizard_camera.activity_main.fragment_camera.di.CameraFragmentScope
 import com.shevelev.wizard_camera.activity_main.fragment_camera.model.dto.*
 import com.shevelev.wizard_camera.activity_main.fragment_camera.view.gestures.GesturesDetector
 import com.shevelev.wizard_camera.activity_main.fragment_camera.view_model.CameraFragmentViewModel
@@ -18,11 +17,15 @@ import com.shevelev.wizard_camera.core.camera_gl.api.camera.renderer.GlRenderer
 import com.shevelev.wizard_camera.core.ui_utils.mvvm.view.FragmentBaseMVVM
 import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_commands.ViewCommand
 import com.shevelev.wizard_camera.databinding.FragmentCameraBinding
+import com.shevelev.wizard_camera.feature.filters_facade.impl.di.FiltersFacadeScope
 import org.koin.android.ext.android.getKoin
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 import permissions.dispatcher.NeedsPermission
 import permissions.dispatcher.OnPermissionDenied
 import permissions.dispatcher.RuntimePermissions
+
+private const val FILTERS_SCOPE_ID = "CAMERA_FRAGMENT_FILTERS_SCOPE_ID"
 
 @RuntimePermissions
 class CameraFragment : FragmentBaseMVVM<FragmentCameraBinding, CameraFragmentViewModel>(), TextureView.SurfaceTextureListener {
@@ -34,7 +37,7 @@ class CameraFragment : FragmentBaseMVVM<FragmentCameraBinding, CameraFragmentVie
 
     private lateinit var gestureDetector: GesturesDetector
 
-    override val viewModel: CameraFragmentViewModel by viewModel()
+    override val viewModel: CameraFragmentViewModel by viewModel(parameters = { parametersOf(FILTERS_SCOPE_ID) })
 
     override fun layoutResId(): Int = R.layout.fragment_camera
 
@@ -85,7 +88,7 @@ class CameraFragment : FragmentBaseMVVM<FragmentCameraBinding, CameraFragmentVie
 
     override fun onDestroy() {
         super.onDestroy()
-        CameraFragmentScope.closeScope()
+        FiltersFacadeScope.close(FILTERS_SCOPE_ID)
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {

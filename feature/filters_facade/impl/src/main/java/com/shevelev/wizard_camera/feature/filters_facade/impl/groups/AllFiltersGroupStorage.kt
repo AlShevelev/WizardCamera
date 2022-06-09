@@ -6,7 +6,7 @@ import com.shevelev.wizard_camera.core.ui_kit.lib.filters.display_data.gl.Filter
 import com.shevelev.wizard_camera.feature.filters_facade.impl.last_used_filters.LastUsedFilters
 import com.shevelev.wizard_camera.feature.filters_facade.impl.settings.FilterSettingsFacade
 
-class AllFiltersGroupStorage(
+internal class AllFiltersGroupStorage(
     favoriteFilters: FiltersGroupStorage,
     displayData: FilterDisplayDataList,
     filterSettings: FilterSettingsFacade,

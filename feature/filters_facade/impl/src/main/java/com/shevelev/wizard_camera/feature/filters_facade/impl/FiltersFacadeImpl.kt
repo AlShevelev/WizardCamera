@@ -12,7 +12,7 @@ import com.shevelev.wizard_camera.core.ui_kit.lib.filters.filters_carousel.Filte
 import com.shevelev.wizard_camera.core.ui_kit.lib.flower_menu.FlowerMenuItemData
 import com.shevelev.wizard_camera.feature.filters_facade.api.FiltersFacade
 
-class FiltersFacadeImpl (
+internal class FiltersFacadeImpl (
     private val context: Context,
     private val lastUsedFilters: LastUsedFilters,
     private val displayData: FilterDisplayDataList,
