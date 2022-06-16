@@ -9,6 +9,7 @@ import com.shevelev.wizard_camera.core.common_entities.entities.PhotoShot
 import com.shevelev.wizard_camera.core.common_entities.enums.GlFilterCode
 import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.GlFilterSettings
 import com.shevelev.wizard_camera.core.photo_files.api.photo_shot_repository.PhotoShotRepository
+import com.shevelev.wizard_camera.feature.filters_facade.api.FiltersFacade
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -17,7 +18,8 @@ constructor(
     private val fragmentsDataPass: FragmentsDataPass,
     private val filterSettings: FilterSettingsFacade,
     private val bitmapHelper: BitmapHelper,
-    private val photoShotRepository: PhotoShotRepository
+    private val photoShotRepository: PhotoShotRepository,
+    private val filters: FiltersFacade
 ) : EditorStorage {
     override lateinit var displayedImage: Bitmap
 
@@ -50,6 +52,7 @@ constructor(
 
         memorizeUsedFilter(sourceShot.filter)
         lastUsedGlFilter = sourceShot.filter.takeIf { it.code != GlFilterCode.ORIGINAL }
+        lastUsedGlFilter?.let { filters.updateLastUsedFiler(it.code) }
 
         sourceImage = withContext(Dispatchers.IO) {
             bitmapHelper.load(sourceShot.contentUri)

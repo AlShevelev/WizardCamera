@@ -15,7 +15,8 @@ internal abstract class FiltersGroupStorageBase(
     private val displayData: FilterDisplayDataList,
     private val filterSettings: FilterSettingsFacade,
     private val lastUsedFilters: LastUsedFilters,
-    private val groupCode: FiltersGroup
+    private val groupCode: FiltersGroup,
+    private val canUpdateFavorites: Boolean
 ) : FiltersGroupStorage {
 
     private lateinit var filters: MutableList<FilterListItem>
@@ -24,7 +25,7 @@ internal abstract class FiltersGroupStorageBase(
         get() = filters.first { it.isSelected }.displayData.code
 
     override suspend fun init() {
-        if(::filters.isInitialized) {
+        if (::filters.isInitialized) {
             return
         }
 
@@ -32,11 +33,14 @@ internal abstract class FiltersGroupStorageBase(
 
         filters = getSupportedFilters()
             .map { filterCode ->
-                val isFavorite = if(favoriteFilters.contains(filterCode)) {
-                    FilterFavoriteType.FAVORITE
-                }
-                else {
-                    FilterFavoriteType.NOT_FAVORITE
+                val isFavorite = if (canUpdateFavorites) {
+                    if (favoriteFilters.contains(filterCode)) {
+                        FilterFavoriteType.FAVORITE
+                    } else {
+                        FilterFavoriteType.NOT_FAVORITE
+                    }
+                } else {
+                    FilterFavoriteType.HIDDEN
                 }
 
                 FilterListItem(

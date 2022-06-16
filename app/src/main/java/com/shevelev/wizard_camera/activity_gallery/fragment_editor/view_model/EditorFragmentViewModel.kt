@@ -13,14 +13,13 @@ import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_m
 import com.shevelev.wizard_camera.core.common_entities.entities.PhotoShot
 import com.shevelev.wizard_camera.core.common_entities.enums.GlFilterCode
 import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.GlFilterSettings
+import com.shevelev.wizard_camera.core.ui_kit.lib.filters.filters_carousel.FilterEventsProcessor
+import com.shevelev.wizard_camera.core.ui_kit.lib.filters.filters_carousel.FilterListItem
+import com.shevelev.wizard_camera.core.ui_kit.lib.flower_menu.FlowerMenuItemData
 import com.shevelev.wizard_camera.core.ui_utils.binding_adapters.ButtonState
 import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_commands.CloseEditorCommand
 import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_commands.ShowEditorSaveDialogCommand
 import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_model.ViewModelBase
-import com.shevelev.wizard_camera.core.ui_kit.lib.filters.filters_carousel.FilterCarouselUtils
-import com.shevelev.wizard_camera.core.ui_kit.lib.filters.filters_carousel.FilterEventsProcessor
-import com.shevelev.wizard_camera.core.ui_kit.lib.filters.filters_carousel.FilterListItem
-import com.shevelev.wizard_camera.core.ui_kit.lib.flower_menu.FlowerMenuItemData
 import kotlinx.coroutines.launch
 
 @SuppressLint("StaticFieldLeak")
@@ -28,7 +27,7 @@ class EditorFragmentViewModel
 constructor(
     private val appContext: Context,
     interactor: EditorFragmentInteractor,
-    private val sourceShot: PhotoShot,
+    private val sourceShot: PhotoShot
 ) : ViewModelBase<EditorFragmentInteractor>(interactor),
     FilterEventsProcessor {
 
@@ -86,18 +85,17 @@ constructor(
         }
     }
 
-    override fun onSettingsClick(id: GlFilterCode) {
-        viewModelScope.launch { interactor.processEvent(GlFilterSettingsShown) }
+    override fun onFavoriteFilterClick(code: GlFilterCode, isSelected: Boolean) {
+        viewModelScope.launch { interactor.processEvent(GlFilterFavoriteUpdate(code, isSelected)) }
     }
 
-    override fun onFilterClick(id: GlFilterCode, listId: String) {
+    override fun onSettingsClick(code: GlFilterCode) {
+        viewModelScope.launch { interactor.processEvent(GlFilterSettingsShown(code)) }
+    }
+
+    override fun onFilterClick(code: GlFilterCode, listId: String) {
         viewModelScope.launch {
-            _glFilters.value?.let { filters ->
-                FilterCarouselUtils.setSelection(filters, id)?.let { selection ->
-                    interactor.processEvent(GlFilterSwitched(id))
-                    _glFilters.value = selection
-                }
-            }
+            interactor.processEvent(GlFilterSwitched(code))
         }
     }
 
@@ -148,13 +146,15 @@ constructor(
                 _glFiltersVisibility.value = View.INVISIBLE
             }
 
-            is IntiGlFilterCarousel -> _glFilters.value = command.items
+            is UpdateGlFilterCarousel -> _glFilters.value = command.items
 
             is UpdateImageByGlFilter -> {
                 _imageWithGlFilter.value?.let { filter ->
                     _imageWithGlFilter.value = filter.copy(settings = command.settings)
                 }
                 command.filterTitle?.let { _screenTitle.value = appContext.getString(it) }
+
+                _glFilters.value = command.filters
             }
 
             is ShowGlFilterSettings -> {

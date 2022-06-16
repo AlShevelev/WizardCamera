@@ -17,6 +17,7 @@ import com.shevelev.wizard_camera.core.camera_gl.api.camera.renderer.GlRenderer
 import com.shevelev.wizard_camera.core.ui_utils.mvvm.view.FragmentBaseMVVM
 import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_commands.ViewCommand
 import com.shevelev.wizard_camera.databinding.FragmentCameraBinding
+import com.shevelev.wizard_camera.feature.filters_facade.api.di.FiltersFacadeInjectionSettings
 import com.shevelev.wizard_camera.feature.filters_facade.impl.di.FiltersFacadeScope
 import org.koin.android.ext.android.getKoin
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -37,7 +38,15 @@ class CameraFragment : FragmentBaseMVVM<FragmentCameraBinding, CameraFragmentVie
 
     private lateinit var gestureDetector: GesturesDetector
 
-    override val viewModel: CameraFragmentViewModel by viewModel(parameters = { parametersOf(FILTERS_SCOPE_ID) })
+    override val viewModel: CameraFragmentViewModel by viewModel{
+        parametersOf(
+            FiltersFacadeInjectionSettings(
+                FILTERS_SCOPE_ID,
+                useInMemoryLastUsedFilters = false,
+                canUpdateFavorites = true
+            )
+        )
+    }
 
     override fun layoutResId(): Int = R.layout.fragment_camera
 

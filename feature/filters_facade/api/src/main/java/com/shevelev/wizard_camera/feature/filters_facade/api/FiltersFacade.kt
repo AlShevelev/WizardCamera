@@ -28,4 +28,9 @@ interface FiltersFacade {
     fun getSettings(code: GlFilterCode): GlFilterSettings
 
     suspend fun updateSettings(settings: GlFilterSettings)
+
+    /**
+     * Updates last used filter for all groups that contain given filter
+     */
+    suspend fun updateLastUsedFiler(code: GlFilterCode)
 }

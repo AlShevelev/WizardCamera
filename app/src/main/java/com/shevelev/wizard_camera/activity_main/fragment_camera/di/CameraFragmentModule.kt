@@ -7,6 +7,8 @@ import com.shevelev.wizard_camera.activity_main.fragment_camera.model.image_capt
 import com.shevelev.wizard_camera.activity_main.fragment_camera.model.orientation.OrientationManager
 import com.shevelev.wizard_camera.activity_main.fragment_camera.model.orientation.OrientationManagerImpl
 import com.shevelev.wizard_camera.activity_main.fragment_camera.view_model.CameraFragmentViewModel
+import com.shevelev.wizard_camera.feature.filters_facade.api.di.FiltersFacadeInjectionSettings
+import com.shevelev.wizard_camera.feature.filters_facade.impl.di.FiltersFacadeScope
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.parameter.parametersOf
 import org.koin.core.scope.ScopeID
@@ -27,18 +29,18 @@ val CameraFragmentModule = module(createdAtStart = false) {
         )
     }
 
-    factory<CameraFragmentInteractor> { (filtersScopeId: ScopeID) ->
+    factory<CameraFragmentInteractor> { (filterSettings: FiltersFacadeInjectionSettings) ->
         CameraFragmentInteractorImpl(
-            filters = get(parameters = { parametersOf(filtersScopeId) }),
+            filters = FiltersFacadeScope.get(filterSettings.scopeId).get(parameters = { parametersOf(filterSettings) }),
             capture = get(),
             orientation = get()
         )
     }
 
-    viewModel { (filtersScopeId: ScopeID) ->
+    viewModel { (filterSettings: FiltersFacadeInjectionSettings) ->
         CameraFragmentViewModel(
             appContext = get(),
-            interactor = get(parameters = { parametersOf(filtersScopeId) })
+            interactor = get(parameters = { parametersOf(filterSettings) })
         )
     }
 }

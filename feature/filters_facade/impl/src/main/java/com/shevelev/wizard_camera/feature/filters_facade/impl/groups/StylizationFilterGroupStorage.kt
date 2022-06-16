@@ -10,13 +10,15 @@ internal class StylizationFilterGroupStorage(
     favoriteFilters: FiltersGroupStorage,
     displayData: FilterDisplayDataList,
     filterSettings: FilterSettingsFacade,
-    lastUsedFilters: LastUsedFilters
+    lastUsedFilters: LastUsedFilters,
+    canUpdateFavorites: Boolean
 ) : FiltersGroupStorageBase(
     favoriteFilters,
     displayData,
     filterSettings,
     lastUsedFilters,
-    FiltersGroup.STYLIZATION
+    FiltersGroup.STYLIZATION,
+    canUpdateFavorites
 ), FiltersGroupStorage {
 
     override fun getSupportedFilters(): List<GlFilterCode> =

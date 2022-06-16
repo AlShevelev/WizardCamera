@@ -10,13 +10,15 @@ internal class DeformationsFiltersGroupStorage(
     favoriteFilters: FiltersGroupStorage,
     displayData: FilterDisplayDataList,
     filterSettings: FilterSettingsFacade,
-    lastUsedFilters: LastUsedFilters
+    lastUsedFilters: LastUsedFilters,
+    canUpdateFavorites: Boolean
 ) : FiltersGroupStorageBase(
     favoriteFilters,
     displayData,
     filterSettings,
     lastUsedFilters,
-    FiltersGroup.DEFORMATIONS
+    FiltersGroup.DEFORMATIONS,
+    canUpdateFavorites
 ), FiltersGroupStorage {
 
     override fun getSupportedFilters(): List<GlFilterCode> =

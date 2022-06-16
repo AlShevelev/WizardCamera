@@ -1,23 +1,18 @@
 package com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_machines.impl
 
-import androidx.annotation.StringRes
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_machines.api.*
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.storage.EditorStorage
-import com.shevelev.wizard_camera.feature.filters_facade.impl.settings.FilterSettingsFacade
+import com.shevelev.wizard_camera.core.common_entities.enums.FiltersGroup
 import com.shevelev.wizard_camera.core.common_entities.enums.GlFilterCode
-import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.EmptyFilterSettings
-import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.GlFilterSettings
-import com.shevelev.wizard_camera.core.ui_kit.lib.filters.display_data.gl.FilterDisplayDataList
-import com.shevelev.wizard_camera.core.ui_kit.lib.filters.filters_carousel.FilterFavoriteType
-import com.shevelev.wizard_camera.core.ui_kit.lib.filters.filters_carousel.FilterListItem
+import com.shevelev.wizard_camera.feature.filters_facade.api.FiltersFacade
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 
 internal class GlFiltersMachine(
     outputCommands: MutableSharedFlow<OutputCommand>,
     editorStorage: EditorStorage,
-    private val filterDisplayData: FilterDisplayDataList,
-    private val filterSettings: FilterSettingsFacade
+    private val filters: FiltersFacade,
+    private val group: FiltersGroup
 ) : EditorMachineBase(outputCommands, editorStorage) {
 
     private var isFilterSettingsFacadeSetUp = false
@@ -27,21 +22,19 @@ internal class GlFiltersMachine(
     override suspend fun processEvent(event: InputEvent, state: State): State =
         when {
             state == State.INITIAL && event is Init -> {
-                editorStorage.isInNoFiltersMode = false
+                filters.currentGroup = group
 
-                if(!isFilterSettingsFacadeSetUp) {
-                    filterSettings.init()
-                    isFilterSettingsFacadeSetUp = true
-                }
+                editorStorage.isInNoFiltersMode = false
 
                 var lastUsedGlFilter = editorStorage.lastUsedGlFilter
                 if(lastUsedGlFilter == null) {
-                    lastUsedGlFilter = filterSettings[GlFilterCode.EDGE_DETECTION]
+                    lastUsedGlFilter = filters.getSettings(GlFilterCode.EDGE_DETECTION)
                     editorStorage.lastUsedGlFilter = lastUsedGlFilter
                 }
+                filters.selectFilter(lastUsedGlFilter.code)
 
                 if(!isFilterCarouselSetUp) {
-                    outputCommands.emit(IntiGlFilterCarousel(getFiltersListData()))
+                    outputCommands.emit(UpdateGlFilterCarousel(filters.getFiltersListData()))
                     isFilterSettingsFacadeSetUp = true
                 }
 
@@ -51,7 +44,7 @@ internal class GlFiltersMachine(
                     SetInitialImage(
                         editorStorage.displayedImage,
                         lastUsedGlFilter,
-                        getFilterTitle(lastUsedGlFilter),
+                        filters.displayFilterTitle/*getFilterTitle(lastUsedGlFilter)*/,
                         isMagicMode = false
                     ))
 
@@ -85,10 +78,28 @@ internal class GlFiltersMachine(
 
             state == State.MAIN && event is GlFilterSwitched -> {
                 editorStorage.onUpdate()
-                val filter = editorStorage.getUsedFilter(event.filterCode) ?: filterSettings[event.filterCode]
 
-                editorStorage.lastUsedGlFilter = filter
-                outputCommands.emit(UpdateImageByGlFilter(filter, getFilterTitle(filter)))
+                filters.selectFilter(event.filterCode)
+
+                editorStorage.lastUsedGlFilter = filters.displayFilter
+
+                outputCommands.emit(UpdateImageByGlFilter(
+                    settings = filters.displayFilter,
+                    filterTitle = filters.displayFilterTitle,
+                    filters = filters.getFiltersListData()
+                ))
+
+                state
+            }
+
+            state == State.MAIN && event is GlFilterFavoriteUpdate -> {
+                if(event.isSelected) {
+                    filters.addToFavorite(event.code)
+                } else {
+                    filters.removeFromFavorite(event.code)
+                }
+
+                outputCommands.emit(UpdateGlFilterCarousel(filters.getFiltersListData()))
 
                 state
             }
@@ -107,7 +118,7 @@ internal class GlFiltersMachine(
                         SetInitialImage(
                             editorStorage.displayedImage,
                             filter,
-                            getFilterTitle(filter),
+                            filters.displayFilterTitle,
                             isMagicMode = true
                         ))
                 } else {
@@ -117,7 +128,7 @@ internal class GlFiltersMachine(
                         SetInitialImage(
                             editorStorage.displayedImage,
                             filter,
-                            getFilterTitle(filter),
+                            filters.displayFilterTitle,
                             isMagicMode = true
                         ))
                 }
@@ -151,65 +162,20 @@ internal class GlFiltersMachine(
             state == State.SETTINGS_VISIBLE && event is GlFilterSettingsUpdated -> {
                 editorStorage.onUpdate()
                 editorStorage.lastUsedGlFilter = event.settings
-                outputCommands.emit(UpdateImageByGlFilter(event.settings, null))
+
+                outputCommands.emit(UpdateImageByGlFilter(
+                    settings = event.settings,
+                    filterTitle = null,
+                    filters = filters.getFiltersListData()
+                ))
                 state
             }
 
             else -> state
         }
 
-    private fun getFiltersListData() : List<FilterListItem> {
-        val selectedFilterCode = editorStorage.lastUsedGlFilter!!.code
-
-        return getSupportedFilters().map { code ->
-            FilterListItem(
-                listId = "",        // There is only one list in the editor screen, so never mind about it
-                displayData = filterDisplayData[code],
-                favorite = FilterFavoriteType.HIDDEN,
-                hasSettings = filterSettings[code] !is EmptyFilterSettings,
-                isSelected = code == selectedFilterCode
-            )
-        }
-    }
-
     private suspend fun hideFilterSettings() {
         outputCommands.emit(HideGlFilterSettings)
         outputCommands.emit(SetGlFilterCarouselVisibility(true))
     }
-
-    @StringRes
-    private fun getFilterTitle(filter: GlFilterSettings): Int = filterDisplayData[filter.code].title
-
-    private fun getSupportedFilters(): List<GlFilterCode> =
-        listOf(
-            GlFilterCode.EDGE_DETECTION,
-            GlFilterCode.PIXELIZE,
-            GlFilterCode.TRIANGLES_MOSAIC,
-            GlFilterCode.LEGOFIED,
-            GlFilterCode.TILE_MOSAIC,
-            GlFilterCode.BLUE_ORANGE,
-            GlFilterCode.BASIC_DEFORM,
-            GlFilterCode.CONTRAST,
-            GlFilterCode.NOISE_WARP,
-            GlFilterCode.REFRACTION,
-            GlFilterCode.MAPPING,
-            GlFilterCode.CROSSHATCH,
-            GlFilterCode.NEWSPAPER,
-            GlFilterCode.ASCII_ART,
-            GlFilterCode.MONEY,
-            GlFilterCode.CRACKED,
-            GlFilterCode.POLYGONIZATION,
-            GlFilterCode.BLACK_AND_WHITE,
-            GlFilterCode.GRAY,
-            GlFilterCode.NEGATIVE,
-            GlFilterCode.NOSTALGIA,
-            GlFilterCode.CASTING,
-            GlFilterCode.RELIEF,
-            GlFilterCode.SWIRL,
-            GlFilterCode.HEXAGON_MOSAIC,
-            GlFilterCode.MIRROR,
-            GlFilterCode.TRIPLE,
-            GlFilterCode.CARTOON,
-            GlFilterCode.WATER_REFLECTION
-        )
 }

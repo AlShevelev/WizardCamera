@@ -4,26 +4,31 @@ import androidx.annotation.StringRes
 import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_machines.api.*
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.storage.EditorStorage
+import com.shevelev.wizard_camera.core.common_entities.enums.FiltersGroup
 import com.shevelev.wizard_camera.feature.filters_facade.impl.settings.FilterSettingsFacade
 import com.shevelev.wizard_camera.core.common_entities.enums.GlFilterCode
+import com.shevelev.wizard_camera.feature.filters_facade.api.FiltersFacade
 import kotlinx.coroutines.flow.MutableSharedFlow
 
 internal class NoFiltersMachine(
     outputCommands: MutableSharedFlow<OutputCommand>,
     editorStorage: EditorStorage,
-    private val filterSettings: FilterSettingsFacade
+    private val filters: FiltersFacade,
+    private val group: FiltersGroup
 ) : EditorMachineBase(outputCommands, editorStorage) {
 
     override suspend fun processEvent(event: InputEvent, state: State): State =
         when {
             state == State.INITIAL && event is Init -> {
+                filters.currentGroup = group
+
                 editorStorage.isInNoFiltersMode = true
 
                 outputCommands.emit(SetButtonSelection(ModeButtonCode.NO_FILTERS, true))
                 outputCommands.emit(
                     SetInitialImage(
                         editorStorage.displayedImage,
-                        filterSettings[GlFilterCode.ORIGINAL],
+                        filters.getSettings(GlFilterCode.ORIGINAL),
                         getFilterTitle(),
                         isMagicMode = false
                     ))
@@ -48,7 +53,7 @@ internal class NoFiltersMachine(
                     outputCommands.emit(
                         SetInitialImage(
                             editorStorage.displayedImage,
-                            filterSettings[GlFilterCode.ORIGINAL],
+                            filters.getSettings(GlFilterCode.ORIGINAL),
                             getFilterTitle(),
                             isMagicMode = true
                         ))
@@ -58,7 +63,7 @@ internal class NoFiltersMachine(
                     outputCommands.emit(
                         SetInitialImage(
                             editorStorage.displayedImage,
-                            filterSettings[GlFilterCode.ORIGINAL],
+                            filters.getSettings(GlFilterCode.ORIGINAL),
                             getFilterTitle(),
                             isMagicMode = true
                         ))

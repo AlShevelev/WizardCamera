@@ -10,13 +10,15 @@ internal class AllFiltersGroupStorage(
     favoriteFilters: FiltersGroupStorage,
     displayData: FilterDisplayDataList,
     filterSettings: FilterSettingsFacade,
-    lastUsedFilters: LastUsedFilters
+    lastUsedFilters: LastUsedFilters,
+    canUpdateFavorites: Boolean
 ) : FiltersGroupStorageBase(
         favoriteFilters,
         displayData,
         filterSettings,
         lastUsedFilters,
-        FiltersGroup.ALL
+        FiltersGroup.ALL,
+        canUpdateFavorites
     ),
     FiltersGroupStorage {
 

@@ -2,34 +2,34 @@ package com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_
 
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_machines.api.*
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.storage.EditorStorage
-import com.shevelev.wizard_camera.feature.filters_facade.impl.settings.FilterSettingsFacade
 import com.shevelev.wizard_camera.core.common_entities.entities.PhotoShot
-import com.shevelev.wizard_camera.core.ui_kit.lib.filters.display_data.gl.FilterDisplayDataList
+import com.shevelev.wizard_camera.core.common_entities.enums.FiltersGroup
+import com.shevelev.wizard_camera.feature.filters_facade.api.FiltersFacade
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 
 internal class StateMachinesOrchestratorImpl (
     private val editorStorage: EditorStorage,
-    private val filterDisplayData: FilterDisplayDataList,
-    private val filterSettings: FilterSettingsFacade
+    private val filters: FiltersFacade
 ) : StateMachinesOrchestrator {
     private val _commands = MutableSharedFlow<OutputCommand>()
     override val commands = _commands.asSharedFlow()
 
     private val noFilterMachine by lazy {
         NoFiltersMachine(
-            _commands,
-            editorStorage,
-            filterSettings
+            outputCommands = _commands,
+            editorStorage = editorStorage,
+            filters = filters,
+            group = FiltersGroup.NO_FILTERS
         )
     }
 
     private val glFilterMachine by lazy {
         GlFiltersMachine(
-            _commands,
-            editorStorage,
-            filterDisplayData,
-            filterSettings
+            outputCommands = _commands,
+            editorStorage = editorStorage,
+            filters = filters,
+            group = FiltersGroup.ALL
         )
     }
 

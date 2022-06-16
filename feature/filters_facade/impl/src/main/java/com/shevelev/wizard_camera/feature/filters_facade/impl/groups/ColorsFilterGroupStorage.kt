@@ -10,13 +10,15 @@ internal class ColorsFilterGroupStorage(
     favoriteFilters: FiltersGroupStorage,
     displayData: FilterDisplayDataList,
     filterSettings: FilterSettingsFacade,
-    lastUsedFilters: LastUsedFilters
+    lastUsedFilters: LastUsedFilters,
+    canUpdateFavorites: Boolean
 ) : FiltersGroupStorageBase(
     favoriteFilters,
     displayData,
     filterSettings,
     lastUsedFilters,
-    FiltersGroup.COLORS
+    FiltersGroup.COLORS,
+    canUpdateFavorites
 ), FiltersGroupStorage {
 
     override fun getSupportedFilters(): List<GlFilterCode> =

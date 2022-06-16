@@ -36,7 +36,12 @@ data class GlFilterSwitched(val filterCode: GlFilterCode) : InputEvent()
 /**
  * A user show current filter settings
  */
-object GlFilterSettingsShown : InputEvent()
+data class GlFilterSettingsShown(val code: GlFilterCode) : InputEvent()
+
+/**
+ * A user show current filter settings
+ */
+data class GlFilterFavoriteUpdate(val code: GlFilterCode, val isSelected: Boolean) : InputEvent()
 
 /**
  * The current settings have been update by a user

@@ -17,9 +17,13 @@ import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_commands.CloseEditorCo
 import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_commands.ShowEditorSaveDialogCommand
 import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_commands.ViewCommand
 import com.shevelev.wizard_camera.databinding.FragmentEditorBinding
+import com.shevelev.wizard_camera.feature.filters_facade.api.di.FiltersFacadeInjectionSettings
+import com.shevelev.wizard_camera.feature.filters_facade.impl.di.FiltersFacadeScope
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
+
+private const val FILTERS_SCOPE_ID = "EDITOR_FRAGMENT_FILTERS_SCOPE_ID"
 
 class EditorFragment : FragmentBaseMVVM<FragmentEditorBinding, EditorFragmentViewModel>() {
     private var glFilter: GlSurfaceShaderFilter? = null
@@ -32,7 +36,14 @@ class EditorFragment : FragmentBaseMVVM<FragmentEditorBinding, EditorFragmentVie
         get() = true
 
     override val viewModel: EditorFragmentViewModel by viewModel {
-        parametersOf(requireArguments().getParcelable<PhotoShot>(ARG_PHOTO)!!)
+        parametersOf(
+            FiltersFacadeInjectionSettings(
+                FILTERS_SCOPE_ID,
+                useInMemoryLastUsedFilters = true,
+                canUpdateFavorites = false
+            ),
+            requireArguments().getParcelable<PhotoShot>(ARG_PHOTO)!!
+        )
     }
 
     override fun layoutResId(): Int = R.layout.fragment_editor
@@ -67,6 +78,11 @@ class EditorFragment : FragmentBaseMVVM<FragmentEditorBinding, EditorFragmentVie
         binding.glFiltersSettings.setOnSettingsChangeListener(viewModel::onGLFilterSettingsUpdated)
 
         binding.surfaceContainer.setOnClickListener { viewModel.onGlSurfaceClick() }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        FiltersFacadeScope.close(FILTERS_SCOPE_ID)
     }
 
     override fun processViewCommand(command: ViewCommand) {

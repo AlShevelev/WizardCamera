@@ -10,20 +10,19 @@ import androidx.lifecycle.viewModelScope
 import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.activity_main.fragment_camera.model.CameraFragmentInteractor
 import com.shevelev.wizard_camera.activity_main.fragment_camera.model.dto.*
-import com.shevelev.wizard_camera.core.common_entities.enums.FiltersGroup
 import com.shevelev.wizard_camera.activity_main.fragment_camera.view.gestures.Gesture
 import com.shevelev.wizard_camera.activity_main.fragment_camera.view.gestures.Pinch
 import com.shevelev.wizard_camera.activity_main.fragment_camera.view.gestures.Tap
+import com.shevelev.wizard_camera.core.common_entities.enums.FiltersGroup
 import com.shevelev.wizard_camera.core.common_entities.enums.GlFilterCode
 import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.GlFilterSettings
+import com.shevelev.wizard_camera.core.ui_kit.lib.filters.filters_carousel.FilterEventsProcessor
+import com.shevelev.wizard_camera.core.ui_kit.lib.filters.filters_carousel.FilterListItem
+import com.shevelev.wizard_camera.core.ui_kit.lib.flower_menu.FlowerMenuItemData
 import com.shevelev.wizard_camera.core.ui_utils.binding_adapters.ButtonState
 import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_commands.ShowMessageResCommand
 import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_model.ViewModelBase
 import com.shevelev.wizard_camera.core.utils.ext.format
-import com.shevelev.wizard_camera.core.ui_kit.lib.filters.filters_carousel.FilterCarouselUtils
-import com.shevelev.wizard_camera.core.ui_kit.lib.filters.filters_carousel.FilterEventsProcessor
-import com.shevelev.wizard_camera.core.ui_kit.lib.filters.filters_carousel.FilterListItem
-import com.shevelev.wizard_camera.core.ui_kit.lib.flower_menu.FlowerMenuItemData
 import kotlinx.coroutines.launch
 
 @SuppressLint("StaticFieldLeak")
@@ -240,33 +239,36 @@ constructor(
         }
     }
 
-    override fun onFavoriteFilterClick(id: GlFilterCode, isSelected: Boolean) {
+    override fun onFavoriteFilterClick(code: GlFilterCode, isSelected: Boolean) {
         viewModelScope.launch {
             hideSettings()
 
             if(isSelected) {
-                interactor.filters.addToFavorite(id)
+                interactor.filters.addToFavorite(code)
             } else {
-                interactor.filters.removeFromFavorite(id)
+                interactor.filters.removeFromFavorite(code)
             }
 
-            _filtersListData.value?.let { oldItems ->
-                _filtersListData.value = FilterCarouselUtils.setFavoriteStatus(oldItems, id, isSelected)
-            }
+            _filtersListData.value = interactor.filters.getFiltersListData()
         }
     }
 
-    override fun onSettingsClick(id: GlFilterCode) = showSettings(id)
+    override fun onSettingsClick(code: GlFilterCode) {
+        _exposureBarVisibility.value = View.INVISIBLE
+        _filtersVisibility.value = View.INVISIBLE
 
-    override fun onFilterClick(id: GlFilterCode, listId: String) {
+        sendCommand(ShowFilterSettingsCommand(interactor.filters.getSettings(code)))
+        isSettingsVisible = true
+    }
+
+    override fun onFilterClick(code: GlFilterCode, listId: String) {
         viewModelScope.launch {
             hideSettings()
 
-            interactor.filters.selectFilter(id)
+            interactor.filters.selectFilter(code)
 
             _selectedFilter.value = interactor.filters.displayFilter
             _screenTitle.value = appContext.getString(interactor.filters.displayFilterTitle)
-
 
             _filtersListData.value = interactor.filters.getFiltersListData()
         }
@@ -274,14 +276,6 @@ constructor(
 
     private fun zoom(touchDistance: Float) {
         sendCommand(ZoomCommand(touchDistance))
-    }
-
-    private fun showSettings(code: GlFilterCode) {
-        _exposureBarVisibility.value = View.INVISIBLE
-        _filtersVisibility.value = View.INVISIBLE
-
-        sendCommand(ShowFilterSettingsCommand(interactor.filters.getSettings(code)))
-        isSettingsVisible = true
     }
 
     private fun hideSettings() {

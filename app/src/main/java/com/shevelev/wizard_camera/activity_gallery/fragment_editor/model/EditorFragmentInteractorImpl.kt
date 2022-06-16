@@ -17,7 +17,10 @@ constructor(
     override val commands: SharedFlow<OutputCommand>
         get() = stateMachinesOrchestrator.commands
 
-    override suspend fun init(sourceShot: PhotoShot) = stateMachinesOrchestrator.start(sourceShot)
+    override suspend fun init(sourceShot: PhotoShot) {
+        filters.init()
+        stateMachinesOrchestrator.start(sourceShot)
+    }
 
     override suspend fun processEvent(event: InputEvent) {
         stateMachinesOrchestrator.processEvent(event)

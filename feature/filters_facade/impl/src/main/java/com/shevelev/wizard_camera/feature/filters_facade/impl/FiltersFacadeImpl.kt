@@ -91,4 +91,15 @@ internal class FiltersFacadeImpl (
     override fun getSettings(code: GlFilterCode) = filterSettings[code]
 
     override suspend fun updateSettings(settings: GlFilterSettings) = filterSettings.update(settings)
+
+    /**
+     * Updates last used filter for all groups that contain given filter
+     */
+    override suspend fun updateLastUsedFiler(code: GlFilterCode) {
+        FiltersGroup.values().forEach {
+            if(groups[it]?.contains(code) == true) {
+                groups[it]?.select(code)
+            }
+        }
+    }
 }

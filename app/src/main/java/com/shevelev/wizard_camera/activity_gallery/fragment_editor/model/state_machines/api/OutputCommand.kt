@@ -34,15 +34,15 @@ class SetGlFilterCarouselVisibility(val isVisible: Boolean) : OutputCommand()
 /**
  * Sets initial value to the carousel of GL filters
  */
-data class IntiGlFilterCarousel(val items: List<FilterListItem>) : OutputCommand()
+data class UpdateGlFilterCarousel(val items: List<FilterListItem>) : OutputCommand()
 
 /**
  * Sets new GL filter to an image
  */
 data class UpdateImageByGlFilter(
     val settings: GlFilterSettings,
-    @StringRes
-    val filterTitle: Int?
+    @StringRes val filterTitle: Int?,
+    val filters: List<FilterListItem>
 ) : OutputCommand()
 
 /**

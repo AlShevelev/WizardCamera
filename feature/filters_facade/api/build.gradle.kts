@@ -15,4 +15,6 @@ android {
 dependencies {
     implementation(project(":core:common_entities"))
     implementation(project(":core:ui_kit:lib"))
+
+    implementation(Dependencies.koin)
 }
