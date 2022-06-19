@@ -4,8 +4,7 @@ import com.shevelev.wizard_camera.core.common_entities.enums.GlFilterCode
 import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.*
 import com.squareup.moshi.Moshi
 
-internal class FilerSettingsConverterImpl
-constructor(
+internal class FilerSettingsConverterImpl(
     private val moshi: Moshi
 ) : FilerSettingsConverter {
     override fun toString(settings: GlFilterSettings): String =

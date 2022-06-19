@@ -6,8 +6,7 @@ import com.shevelev.wizard_camera.core.database.impl.core.DbCore
 import com.shevelev.wizard_camera.core.database.impl.entities.LastUsedFilterDb
 import com.shevelev.wizard_camera.core.utils.id.IdUtil
 
-internal class LastUsedFilterDbRepositoryImpl
-constructor(
+internal class LastUsedFilterDbRepositoryImpl(
     private val db: DbCore
 ) : LastUsedFilterDbRepository {
 

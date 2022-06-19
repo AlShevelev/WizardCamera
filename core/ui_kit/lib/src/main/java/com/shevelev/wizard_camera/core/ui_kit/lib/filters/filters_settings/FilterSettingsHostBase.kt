@@ -14,8 +14,7 @@ import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.GlFilt
  * Base class for all filer setting hosts
  */
 @Suppress("LeakingThis")
-abstract class FilterSettingsHostBase
-constructor(
+abstract class FilterSettingsHostBase(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0

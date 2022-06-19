@@ -5,8 +5,7 @@ import com.shevelev.wizard_camera.BuildConfig
 import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.core.build_info.api.BuildInfo
 
-class BuildInfoImpl
-constructor(
+class BuildInfoImpl(
     appContext: Context
 ) : BuildInfo {
     override val crashReportsEnabled: Boolean = BuildConfig.CRASH_REPORTS_ENABLED

@@ -13,8 +13,7 @@ import com.shevelev.wizard_camera.feature.filters_facade.api.FiltersFacade
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-internal class EditorStorageImpl
-constructor(
+internal class EditorStorageImpl(
     private val fragmentsDataPass: FragmentsDataPass,
     private val filterSettings: FilterSettingsFacade,
     private val bitmapHelper: BitmapHelper,
@@ -66,7 +65,7 @@ constructor(
     }
 
     override suspend fun switchToHistogramEqualizedImage() {
-        if(histogramEqualizedImage == null) {
+        if (histogramEqualizedImage == null) {
             histogramEqualizedImage = withContext(Dispatchers.Default) {
                 ImageProcessorImpl().processHistogramEqualization(sourceImage)
             }
@@ -89,11 +88,11 @@ constructor(
      * Saves result of the editing
      */
     override suspend fun saveResult() {
-        if(!isUpdated) {
+        if (!isUpdated) {
             return
         }
 
-        val filter = if(isInNoFiltersMode) {
+        val filter = if (isInNoFiltersMode) {
             filterSettings[GlFilterCode.ORIGINAL]
         } else {
             lastUsedGlFilter ?: sourceShot.filter

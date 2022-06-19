@@ -9,8 +9,7 @@ import android.util.Size
 import android.view.WindowManager
 import kotlin.math.abs
 
-internal class CameraSettingsRepositoryImpl
-constructor(
+internal class CameraSettingsRepositoryImpl(
     private val appContext: Context
 ) : CameraSettingsRepository {
 

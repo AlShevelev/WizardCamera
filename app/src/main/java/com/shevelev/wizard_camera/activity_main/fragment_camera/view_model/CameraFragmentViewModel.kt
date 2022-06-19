@@ -9,7 +9,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.activity_main.fragment_camera.model.CameraFragmentInteractor
-import com.shevelev.wizard_camera.activity_main.fragment_camera.model.dto.*
 import com.shevelev.wizard_camera.activity_main.fragment_camera.view.gestures.Gesture
 import com.shevelev.wizard_camera.activity_main.fragment_camera.view.gestures.Pinch
 import com.shevelev.wizard_camera.activity_main.fragment_camera.view.gestures.Tap
@@ -20,17 +19,15 @@ import com.shevelev.wizard_camera.core.ui_kit.lib.filters.filters_carousel.Filte
 import com.shevelev.wizard_camera.core.ui_kit.lib.filters.filters_carousel.FilterListItem
 import com.shevelev.wizard_camera.core.ui_kit.lib.flower_menu.FlowerMenuItemData
 import com.shevelev.wizard_camera.core.ui_utils.binding_adapters.ButtonState
-import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_commands.ShowMessageResCommand
 import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_model.ViewModelBase
 import com.shevelev.wizard_camera.core.utils.ext.format
 import kotlinx.coroutines.launch
 
 @SuppressLint("StaticFieldLeak")
-class CameraFragmentViewModel
-constructor(
+internal class CameraFragmentViewModel(
     private val appContext: Context,
     interactor: CameraFragmentInteractor
-) : ViewModelBase<CameraFragmentInteractor>(interactor),
+) : ViewModelBase<CameraFragmentInteractor, CameraFragmentCommand>(interactor),
     FilterEventsProcessor {
 
     private val _selectedFilter = MutableLiveData(interactor.filters.displayFilter)
@@ -92,7 +89,7 @@ constructor(
             hideFiltersMenu()
 
             if (interactor.capture.inProgress) {
-                sendCommand(ShowMessageResCommand(R.string.capturingInProgressError))
+                sendCommand(CameraFragmentCommand.ShowMessageRes(R.string.capturingInProgressError))
                 return@launch
             }
 
@@ -101,10 +98,10 @@ constructor(
             val startCapturingResult = interactor.capture.startCapture(filter, screenOrientation)
 
             if (startCapturingResult == null) {
-                ShowMessageResCommand(R.string.generalError)
+                CameraFragmentCommand.ShowMessageRes(R.string.generalError)
             } else {
                 sendCommand(
-                    StartCaptureCommand(
+                    CameraFragmentCommand.StartCapture(
                         startCapturingResult.capturingStream,
                         isFlashActive,
                         interactor.orientation.surfaceRotation
@@ -117,9 +114,9 @@ constructor(
     fun onCaptureComplete(isSuccess: Boolean) {
         viewModelScope.launch {
             val command = if (isSuccess && interactor.capture.captureCompleted()) {
-                ShowCapturingSuccessCommand(interactor.orientation.screenOrientation)
+                CameraFragmentCommand.ShowCapturingSuccess(interactor.orientation.screenOrientation)
             } else {
-                ShowMessageResCommand(R.string.generalError)
+                CameraFragmentCommand.ShowMessageRes(R.string.generalError)
             }
 
             sendCommand(command)
@@ -133,7 +130,7 @@ constructor(
     fun onInactive() {
         interactor.orientation.stop()
 
-        sendCommand(ResetExposureCommand)
+        sendCommand(CameraFragmentCommand.ResetExposure)
 
         hideSettings()
     }
@@ -178,14 +175,14 @@ constructor(
 
     fun onExposeValueUpdated(exposeValue: Float) {
         hideFiltersMenu()
-        sendCommand(SetExposureCommand(-exposeValue))
+        sendCommand(CameraFragmentCommand.SetExposure(-exposeValue))
     }
 
     fun onGalleyClick() {
         hideSettings()
         hideFiltersMenu()
 
-        sendCommand(NavigateToGalleryCommand)
+        sendCommand(CameraFragmentCommand.NavigateToGallery)
     }
 
     fun onFiltersMenuClick() {
@@ -193,7 +190,7 @@ constructor(
 
         if (!hideFiltersMenu()) {
             _filtersButtonState.value = ButtonState.SELECTED
-            sendCommand(SetFlowerMenuVisibilityCommand(isVisible = true))
+            sendCommand(CameraFragmentCommand.SetFlowerMenuVisibility(isVisible = true))
         }
     }
 
@@ -220,7 +217,7 @@ constructor(
 
     fun onPermissionDenied() {
         exiting = true
-        sendCommand(ExitCommand(R.string.needCameraPermissionExit))
+        sendCommand(CameraFragmentCommand.Exit(R.string.needCameraPermissionExit))
     }
 
     fun onBackClick(): Boolean =
@@ -258,7 +255,7 @@ constructor(
         _exposureBarVisibility.value = View.INVISIBLE
         _filtersVisibility.value = View.INVISIBLE
 
-        sendCommand(ShowFilterSettingsCommand(interactor.filters.getSettings(code)))
+        sendCommand(CameraFragmentCommand.ShowFilterSettings(interactor.filters.getSettings(code)))
         isSettingsVisible = true
     }
 
@@ -278,7 +275,7 @@ constructor(
     }
 
     private fun zoom(touchDistance: Float) {
-        sendCommand(ZoomCommand(touchDistance))
+        sendCommand(CameraFragmentCommand.Zoom(touchDistance))
     }
 
     private fun hideSettings() {
@@ -286,7 +283,7 @@ constructor(
             return
         }
 
-        sendCommand(HideFilterSettingsCommand())
+        sendCommand(CameraFragmentCommand.HideFilterSettings)
 
         _exposureBarVisibility.value = View.VISIBLE
         _filtersVisibility.value = View.VISIBLE
@@ -297,7 +294,7 @@ constructor(
     private fun hideFiltersMenu(): Boolean =
         if (_filtersButtonState.value == ButtonState.SELECTED) {
             _filtersButtonState.value = ButtonState.ENABLED
-            sendCommand(SetFlowerMenuVisibilityCommand(isVisible = false))
+            sendCommand(CameraFragmentCommand.SetFlowerMenuVisibility(isVisible = false))
             true
         } else {
             false

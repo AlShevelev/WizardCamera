@@ -6,18 +6,14 @@ import android.view.View
 import androidx.navigation.fragment.findNavController
 import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.dto.ImageWithFilter
-import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_machines.api.SetFlowerMenuVisibility
+import com.shevelev.wizard_camera.activity_gallery.fragment_editor.view_model.EditorFragmentCommand
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.view_model.EditorFragmentViewModel
-import com.shevelev.wizard_camera.activity_main.fragment_camera.model.dto.SetFlowerMenuVisibilityCommand
 import com.shevelev.wizard_camera.core.camera_gl.api.bitmap.GLSurfaceViewBitmap
 import com.shevelev.wizard_camera.core.camera_gl.api.bitmap.filters.GlSurfaceShaderFilter
 import com.shevelev.wizard_camera.core.camera_gl.api.shared.factory.GlShaderFiltersFactory
 import com.shevelev.wizard_camera.core.common_entities.entities.PhotoShot
 import com.shevelev.wizard_camera.core.ui_utils.dialogs.ConfirmationDialog
 import com.shevelev.wizard_camera.core.ui_utils.mvvm.view.FragmentBaseMVVM
-import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_commands.CloseEditorCommand
-import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_commands.ShowEditorSaveDialogCommand
-import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_commands.ViewCommand
 import com.shevelev.wizard_camera.databinding.FragmentEditorBinding
 import com.shevelev.wizard_camera.feature.filters_facade.api.di.FiltersFacadeInjectionSettings
 import com.shevelev.wizard_camera.feature.filters_facade.impl.di.FiltersFacadeScope
@@ -27,7 +23,7 @@ import org.koin.core.parameter.parametersOf
 
 private const val FILTERS_SCOPE_ID = "EDITOR_FRAGMENT_FILTERS_SCOPE_ID"
 
-class EditorFragment : FragmentBaseMVVM<FragmentEditorBinding, EditorFragmentViewModel>() {
+internal class EditorFragment : FragmentBaseMVVM<FragmentEditorBinding, EditorFragmentViewModel, EditorFragmentCommand>() {
     private var glFilter: GlSurfaceShaderFilter? = null
 
     private val filtersFactory: GlShaderFiltersFactory by inject()
@@ -88,9 +84,9 @@ class EditorFragment : FragmentBaseMVVM<FragmentEditorBinding, EditorFragmentVie
         FiltersFacadeScope.close(FILTERS_SCOPE_ID)
     }
 
-    override fun processViewCommand(command: ViewCommand) {
+    override fun processViewCommand(command: EditorFragmentCommand) {
         when(command) {
-            is ShowEditorSaveDialogCommand ->
+            EditorFragmentCommand.ShowEditorSaveDialog ->
                 ConfirmationDialog.show(
                     SAVE_DIALOG_REQUEST,
                     this,
@@ -99,9 +95,9 @@ class EditorFragment : FragmentBaseMVVM<FragmentEditorBinding, EditorFragmentVie
                     R.string.savePhotoCancel
                 )
 
-            is CloseEditorCommand -> findNavController().popBackStack()
+            EditorFragmentCommand.CloseEditor -> findNavController().popBackStack()
 
-            is SetFlowerMenuVisibilityCommand -> {
+            is EditorFragmentCommand.SetFlowerMenuVisibility -> {
                 if(command.isVisible) {
                     binding.flowerMenu.show()
                 } else {

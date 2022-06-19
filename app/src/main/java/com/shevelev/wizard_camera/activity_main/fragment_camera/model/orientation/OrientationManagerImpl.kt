@@ -7,8 +7,7 @@ import android.view.Surface.*
 import androidx.camera.core.impl.ImageOutputConfig
 import com.shevelev.wizard_camera.activity_main.fragment_camera.model.dto.ScreenOrientation
 
-class OrientationManagerImpl
-constructor(
+class OrientationManagerImpl(
     context: Context
 ) : OrientationEventListener(context, SensorManager.SENSOR_DELAY_NORMAL),
     OrientationManager {

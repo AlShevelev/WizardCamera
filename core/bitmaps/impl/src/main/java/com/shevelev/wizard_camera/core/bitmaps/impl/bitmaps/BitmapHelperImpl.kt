@@ -8,8 +8,7 @@ import com.shevelev.wizard_camera.core.bitmaps.api.bitmaps.BitmapHelper
 import java.io.File
 import java.io.OutputStream
 
-internal class BitmapHelperImpl
-constructor(
+internal class BitmapHelperImpl(
     private val appContext: Context
 ) : BitmapHelper {
     override fun save(bitmap: Bitmap, destination: File) {

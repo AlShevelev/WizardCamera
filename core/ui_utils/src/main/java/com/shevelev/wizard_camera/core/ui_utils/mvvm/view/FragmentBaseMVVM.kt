@@ -6,24 +6,23 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.LayoutRes
+import androidx.annotation.StringRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import com.shevelev.wizard_camera.core.ui_utils.mvvm.model.InteractorBase
-import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_commands.ShowMessageResCommand
-import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_commands.ShowMessageTextCommand
-import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_commands.ViewCommand
 import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_model.ViewModelBase
 
 /**
  * Base class for all fragments
  */
-abstract class FragmentBaseMVVM<VDB: ViewDataBinding, VM: ViewModelBase<out InteractorBase>> : FragmentBase<VDB>() {
+abstract class FragmentBaseMVVM<VDB : ViewDataBinding, VM : ViewModelBase<out InteractorBase, VCommand>, VCommand> :
+    FragmentBase<VDB>() {
 
     protected abstract val viewModel: VM
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         viewModel.command.observe(viewLifecycleOwner) {
-            processViewCommandGeneral(it)
+            processViewCommand(it)
         }
 
         val resultView = super.onCreateView(inflater, container, savedInstanceState)
@@ -32,13 +31,6 @@ abstract class FragmentBaseMVVM<VDB: ViewDataBinding, VM: ViewModelBase<out Inte
         return resultView
     }
 
-    @LayoutRes
-    protected abstract fun layoutResId(): Int
-
-    protected abstract fun linkViewModel(binding: VDB, viewModel: VM)
-
-    protected open fun processViewCommand(command: ViewCommand) {}
-
     override fun createBinding(inflater: LayoutInflater, container: ViewGroup?): VDB {
         val binding: VDB = DataBindingUtil.inflate(inflater, this.layoutResId(), container, false)
         binding.lifecycleOwner = this
@@ -46,14 +38,18 @@ abstract class FragmentBaseMVVM<VDB: ViewDataBinding, VM: ViewModelBase<out Inte
         return binding
     }
 
-    /**
-     * Process input _command
-     * @return true if the _command has been processed
-     */
-    private fun processViewCommandGeneral(command: ViewCommand) =
-        when(command) {
-            is ShowMessageResCommand -> Toast.makeText(context, command.textResId, Toast.LENGTH_LONG).show()
-            is ShowMessageTextCommand -> Toast.makeText(context, command.text, Toast.LENGTH_LONG).show()
-            else -> processViewCommand(command)
-        }
+    @LayoutRes
+    protected abstract fun layoutResId(): Int
+
+    protected abstract fun linkViewModel(binding: VDB, viewModel: VM)
+
+    protected open fun processViewCommand(command: VCommand) {}
+
+    protected fun showMessage(@StringRes textResId: Int) {
+        Toast.makeText(context, textResId, Toast.LENGTH_LONG).show()
+    }
+
+    protected fun showMessage(text: String) {
+        Toast.makeText(context, text, Toast.LENGTH_LONG).show()
+    }
 }

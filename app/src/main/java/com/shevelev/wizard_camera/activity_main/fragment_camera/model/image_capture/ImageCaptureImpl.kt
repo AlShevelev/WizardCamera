@@ -10,8 +10,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 
-class ImageCaptureImpl
-constructor(
+class ImageCaptureImpl(
     private val appContext: Context,
     private val photoShotRepository: PhotoShotRepository
 ) : ImageCapture {
@@ -30,7 +29,7 @@ constructor(
     override suspend fun startCapture(
         activeFilter: GlFilterSettings,
         screenOrientation: ScreenOrientation
-    ) : StartCapturingResult? {
+    ): StartCapturingResult? {
         startCapturingResult = try {
             this.activeFilter = activeFilter
 

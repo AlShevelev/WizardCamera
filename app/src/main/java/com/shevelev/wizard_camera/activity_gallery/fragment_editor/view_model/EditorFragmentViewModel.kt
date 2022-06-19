@@ -10,7 +10,6 @@ import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.EditorFragmentInteractor
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.dto.ImageWithFilter
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_machines.api.*
-import com.shevelev.wizard_camera.activity_main.fragment_camera.model.dto.SetFlowerMenuVisibilityCommand
 import com.shevelev.wizard_camera.core.common_entities.entities.PhotoShot
 import com.shevelev.wizard_camera.core.common_entities.enums.FiltersGroup
 import com.shevelev.wizard_camera.core.common_entities.enums.GlFilterCode
@@ -19,18 +18,15 @@ import com.shevelev.wizard_camera.core.ui_kit.lib.filters.filters_carousel.Filte
 import com.shevelev.wizard_camera.core.ui_kit.lib.filters.filters_carousel.FilterListItem
 import com.shevelev.wizard_camera.core.ui_kit.lib.flower_menu.FlowerMenuItemData
 import com.shevelev.wizard_camera.core.ui_utils.binding_adapters.ButtonState
-import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_commands.CloseEditorCommand
-import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_commands.ShowEditorSaveDialogCommand
 import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_model.ViewModelBase
 import kotlinx.coroutines.launch
 
 @SuppressLint("StaticFieldLeak")
-class EditorFragmentViewModel
-constructor(
+internal class EditorFragmentViewModel(
     private val appContext: Context,
     interactor: EditorFragmentInteractor,
     private val sourceShot: PhotoShot
-) : ViewModelBase<EditorFragmentInteractor>(interactor),
+) : ViewModelBase<EditorFragmentInteractor, EditorFragmentCommand>(interactor),
     FilterEventsProcessor {
 
     private val _screenTitle = MutableLiveData<String?>(null)
@@ -168,13 +164,15 @@ constructor(
 
             is HideGlFilterSettings -> _glSettings.value = null
 
-            is ShowSaveDialog -> sendCommand(ShowEditorSaveDialogCommand)
+            is ShowSaveDialog -> sendCommand(EditorFragmentCommand.ShowEditorSaveDialog)
 
-            is CloseEditor -> sendCommand(CloseEditorCommand)
+            is CloseEditor -> sendCommand(EditorFragmentCommand.CloseEditor)
 
             is SetProgressVisibility -> _progressVisibility.value = if(command.isVisible) View.VISIBLE else View.GONE
 
-            is SetFlowerMenuVisibility -> sendCommand(SetFlowerMenuVisibilityCommand(isVisible = command.isVisible))
+            is SetFlowerMenuVisibility -> sendCommand(
+                EditorFragmentCommand.SetFlowerMenuVisibility(isVisible = command.isVisible)
+            )
         }
     }
 

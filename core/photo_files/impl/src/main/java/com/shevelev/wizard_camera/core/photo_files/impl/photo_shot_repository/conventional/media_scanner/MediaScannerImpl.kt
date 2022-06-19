@@ -7,8 +7,7 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 import java.io.File
 import kotlin.coroutines.resume
 
-internal class MediaScannerImpl
-constructor(
+internal class MediaScannerImpl(
     private val appContext: Context
 ) : MediaScanner {
     override suspend fun processNewShot(shot: File): Uri? =

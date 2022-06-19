@@ -9,13 +9,12 @@ import android.view.TextureView
 import android.view.View
 import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.activity_gallery.GalleryActivity
-import com.shevelev.wizard_camera.activity_main.fragment_camera.model.dto.*
 import com.shevelev.wizard_camera.activity_main.fragment_camera.view.gestures.GesturesDetector
+import com.shevelev.wizard_camera.activity_main.fragment_camera.view_model.CameraFragmentCommand
 import com.shevelev.wizard_camera.activity_main.fragment_camera.view_model.CameraFragmentViewModel
 import com.shevelev.wizard_camera.core.camera_gl.api.camera.manager.CameraManager
 import com.shevelev.wizard_camera.core.camera_gl.api.camera.renderer.GlRenderer
 import com.shevelev.wizard_camera.core.ui_utils.mvvm.view.FragmentBaseMVVM
-import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_commands.ViewCommand
 import com.shevelev.wizard_camera.databinding.FragmentCameraBinding
 import com.shevelev.wizard_camera.feature.filters_facade.api.di.FiltersFacadeInjectionSettings
 import com.shevelev.wizard_camera.feature.filters_facade.impl.di.FiltersFacadeScope
@@ -29,7 +28,8 @@ import permissions.dispatcher.RuntimePermissions
 private const val FILTERS_SCOPE_ID = "CAMERA_FRAGMENT_FILTERS_SCOPE_ID"
 
 @RuntimePermissions
-class CameraFragment : FragmentBaseMVVM<FragmentCameraBinding, CameraFragmentViewModel>(), TextureView.SurfaceTextureListener {
+internal class CameraFragment : FragmentBaseMVVM<FragmentCameraBinding, CameraFragmentViewModel, CameraFragmentCommand>(),
+    TextureView.SurfaceTextureListener {
     private lateinit var textureView: TextureView
 
     private var renderer: GlRenderer? = null
@@ -38,7 +38,7 @@ class CameraFragment : FragmentBaseMVVM<FragmentCameraBinding, CameraFragmentVie
 
     private lateinit var gestureDetector: GesturesDetector
 
-    override val viewModel: CameraFragmentViewModel by viewModel{
+    override val viewModel: CameraFragmentViewModel by viewModel {
         parametersOf(
             FiltersFacadeInjectionSettings(
                 FILTERS_SCOPE_ID,
@@ -71,7 +71,7 @@ class CameraFragment : FragmentBaseMVVM<FragmentCameraBinding, CameraFragmentVie
             binding.flowerMenu.init(it)
         }
 
-        binding.shootButton.setOnClickListener { textureView.let { viewModel.onCaptureClick() }  }
+        binding.shootButton.setOnClickListener { textureView.let { viewModel.onCaptureClick() } }
         binding.flashButton.setOnClickListener { viewModel.onFlashClick() }
         binding.expositionBar.setOnValueChangeListener { viewModel.onExposeValueUpdated(it) }
         binding.galleryButton.setOnClickListener { viewModel.onGalleyClick() }
@@ -105,23 +105,28 @@ class CameraFragment : FragmentBaseMVVM<FragmentCameraBinding, CameraFragmentVie
         onRequestPermissionsResult(requestCode, grantResults)
     }
 
-    override fun processViewCommand(command: ViewCommand) {
-        when(command) {
-            is ShowCapturingSuccessCommand -> {
+    override fun processViewCommand(command: CameraFragmentCommand) {
+        when (command) {
+            is CameraFragmentCommand.ShowCapturingSuccess -> {
                 binding.captureSuccess.show(command.screenOrientation)
             }
-            is ZoomCommand -> cameraManager.zoom(command.scaleFactor).let { viewModel.onZoomUpdated(it) }
-            ResetExposureCommand -> binding.expositionBar.reset()
-            is SetExposureCommand -> cameraManager.updateExposure(command.exposureValue)
-            NavigateToGalleryCommand -> navigateToGallery()
-            is ShowFilterSettingsCommand -> {
+
+            is CameraFragmentCommand.Zoom -> cameraManager.zoom(command.scaleFactor).let { viewModel.onZoomUpdated(it) }
+
+            CameraFragmentCommand.ResetExposure -> binding.expositionBar.reset()
+
+            is CameraFragmentCommand.SetExposure -> cameraManager.updateExposure(command.exposureValue)
+
+            CameraFragmentCommand.NavigateToGallery -> navigateToGallery()
+
+            is CameraFragmentCommand.ShowFilterSettings -> {
                 binding.settings.hide()
                 binding.settings.show(command.settings)
             }
 
-            is HideFilterSettingsCommand -> binding.settings.hide()
+            is CameraFragmentCommand.HideFilterSettings -> binding.settings.hide()
 
-            is StartCaptureCommand -> cameraManager.capture(
+            is CameraFragmentCommand.StartCapture -> cameraManager.capture(
                 command.targetStream,
                 command.isFlashLightActive,
                 command.rotation
@@ -129,13 +134,15 @@ class CameraFragment : FragmentBaseMVVM<FragmentCameraBinding, CameraFragmentVie
                 viewModel.onCaptureComplete(isSuccess)
             }
 
-            is SetFlowerMenuVisibilityCommand -> {
-                if(command.isVisible) {
+            is CameraFragmentCommand.SetFlowerMenuVisibility -> {
+                if (command.isVisible) {
                     binding.flowerMenu.show()
                 } else {
                     binding.flowerMenu.hide()
                 }
             }
+
+            is CameraFragmentCommand.ShowMessageRes -> showMessage(command.textResId)
         }
     }
 
@@ -144,7 +151,8 @@ class CameraFragment : FragmentBaseMVVM<FragmentCameraBinding, CameraFragmentVie
     }
 
     override fun onSurfaceTextureSizeChanged(surface: SurfaceTexture, width: Int, height: Int) {
-        startRendering(surface, width, height)    }
+        startRendering(surface, width, height)
+    }
 
     override fun onSurfaceTextureDestroyed(surface: SurfaceTexture): Boolean {
         stopRendering()
@@ -173,7 +181,7 @@ class CameraFragment : FragmentBaseMVVM<FragmentCameraBinding, CameraFragmentVie
     internal fun onCameraPermissionsDenied() = viewModel.onPermissionDenied()
 
     private fun startRendering(surface: SurfaceTexture, width: Int, height: Int) {
-        if(renderer != null) {
+        if (renderer != null) {
             return
         }
 
@@ -192,7 +200,7 @@ class CameraFragment : FragmentBaseMVVM<FragmentCameraBinding, CameraFragmentVie
     }
 
     private fun stopRendering() {
-        if(renderer == null) {
+        if (renderer == null) {
             return
         }
 

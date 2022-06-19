@@ -3,26 +3,24 @@ package com.shevelev.wizard_camera.activity_gallery.fragment_gallery.view
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.view.EditorFragment
-import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.dto.EditShotCommand
-import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.dto.ShareShotCommand
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.view.adapter.GalleryAdapter
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.view.external_actions.GalleryHelper
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.view.external_actions.SharingHelper
+import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.view_model.GalleryFragmentCommand
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.view_model.GalleryFragmentViewModel
 import com.shevelev.wizard_camera.core.ui_utils.dialogs.ConfirmationDialog
-import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_commands.ScrollGalleryToPosition
-import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_commands.ViewCommand
+import com.shevelev.wizard_camera.core.ui_utils.mvvm.view.FragmentBaseMVVM
 import com.shevelev.wizard_camera.databinding.FragmentGalleryBinding
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import androidx.navigation.fragment.findNavController
 
 private const val DELETE_DIALOG_REQUEST = 14109
 
-class GalleryFragment : com.shevelev.wizard_camera.core.ui_utils.mvvm.view.FragmentBaseMVVM<FragmentGalleryBinding, GalleryFragmentViewModel>() {
+internal class GalleryFragment : FragmentBaseMVVM<FragmentGalleryBinding, GalleryFragmentViewModel, GalleryFragmentCommand>() {
     private val galleryHelper: GalleryHelper by inject()
 
     private val sharingHelper: SharingHelper by inject()
@@ -84,19 +82,21 @@ class GalleryFragment : com.shevelev.wizard_camera.core.ui_utils.mvvm.view.Fragm
         viewModel.initPhotos()
     }
 
-    override fun processViewCommand(command: ViewCommand) {
+    override fun processViewCommand(command: GalleryFragmentCommand) {
         when(command) {
-            is ShareShotCommand -> sharingHelper.startSharing(command.contentUri, this)
+            is GalleryFragmentCommand.ShareShot -> sharingHelper.startSharing(command.contentUri, this)
 
-            is EditShotCommand ->
+            is GalleryFragmentCommand.EditShot ->
                 findNavController().navigate(
                     R.id.action_galleryFragment_to_editorFragment,
                     EditorFragment.createParameters(command.shot)
                 )
 
-            is ScrollGalleryToPosition -> binding.galleryPager.postDelayed({
+            is GalleryFragmentCommand.ScrollGalleryToPosition -> binding.galleryPager.postDelayed({
                 binding.galleryPager.setCurrentItem(command.position, true)
             }, 250L)
+
+            is GalleryFragmentCommand.ShowMessageRes -> showMessage(command.textResId)
         }
     }
 

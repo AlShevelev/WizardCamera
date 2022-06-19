@@ -8,8 +8,7 @@ import com.shevelev.wizard_camera.core.common_entities.entities.PhotoShot
 import com.shevelev.wizard_camera.core.ui_kit.lib.flower_menu.FlowerMenuItemData
 import kotlinx.coroutines.flow.SharedFlow
 
-class EditorFragmentInteractorImpl
-constructor(
+class EditorFragmentInteractorImpl(
     private val stateMachinesOrchestrator: StateMachinesOrchestrator,
     private val filters: FiltersFacade
 ) : EditorFragmentInteractor {

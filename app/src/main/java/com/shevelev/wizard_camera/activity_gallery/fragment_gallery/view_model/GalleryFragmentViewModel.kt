@@ -7,22 +7,17 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.shevelev.wizard_camera.R
-import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.dto.EditShotCommand
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.dto.GalleryItem
-import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.dto.ShareShotCommand
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.dto.ShotsLoadingResult
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.model.GalleryFragmentInteractor
-import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_commands.ScrollGalleryToPosition
-import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_commands.ShowMessageResCommand
 import com.shevelev.wizard_camera.core.ui_utils.mvvm.view_model.ViewModelBase
 import kotlinx.coroutines.launch
 import org.threeten.bp.format.DateTimeFormatter
 import org.threeten.bp.format.FormatStyle
 
-class GalleryFragmentViewModel
-constructor(
+internal class GalleryFragmentViewModel(
     interactor: GalleryFragmentInteractor
-) : ViewModelBase<GalleryFragmentInteractor>(interactor),
+) : ViewModelBase<GalleryFragmentInteractor, GalleryFragmentCommand>(interactor),
     GalleryPagingActions {
 
     private val _photos = MutableLiveData<List<GalleryItem>>()
@@ -48,7 +43,7 @@ constructor(
     init {
         viewModelScope.launch {
             interactor.loadingResult.collect {
-                when(it) {
+                when (it) {
                     is ShotsLoadingResult.PreLoading -> {
                         _isNoDataStubVisible.value = View.INVISIBLE
                         _isShotWidgetsVisible.value = View.INVISIBLE
@@ -75,7 +70,7 @@ constructor(
     fun onShareShotClick(filteredImage: Bitmap) {
         viewModelScope.launch {
             interactor.startBitmapSharing(filteredImage).also {
-                sendCommand(ShareShotCommand(it))
+                sendCommand(GalleryFragmentCommand.ShareShot(it))
             }
         }
     }
@@ -89,15 +84,15 @@ constructor(
     }
 
     fun onEditShotClick(position: Int) {
-        sendCommand(EditShotCommand(interactor.getShot(position)))
+        sendCommand(GalleryFragmentCommand.EditShot(interactor.getShot(position)))
     }
 
     fun startImageImport(uri: Uri, currentPosition: Int) {
         viewModelScope.launch {
-            if(!interactor.importBitmap(uri, currentPosition)) {
-                sendCommand(ShowMessageResCommand(R.string.generalError))
+            if (!interactor.importBitmap(uri, currentPosition)) {
+                sendCommand(GalleryFragmentCommand.ShowMessageRes(R.string.generalError))
             } else {
-                sendCommand(ScrollGalleryToPosition(currentPosition))
+                sendCommand(GalleryFragmentCommand.ScrollGalleryToPosition(currentPosition))
             }
         }
     }
@@ -106,8 +101,8 @@ constructor(
         viewModelScope.launch {
             try {
                 action()
-            } catch(ex: Exception) {
-                sendCommand(ShowMessageResCommand(R.string.generalError))
+            } catch (ex: Exception) {
+                sendCommand(GalleryFragmentCommand.ShowMessageRes(R.string.generalError))
             }
         }
     }
