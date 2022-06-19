@@ -23,7 +23,6 @@ internal class NoFiltersMachine(
 
                 editorStorage.isInNoFiltersMode = true
 
-                outputCommands.emit(SetButtonSelection(ModeButtonCode.NO_FILTERS, true))
                 outputCommands.emit(
                     SetInitialImage(
                         editorStorage.displayedImage,
@@ -39,12 +38,6 @@ internal class NoFiltersMachine(
                 outputCommands.emit(SetFlowerMenuVisibility(true))
                 outputCommands.emit(SetButtonSelection(ModeButtonCode.FLOWER_MENU, isSelected = true))
                 State.FILTERS_MENU_VISIBLE
-            }
-
-            state == State.MAIN && event is ModeButtonClicked && event.code == ModeButtonCode.GL_FILTERS -> {
-                editorStorage.onUpdate()
-                outputCommands.emit(SetButtonSelection(ModeButtonCode.NO_FILTERS, false))
-                State.GL_FILTERS_ALL
             }
 
             state == State.MAIN && event is ModeButtonClicked && event.code == ModeButtonCode.MAGIC -> {

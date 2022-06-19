@@ -34,8 +34,6 @@ internal class GlFiltersMachine(
                     isFilterSettingsFacadeSetUp = true
                 }
 
-                outputCommands.emit(SetButtonSelection(ModeButtonCode.GL_FILTERS, true))
-
                 outputCommands.emit(
                     SetInitialImage(
                         editorStorage.displayedImage,
@@ -56,13 +54,6 @@ internal class GlFiltersMachine(
                 outputCommands.emit(SetFlowerMenuVisibility(isVisible = true))
                 outputCommands.emit(SetButtonSelection(ModeButtonCode.FLOWER_MENU, isSelected = true))
                 State.FILTERS_MENU_VISIBLE
-            }
-
-            state == State.MAIN && event is ModeButtonClicked && event.code == ModeButtonCode.NO_FILTERS -> {
-                editorStorage.onUpdate()
-                outputCommands.emit(SetButtonSelection(ModeButtonCode.GL_FILTERS, false))
-                outputCommands.emit(SetGlFilterCarouselVisibility(false))
-                State.GL_FILTERS_NONE
             }
 
             state == State.MAIN && event is CancelClicked -> {
@@ -142,13 +133,6 @@ internal class GlFiltersMachine(
                     )
                 }
                 State.MAIN
-            }
-
-            state == State.SETTINGS_VISIBLE && event is ModeButtonClicked && event.code == ModeButtonCode.NO_FILTERS -> {
-                editorStorage.onUpdate()
-                outputCommands.emit(SetButtonSelection(ModeButtonCode.GL_FILTERS, false))
-                hideFilterSettings()
-                State.GL_FILTERS_NONE
             }
 
             state == State.SETTINGS_VISIBLE && event is GlFilterSettingsHid -> {

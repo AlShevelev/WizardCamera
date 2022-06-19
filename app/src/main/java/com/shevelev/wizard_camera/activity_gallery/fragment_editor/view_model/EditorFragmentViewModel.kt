@@ -54,12 +54,6 @@ constructor(
     private val _cancelButtonState = MutableLiveData(ButtonState.ENABLED)
     val cancelButtonState: LiveData<ButtonState> = _cancelButtonState
 
-    private val _noFiltersButtonState = MutableLiveData(ButtonState.ENABLED)
-    val noFiltersButtonState: LiveData<ButtonState> = _noFiltersButtonState
-
-    private val _glFiltersButtonState = MutableLiveData(ButtonState.ENABLED)
-    val glFiltersButtonState: LiveData<ButtonState> = _glFiltersButtonState
-
     private val _filtersButtonState = MutableLiveData(ButtonState.ENABLED)
     val filtersButtonState: LiveData<ButtonState> = _filtersButtonState
 
@@ -186,8 +180,6 @@ constructor(
 
     private fun setButtonState(button: ModeButtonCode, state: ButtonState) {
         when(button) {
-            ModeButtonCode.NO_FILTERS -> _noFiltersButtonState
-            ModeButtonCode.GL_FILTERS -> _glFiltersButtonState
             ModeButtonCode.MAGIC -> _magicButtonState
             ModeButtonCode.FLOWER_MENU -> _filtersButtonState
         }

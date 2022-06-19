@@ -1,6 +1,5 @@
 package com.shevelev.wizard_camera.feature.filters_facade.impl.groups
 
-import android.util.Log
 import com.shevelev.wizard_camera.core.common_entities.enums.FiltersGroup
 import com.shevelev.wizard_camera.core.common_entities.enums.GlFilterCode
 import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.EmptyFilterSettings

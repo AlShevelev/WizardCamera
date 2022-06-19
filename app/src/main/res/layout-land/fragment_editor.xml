@@ -50,37 +50,13 @@
             app:button_state="@{viewModel.magicButtonState}" />
 
         <ImageButton
-            android:id="@+id/glFiltersButton"
+            android:id="@+id/filtersButton"
             style="@style/WizCam.RoundButton"
             android:src="@drawable/ic_gallery_filter"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="@dimen/navigationBarButtonsMargin"
             android:layout_marginBottom="@dimen/marginNormal"
-            tools:ignore="ContentDescription"
-            tools:visibility="visible"
-            android:onClick="@{() -> viewModel.onModeButtonClick(ModeButtonCode.GL_FILTERS)}"
-            app:button_state="@{viewModel.glFiltersButtonState}" />
-
-        <ImageButton
-            android:id="@+id/noFiltersButton"
-            style="@style/WizCam.RoundButton"
-            android:layout_marginEnd="@dimen/marginSmall"
-            android:src="@drawable/ic_gallery_no_filters"
-            app:layout_constraintBottom_toBottomOf="@id/glFiltersButton"
-            app:layout_constraintEnd_toStartOf="@id/glFiltersButton"
-            tools:ignore="ContentDescription"
-            tools:visibility="visible"
-            android:onClick="@{() -> viewModel.onModeButtonClick(ModeButtonCode.NO_FILTERS)}"
-            app:button_state="@{viewModel.noFiltersButtonState}" />
-
-        <ImageButton
-            android:id="@+id/filtersButton"
-            style="@style/WizCam.RoundButton"
-            android:layout_marginEnd="@dimen/marginSmall"
-            android:src="@drawable/ic_gallery_filter"
-            app:layout_constraintBottom_toBottomOf="@id/glFiltersButton"
-            app:layout_constraintEnd_toStartOf="@id/noFiltersButton"
             tools:ignore="ContentDescription"
             tools:visibility="visible"
             android:onClick="@{() -> viewModel.onFiltersMenuButtonClick()}"
@@ -91,7 +67,7 @@
             style="@style/WizCam.RoundButton"
             android:layout_marginTop="@dimen/marginNormal"
             android:src="@drawable/ic_cancel"
-            app:layout_constraintEnd_toEndOf="@id/glFiltersButton"
+            app:layout_constraintEnd_toEndOf="@id/filtersButton"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="ContentDescription"
             tools:visibility="visible"
@@ -115,7 +91,7 @@
             android:layout_width="0dp"
             android:layout_height="@dimen/mainFilterCarouselHeight"
             android:layout_marginBottom="@dimen/marginNormal"
-            app:layout_constraintBottom_toTopOf="@id/glFiltersButton"
+            app:layout_constraintBottom_toTopOf="@id/filtersButton"
             app:layout_constraintEnd_toStartOf="@id/guideline80"
             app:layout_constraintStart_toEndOf="@id/guideline20"
             tools:background="#0000ff"
@@ -129,7 +105,7 @@
             android:layout_marginStart="@dimen/marginNormal"
             android:layout_marginEnd="@dimen/marginNormal"
             android:layout_marginBottom="@dimen/marginNormal"
-            app:layout_constraintBottom_toTopOf="@id/glFiltersButton"
+            app:layout_constraintBottom_toTopOf="@id/filtersButton"
             app:layout_constraintEnd_toStartOf="@id/guideline80"
             app:layout_constraintStart_toEndOf="@id/guideline20"
             tools:background="#00ff00"
