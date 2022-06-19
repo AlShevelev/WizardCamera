@@ -30,5 +30,4 @@ class ExitCommand(@StringRes val messageResId: Int): ViewCommand
 class ShowFilterSettingsCommand(val settings: GlFilterSettings): ViewCommand
 class HideFilterSettingsCommand : ViewCommand
 
-object ShowFlowerMenuCommand: ViewCommand
-object HideFlowerMenuCommand: ViewCommand
+data class SetFlowerMenuVisibilityCommand(val isVisible: Boolean): ViewCommand

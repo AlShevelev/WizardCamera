@@ -6,7 +6,9 @@ import android.view.View
 import androidx.navigation.fragment.findNavController
 import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.dto.ImageWithFilter
+import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_machines.api.SetFlowerMenuVisibility
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.view_model.EditorFragmentViewModel
+import com.shevelev.wizard_camera.activity_main.fragment_camera.model.dto.SetFlowerMenuVisibilityCommand
 import com.shevelev.wizard_camera.core.camera_gl.api.bitmap.GLSurfaceViewBitmap
 import com.shevelev.wizard_camera.core.camera_gl.api.bitmap.filters.GlSurfaceShaderFilter
 import com.shevelev.wizard_camera.core.camera_gl.api.shared.factory.GlShaderFiltersFactory
@@ -74,6 +76,7 @@ class EditorFragment : FragmentBaseMVVM<FragmentEditorBinding, EditorFragmentVie
         viewModel.flowerFilters.observe(viewLifecycleOwner) {
             binding.flowerMenu.init(it)
         }
+        binding.flowerMenu.setOnItemClickListener { viewModel.onFilterFromMenuClick(it) }
 
         binding.glFiltersSettings.setOnSettingsChangeListener(viewModel::onGLFilterSettingsUpdated)
 
@@ -97,6 +100,14 @@ class EditorFragment : FragmentBaseMVVM<FragmentEditorBinding, EditorFragmentVie
                 )
 
             is CloseEditorCommand -> findNavController().popBackStack()
+
+            is SetFlowerMenuVisibilityCommand -> {
+                if(command.isVisible) {
+                    binding.flowerMenu.show()
+                } else {
+                    binding.flowerMenu.hide()
+                }
+            }
         }
     }
 

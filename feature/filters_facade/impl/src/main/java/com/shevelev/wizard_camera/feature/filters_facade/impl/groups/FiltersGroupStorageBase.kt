@@ -1,5 +1,6 @@
 package com.shevelev.wizard_camera.feature.filters_facade.impl.groups
 
+import android.util.Log
 import com.shevelev.wizard_camera.core.common_entities.enums.FiltersGroup
 import com.shevelev.wizard_camera.core.common_entities.enums.GlFilterCode
 import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.EmptyFilterSettings
@@ -59,8 +60,6 @@ internal abstract class FiltersGroupStorageBase(
     override fun contains(code: GlFilterCode): Boolean = filters.any { it.displayData.code == code }
 
     override suspend fun select(code: GlFilterCode) {
-        lastUsedFilters.update(code, groupCode)
-
         filters
             .indexOfFirst { it.isSelected }
             .takeIf { it != -1 }
@@ -70,14 +69,16 @@ internal abstract class FiltersGroupStorageBase(
                 }
             }
 
-        filters
+        val filterIndex = filters
             .indexOfFirst { it.displayData.code == code }
             .takeIf { it != -1 }
-            ?.let { index ->
-                filters.update(index) {
-                    it.copy(isSelected = true)
-                }
-            }
+            ?: 0
+
+        lastUsedFilters.update(filters[filterIndex].displayData.code, groupCode)
+
+        filters.update(filterIndex) {
+            it.copy(isSelected = true)
+        }
     }
 
     override suspend fun addToFavorite(code: GlFilterCode) {

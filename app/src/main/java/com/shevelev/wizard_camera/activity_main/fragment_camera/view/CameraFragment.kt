@@ -76,7 +76,7 @@ class CameraFragment : FragmentBaseMVVM<FragmentCameraBinding, CameraFragmentVie
         binding.expositionBar.setOnValueChangeListener { viewModel.onExposeValueUpdated(it) }
         binding.galleryButton.setOnClickListener { viewModel.onGalleyClick() }
         binding.filtersButton.setOnClickListener { viewModel.onFiltersMenuClick() }
-        binding.flowerMenu.setOnItemClickListener { viewModel.onFilterClick(it) }
+        binding.flowerMenu.setOnItemClickListener { viewModel.onFilterFromMenuClick(it) }
 
         binding.settings.setOnSettingsChangeListener { viewModel.onFilterSettingsChange(it) }
 
@@ -129,8 +129,13 @@ class CameraFragment : FragmentBaseMVVM<FragmentCameraBinding, CameraFragmentVie
                 viewModel.onCaptureComplete(isSuccess)
             }
 
-            ShowFlowerMenuCommand -> binding.flowerMenu.show()
-            HideFlowerMenuCommand -> binding.flowerMenu.hide()
+            is SetFlowerMenuVisibilityCommand -> {
+                if(command.isVisible) {
+                    binding.flowerMenu.show()
+                } else {
+                    binding.flowerMenu.hide()
+                }
+            }
         }
     }
 

@@ -69,3 +69,5 @@ object CloseEditor : OutputCommand()
  * Shows and hides
  */
 class SetProgressVisibility(val isVisible: Boolean) : OutputCommand()
+
+data class SetFlowerMenuVisibility(val isVisible: Boolean) : OutputCommand()

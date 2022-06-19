@@ -1,5 +1,7 @@
 package com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_machines.api
 
+import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_machines.impl.GlFiltersMachine
+import com.shevelev.wizard_camera.core.common_entities.enums.FiltersGroup
 import com.shevelev.wizard_camera.core.common_entities.enums.GlFilterCode
 import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.GlFilterSettings
 
@@ -14,9 +16,16 @@ sealed class InputEvent
 object Init : InputEvent()
 
 /**
+ * Moves [GlFiltersMachine] from the Init state to the Main state
+ */
+data class InitGlFiltersMachine(val group: FiltersGroup) : InputEvent()
+
+/**
  * The editor mode has been switched by user
  */
 data class ModeButtonClicked(val code: ModeButtonCode) : InputEvent()
+
+object FiltersMenuButtonClicked : InputEvent()
 
 /**
  * Accept action
@@ -49,6 +58,8 @@ data class GlFilterFavoriteUpdate(val code: GlFilterCode, val isSelected: Boolea
 data class GlFilterSettingsUpdated(val settings: GlFilterSettings) : InputEvent()
 
 /**
- * A user hided current filter settings
+ * A user hid current filter settings
  */
-object GlFilterSettingsHided : InputEvent()
+object GlFilterSettingsHid : InputEvent()
+
+data class FilterFromMenuSelected(val group: FiltersGroup) : InputEvent()

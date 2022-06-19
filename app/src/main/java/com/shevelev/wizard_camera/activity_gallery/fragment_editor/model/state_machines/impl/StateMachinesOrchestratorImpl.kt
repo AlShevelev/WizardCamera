@@ -28,8 +28,7 @@ internal class StateMachinesOrchestratorImpl (
         GlFiltersMachine(
             outputCommands = _commands,
             editorStorage = editorStorage,
-            filters = filters,
-            group = FiltersGroup.ALL
+            filters = filters
         )
     }
 
@@ -41,9 +40,16 @@ internal class StateMachinesOrchestratorImpl (
 
     override suspend fun processEvent(event: InputEvent) {
         when(activeMachine.processEvent(event)) {
-            State.NO_FILTERS -> switchToMachine(noFilterMachine)
-            State.GL_FILTERS -> switchToMachine(glFilterMachine)
+            State.GL_FILTERS_NONE -> switchToMachine(noFilterMachine)
+
+            State.GL_FILTERS_ALL -> switchToMachine(glFilterMachine, FiltersGroup.ALL)
+            State.GL_FILTERS_COLORS -> switchToMachine(glFilterMachine, FiltersGroup.COLORS)
+            State.GL_FILTERS_DEFORMATIONS -> switchToMachine(glFilterMachine, FiltersGroup.DEFORMATIONS)
+            State.GL_FILTERS_STYLIZATION -> switchToMachine(glFilterMachine, FiltersGroup.STYLIZATION)
+            State.GL_FILTERS_FAVORITES -> switchToMachine(glFilterMachine, FiltersGroup.FAVORITES)
+
             State.CANCELING -> switchToMachine(cancelingMachine)
+
             State.PREVIOUS_MODE -> switchToMachine(previousMachine!!)
             else -> {}
         }
@@ -72,5 +78,15 @@ internal class StateMachinesOrchestratorImpl (
         activeMachine = machine
         activeMachine.resetState()
         activeMachine.processEvent(Init)
+    }
+
+    private suspend fun switchToMachine(machine: EditorMachineBase, group: FiltersGroup) {
+        if(::activeMachine.isInitialized) {
+            previousMachine = activeMachine
+        }
+
+        activeMachine = machine
+        activeMachine.resetState()
+        activeMachine.processEvent(InitGlFiltersMachine(group))
     }
 }

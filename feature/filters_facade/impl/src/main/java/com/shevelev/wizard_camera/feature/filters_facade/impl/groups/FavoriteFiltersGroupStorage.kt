@@ -24,7 +24,7 @@ internal class FavoriteFiltersGroupStorage(
     private lateinit var filters: MutableList<FilterListItem>
 
     override val selected: GlFilterCode
-        get() = filters.firstOrNull{ it.isSelected }?.displayData?.code ?: GlFilterCode.ORIGINAL
+        get() = filters.firstOrNull { it.isSelected }?.displayData?.code ?: GlFilterCode.ORIGINAL
 
     override suspend fun init() {
         val allFavoritesList = withContext(Dispatchers.IO) {
@@ -51,16 +51,27 @@ internal class FavoriteFiltersGroupStorage(
     override fun contains(code: GlFilterCode): Boolean = filters.any { it.displayData.code == code }
 
     override suspend fun select(code: GlFilterCode) {
-        lastUsedFilters.update(code, groupCode)
-
-        val currentSelectedItemIndex = filters.indexOfFirst { it.isSelected }
-        val newSelectedItemIndex = filters.indexOfFirst { it.displayData.code == code }
-
-        filters.update(currentSelectedItemIndex) {
-            it.copy(isSelected = false)
+        if (filters.isEmpty()) {
+            return
         }
 
-        filters.update(newSelectedItemIndex) {
+        filters
+            .indexOfFirst { it.isSelected }
+            .takeIf { it != -1 }
+            ?.let { index ->
+                filters.update(index) {
+                    it.copy(isSelected = false)
+                }
+            }
+
+        val filterIndex = filters
+            .indexOfFirst { it.displayData.code == code }
+            .takeIf { it != -1 }
+            ?: 0
+
+        lastUsedFilters.update(code, groupCode)
+
+        filters.update(filterIndex) {
             it.copy(isSelected = true)
         }
     }
@@ -94,10 +105,10 @@ internal class FavoriteFiltersGroupStorage(
 
         filters.removeAll { it.displayData.code == code }
 
-        if(filters.isEmpty()) {
+        if (filters.isEmpty()) {
             lastUsedFilters.remove(groupCode)
         } else {
-            if(isSelectedRemoved) {
+            if (isSelectedRemoved) {
                 filters.update(0) {
                     it.copy(isSelected = true)
                 }

@@ -192,11 +192,11 @@ constructor(
 
         if (!hideFiltersMenu()) {
             _filtersButtonState.value = ButtonState.SELECTED
-            sendCommand(ShowFlowerMenuCommand)
+            sendCommand(SetFlowerMenuVisibilityCommand(isVisible = true))
         }
     }
 
-    fun onFilterClick(index: Int) {
+    fun onFilterFromMenuClick(index: Int) {
         viewModelScope.launch {
             hideSettings()
             hideFiltersMenu()
@@ -294,7 +294,7 @@ constructor(
     private fun hideFiltersMenu(): Boolean =
         if (_filtersButtonState.value == ButtonState.SELECTED) {
             _filtersButtonState.value = ButtonState.ENABLED
-            sendCommand(HideFlowerMenuCommand)
+            sendCommand(SetFlowerMenuVisibilityCommand(isVisible = false))
             true
         } else {
             false

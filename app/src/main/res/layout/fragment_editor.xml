@@ -81,7 +81,7 @@
             app:layout_constraintBottom_toBottomOf="@id/glFiltersButton"
             app:layout_constraintEnd_toStartOf="@id/noFiltersButton"
             tools:ignore="ContentDescription"
-            android:onClick="@{() -> viewModel.onFiltersButtonClick()}"
+            android:onClick="@{() -> viewModel.onFiltersMenuButtonClick()}"
             app:button_state="@{viewModel.filtersButtonState}" />
 
         <ImageButton

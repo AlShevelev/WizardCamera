@@ -10,7 +10,9 @@ import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.EditorFragmentInteractor
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.dto.ImageWithFilter
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.model.state_machines.api.*
+import com.shevelev.wizard_camera.activity_main.fragment_camera.model.dto.SetFlowerMenuVisibilityCommand
 import com.shevelev.wizard_camera.core.common_entities.entities.PhotoShot
+import com.shevelev.wizard_camera.core.common_entities.enums.FiltersGroup
 import com.shevelev.wizard_camera.core.common_entities.enums.GlFilterCode
 import com.shevelev.wizard_camera.core.common_entities.filter_settings.gl.GlFilterSettings
 import com.shevelev.wizard_camera.core.ui_kit.lib.filters.filters_carousel.FilterEventsProcessor
@@ -43,8 +45,8 @@ constructor(
     private val _glFiltersVisibility = MutableLiveData(View.INVISIBLE)
     val glFiltersVisibility: LiveData<Int> = _glFiltersVisibility
 
-    private val _glSettings = MutableLiveData<GlFilterSettings>(null)
-    val glSettings: LiveData<GlFilterSettings> = _glSettings
+    private val _glSettings = MutableLiveData<GlFilterSettings?>(null)
+    val glSettings: LiveData<GlFilterSettings?> = _glSettings
 
     private val _acceptButtonState = MutableLiveData(ButtonState.ENABLED)
     val acceptButtonState: LiveData<ButtonState> = _acceptButtonState
@@ -103,8 +105,10 @@ constructor(
         viewModelScope.launch { interactor.processEvent(ModeButtonClicked(code)) }
     }
 
-    fun onFiltersButtonClick() {
-        //Show the menu
+    fun onFiltersMenuButtonClick() {
+        viewModelScope.launch {
+            interactor.processEvent(FiltersMenuButtonClicked)
+        }
     }
 
     fun onAcceptClick() {
@@ -120,7 +124,14 @@ constructor(
     }
 
     fun onGlSurfaceClick() {
-        viewModelScope.launch { interactor.processEvent(GlFilterSettingsHided) }
+        viewModelScope.launch { interactor.processEvent(GlFilterSettingsHid) }
+    }
+
+    fun onFilterFromMenuClick(index: Int) {
+        viewModelScope.launch {
+            val group  = FiltersGroup.fromIndex(index)!!
+            viewModelScope.launch { interactor.processEvent(FilterFromMenuSelected(group)) }
+        }
     }
 
     private fun processOutputCommand(command: OutputCommand) {
@@ -168,6 +179,8 @@ constructor(
             is CloseEditor -> sendCommand(CloseEditorCommand)
 
             is SetProgressVisibility -> _progressVisibility.value = if(command.isVisible) View.VISIBLE else View.GONE
+
+            is SetFlowerMenuVisibility -> sendCommand(SetFlowerMenuVisibilityCommand(isVisible = command.isVisible))
         }
     }
 
@@ -176,6 +189,7 @@ constructor(
             ModeButtonCode.NO_FILTERS -> _noFiltersButtonState
             ModeButtonCode.GL_FILTERS -> _glFiltersButtonState
             ModeButtonCode.MAGIC -> _magicButtonState
+            ModeButtonCode.FLOWER_MENU -> _filtersButtonState
         }
             .let { it.value = state }
 

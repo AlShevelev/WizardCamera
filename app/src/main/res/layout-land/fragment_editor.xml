@@ -83,7 +83,7 @@
             app:layout_constraintEnd_toStartOf="@id/noFiltersButton"
             tools:ignore="ContentDescription"
             tools:visibility="visible"
-            android:onClick="@{() -> viewModel.onFiltersButtonClick()}"
+            android:onClick="@{() -> viewModel.onFiltersMenuButtonClick()}"
             app:button_state="@{viewModel.filtersButtonState}" />
 
         <ImageButton
