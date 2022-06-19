@@ -75,11 +75,12 @@ constructor(
     fun processGesture(gesture: Gesture) {
         hideFiltersMenu()
 
-        if(isSettingsVisible) {
+        if (isSettingsVisible) {
             hideSettings()
         } else {
             when (gesture) {
-                is Tap -> { /* temporary unused */ }
+                is Tap -> { /* temporary unused */
+                }
                 is Pinch -> zoom(gesture.scaleFactor)
             }
         }
@@ -90,7 +91,7 @@ constructor(
             hideSettings()
             hideFiltersMenu()
 
-            if(interactor.capture.inProgress) {
+            if (interactor.capture.inProgress) {
                 sendCommand(ShowMessageResCommand(R.string.capturingInProgressError))
                 return@launch
             }
@@ -99,7 +100,7 @@ constructor(
             val screenOrientation = interactor.orientation.screenOrientation
             val startCapturingResult = interactor.capture.startCapture(filter, screenOrientation)
 
-            if(startCapturingResult == null) {
+            if (startCapturingResult == null) {
                 ShowMessageResCommand(R.string.generalError)
             } else {
                 sendCommand(
@@ -115,7 +116,7 @@ constructor(
 
     fun onCaptureComplete(isSuccess: Boolean) {
         viewModelScope.launch {
-             val command = if(isSuccess && interactor.capture.captureCompleted()) {
+            val command = if (isSuccess && interactor.capture.captureCompleted()) {
                 ShowCapturingSuccessCommand(interactor.orientation.screenOrientation)
             } else {
                 ShowMessageResCommand(R.string.generalError)
@@ -142,16 +143,16 @@ constructor(
         hideFiltersMenu()
 
         isFlashActive = !isFlashActive
-        _flashButtonState.value = if(isFlashActive)  ButtonState.SELECTED else ButtonState.ENABLED
+        _flashButtonState.value = if (isFlashActive) ButtonState.SELECTED else ButtonState.ENABLED
 
-        val titleRes = if(isFlashActive) R.string.camera_flash_on else R.string.camera_flash_off
+        val titleRes = if (isFlashActive) R.string.camera_flash_on else R.string.camera_flash_off
         _screenTitle.value = appContext.getString(titleRes)
     }
 
     @MainThread
     fun onCameraIsSetUp(isFlashSupported: Boolean) {
-        _flashButtonState.value = if(isFlashSupported) {
-            if(isFlashActive) {
+        _flashButtonState.value = if (isFlashSupported) {
+            if (isFlashActive) {
                 ButtonState.SELECTED
             } else {
                 ButtonState.ENABLED
@@ -160,7 +161,7 @@ constructor(
             ButtonState.DISABLED
         }
 
-        _filtersVisibility.value = if(interactor.filters.currentGroup == FiltersGroup.NO_FILTERS) {
+        _filtersVisibility.value = if (interactor.filters.currentGroup == FiltersGroup.NO_FILTERS) {
             View.INVISIBLE
         } else {
             View.INVISIBLE
@@ -201,14 +202,14 @@ constructor(
             hideSettings()
             hideFiltersMenu()
 
-            val group  = FiltersGroup.fromIndex(index)!!
+            val group = FiltersGroup.fromIndex(index)!!
 
             interactor.filters.currentGroup = group
 
             _selectedFilter.value = interactor.filters.displayFilter
             _screenTitle.value = appContext.getString(interactor.filters.displayFilterTitle)
 
-            if(group == FiltersGroup.NO_FILTERS) {
+            if (group == FiltersGroup.NO_FILTERS) {
                 _filtersVisibility.value = View.INVISIBLE
             } else {
                 _filtersVisibility.value = View.VISIBLE
@@ -223,10 +224,10 @@ constructor(
     }
 
     fun onBackClick(): Boolean =
-        if(isSettingsVisible) {
+        if (isSettingsVisible) {
             hideSettings()
             false
-        }  else {
+        } else {
             true
         }
 
@@ -243,7 +244,7 @@ constructor(
         viewModelScope.launch {
             hideSettings()
 
-            if(isSelected) {
+            if (isSelected) {
                 interactor.filters.addToFavorite(code)
             } else {
                 interactor.filters.removeFromFavorite(code)
@@ -265,6 +266,8 @@ constructor(
         viewModelScope.launch {
             hideSettings()
 
+            hideFiltersMenu()
+
             interactor.filters.selectFilter(code)
 
             _selectedFilter.value = interactor.filters.displayFilter
@@ -279,7 +282,7 @@ constructor(
     }
 
     private fun hideSettings() {
-        if(!isSettingsVisible) {
+        if (!isSettingsVisible) {
             return
         }
 
