@@ -20,10 +20,7 @@ object Init : InputEvent()
  */
 data class InitGlFiltersMachine(val group: FiltersGroup) : InputEvent()
 
-/**
- * The editor mode has been switched by user
- */
-data class ModeButtonClicked(val code: ModeButtonCode) : InputEvent()
+object MagicButtonClicked : InputEvent()
 
 object FiltersMenuButtonClicked : InputEvent()
 

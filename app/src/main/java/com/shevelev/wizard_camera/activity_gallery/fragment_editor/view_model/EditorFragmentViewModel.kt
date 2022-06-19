@@ -95,8 +95,8 @@ constructor(
         }
     }
 
-    fun onModeButtonClick(code: ModeButtonCode) {
-        viewModelScope.launch { interactor.processEvent(ModeButtonClicked(code)) }
+    fun onMagicButtonClick() {
+        viewModelScope.launch { interactor.processEvent(MagicButtonClicked) }
     }
 
     fun onFiltersMenuButtonClick() {

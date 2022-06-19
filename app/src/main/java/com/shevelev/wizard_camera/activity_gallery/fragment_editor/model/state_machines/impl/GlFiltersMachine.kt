@@ -102,7 +102,7 @@ internal class GlFiltersMachine(
                 state
             }
 
-            state == State.MAIN && event is ModeButtonClicked && event.code == ModeButtonCode.MAGIC -> {
+            state == State.MAIN && event is MagicButtonClicked -> {
                 editorStorage.onUpdate()
                 val filter = editorStorage.lastUsedGlFilter!!
 

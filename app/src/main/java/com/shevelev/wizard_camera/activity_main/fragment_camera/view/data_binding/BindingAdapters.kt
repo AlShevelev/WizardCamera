@@ -2,15 +2,7 @@ package com.shevelev.wizard_camera.activity_main.fragment_camera.view.data_bindi
 
 import android.widget.ImageButton
 import androidx.databinding.BindingAdapter
-import com.shevelev.wizard_camera.activity_main.fragment_camera.model.dto.FiltersModeButtonState
-import com.shevelev.wizard_camera.activity_main.fragment_camera.view.widgets.FiltersModeButton
 import com.shevelev.wizard_camera.activity_main.fragment_camera.view.widgets.TitleWidget
-
-@BindingAdapter("button_state_filters_mode")
-fun setFiltersModeButtonState(view: FiltersModeButton, value: FiltersModeButtonState?) =
-    value?.let {
-        view.updateState(it)
-    }
 
 @BindingAdapter("title_text")
 fun setTitleText(view: TitleWidget, value: String?) =

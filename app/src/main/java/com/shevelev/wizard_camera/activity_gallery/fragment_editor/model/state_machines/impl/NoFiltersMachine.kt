@@ -40,7 +40,7 @@ internal class NoFiltersMachine(
                 State.FILTERS_MENU_VISIBLE
             }
 
-            state == State.MAIN && event is ModeButtonClicked && event.code == ModeButtonCode.MAGIC -> {
+            state == State.MAIN && event is MagicButtonClicked -> {
                 editorStorage.onUpdate()
 
                 if (editorStorage.isSourceImageDisplayed) {

@@ -44,7 +44,7 @@
             android:layout_marginStart="@dimen/marginNormal"
             tools:visibility="visible"
             tools:ignore="ContentDescription"
-            android:onClick="@{() -> viewModel.onModeButtonClick(ModeButtonCode.MAGIC)}"
+            android:onClick="@{() -> viewModel.onMagicButtonClick()}"
             app:button_state="@{viewModel.magicButtonState}" />
 
         <ImageButton

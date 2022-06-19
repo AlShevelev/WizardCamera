@@ -46,7 +46,7 @@
             app:layout_constraintStart_toStartOf="parent"
             tools:ignore="ContentDescription"
             tools:visibility="visible"
-            android:onClick="@{() -> viewModel.onModeButtonClick(ModeButtonCode.MAGIC)}"
+            android:onClick="@{() -> viewModel.onMagicButtonClick()}"
             app:button_state="@{viewModel.magicButtonState}" />
 
         <ImageButton
