@@ -1,7 +1,9 @@
 package com.shevelev.wizard_camera.activity_gallery.di
 
-import com.shevelev.wizard_camera.activity_gallery.shared.FragmentsDataPass
-import com.shevelev.wizard_camera.activity_gallery.shared.FragmentsDataPassImpl
+import com.shevelev.wizard_camera.activity_gallery.shared.data_pass.FragmentsDataPass
+import com.shevelev.wizard_camera.activity_gallery.shared.data_pass.FragmentsDataPassImpl
+import com.shevelev.wizard_camera.activity_gallery.shared.event_pass.GalleryFragmentsEventPass
+import com.shevelev.wizard_camera.activity_gallery.shared.event_pass.GalleryFragmentsEventPassImpl
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import org.koin.java.KoinJavaComponent.getKoin
@@ -18,6 +20,10 @@ val GalleryActivityModule = module(createdAtStart = false) {
     scope(named(SCOPE)) {
         scoped<FragmentsDataPass> {
             FragmentsDataPassImpl()
+        }
+
+        scoped<GalleryFragmentsEventPass> {
+            GalleryFragmentsEventPassImpl()
         }
     }
 }

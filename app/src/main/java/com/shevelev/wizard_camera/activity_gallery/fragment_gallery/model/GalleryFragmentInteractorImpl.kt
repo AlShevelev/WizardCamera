@@ -5,7 +5,7 @@ import android.net.Uri
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.dto.GalleryItem
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.dto.ShotsLoadingResult
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.model.image_importer.ImageImporter
-import com.shevelev.wizard_camera.activity_gallery.shared.FragmentsDataPass
+import com.shevelev.wizard_camera.activity_gallery.shared.data_pass.FragmentsDataPass
 import com.shevelev.wizard_camera.core.common_entities.entities.PhotoShot
 import com.shevelev.wizard_camera.core.database.api.repositories.PhotoShotDbRepository
 import com.shevelev.wizard_camera.core.photo_files.api.photo_shot_repository.PhotoShotRepository

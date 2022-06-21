@@ -5,7 +5,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.shevelev.wizard_camera.activity_gallery.di.GalleryActivityScope
 import com.shevelev.wizard_camera.activity_gallery.fragment_gallery.dto.GalleryItem
+import com.shevelev.wizard_camera.activity_gallery.shared.event_pass.GalleryFragmentsEvent
+import com.shevelev.wizard_camera.activity_gallery.shared.event_pass.GalleryFragmentsEventPass
 import com.shevelev.wizard_camera.core.bitmaps.api.bitmaps.BitmapHelper
 import com.shevelev.wizard_camera.core.camera_gl.api.bitmap.GLSurfaceViewBitmap
 import com.shevelev.wizard_camera.core.camera_gl.api.shared.factory.GlShaderFiltersFactory
@@ -37,6 +40,11 @@ class GalleryPageFragment : FragmentBase<FragmentGalleryPageBinding>(), Coroutin
         coroutineContext = scopeJob + Dispatchers.Main + errorHandler
 
         val item = requireArguments().getParcelable<GalleryItem>(ARG_PHOTO)!!
+
+        val eventPass: GalleryFragmentsEventPass = GalleryActivityScope.getScope().get()
+        binding.imageContainer.setOnClickListener {
+            eventPass.emitEvent(GalleryFragmentsEvent.GalleryPageClick)
+        }
 
         loadPhoto(item)
     }

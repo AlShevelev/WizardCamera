@@ -41,7 +41,8 @@ val GalleryFragmentModule = module(createdAtStart = false) {
 
     viewModel {
         GalleryFragmentViewModel(
-            interactor = get()
+            interactor = get(),
+            galleryFragmentsEventPass = GalleryActivityScope.getScope().get()
         )
     }
 }

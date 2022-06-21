@@ -3,6 +3,7 @@ package com.shevelev.wizard_camera.activity_gallery.fragment_gallery.view
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.shevelev.wizard_camera.R
 import com.shevelev.wizard_camera.activity_gallery.fragment_editor.view.EditorFragment
@@ -16,7 +17,6 @@ import com.shevelev.wizard_camera.core.ui_utils.mvvm.view.FragmentBaseMVVM
 import com.shevelev.wizard_camera.databinding.FragmentGalleryBinding
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import androidx.navigation.fragment.findNavController
 
 private const val DELETE_DIALOG_REQUEST = 14109
 
