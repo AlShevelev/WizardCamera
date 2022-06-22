@@ -8,7 +8,10 @@ import android.view.MotionEvent
 import android.view.ScaleGestureDetector
 import android.view.View
 
-class GesturesDetector(context: Context) : GestureDetector.OnGestureListener, ScaleGestureDetector.SimpleOnScaleGestureListener() {
+private const val LAST_SCALE_FACTORS_CAPACITY = 15
+
+class GesturesDetector(context: Context) : GestureDetector.OnGestureListener,
+    ScaleGestureDetector.SimpleOnScaleGestureListener() {
     private val gestureDetector = GestureDetector(context, this)
     private val scaleDetector = ScaleGestureDetector(context, this)
 
@@ -16,12 +19,38 @@ class GesturesDetector(context: Context) : GestureDetector.OnGestureListener, Sc
 
     private lateinit var viewSize: SizeF
 
+    private val lastScaleFactors = ArrayDeque<Float>(LAST_SCALE_FACTORS_CAPACITY)
+
+    override fun onScaleEnd(detector: ScaleGestureDetector?) {
+        super.onScaleEnd(detector)
+        lastScaleFactors.clear()
+    }
+
     override fun onScale(detector: ScaleGestureDetector): Boolean {
-        onGestureListener?.invoke(Pinch(detector.scaleFactor))
+        val scaleFactor = detector.scaleFactor
+
+        if (lastScaleFactors.size <= LAST_SCALE_FACTORS_CAPACITY) {
+            lastScaleFactors.add(scaleFactor)
+        } else {
+            lastScaleFactors.removeLast()
+            lastScaleFactors.addFirst(scaleFactor)
+        }
+
+        val fastScaleFactor = (lastScaleFactors.sum() / lastScaleFactors.size)
+            .let {
+                when {
+                    scaleFactor > 1f -> scaleFactor * 1.0125f
+                    scaleFactor < 1f -> scaleFactor * 0.9875f
+                    else -> scaleFactor
+                }
+            }
+
+        onGestureListener?.invoke(Pinch(fastScaleFactor))
         return true
     }
 
-    override fun onShowPress(e: MotionEvent?) { /*do nothing*/ }
+    override fun onShowPress(e: MotionEvent?) { /*do nothing*/
+    }
 
     override fun onSingleTapUp(e: MotionEvent): Boolean {
         onGestureListener?.invoke(Tap(PointF(e.x, e.y), viewSize))
@@ -36,9 +65,10 @@ class GesturesDetector(context: Context) : GestureDetector.OnGestureListener, Sc
 
     override fun onScroll(e1: MotionEvent?, e2: MotionEvent?, distanceX: Float, distanceY: Float): Boolean = false
 
-    override fun onLongPress(e: MotionEvent?) { /*do nothing*/ }
+    override fun onLongPress(e: MotionEvent?) { /*do nothing*/
+    }
 
-    fun setOnGestureListener(listener: ((Gesture) -> Unit)?){
+    fun setOnGestureListener(listener: ((Gesture) -> Unit)?) {
         onGestureListener = listener
     }
 
