@@ -18,10 +18,10 @@ internal class CameraFilter(
     @RawRes fragmentFilterResId: Int
 ) {
     private val vertexBuffer = BufferUtils.createBuffer(
-        1.0f, -1.0f,        // Left-bottom
-        -1.0f, -1.0f,       // Right-bottom
-        1.0f, 1.0f,         // Left-top
-        -1.0f, 1.0f         // Right-top
+        1.0f, -1.0f,        // Right-bottom
+        -1.0f, -1.0f,       // Left-bottom
+        1.0f, 1.0f,         // Right-top
+        -1.0f, 1.0f         // Left-top
     )
 
     private val textureCoordinatesBuffer = BufferUtils.createBuffer(
